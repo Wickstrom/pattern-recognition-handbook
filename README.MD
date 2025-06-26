@@ -12,19 +12,16 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 ## 📑 Content
 
-1. **Introduction to Pattern Recognition** 
-   - Definition of time series data
-   - Main applications of time series analysis
-   - Statistical vs dynamical models perspective
-   - Components of a time series
-   - Additive vs multiplicative models
-   - Time series decomposition techniques
+1. **Introduction to pattern recognition** 
+   - What is pattern recognition?
+   - Applications of pattern recognition
+   - Practical information
 
    [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/FilippoMB/python-time-series-handbook/blob/main/notebooks/01/introduction_to_time_series.ipynb) or [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FilippoMB/python-time-series-handbook/blob/main/notebooks/01/introduction_to_time_series.ipynb)
 
 <br>
 
-1. **Bayes Decision Theory** 
+2. **Bayes Decision Theory** 
    - Motivation
    - Naïve Bayes
    - Bayes classifier
