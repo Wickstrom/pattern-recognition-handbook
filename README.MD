@@ -17,7 +17,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Applications of pattern recognition
    - Practical information
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/intro.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/00/intro.ipynb)
 
 <br>
 
@@ -27,7 +27,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Bayes classifier
    - Probablity of error
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/FilippoMB/python-time-series-handbook/blob/main/notebooks/01/introduction_to_time_series.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/tree/main/notebooks/01/bayes_decision_theory.ipynb)
 
 <br>
 
@@ -90,7 +90,7 @@ If you are using this material in your courses or in your research, please consi
 }
 ````
 
-This repository is heavily based on [Time Series Analysis with Python}](https://github.com/FilippoMB/python-time-series-handbook) Filippo Maria Bianchi. If you find my repository useful, please head over there and give him a star.
+This repository is heavily based on [Time Series Analysis with Python](https://github.com/FilippoMB/python-time-series-handbook) Filippo Maria Bianchi. If you find my repository useful, please head over there and give him a star.
 
 ````bibtex
 @misc{bianchi2024tsbook,
