@@ -114,7 +114,7 @@ If you are using this material in your courses or in your research, please consi
 }
 ````
 
-This repository is heavily based on [Time Series Analysis with Python](https://github.com/FilippoMB/python-time-series-handbook) Filippo Maria Bianchi. If you find my repository useful, please head over there and give him a star.
+This repository is heavily based on [Time Series Analysis with Python](https://github.com/FilippoMB/python-time-series-handbook) by my collegue at UiT Filippo Maria Bianchi. If you find my repository useful, please head over there and give him a star.
 
 ````bibtex
 @misc{bianchi2024tsbook,
