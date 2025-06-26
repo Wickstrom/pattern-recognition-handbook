@@ -1,7 +1,6 @@
 # Book settings
-title: Time series analysis with Python
-author: Filippo Maria Bianchi
-logo: logo.png
+title: Pattern Recognition
+author: Kristoffer Wickstrøm
 
 # Force re-execution of notebooks on each build.
 execute:
