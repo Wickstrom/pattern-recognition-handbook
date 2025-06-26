@@ -6,6 +6,7 @@
 </div>
 <br>
 
+THIS PAGE IS UNDER CONSTRUCTION
 
 This is the collection of notebooks for the course *Pattern Recognition*.
 You can view and execute the notebooks by clicking on the buttons below.
@@ -21,7 +22,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-2. **Bayes Decision Theory** 
+2. **Bayes decision theory** 
    - Motivation
    - Naïve Bayes
    - Bayes classifier
@@ -30,6 +31,29 @@ You can view and execute the notebooks by clicking on the buttons below.
    [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/tree/main/notebooks/01/bayes_decision_theory.ipynb)
 
 <br>
+
+3. **Density estimation** 
+   - Parametric density estimation
+   - Likelihood function
+   - Maximum-likelihood estimation
+   - Non-parametric density estimation
+   - Histogram approach
+   - Parzen windowing
+   - K nearest neighbor
+
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/tree/main/notebooks/01/bayes_decision_theory.ipynb)
+
+<br>
+
+<br>
+
+4. **Linear classifiers** 
+   - Mean squared error (MSE) classifier
+   - Least sum of squares classifier
+   - Widrow-Hoff algorithm
+   - Perceptron
+
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/tree/main/notebooks/01/bayes_decision_theory.ipynb)
 
 ## 💻 How to code locally
 
