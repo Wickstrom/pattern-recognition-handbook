@@ -22,7 +22,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Bayes classifier
    - Probablity of error
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/01/bayes_decision_theory.ipynb?flush_cache=True)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/01/bayes_decision_theory.ipynb)
 
 <br>
 
