@@ -47,7 +47,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Widrow-Hoff algorithm
    - Perceptron
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/bayes_decision_theory.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/linear_classifiers.ipynb)
 
 ## 💻 How to code locally
 
