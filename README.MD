@@ -35,7 +35,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Parzen windowing
    - K nearest neighbor
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/tree/main/notebooks/01/bayes_decision_theory.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/02/density_estimation.ipynb)
 
 <br>
 
@@ -47,7 +47,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Widrow-Hoff algorithm
    - Perceptron
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/tree/main/notebooks/01/bayes_decision_theory.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/bayes_decision_theory.ipynb)
 
 ## 💻 How to code locally
 
