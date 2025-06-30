@@ -39,8 +39,6 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-<br>
-
 4. **Linear classifiers** 
    - Mean squared error (MSE) classifier
    - Least sum of squares classifier
@@ -48,6 +46,28 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Perceptron
 
    [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/linear_classifiers.ipynb)
+
+<br>
+
+4. **Linear classifiers I** 
+   - Mean squared error (MSE) classifier
+   - Least sum of squares classifier
+   - Widrow-Hoff algorithm
+   - Perceptron
+
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/linear_classifiers.ipynb)
+
+<br>
+
+4. **Linear classifiers II** 
+   - Mean squared error (MSE) classifier
+   - Least sum of squares classifier
+   - Widrow-Hoff algorithm
+   - Perceptron
+
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/linear_classifiers.ipynb)
+
+<br>
 
 ## 💻 How to code locally
 
