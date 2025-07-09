@@ -12,15 +12,16 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Applications of pattern recognition
    - Practical information
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/00/intro.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/00/intro.ipynb)
 
 <br>
 
 2. **Bayes decision theory** 
    - Motivation
-   - Naïve Bayes
+   - Naïve Bayes assumption
    - Bayes classifier
    - Probablity of error
+   - Dealing with risk
 
    [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/01/bayes_decision_theory.ipynb)
 
@@ -33,23 +34,20 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Non-parametric density estimation
    - Histogram approach
    - Parzen windowing
-   - K nearest neighbor
 
    [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/02/density_estimation.ipynb)
 
 <br>
 
-4. **Linear classifiers** 
-   - Mean squared error (MSE) classifier
-   - Least sum of squares classifier
-   - Widrow-Hoff algorithm
-   - Perceptron
+4. **Density estimation** 
+   - K nearest neighbor
+   - Mixture models
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/linear_classifiers.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/02/density_estimation.ipynb)
 
 <br>
 
-4. **Linear classifiers I** 
+5. **Linear classifiers I** 
    - Mean squared error (MSE) classifier
    - Least sum of squares classifier
    - Widrow-Hoff algorithm
@@ -60,12 +58,9 @@ You can view and execute the notebooks by clicking on the buttons below.
 <br>
 
 4. **Linear classifiers II** 
-   - Mean squared error (MSE) classifier
-   - Least sum of squares classifier
-   - Widrow-Hoff algorithm
-   - Perceptron
+   - Support vector machines
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/linear_classifiers.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine.ipynb)
 
 <br>
 
