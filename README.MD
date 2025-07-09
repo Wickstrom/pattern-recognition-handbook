@@ -27,7 +27,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-3. **Density estimation** 
+3. **Density estimation I** 
    - Parametric density estimation
    - Likelihood function
    - Maximum-likelihood estimation
@@ -39,11 +39,11 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-4. **Density estimation** 
+4. **Density estimation II** 
    - K nearest neighbor
    - Mixture models
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/02/density_estimation.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/02/mixture_models.ipynb)
 
 <br>
 
