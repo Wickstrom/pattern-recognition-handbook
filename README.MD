@@ -57,7 +57,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-4. **Linear classifiers II** 
+6. **Linear classifiers II** 
    - Support vector machines
 
    [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine.ipynb)
@@ -114,7 +114,7 @@ See the [RISE documentation](https://rise.readthedocs.io/en/latest/) for more in
 If you are using this material in your courses or in your research, please consider citing it as follows:
 
 ````bibtex
-@misc{bianchi2024tsbook,
+@misc{wick2024prbook,
   author       = {Kristoffer Wickstrøm},
   title        = {Pattern Recognition Course},
   year         = {2025},
