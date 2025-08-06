@@ -1,7 +1,5 @@
 # Pattern Recognition
 
-THIS PAGE IS UNDER CONSTRUCTION
-
 This is the collection of notebooks for the course *FYS-3012 - Pattern Recognition*, taught at UiT The Arctic University of Norway.
 You can view and execute the notebooks by clicking on the buttons below.
 
