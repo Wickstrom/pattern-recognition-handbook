@@ -62,6 +62,90 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
+7. **Non-linear classifiers I** 
+   - Neural networks
+
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine.ipynb)
+
+<br>
+
+8. **Non-linear classifiers II** 
+   - Neural networks
+
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine.ipynb)
+
+<br>
+
+9. **Non-linear classifiers III** 
+   - Neural networks
+
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine.ipynb)
+
+<br>
+
+10. **Non-linear classifiers IV** 
+   - Kernel methods
+   - Support vector machines
+
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine.ipynb)
+
+<br>
+
+11. **Non-linear classifiers V** 
+   - Support vector machines
+   - RBF networks
+
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine.ipynb)
+
+<br>
+
+12. **Data transformations and dimensionality reduction I** 
+   - Fisher discriminant analysis
+   - Principal component analysis (PCA)
+
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine.ipynb)
+
+<br>
+
+13. **Data transformations and dimensionality reduction II** 
+   - Kernel PCA
+   - Laplacian Eigenmaps
+
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine.ipynb)
+
+<br>
+
+14. **Ranking** 
+   - Ranking
+   - PageRank algorithm
+
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine.ipynb)
+
+<br>
+
+15. **Clustering I** 
+   - Sequential clustering
+
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine.ipynb)
+
+<br>
+
+16. **Clustering II** 
+   - Hierarchical
+
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine.ipynb)
+
+<br>
+
+17. **Clustering III** 
+   - K-means
+   - spectral clustering
+
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine.ipynb)
+
+<br>
+
+
 ## 💻 How to code locally
 
 To run the notebooks locally the recommended steps are the following:
