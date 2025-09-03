@@ -63,21 +63,28 @@ You can view and execute the notebooks by clicking on the buttons below.
 <br>
 
 7. **Non-linear classifiers I** 
-   - Neural networks
+   - Multilayer Perceptron
+   - Backpropagation
+   - Gradient descent
 
    [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/04/neural_networks_1.ipynb)
 
 <br>
 
 8. **Non-linear classifiers II** 
-   - Neural networks
+   - Momentum
+   - Cross-entropy loss
+   - Softmax function
+   - Weight initialization
 
    [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/04/neural_networks_2.ipynb)
 
 <br>
 
 9. **Non-linear classifiers III** 
-   - Neural networks
+   - Neural networks as representation learning
+   - A vector perspective on backpropagation
+   - Connecting neural networks and support vector machines
 
    [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/04/neural_networks_3.ipynb)
 
