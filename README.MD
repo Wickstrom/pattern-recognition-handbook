@@ -72,9 +72,12 @@ You can view and execute the notebooks by clicking on the buttons below.
 <br>
 
 8. **Non-linear classifiers II** 
-   - Momentum
-   - Cross-entropy loss
+   - Activation functions
+   - The vanishing gradient problem
+   - Gradient descent with momentum
+   - Multiclass classification with neural networks
    - Softmax function
+   - Cross-entropy loss
    - Weight initialization
 
    [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/04/neural_networks_2.ipynb)
