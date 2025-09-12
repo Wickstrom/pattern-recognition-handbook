@@ -94,7 +94,9 @@ You can view and execute the notebooks by clicking on the buttons below.
 <br>
 
 10. **Non-linear classifiers IV** 
-   - RBF networks
+   - Function approximation for non-linear classification
+   - Radial basis function (RBF) networks
+   - Prototypical learning
 
    [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/05/rbf_networks.ipynb)
 
