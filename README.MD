@@ -102,8 +102,10 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-11. **Non-linear classifiers V** 
+11. **Non-linear classifiers V**
    - Kernel methods
+   - Mercer's theorem
+   - Kernels
    - Non-linear SVMs
 
    [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/06/kernel_methods.ipynb)
