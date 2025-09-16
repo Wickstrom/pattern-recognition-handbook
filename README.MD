@@ -112,11 +112,11 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-12. **Data transformations and dimensionality reduction I** 
+12. **Data transformations and dimensionality reduction I**
    - Fisher discriminant analysis
    - Principal component analysis (PCA)
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/07/linear_dim_reduction.ipynb)
 
 <br>
 
