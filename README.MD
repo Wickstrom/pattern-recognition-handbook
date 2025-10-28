@@ -161,7 +161,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 17. **Clustering III** 
    - Clustering evaluation
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/tree/main/notebooks/13/clustering_eval.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/13/clustering_eval.ipynb)
 
 <br>
 
