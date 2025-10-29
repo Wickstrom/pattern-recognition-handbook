@@ -135,19 +135,18 @@ You can view and execute the notebooks by clicking on the buttons below.
    [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/main/notebooks/09/ranking.ipynb)
 
 <br>
-...existing code...
 
 15. **Clustering I** 
    - Sequential clustering
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/10/seq_clustering.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/main/notebooks/10/seq_clustering.ipynb)
 
 <br>
 
 16. **Clustering II** 
    - Hierarchical
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/tree/main/notebooks/11/hier_clustering.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/main/notebooks/11/hier_clustering.ipynb)
 
 <br>
 
@@ -155,14 +154,14 @@ You can view and execute the notebooks by clicking on the buttons below.
    - K-means
    - Spectral clustering
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/tree/main/notebooks/12/clustering.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/main/notebooks/12/clustering.ipynb)
 
 <br>
 
 17. **Clustering III** 
    - Clustering evaluation
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/13/clustering_eval.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/main/notebooks/13/clustering_eval.ipynb)
 
 <br>
 
