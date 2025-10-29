@@ -132,9 +132,10 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Ranking
    - PageRank algorithm
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/09/ranking.ipynb)
+   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/main/notebooks/09/ranking.ipynb)
 
 <br>
+...existing code...
 
 15. **Clustering I** 
    - Sequential clustering
