@@ -82,6 +82,11 @@ target/
 .ipynb_checkpoints
 .html
 
+# Quarto
+_slides/
+_freeze/
+.quarto/
+
 # IPython
 profile_default/
 ipython_config.py
@@ -164,3 +169,5 @@ cython_debug/
 #.idea/
 
 *.DS_Store
+/.quarto/
+**/*.quarto_ipynb

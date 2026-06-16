@@ -1,0 +1,72 @@
+---
+title: "Pattern Recognition — Lecture Slides"
+subtitle: "FYS-3012, UiT The Arctic University of Norway"
+author: "Kristoffer Wickstrøm"
+date: today
+format:
+  revealjs:
+    theme: simple
+    transition: fade
+    slide-number: c/t
+    chalkboard: true
+    smaller: true
+    scrollable: true
+    code-line-numbers: true
+    code-overflow: wrap
+    incremental: false
+---
+
+## Welcome {.center}
+
+These are the static, always-available lecture slides for *FYS-3012 - Pattern
+Recognition*. They are rendered from the source notebooks and updated
+automatically on every push to the `main` branch — no live kernel needed, so
+they never time out.
+
+Use the arrow keys to navigate. Press <kbd>b</kbd> to open the chalkboard for
+live annotations and <kbd>s</kbd> for the speaker view.
+
+## Module 1 — Foundations
+
+- [Introduction to pattern recognition](notebooks/00/intro.html)
+- [Bayes decision theory](notebooks/01/bayes_decision_theory.html)
+- [Density estimation I — parametric & non-parametric](notebooks/02/density_estimation.html)
+- [Density estimation II — kNN & mixture models](notebooks/02/mixture_models.html)
+
+## Module 2 — Linear classifiers
+
+- [Linear classifiers I — MSE, LSS, perceptron](notebooks/03/linear_classifiers.html)
+- [Linear classifiers II — support vector machines](notebooks/03/support_vector_machine.html)
+
+## Module 3 — Non-linear classifiers
+
+- [Neural networks I — MLP & backpropagation](notebooks/04/neural_networks_1.html)
+- [Neural networks II — activations & training tricks](notebooks/04/neural_networks_2.html)
+- [Neural networks III — representation learning](notebooks/04/neural_networks_3.html)
+- [Radial basis function networks](notebooks/05/rbf_networks.html)
+- [Kernel methods & non-linear SVMs](notebooks/06/kernel_methods.html)
+
+## Module 4 — Dimensionality reduction
+
+- [Linear dim. reduction — FDA & PCA](notebooks/07/linear_dim_reduction.html)
+- [Non-linear dim. reduction — Kernel PCA & Laplacian Eigenmaps](notebooks/08/non_linear_dim_reduction.html)
+
+## Module 5 — Ranking & clustering
+
+- [Ranking & PageRank](notebooks/09/ranking.html)
+- [Sequential clustering](notebooks/10/seq_clustering.html)
+- [Hierarchical clustering](notebooks/11/hier_clustering.html)
+- [K-means & spectral clustering](notebooks/12/clustering.html)
+- [Clustering evaluation](notebooks/13/clustering_eval.html)
+
+## Keyboard shortcuts
+
+| Key | Action |
+| --- | --- |
+| <kbd>←</kbd> / <kbd>→</kbd> | previous / next slide |
+| <kbd>↑</kbd> / <kbd>↓</kbd> | previous / next sub-slide (vertical) |
+| <kbd>Space</kbd> | advance |
+| <kbd>b</kbd> | open chalkboard |
+| <kbd>s</kbd> | speaker view |
+| <kbd>f</kbd> | fullscreen |
+| <kbd>?</kbd> | help overlay |

@@ -1,0 +1,49 @@
+name: Publish slides
+
+# Rebuild and deploy the Reveal.js slide decks on every push to main.
+# The workflow renders the notebooks with Quarto and pushes the output to the
+# gh-pages branch, which GitHub Pages serves at:
+#   https://<owner>.github.io/<repo>/
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: slides
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install matplotlib ucimlrepo scipy scikit-learn ipykernel jupyter
+
+      - name: Render notebooks to Reveal.js
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          to: revealjs
+
+      - name: Deploy to GitHub Pages
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+          render: false

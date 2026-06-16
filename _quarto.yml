@@ -1,0 +1,42 @@
+# Quarto project configuration for the Pattern Recognition course.
+# Render every notebook under notebooks/ as a static Reveal.js slide deck.
+# Build artifacts go to _slides/ (gitignored); the gh-pages branch holds the
+# published version and is updated automatically by .github/workflows/publish-slides.yml.
+#
+# Cell-level slide_type metadata is honored natively by Quarto:
+#   slide    -> new horizontal slide
+#   subslide -> vertical sub-slide below the previous one
+#   -        -> omitted from the deck
+#   notes    -> speaker notes (add to a markdown cell to enable)
+
+project:
+  type: default
+  output-dir: _slides
+  render:
+    - index.qmd
+    - "notebooks/**/*.ipynb"
+
+jupyter:
+  python: python3
+  execute: auto
+
+execute:
+  freeze: auto
+  cache: true
+  timeout: 300
+  echo: true
+
+format:
+  revealjs:
+    theme: simple
+    transition: fade
+    slide-number: c/t
+    chalkboard: true
+    smaller: true
+    scrollable: true
+    code-line-numbers: true
+    code-overflow: wrap
+    incremental: false
+    fig-cap-location: bottom
+    title-slide-attributes:
+      data-background-color: "#ffffff"

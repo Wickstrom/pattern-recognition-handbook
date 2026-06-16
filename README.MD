@@ -194,9 +194,71 @@ To run the notebooks locally the recommended steps are the following:
    > jupyter lab
    ```
 
-## 🎥 Notebook format and slides
+## 🎞 Lecture slides (Quarto + Reveal.js)
 
-The notebooks are structured as a sequence of slides to be presented using [RISE](https://rise.readthedocs.io/en/latest/).
+Each notebook is also rendered as a static, always-available Reveal.js slide deck
+using [Quarto](https://quarto.org/). The slides are deployed automatically to
+GitHub Pages on every push to the default branch, so they never time out the way
+a live Jupyter kernel can.
+
+**Live slides:** https://Wickstrom.github.io/pattern-recognition-handbook/
+
+### Build locally
+
+1. Install Quarto (one-time):
+
+   ```{bash}
+   # macOS
+   brew install quarto
+
+   # Or download the installer from https://quarto.org/docs/get-started/
+   ```
+
+2. From the repo root, render every notebook:
+
+   ```{bash}
+   quarto render
+   ```
+
+   This writes one HTML file per notebook plus an `index.html` landing page to
+   the `_slides/` directory. Open `_slides/index.html` in your browser to
+   browse them, or open any `*.slides.html` file directly.
+
+3. While iterating, live-reload on save:
+
+   ```{bash}
+   quarto preview
+   ```
+
+### Keyboard shortcuts
+
+| Key | Action |
+| --- | --- |
+| <kbd>←</kbd> / <kbd>→</kbd> | previous / next slide |
+| <kbd>↑</kbd> / <kbd>↓</kbd> | previous / next sub-slide |
+| <kbd>b</kbd> | open the chalkboard for live annotations |
+| <kbd>s</kbd> | speaker view (notes + timer on a second screen) |
+| <kbd>f</kbd> | fullscreen |
+| <kbd>?</kbd> | help overlay |
+
+### Deployment
+
+A GitHub Actions workflow at
+[`.github/workflows/publish-slides.yml`](.github/workflows/publish-slides.yml)
+rebuilds the slides on every push to `main` and publishes the output to the
+`gh-pages` branch. Enable GitHub Pages on the repo once (Settings → Pages →
+Source: `gh-pages` branch); the workflow will create that branch on its first
+run.
+
+The slide structure (slide / subslide / fragment) is read directly from each
+notebook's `slide_type` cell metadata — see `index.qmd` for the full lecture
+index.
+
+## 🎥 Notebook format and RISE (local interactive slides)
+
+For *local* lectures where you want to execute code live during the talk, the
+notebooks can still be presented interactively with
+[RISE](https://rise.readthedocs.io/en/latest/).
 If you open a notebook you will see the following structure:
 
 <img src="https://raw.githubusercontent.com/FilippoMB/python-time-series-handbook/main/notebooks/00/media/slides_nb.png" style="width: 50%" align="center">
