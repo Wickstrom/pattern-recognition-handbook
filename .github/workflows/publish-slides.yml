@@ -10,15 +10,21 @@ on:
     branches: [main, master]
   workflow_dispatch:
 
+# The deploy step needs contents:write (to push the gh-pages branch) and
+# pages:write + id-token:write (for the official GitHub Pages deploy action).
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
+# Don't allow two deploys to run at the same time — they would race on the
+# gh-pages branch.
 concurrency:
-  group: slides
-  cancel-in-progress: true
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -42,8 +48,18 @@ jobs:
         with:
           to: revealjs
 
-      - name: Deploy to GitHub Pages
-        uses: quarto-dev/quarto-actions/publish@v2
+      - name: Upload _slides/ artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          target: gh-pages
-          render: false
+          path: _slides
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
