@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pattern Recognition — Lecture Slides</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/simple.css" id="theme" />
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .reveal-viewport { background: #fff; }
+    .wrap { max-width: 900px; margin: 60px auto; padding: 0 32px; }
+    h1 { font-size: 2.4rem; margin-bottom: 0.4rem; color: #1a1a1a; }
+    .lede { font-size: 1.1rem; color: #555; margin-top: 0; }
+    h2 { font-size: 1.3rem; margin-top: 2.4rem; color: #1a1a1a;
+         border-bottom: 2px solid #eee; padding-bottom: 0.4rem; }
+    ul.lectures { list-style: none; padding: 0; margin: 0; }
+    ul.lectures li { padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0; }
+    ul.lectures li:last-child { border-bottom: none; }
+    ul.lectures a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    ul.lectures a:hover { text-decoration: underline; }
+    .note {
+      background: #fff8e1;
+      border-left: 4px solid #f59e0b;
+      padding: 12px 16px;
+      margin: 24px 0;
+      font-size: 0.95rem;
+    }
+    kbd {
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: monospace;
+      font-size: 0.85em;
+    }
+    table.keys { border-collapse: collapse; margin-top: 8px; font-size: 0.92rem; }
+    table.keys td { padding: 4px 16px 4px 0; }
+  </style>
+</head>
+<body>
+  <div class="reveal-viewport">
+    <div class="wrap">
+      <h1>Pattern Recognition — Lecture Slides</h1>
+      <p class="lede">FYS-3012, UiT The Arctic University of Norway — Kristoffer Wickstrøm</p>
+
+      <div class="note">
+        These slides are rendered with <code>jupyter nbconvert --to slides</code>, the
+        same Reveal.js pipeline that RISE uses, so the nested
+        horizontal/vertical slide structure matches what you'd see live in
+        RISE. They're static HTML and served from GitHub Pages, so they
+        never time out.
+      </div>
+
+      <h2>Module 1 — Foundations</h2>
+      <ul class="lectures">
+        <li><a href="notebooks/00/intro.slides.html">Introduction to pattern recognition</a></li>
+        <li><a href="notebooks/01/bayes_decision_theory.slides.html">Bayes decision theory</a></li>
+        <li><a href="notebooks/02/density_estimation.slides.html">Density estimation I — parametric &amp; non-parametric</a></li>
+        <li><a href="notebooks/02/mixture_models.slides.html">Density estimation II — kNN &amp; mixture models</a></li>
+      </ul>
+
+      <h2>Module 2 — Linear classifiers</h2>
+      <ul class="lectures">
+        <li><a href="notebooks/03/linear_classifiers.slides.html">Linear classifiers I — MSE, LSS, perceptron</a></li>
+        <li><a href="notebooks/03/support_vector_machine.slides.html">Linear classifiers II — support vector machines</a></li>
+      </ul>
+
+      <h2>Module 3 — Non-linear classifiers</h2>
+      <ul class="lectures">
+        <li><a href="notebooks/04/neural_networks_1.slides.html">Neural networks I — MLP &amp; backpropagation</a></li>
+        <li><a href="notebooks/04/neural_networks_2.slides.html">Neural networks II — activations &amp; training tricks</a></li>
+        <li><a href="notebooks/04/neural_networks_3.slides.html">Neural networks III — representation learning</a></li>
+        <li><a href="notebooks/05/rbf_networks.slides.html">Radial basis function networks</a></li>
+        <li><a href="notebooks/06/kernel_methods.slides.html">Kernel methods &amp; non-linear SVMs</a></li>
+      </ul>
+
+      <h2>Module 4 — Dimensionality reduction</h2>
+      <ul class="lectures">
+        <li><a href="notebooks/07/linear_dim_reduction.slides.html">Linear dim. reduction — FDA &amp; PCA</a></li>
+        <li><a href="notebooks/08/non_linear_dim_reduction.slides.html">Non-linear dim. reduction — Kernel PCA &amp; Laplacian Eigenmaps</a></li>
+      </ul>
+
+      <h2>Module 5 — Ranking &amp; clustering</h2>
+      <ul class="lectures">
+        <li><a href="notebooks/09/ranking.slides.html">Ranking &amp; PageRank</a></li>
+        <li><a href="notebooks/10/seq_clustering.slides.html">Sequential clustering</a></li>
+        <li><a href="notebooks/11/hier_clustering.slides.html">Hierarchical clustering</a></li>
+        <li><a href="notebooks/12/clustering.slides.html">K-means &amp; spectral clustering</a></li>
+        <li><a href="notebooks/13/clustering_eval.slides.html">Clustering evaluation</a></li>
+      </ul>
+
+      <h2>Keyboard shortcuts (inside a deck)</h2>
+      <table class="keys">
+        <tr><td><kbd>←</kbd> / <kbd>→</kbd></td><td>previous / next slide</td></tr>
+        <tr><td><kbd>↑</kbd> / <kbd>↓</kbd></td><td>previous / next sub-slide</td></tr>
+        <tr><td><kbd>Space</kbd></td><td>advance</td></tr>
+        <tr><td><kbd>f</kbd></td><td>fullscreen</td></tr>
+        <tr><td><kbd>?</kbd></td><td>help overlay</td></tr>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

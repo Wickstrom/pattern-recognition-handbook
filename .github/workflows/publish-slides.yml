@@ -1,17 +1,16 @@
 name: Publish slides
 
 # Rebuild and deploy the Reveal.js slide decks on every push to main.
-# The workflow renders the notebooks with Quarto and pushes the output to the
-# gh-pages branch, which GitHub Pages serves at:
-#   https://<owner>.github.io/<repo>/
+# Uses `jupyter nbconvert --to slides`, which produces the same RISE-style
+# Reveal.js output (nested horizontal slides + vertical sub-slides driven by
+# the cell-level slide_type metadata) but as static HTML so it never times
+# out. Output is deployed to GitHub Pages via the official Pages API.
 
 on:
   push:
     branches: [main, master]
   workflow_dispatch:
 
-# The deploy step needs contents:write (to push the gh-pages branch) and
-# pages:write + id-token:write (for the official GitHub Pages deploy action).
 permissions:
   contents: write
   pages: write
@@ -30,9 +29,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -43,10 +39,25 @@ jobs:
           python -m pip install --upgrade pip
           pip install matplotlib ucimlrepo scipy scikit-learn ipykernel jupyter
 
-      - name: Render notebooks to Reveal.js
-        uses: quarto-dev/quarto-actions/render@v2
-        with:
-          to: revealjs
+      - name: Convert notebooks to slides
+        run: |
+          mkdir -p _slides/notebooks
+          for nb in notebooks/*/*.ipynb; do
+            dir=$(dirname "$nb")
+            base=$(basename "$nb" .ipynb)
+            target="_slides/$dir"
+            mkdir -p "$target"
+            # Copy media alongside the notebook so relative image paths resolve.
+            cp -R "$dir/media" "$target/" 2>/dev/null || true
+            # nbconvert appends ".slides" + ".html" to --output, so pass just
+            # the basename to get "<base>.slides.html".
+            jupyter nbconvert --to slides "$nb" \
+              --output-dir "$target" \
+              --output "$base"
+          done
+
+      - name: Copy index.html into _slides/
+        run: cp index.html _slides/index.html
 
       - name: Upload _slides/ artifact
         uses: actions/upload-pages-artifact@v3

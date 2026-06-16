@@ -194,50 +194,40 @@ To run the notebooks locally the recommended steps are the following:
    > jupyter lab
    ```
 
-## 🎞 Lecture slides (Quarto + Reveal.js)
+## 🎞 Lecture slides (static RISE-compatible decks on GitHub Pages)
 
-Each notebook is also rendered as a static, always-available Reveal.js slide deck
-using [Quarto](https://quarto.org/). The slides are deployed automatically to
-GitHub Pages on every push to the default branch, so they never time out the way
-a live Jupyter kernel can.
+Each notebook is rendered as a static Reveal.js slide deck using
+`jupyter nbconvert --to slides` — the same Reveal.js pipeline that powers
+[RISE](https://rise.readthedocs.io/en/latest/). The output is identical to
+what you'd see in RISE (nested horizontal slides and vertical sub-slides
+driven by the cell-level `slide_type` metadata) but the HTML is static, so
+it never times out the way a live Jupyter kernel can. The slides are
+deployed automatically to GitHub Pages on every push to `main`.
 
 **Live slides:** https://Wickstrom.github.io/pattern-recognition-handbook/
 
 ### Build locally
 
-1. Install Quarto (one-time):
+From the repo root, render every notebook with the same command the CI uses:
 
-   ```{bash}
-   # macOS
-   brew install quarto
+```{bash}
+python -m pip install jupyter nbconvert
+for nb in notebooks/*/*.ipynb; do
+  jupyter nbconvert --to slides "$nb" --output-dir "_slides/$(dirname "$nb")"
+done
+```
 
-   # Or download the installer from https://quarto.org/docs/get-started/
-   ```
+This writes one `*.slides.html` per notebook into `_slides/`. Open
+`_slides/index.html` to browse them, or open any `*.slides.html` file
+directly.
 
-2. From the repo root, render every notebook:
-
-   ```{bash}
-   quarto render
-   ```
-
-   This writes one HTML file per notebook plus an `index.html` landing page to
-   the `_slides/` directory. Open `_slides/index.html` in your browser to
-   browse them, or open any `*.slides.html` file directly.
-
-3. While iterating, live-reload on save:
-
-   ```{bash}
-   quarto preview
-   ```
-
-### Keyboard shortcuts
+### Keyboard shortcuts (inside a deck)
 
 | Key | Action |
 | --- | --- |
 | <kbd>←</kbd> / <kbd>→</kbd> | previous / next slide |
 | <kbd>↑</kbd> / <kbd>↓</kbd> | previous / next sub-slide |
-| <kbd>b</kbd> | open the chalkboard for live annotations |
-| <kbd>s</kbd> | speaker view (notes + timer on a second screen) |
+| <kbd>Space</kbd> | advance |
 | <kbd>f</kbd> | fullscreen |
 | <kbd>?</kbd> | help overlay |
 
@@ -245,14 +235,9 @@ a live Jupyter kernel can.
 
 A GitHub Actions workflow at
 [`.github/workflows/publish-slides.yml`](.github/workflows/publish-slides.yml)
-rebuilds the slides on every push to `main` and publishes the output to the
-`gh-pages` branch. Enable GitHub Pages on the repo once (Settings → Pages →
-Source: `gh-pages` branch); the workflow will create that branch on its first
-run.
-
-The slide structure (slide / subslide / fragment) is read directly from each
-notebook's `slide_type` cell metadata — see `index.qmd` for the full lecture
-index.
+rebuilds the slides on every push to `main` and publishes the output to
+GitHub Pages via the official Pages API (`actions/deploy-pages`). One-time
+setup: in **Settings → Pages → Source**, choose **"GitHub Actions"**.
 
 ## 🎥 Notebook format and RISE (local interactive slides)
 
