@@ -10,7 +10,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Applications of pattern recognition
    - Practical information
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/00/intro.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/00/intro.slides.html)
 
 <br>
 
@@ -21,7 +21,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Probablity of error
    - Dealing with risk
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/01/bayes_decision_theory.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory.slides.html)
 
 <br>
 
@@ -33,7 +33,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Histogram approach
    - Parzen windowing
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/02/density_estimation.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation.slides.html)
 
 <br>
 
@@ -41,7 +41,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - K nearest neighbor
    - Mixture models
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/02/mixture_models.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/mixture_models.slides.html)
 
 <br>
 
@@ -51,14 +51,14 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Widrow-Hoff algorithm
    - Perceptron
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/linear_classifiers.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers.slides.html)
 
 <br>
 
 6. **Linear classifiers II** 
    - Support vector machines
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine.slides.html)
 
 <br>
 
@@ -67,7 +67,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Backpropagation
    - Gradient descent
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/04/neural_networks_1.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1.slides.html)
 
 <br>
 
@@ -80,7 +80,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Cross-entropy loss
    - Weight initialization
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/04/neural_networks_2.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2.slides.html)
 
 <br>
 
@@ -89,7 +89,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - A vector perspective on backpropagation
    - Connecting neural networks and support vector machines
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/04/neural_networks_3.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3.slides.html)
 
 <br>
 
@@ -98,7 +98,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Radial basis function (RBF) networks
    - Prototypical learning
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/05/rbf_networks.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/05/rbf_networks.slides.html)
 
 <br>
 
@@ -108,7 +108,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Kernels
    - Non-linear SVMs
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/06/kernel_methods.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/06/kernel_methods.slides.html)
 
 <br>
 
@@ -116,7 +116,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Fisher discriminant analysis
    - Principal component analysis (PCA)
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.jupyter.org/github/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/07/linear_dim_reduction.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/07/linear_dim_reduction.slides.html)
 
 <br>
 
@@ -124,7 +124,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Kernel PCA
    - Laplacian Eigenmaps
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/main/notebooks/08/non_linear_dim_reduction.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/08/non_linear_dim_reduction.slides.html)
 
 <br>
 
@@ -132,21 +132,21 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Ranking
    - PageRank algorithm
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/main/notebooks/09/ranking.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/09/ranking.slides.html)
 
 <br>
 
 15. **Clustering I** 
    - Sequential clustering
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/main/notebooks/10/seq_clustering.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/10/seq_clustering.slides.html)
 
 <br>
 
 16. **Clustering II** 
    - Hierarchical
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/main/notebooks/11/hier_clustering.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/11/hier_clustering.slides.html)
 
 <br>
 
@@ -154,14 +154,14 @@ You can view and execute the notebooks by clicking on the buttons below.
    - K-means
    - Spectral clustering
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/main/notebooks/12/clustering.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/12/clustering.slides.html)
 
 <br>
 
 17. **Clustering III** 
    - Clustering evaluation
 
-   [![nbviewer](https://img.shields.io/badge/-View-blue?logo=jupyter&style=flat&labelColor=gray)](https://nbviewer.org/urls/raw.githack.com/Wickstrom/pattern-recognition-handbook/main/notebooks/13/clustering_eval.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/13/clustering_eval.slides.html)
 
 <br>
 
