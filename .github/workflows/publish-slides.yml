@@ -56,6 +56,31 @@ jobs:
               --output "$base"
           done
 
+      # nbconvert's reveal template adds cell-tag classes (e.g.
+      # celltag_remove-input) but does not ship CSS that actually hides the
+      # input — the source code stays in the rendered slide. Inject CSS so
+      # tagged cells render as output-only.
+      - name: Inject cell-tag CSS into slide HTML
+        run: |
+          python - <<'PY'
+          import glob, pathlib
+          css = (
+              "<style id='celltag-overrides'>"
+              ".celltag_remove-input .jp-Cell-inputWrapper,"
+              ".celltag_remove-cell  .jp-Cell-inputWrapper{display:none!important}"
+              ".celltag_remove-input .jp-Cell,"
+              ".celltag_remove-cell  .jp-Cell{padding-top:0;margin-top:0}"
+              "</style>"
+          )
+          for html in glob.glob("_slides/**/*.slides.html", recursive=True):
+              p = pathlib.Path(html)
+              s = p.read_text(encoding="utf-8")
+              if "celltag-overrides" in s:
+                  continue
+              p.write_text(s.replace("</head>", css + "</head>", 1), encoding="utf-8")
+              print(f"injected: {p}")
+          PY
+
       - name: Copy index.html into _slides/
         run: cp index.html _slides/index.html
 
