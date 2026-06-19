@@ -37,7 +37,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install matplotlib ucimlrepo scipy scikit-learn ipykernel jupyter ipywidgets
+          pip install matplotlib ucimlrepo scipy scikit-learn ipykernel jupyter ipywidgets plotly
 
       - name: Convert notebooks to slides
         run: |
