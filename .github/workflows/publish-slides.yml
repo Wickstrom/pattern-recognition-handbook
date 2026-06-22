@@ -74,7 +74,13 @@ jobs:
             mkdir -p "$target"
             # Copy media alongside the notebook so relative image paths resolve.
             cp -R "$dir/media" "$target/" 2>/dev/null || true
-            marimo export html-wasm "$nb" -o "$target" --mode run
+            # The notebook's `layout_file` (e.g. layouts/<base>.slides.json) is
+            # read by marimo at export time and inlined as a base64 data URI
+            # in the generated HTML, so we don't need to ship the JSON.
+            # `--no-show-code` keeps the slides looking like slides — code is
+            # still editable in `marimo edit` locally, just hidden in the
+            # public deck by default.
+            marimo export html-wasm "$nb" -o "$target" --mode run --no-show-code
           done
 
       # nbconvert's reveal template adds cell-tag classes (e.g.

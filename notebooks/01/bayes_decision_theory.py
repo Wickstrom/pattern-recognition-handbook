@@ -20,7 +20,10 @@
 import marimo
 
 __generated_with = "0.23.10"
-app = marimo.App(width="medium")
+app = marimo.App(
+    width="medium",
+    layout_file="layouts/bayes_decision_theory.slides.json",
+)
 
 
 @app.cell
