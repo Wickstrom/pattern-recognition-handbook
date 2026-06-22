@@ -40,6 +40,19 @@
     }
     table.keys { border-collapse: collapse; margin-top: 8px; font-size: 0.92rem; }
     table.keys td { padding: 4px 16px 4px 0; }
+    .badge {
+      display: inline-block;
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
   </style>
 </head>
 <body>
@@ -49,17 +62,24 @@
       <p class="lede">FYS-3012, UiT The Arctic University of Norway — Kristoffer Wickstrøm</p>
 
       <div class="note">
-        These slides are rendered with <code>jupyter nbconvert --to slides</code>, the
-        same Reveal.js pipeline that RISE uses, so the nested
+        Most slides are rendered with <code>jupyter nbconvert --to slides</code>,
+        the same Reveal.js pipeline that RISE uses, so the nested
         horizontal/vertical slide structure matches what you'd see live in
         RISE. They're static HTML and served from GitHub Pages, so they
         never time out.
+      </div>
+      <div class="note">
+        Decks tagged <span class="badge">marimo</span> are exported with
+        <code>marimo export html-wasm</code> and run entirely in your browser
+        via WebAssembly — the Python interpreter, dependencies, and code all
+        live inside the page. Give them a few seconds to spin up on first
+        load.
       </div>
 
       <h2>Module 1 — Foundations</h2>
       <ul class="lectures">
         <li><a href="notebooks/00/intro.slides.html">Introduction to pattern recognition</a></li>
-        <li><a href="notebooks/01/bayes_decision_theory.slides.html">Bayes decision theory</a></li>
+        <li><a href="notebooks/01/bayes_decision_theory/index.html">Bayes decision theory <span class="badge">marimo</span></a></li>
         <li><a href="notebooks/02/density_estimation.slides.html">Density estimation I — parametric &amp; non-parametric</a></li>
         <li><a href="notebooks/02/mixture_models.slides.html">Density estimation II — kNN &amp; mixture models</a></li>
       </ul>

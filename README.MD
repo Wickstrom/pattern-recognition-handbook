@@ -21,7 +21,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Probablity of error
    - Dealing with risk
 
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory.slides.html)
+   [![Marimo (WASM)](https://img.shields.io/badge/-Marimo%20WASM-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory/index.html)
 
 <br>
 
@@ -211,15 +211,23 @@ deployed automatically to GitHub Pages on every push to `main`.
 From the repo root, render every notebook with the same command the CI uses:
 
 ```{bash}
-python -m pip install jupyter nbconvert
+python -m pip install jupyter nbconvert marimo
 for nb in notebooks/*/*.ipynb; do
   jupyter nbconvert --to slides "$nb" --output-dir "_slides/$(dirname "$nb")"
 done
+for nb in notebooks/*/*.py; do
+  dir=$(dirname "$nb")
+  base=$(basename "$nb" .py)
+  target="_slides/$dir/$base"
+  mkdir -p "$target"
+  marimo export html-wasm "$nb" -o "$target" --mode run
+done
 ```
 
-This writes one `*.slides.html` per notebook into `_slides/`. Open
-`_slides/index.html` to browse them, or open any `*.slides.html` file
-directly.
+This writes one `*.slides.html` per `.ipynb` notebook and one
+`<name>/index.html` (with an `assets/` directory of WASM bundles) per
+`.py` marimo notebook into `_slides/`. Open `_slides/index.html` to
+browse them.
 
 ### Keyboard shortcuts (inside a deck)
 
@@ -238,6 +246,29 @@ A GitHub Actions workflow at
 rebuilds the slides on every push to `main` and publishes the output to
 GitHub Pages via the official Pages API (`actions/deploy-pages`). One-time
 setup: in **Settings → Pages → Source**, choose **"GitHub Actions"**.
+
+## 🧪 Marimo (WASM) test lecture
+
+The **Bayes decision theory** lecture ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory/index.html))
+is also published as a [Marimo](https://marimo.io) notebook running
+entirely in the browser via WebAssembly. The notebook lives at
+[`notebooks/01/bayes_decision_theory.py`](notebooks/01/bayes_decision_theory.py)
+and is exported with [`marimo export html-wasm --mode run`](https://docs.marimo.io/guides/exporting/webassembly_html/)
+during the same CI run that builds the other decks.
+
+To run it locally in edit mode (live code, file watchers, variable
+explorer):
+
+```{bash}
+pip install marimo
+marimo edit notebooks/01/bayes_decision_theory.py
+```
+
+The Marimo notebook is content-equivalent to the Reveal.js deck (same
+text, same figures) but trades the slide-stepping UX for a reactive
+notebook UX — the slider for the overlapping-Gaussians figure is a real
+`mo.ui.slider` instead of a baked-in Plotly animation, and the bar-chart
+example reacts to a word-selection dropdown.
 
 ## 🎥 Notebook format and RISE (local interactive slides)
 

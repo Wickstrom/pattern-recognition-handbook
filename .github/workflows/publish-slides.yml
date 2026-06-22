@@ -1,10 +1,9 @@
 name: Publish slides
 
-# Rebuild and deploy the Reveal.js slide decks on every push to main.
-# Uses `jupyter nbconvert --to slides`, which produces the same RISE-style
-# Reveal.js output (nested horizontal slides + vertical sub-slides driven by
-# the cell-level slide_type metadata) but as static HTML so it never times
-# out. Output is deployed to GitHub Pages via the official Pages API.
+# Rebuild and deploy the Reveal.js slide decks and Marimo WASM notebooks
+# on every push to main. Uses `jupyter nbconvert --to slides` for the
+# .ipynb files and `marimo export html-wasm` for the .py notebooks, both
+# deployed together to GitHub Pages via the official Pages API.
 
 on:
   push:
@@ -37,7 +36,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install matplotlib ucimlrepo scipy scikit-learn ipykernel jupyter ipywidgets plotly
+          pip install matplotlib ucimlrepo scipy scikit-learn ipykernel jupyter ipywidgets plotly marimo
 
       - name: Convert notebooks to slides
         run: |
@@ -49,11 +48,33 @@ jobs:
             mkdir -p "$target"
             # Copy media alongside the notebook so relative image paths resolve.
             cp -R "$dir/media" "$target/" 2>/dev/null || true
+            # Skip if this notebook was replaced by a Marimo .py counterpart.
+            if [ -f "$dir/$base.py" ]; then
+              echo "Skipping $nb — Marimo counterpart at $dir/$base.py"
+              continue
+            fi
             # nbconvert appends ".slides" + ".html" to --output, so pass just
             # the basename to get "<base>.slides.html".
             jupyter nbconvert --to slides "$nb" \
               --output-dir "$target" \
               --output "$base"
+          done
+
+      # Export Marimo notebooks (paired .py files next to .ipynb files) to a
+      # WASM-runnable directory under _slides/. The exported dir contains an
+      # index.html, an assets/ directory, and a .nojekyll file — the assets
+      # must live next to the HTML, so we point the workflow at the notebook's
+      # own subdirectory rather than a flat file.
+      - name: Export Marimo notebooks to WASM
+        run: |
+          for nb in notebooks/*/*.py; do
+            dir=$(dirname "$nb")
+            base=$(basename "$nb" .py)
+            target="_slides/$dir/$base"
+            mkdir -p "$target"
+            # Copy media alongside the notebook so relative image paths resolve.
+            cp -R "$dir/media" "$target/" 2>/dev/null || true
+            marimo export html-wasm "$nb" -o "$target" --mode run
           done
 
       # nbconvert's reveal template adds cell-tag classes (e.g.
@@ -80,6 +101,16 @@ jobs:
               p.write_text(s.replace("</head>", css + "</head>", 1), encoding="utf-8")
               print(f"injected: {p}")
           PY
+
+      # Marimo's WASM export already drops a .nojekyll marker in its output
+      # directory so GitHub Pages doesn't try to process the assets. Make
+      # sure the root _slides/ directory also has one — this matters if we
+      # ever serve / index.html directly.
+      - name: Ensure .nojekyll exists at the publish root
+        run: |
+          if [ ! -f _slides/.nojekyll ]; then
+            touch _slides/.nojekyll
+          fi
 
       - name: Copy index.html into _slides/
         run: cp index.html _slides/index.html
