@@ -53,26 +53,26 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.vstack(
+        [
+            mo.md(
+                r"""
     ## Spam
 
     - It's the early 2000, and spam emails offering you to buy Viagra are flourishing.
     - Cannot just filter on keywords.
     - Mathematically, we want to find $P(\text{spam}|\text{content})$.
-        """
-    )
-    return
-
-
-@app.cell
-def _(mo):
-    mo.hstack(
-        [
-            mo.image(src="media/endingspam.png", width="200px"),
-            mo.image(src="media/spam_example.png", width="400px"),
+                """
+            ),
+            mo.hstack(
+                [
+                    mo.image(src="media/endingspam.png", width="200px"),
+                    mo.image(src="media/spam_example.png", width="400px"),
+                ],
+                justify="start",
+                gap=2,
+            ),
         ],
-        justify="start",
         gap=2,
     )
     return
