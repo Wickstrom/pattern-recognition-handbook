@@ -360,40 +360,5 @@ def _(mo):
     return
 
 
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
-    ## Non-linear classification I
-
-    The code below loads a classic synthetic machine learning dataset, the Two Moons dataset. This is a binary classification problem that is not solvable with a linear classifier (try one of your classifiers from previous notebooks and see for yourself.) Design and train a MLP to solve the task. You can experiment with making the problem more or less challenging by changing the "noise" parameter in the "make_moons" function.
-
-    This is the same problem as last week, but this time you will optimize with momentum included in the gradient descent algorithm.
-        """
-    )
-    return
-
-
-@app.cell
-def _():
-    from sklearn.datasets import make_moons
-    return (make_moons,)
-
-
-@app.cell
-def _(make_moons, mo, plt):
-    # Same two-moons starter as last week — students reuse their MLP
-    # here, this time with momentum.
-    X_moons, y_moons = make_moons(n_samples=400, noise=0.11, random_state=42)
-
-    fig_moons, ax_moons = plt.subplots(figsize=(6, 6))
-    ax_moons.scatter(X_moons[:, 0], X_moons[:, 1], c=y_moons, cmap="viridis",
-                     edgecolor="k", s=50)
-
-    mo.as_html(fig_moons)
-    plt.close(fig_moons)
-    return
-
-
 if __name__ == "__main__":
     app.run()

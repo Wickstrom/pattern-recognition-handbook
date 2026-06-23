@@ -23,6 +23,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Dealing with risk
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory_exercise/index.html)
 
 <br>
 
@@ -36,6 +37,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation.slides.html)
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation_exercise/index.html)
 
 <br>
 
@@ -54,6 +56,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Perceptron
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers_exercise/index.html)
 
 <br>
 
@@ -61,6 +64,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Support vector machines
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine_exercise/index.html)
 
 <br>
 
@@ -70,6 +74,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Gradient descent
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1_exercise/index.html)
 
 <br>
 
@@ -83,6 +88,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Weight initialization
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2_exercise/index.html)
 
 <br>
 
@@ -92,6 +98,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Connecting neural networks and support vector machines
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3_exercise/index.html)
 
 <br>
 
@@ -255,13 +262,13 @@ A growing set of lectures is published as [Marimo](https://marimo.io)
 notebooks running entirely in the browser via WebAssembly:
 
 - **Introduction to pattern recognition** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/00/intro/index.html))
-- **Bayes decision theory** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory/index.html))
-- **Density estimation I** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation/index.html))
-- **Linear classifiers I** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers/index.html))
-- **Linear classifiers II** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine/index.html))
-- **Non-linear classifiers I** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1/index.html))
-- **Non-linear classifiers II** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2/index.html))
-- **Non-linear classifiers III** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3/index.html))
+- **Bayes decision theory** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory_exercise/index.html)
+- **Density estimation I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation_exercise/index.html)
+- **Linear classifiers I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers_exercise/index.html)
+- **Linear classifiers II** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine_exercise/index.html)
+- **Non-linear classifiers I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1_exercise/index.html)
+- **Non-linear classifiers II** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2_exercise/index.html)
+- **Non-linear classifiers III** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3_exercise/index.html)
 
 Each `.py` notebook is content-equivalent to its `.ipynb` counterpart
 (same text, same figures) and is exported with
@@ -275,12 +282,19 @@ variable explorer):
 pip install marimo
 marimo edit notebooks/00/intro.py
 marimo edit notebooks/01/bayes_decision_theory.py
+marimo edit notebooks/01/bayes_decision_theory_exercise.py
 marimo edit notebooks/02/density_estimation.py
+marimo edit notebooks/02/density_estimation_exercise.py
 marimo edit notebooks/03/linear_classifiers.py
+marimo edit notebooks/03/linear_classifiers_exercise.py
 marimo edit notebooks/03/support_vector_machine.py
+marimo edit notebooks/03/support_vector_machine_exercise.py
 marimo edit notebooks/04/neural_networks_1.py
+marimo edit notebooks/04/neural_networks_1_exercise.py
 marimo edit notebooks/04/neural_networks_2.py
+marimo edit notebooks/04/neural_networks_2_exercise.py
 marimo edit notebooks/04/neural_networks_3.py
+marimo edit notebooks/04/neural_networks_3_exercise.py
 ```
 
 The Marimo notebooks trade the slide-stepping UX for a reactive
