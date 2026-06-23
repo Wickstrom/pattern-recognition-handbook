@@ -54,6 +54,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Perceptron
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers.slides.html)
+   [![Marimo (WASM)](https://img.shields.io/badge/-Marimo%20WASM-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers/index.html)
 
 <br>
 
@@ -61,6 +62,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Support vector machines
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine.slides.html)
+   [![Marimo (WASM)](https://img.shields.io/badge/-Marimo%20WASM-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine/index.html)
 
 <br>
 
@@ -257,6 +259,8 @@ notebooks running entirely in the browser via WebAssembly:
 - **Introduction to pattern recognition** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/00/intro/index.html)) — [`notebooks/00/intro.py`](notebooks/00/intro.py)
 - **Bayes decision theory** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory/index.html)) — [`notebooks/01/bayes_decision_theory.py`](notebooks/01/bayes_decision_theory.py)
 - **Density estimation I** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation/index.html)) — [`notebooks/02/density_estimation.py`](notebooks/02/density_estimation.py)
+- **Linear classifiers I** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers/index.html)) — [`notebooks/03/linear_classifiers.py`](notebooks/03/linear_classifiers.py)
+- **Linear classifiers II** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine/index.html)) — [`notebooks/03/support_vector_machine.py`](notebooks/03/support_vector_machine.py)
 
 Each `.py` notebook is content-equivalent to its `.ipynb` counterpart
 (same text, same figures) and is exported with
@@ -271,6 +275,8 @@ pip install marimo
 marimo edit notebooks/00/intro.py
 marimo edit notebooks/01/bayes_decision_theory.py
 marimo edit notebooks/02/density_estimation.py
+marimo edit notebooks/03/linear_classifiers.py
+marimo edit notebooks/03/support_vector_machine.py
 ```
 
 The Marimo notebooks trade the slide-stepping UX for a reactive
