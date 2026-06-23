@@ -337,12 +337,14 @@ def _(mo):
         r"""
     ### Example with overlapping Gaussians
 
-    - In practice we never see the true class-conditional densities $P(\mathbf{x}|w_i)$
-      — we have to **estimate** them from data.
-    - Click through the tabs to see how the empirical class-conditional density
-      (a histogram over $N$ drawn samples) changes as we vary $N$.
-    - **Question for the class:** What happens to the shape of the estimate as $N$
-      grows? What would you expect in the limit $N \to \infty$?
+    - Each tab is a different parameter setting — read the label to see exactly
+      which parameters are in play. Means, standard deviations, and (in the last
+      tab) sample counts can all change.
+    - Click the **"decision boundary"** entry in the legend to toggle it on or
+      off. It starts **off** so the densities stand alone first; turn it on to
+      see where the Bayes classifier would assign each $x$.
+    - **Question for the class:** For each setting, predict where the decision
+      boundary should fall *before* you toggle it on. Then check.
         """
     )
     return
@@ -350,53 +352,83 @@ def _(mo):
 
 @app.cell
 def _():
-    # Number-of-samples scenarios. Each tab swaps N (samples per class); the
-    # other parameters (means, sigma) are held fixed. The tab label shows the
-    # parameter being swapped so students can connect the visual change to N.
-    mu1_const, mu2_const, sigma_const = 0.0, 1.5, 1.0
-    sample_sizes = [10, 100, 1000, 10000, 100000]
-    return mu1_const, mu2_const, sample_sizes, sigma_const
+    # Four parameter settings. Each one varies a single quantity from the
+    # baseline (μ₁=0, μ₂=1, σ=0.5) so students can isolate its effect. Tab
+    # labels state the exact parameter values used in that figure.
+    # Format: (label, mu1, mu2, sigma1, sigma2, N1_samples_to_overlay)
+    # N1_samples_to_overlay=None means: show only the exact PDFs.
+    settings = [
+        ("μ₁=0, μ₂=1, σ₁=σ₂=0.5", 0.0, 1.0, 0.5, 0.5, None),
+        ("μ₁=0, μ₂=2, σ₁=σ₂=0.5", 0.0, 2.0, 0.5, 0.5, None),
+        ("μ₁=0, μ₂=1, σ₁=0.5, σ₂=1.5", 0.0, 1.0, 0.5, 1.5, None),
+        ("μ₁=0, μ₂=1, σ=0.5, N₁=10000", 0.0, 1.0, 0.5, 0.5, 10000),
+    ]
+    return (settings,)
 
 
 @app.cell
-def _(mo, mu1_const, mu2_const, np, sample_sizes, sigma_const):
+def _(mo, np, norm, settings):
     import plotly.graph_objects as go
 
-    # Pre-compute one figure per sample size and bundle them into tabs. Fixed
-    # RNG seeds keep the histograms reproducible across re-renders so students
-    # see the same shape each time they click a tab.
+    x_grid = np.linspace(-5, 6, 600)
+    bin_edges = dict(start=-5, end=6, size=0.2)
+
     sample_tabs = {}
-    for N in sample_sizes:
-        samples_w1 = np.random.default_rng(seed=42).normal(
-            mu1_const, sigma_const, N
-        )
-        samples_w2 = np.random.default_rng(seed=43).normal(
-            mu2_const, sigma_const, N
-        )
+    for label, mu1, mu2, sigma1, sigma2, N1 in settings:
+        p1 = norm.pdf(x_grid, mu1, sigma1)
+        p2 = norm.pdf(x_grid, mu2, sigma2)
+
+        # Bayes decision boundary under equal priors: where p1(x) == p2(x).
+        # Find the first sign-change of the difference.
+        diff = p1 - p2
+        crossings = np.where(np.diff(np.sign(diff)))[0]
+        boundary = float(x_grid[crossings[0]]) if len(crossings) else None
 
         fig = go.Figure()
-        fig.add_trace(go.Histogram(
-            x=samples_w1,
-            xbins=dict(start=-4, end=5.5, size=0.2),
-            histnorm="probability density",
-            marker=dict(color="royalblue", line=dict(width=0)),
-            opacity=0.65,
-            name="samples from w₁",
+        fig.add_trace(go.Scatter(
+            x=x_grid, y=p1, mode="lines",
+            name="P(x|w₁)",
+            line=dict(color="royalblue", width=2.5),
         ))
-        fig.add_trace(go.Histogram(
-            x=samples_w2,
-            xbins=dict(start=-4, end=5.5, size=0.2),
-            histnorm="probability density",
-            marker=dict(color="crimson", line=dict(width=0)),
-            opacity=0.65,
-            name="samples from w₂",
+        fig.add_trace(go.Scatter(
+            x=x_grid, y=p2, mode="lines",
+            name="P(x|w₂)",
+            line=dict(color="crimson", width=2.5),
         ))
+
+        # Optional empirical overlay for the sampling setting. A histogram with
+        # many samples should hug P(x|w₁) — visual proof that more data gives
+        # a better estimate.
+        if N1 is not None:
+            samples = np.random.default_rng(seed=42).normal(mu1, sigma1, N1)
+            fig.add_trace(go.Histogram(
+                x=samples,
+                xbins=bin_edges,
+                histnorm="probability density",
+                marker=dict(color="lightsteelblue", line=dict(width=0)),
+                opacity=0.55,
+                name=f"samples from w₁ (N={N1})",
+            ))
+
+        # Decision boundary as a toggleable trace — the "decision boundary"
+        # legend entry starts hidden (visible="legendonly") so the densities
+        # read cleanly first; clicking the legend entry toggles it on.
+        if boundary is not None:
+            max_y = float(max(p1.max(), p2.max()))
+            fig.add_trace(go.Scatter(
+                x=[boundary, boundary],
+                y=[0, max_y * 1.05],
+                mode="lines",
+                line=dict(color="black", dash="dash", width=2),
+                name="decision boundary",
+                visible="legendonly",
+            ))
 
         fig.update_layout(
             barmode="overlay",
-            height=460, width=950,
+            height=440, width=950,
             margin=dict(t=10, b=40, l=40, r=20),
-            xaxis=dict(title="x", showgrid=False),
+            xaxis=dict(title="x", showgrid=False, zeroline=False),
             yaxis=dict(showgrid=False, zeroline=False),
             legend=dict(orientation="h", yanchor="bottom", y=1.02,
                         xanchor="center", x=0.5),
@@ -404,7 +436,7 @@ def _(mo, mu1_const, mu2_const, np, sample_sizes, sigma_const):
             plot_bgcolor="white",
         )
 
-        sample_tabs[f"N = {N}"] = fig
+        sample_tabs[label] = fig
 
     mo.ui.tabs(sample_tabs)
     return
