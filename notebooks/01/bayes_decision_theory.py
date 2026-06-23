@@ -28,8 +28,23 @@ app = marimo.App(
 
 @app.cell
 def _():
+    import os
+    from pathlib import Path
+
+    # Make `mo.image(src="media/foo.png")` and the spambase fetch work
+    # regardless of which directory `marimo edit` is launched from. We chdir
+    # to the notebook's own directory so the relative `media/` path resolves
+    # the same way it does for the deployed WASM build (where the page sits
+    # next to `media/`). In WASM, `__file__` may not be set and the chdir
+    # becomes a no-op — the browser still fetches the images via the page URL.
+    if "__file__" in globals() and __file__:
+        try:
+            os.chdir(Path(__file__).resolve().parent)
+        except OSError:
+            pass
+
     import marimo as mo
-    return (mo,)
+    return Path, mo, os
 
 
 @app.cell
