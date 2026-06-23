@@ -160,59 +160,54 @@ def _(fetch_ucirepo, np):
 
 
 @app.cell
-def _(mo, word_index_map):
-    word_dropdown = mo.ui.dropdown(
-        options=list(word_index_map.keys()),
-        value="money (idx 23)",
-        label="Word",
-    )
-    word_dropdown
-    return (word_dropdown,)
+def _(X, ham_indices, mo, plt, spam_indices, word_index_map):
+    # Pre-compute one figure per word and bundle them into tabs so the widget
+    # and the visualization live in a single cell (one slide in slides view).
+    word_tabs = {}
+    for word_label, idx in word_index_map.items():
+        word_name = word_label.split(" ")[0]
+        ham_mean = float(X.iloc[ham_indices, idx].mean())
+        spam_mean = float(X.iloc[spam_indices, idx].mean())
 
+        fig_words, axes_words = plt.subplots(1, 2, figsize=(10, 3.5))
 
-@app.cell
-def _(X, ham_indices, mo, np, plt, spam_indices, word_dropdown, word_index_map):
-    chosen_index = word_index_map[word_dropdown.value]
-    ham_mean = float(X.iloc[ham_indices, chosen_index].mean())
-    spam_mean = float(X.iloc[spam_indices, chosen_index].mean())
-    chosen_word = word_dropdown.value.split(" ")[0]
+        axes_words[0].bar(
+            [0, 1],
+            [ham_mean, spam_mean],
+            color=["#4c72b0", "#c44e52"],
+        )
+        axes_words[0].set_xticks([0, 1])
+        axes_words[0].set_xticklabels(["Ham", "Spam"])
+        axes_words[0].set_ylabel(f"Avg. frequency of '{word_name}'")
+        axes_words[0].set_title("Spambase — mean occurrence")
 
-    fig_words, axes_words = plt.subplots(1, 2, figsize=(10, 3.5))
+        axes_words[1].hist(
+            X.iloc[spam_indices, idx],
+            bins=30, alpha=0.6, color="#c44e52", label="Spam",
+        )
+        axes_words[1].hist(
+            X.iloc[ham_indices, idx],
+            bins=30, alpha=0.6, color="#4c72b0", label="Ham",
+        )
+        axes_words[1].set_xlabel(f"Frequency of '{word_name}'")
+        axes_words[1].set_ylabel("# emails")
+        axes_words[1].legend()
+        axes_words[1].set_title("Distribution")
 
-    axes_words[0].bar(
-        [0, 1],
-        [ham_mean, spam_mean],
-        color=["#4c72b0", "#c44e52"],
-    )
-    axes_words[0].set_xticks([0, 1])
-    axes_words[0].set_xticklabels(["Ham", "Spam"])
-    axes_words[0].set_ylabel(f"Avg. frequency of '{chosen_word}'")
-    axes_words[0].set_title("Spambase — mean occurrence")
+        fig_words.tight_layout()
 
-    axes_words[1].hist(
-        X.iloc[spam_indices, chosen_index],
-        bins=30, alpha=0.6, color="#c44e52", label="Spam",
-    )
-    axes_words[1].hist(
-        X.iloc[ham_indices, chosen_index],
-        bins=30, alpha=0.6, color="#4c72b0", label="Ham",
-    )
-    axes_words[1].set_xlabel(f"Frequency of '{chosen_word}'")
-    axes_words[1].set_ylabel("# emails")
-    axes_words[1].legend()
-    axes_words[1].set_title("Distribution")
+        word_tabs[word_name] = mo.vstack(
+            [
+                mo.md(
+                    f"**Spam mean:** {spam_mean:.3f} &nbsp;&nbsp; "
+                    f"**Ham mean:** {ham_mean:.3f}"
+                ),
+                mo.as_html(fig_words),
+            ]
+        )
+        plt.close(fig_words)
 
-    fig_words.tight_layout()
-
-    mo.vstack(
-        [
-            mo.md(
-                f"**Spam mean:** {spam_mean:.3f} &nbsp;&nbsp; **Ham mean:** {ham_mean:.3f}"
-            ),
-            mo.as_html(fig_words),
-        ]
-    )
-    plt.close(fig_words)
+    mo.ui.tabs(word_tabs)
     return
 
 
@@ -348,11 +343,10 @@ def _(mo):
       boundary is unambiguous.
     - In practice the Gaussians *overlap*: some samples are more likely
       under the wrong class.
-    - Step through the slider below to see how the **decision boundary**
-      (the $x$ where the two posteriors cross) shifts as you change the
-      prior or move the means closer together. The figure is fully reactive
-      — drag the slider, or hit *▶ Play* to animate through the curated
-      scenarios.
+    - Click a tab below to see how the **decision boundary** (the $x$ where
+      the two posteriors cross) shifts as you change the prior or move the
+      means closer together. Each tab pre-computes the figure, so all five
+      sit on a single slide.
         """
     )
     return
@@ -364,112 +358,99 @@ def _(norm, np):
     mu1_const, sigma_const = 0.0, 1.0
     p1_pdf = norm.pdf(x_grid, mu1_const, sigma_const)
 
-    # Curated (mu2, prior_w1) scenarios. Each step walks through a different
-    # teaching point — the label shows the current values so you can connect
-    # the parameter change to the resulting boundary shift.
+    # Curated (mu2, prior_w1) scenarios. Each tab covers a different teaching
+    # point — the label calls out what's interesting about the parameters so
+    # the boundary shift is intuitive.
     scenarios = [
-        (1.5, 0.50),  # balanced, modest separation
-        (1.0, 0.50),  # more overlap, balanced prior
-        (0.5, 0.50),  # heavy overlap, balanced prior
-        (3.0, 0.50),  # well separated, balanced prior
-        (1.5, 0.10),  # balanced likelihoods, very small P(w1)
-        (1.5, 0.25),  # balanced likelihoods, small P(w1)
-        (1.5, 0.75),  # balanced likelihoods, large P(w1)
-        (1.5, 0.90),  # balanced likelihoods, very large P(w1)
-        (0.5, 0.90),  # heavy overlap + skewed prior
-        (3.0, 0.10),  # well separated + skewed prior
+        ("Modest separation, balanced prior", 1.5, 0.50),
+        ("Heavy overlap, balanced prior", 0.5, 0.50),
+        ("Well separated, balanced prior", 3.0, 0.50),
+        ("Small prior P(w₁)", 1.5, 0.10),
+        ("Large prior P(w₁)", 1.5, 0.90),
     ]
     return p1_pdf, scenarios, sigma_const, x_grid
 
 
 @app.cell
-def _(mo, scenarios):
-    scenario_slider = mo.ui.slider(
-        start=0,
-        stop=len(scenarios) - 1,
-        step=1,
-        value=0,
-        label=f"Scenario (of {len(scenarios)})",
-        show_value=True,
-    )
-    scenario_slider
-    return (scenario_slider,)
-
-
-@app.cell
-def _(np, norm, p1_pdf, scenario_slider, scenarios, sigma_const, x_grid):
+def _(mo, np, norm, p1_pdf, scenarios, sigma_const, x_grid):
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
 
-    mu2_val, prior_w1 = scenarios[scenario_slider.value]
-    p2 = norm.pdf(x_grid, mu2_val, sigma_const)
-    post1 = prior_w1 * p1_pdf
-    post2 = (1.0 - prior_w1) * p2
+    # Pre-compute one figure per scenario and bundle them into tabs. Putting
+    # the controls and the visualization in a single cell collapses them onto
+    # a single slide in reveal.js mode — no more "slider on slide N, figure
+    # on slide N+1" split.
+    scenario_tabs = {}
+    for label, mu2_val, prior_w1 in scenarios:
+        p2 = norm.pdf(x_grid, mu2_val, sigma_const)
+        post1 = prior_w1 * p1_pdf
+        post2 = (1.0 - prior_w1) * p2
 
-    # Decision boundary: where post1 == post2. Use the first sign-change of
-    # the difference as the boundary.
-    diff = post1 - post2
-    crossings = np.where(np.diff(np.sign(diff)))[0]
-    boundary = float(x_grid[crossings[0]]) if len(crossings) else None
+        # Decision boundary: where post1 == post2. Use the first sign-change of
+        # the difference as the boundary.
+        diff = post1 - post2
+        crossings = np.where(np.diff(np.sign(diff)))[0]
+        boundary = float(x_grid[crossings[0]]) if len(crossings) else None
 
-    fig_overlap = make_subplots(
-        rows=1, cols=2,
-        subplot_titles=("Class-conditional densities",
-                        "Posteriors + decision boundary"),
-    )
-    fig_overlap.add_trace(
-        go.Scatter(x=x_grid, y=p1_pdf, mode="lines", name="P(x|w₁)",
-                   line=dict(color="royalblue")),
-        row=1, col=1,
-    )
-    fig_overlap.add_trace(
-        go.Scatter(x=x_grid, y=p2, mode="lines", name="P(x|w₂)",
-                   line=dict(color="crimson")),
-        row=1, col=1,
-    )
-    fig_overlap.add_trace(
-        go.Scatter(x=x_grid, y=post1, mode="lines", name="P(w₁)·P(x|w₁)",
-                   line=dict(color="royalblue")),
-        row=1, col=2,
-    )
-    fig_overlap.add_trace(
-        go.Scatter(x=x_grid, y=post2, mode="lines", name="P(w₂)·P(x|w₂)",
-                   line=dict(color="crimson")),
-        row=1, col=2,
-    )
-
-    shapes = []
-    if boundary is not None:
-        shapes.append(
-            dict(
-                type="line", xref="x2", yref="y2",
-                x0=boundary, x1=boundary,
-                y0=0, y1=float(max(post1.max(), post2.max())),
-                line=dict(color="black", dash="dash", width=2),
-            )
+        fig_overlap = make_subplots(
+            rows=1, cols=2,
+            subplot_titles=("Class-conditional densities",
+                            "Posteriors + decision boundary"),
+        )
+        fig_overlap.add_trace(
+            go.Scatter(x=x_grid, y=p1_pdf, mode="lines", name="P(x|w₁)",
+                       line=dict(color="royalblue")),
+            row=1, col=1,
+        )
+        fig_overlap.add_trace(
+            go.Scatter(x=x_grid, y=p2, mode="lines", name="P(x|w₂)",
+                       line=dict(color="crimson")),
+            row=1, col=1,
+        )
+        fig_overlap.add_trace(
+            go.Scatter(x=x_grid, y=post1, mode="lines", name="P(w₁)·P(x|w₁)",
+                       line=dict(color="royalblue")),
+            row=1, col=2,
+        )
+        fig_overlap.add_trace(
+            go.Scatter(x=x_grid, y=post2, mode="lines", name="P(w₂)·P(x|w₂)",
+                       line=dict(color="crimson")),
+            row=1, col=2,
         )
 
-    title_suffix = (
-        f",  boundary x ≈ {boundary:.2f}" if boundary is not None else ""
-    )
-    fig_overlap.update_layout(
-        title=dict(
-            text=(f"Scenario {scenario_slider.value + 1}/{len(scenarios)}  —  "
-                  f"μ₂ = {mu2_val:.2f},  P(w₁) = {prior_w1:.2f}"
-                  + title_suffix),
-            x=0.5,
-        ),
-        shapes=shapes,
-        height=520, width=1200,
-        margin=dict(t=80, b=60),
-        xaxis=dict(title="x"), xaxis2=dict(title="x"),
-        yaxis=dict(title="Likelihood"), yaxis2=dict(title="Discriminant"),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02,
-                    xanchor="center", x=0.5),
-    )
+        shapes = []
+        if boundary is not None:
+            shapes.append(
+                dict(
+                    type="line", xref="x2", yref="y2",
+                    x0=boundary, x1=boundary,
+                    y0=0, y1=float(max(post1.max(), post2.max())),
+                    line=dict(color="black", dash="dash", width=2),
+                )
+            )
 
-    fig_overlap
-    return (go,)
+        title_suffix = (
+            f" — boundary x ≈ {boundary:.2f}" if boundary is not None else ""
+        )
+        fig_overlap.update_layout(
+            title=dict(
+                text=(f"{label}  (μ₂ = {mu2_val:.2f},  P(w₁) = {prior_w1:.2f})"
+                      + title_suffix),
+                x=0.5,
+            ),
+            shapes=shapes,
+            height=460, width=1100,
+            margin=dict(t=80, b=40),
+            xaxis=dict(title="x"), xaxis2=dict(title="x"),
+            yaxis=dict(title="Likelihood"), yaxis2=dict(title="Discriminant"),
+            legend=dict(orientation="h", yanchor="bottom", y=1.02,
+                        xanchor="center", x=0.5),
+        )
+
+        scenario_tabs[label] = fig_overlap
+
+    mo.ui.tabs(scenario_tabs)
+    return
 
 
 @app.cell
