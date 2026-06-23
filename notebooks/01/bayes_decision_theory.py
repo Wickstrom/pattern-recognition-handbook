@@ -227,19 +227,19 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.image(src="media/gpt.png", width="600px")
-    return
-
-
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
-    References:
+    mo.vstack(
+        [
+            mo.image(src="media/gpt.png", width="600px"),
+            mo.md(
+                r"""
+    **References:**
 
     - Radford et al. — *Improving Language Understanding by Generative Pre-Training*, 2018.
     - Bengio et al. — *A Neural Probabilistic Language Model*, 2003.
-        """
+                """
+            ),
+        ],
+        gap=2,
     )
     return
 
@@ -339,7 +339,7 @@ def _(mo):
 
     - Each tab is a different parameter setting — read the label to see exactly
       which parameters are in play. Means, standard deviations, and (in the last
-      tab) sample counts can all change.
+      tab) the prior can all change.
     - Click the **"decision boundary"** entry in the legend to toggle it on or
       off. It starts **off** so the densities stand alone first; turn it on to
       see where the Bayes classifier would assign each $x$.
@@ -353,15 +353,14 @@ def _(mo):
 @app.cell
 def _():
     # Four parameter settings. Each one varies a single quantity from the
-    # baseline (μ₁=0, μ₂=1, σ=0.5) so students can isolate its effect. Tab
-    # labels state the exact parameter values used in that figure.
-    # Format: (label, mu1, mu2, sigma1, sigma2, N1_samples_to_overlay)
-    # N1_samples_to_overlay=None means: show only the exact PDFs.
+    # baseline (μ₁=0, μ₂=1, σ=0.5, P(w₁)=0.5) so students can isolate its
+    # effect. Tab labels state the exact parameter values used in that figure.
+    # Format: (label, mu1, mu2, sigma1, sigma2, prior_w1)
     settings = [
-        ("μ₁=0, μ₂=1, σ₁=σ₂=0.5", 0.0, 1.0, 0.5, 0.5, None),
-        ("μ₁=0, μ₂=2, σ₁=σ₂=0.5", 0.0, 2.0, 0.5, 0.5, None),
-        ("μ₁=0, μ₂=1, σ₁=0.5, σ₂=1.5", 0.0, 1.0, 0.5, 1.5, None),
-        ("μ₁=0, μ₂=1, σ=0.5, N₁=10000", 0.0, 1.0, 0.5, 0.5, 10000),
+        ("μ₁=0, μ₂=1, σ₁=σ₂=0.5", 0.0, 1.0, 0.5, 0.5, 0.5),
+        ("μ₁=0, μ₂=2, σ₁=σ₂=0.5", 0.0, 2.0, 0.5, 0.5, 0.5),
+        ("μ₁=0, μ₂=1, σ₁=0.5, σ₂=1.5", 0.0, 1.0, 0.5, 1.5, 0.5),
+        ("μ₁=0, μ₂=1, σ=0.5, P(w₁)=0.1", 0.0, 1.0, 0.5, 0.5, 0.1),
     ]
     return (settings,)
 
@@ -371,16 +370,19 @@ def _(mo, np, norm, settings):
     import plotly.graph_objects as go
 
     x_grid = np.linspace(-5, 6, 600)
-    bin_edges = dict(start=-5, end=6, size=0.2)
 
     sample_tabs = {}
-    for label, mu1, mu2, sigma1, sigma2, N1 in settings:
+    for label, mu1, mu2, sigma1, sigma2, prior_w1 in settings:
         p1 = norm.pdf(x_grid, mu1, sigma1)
         p2 = norm.pdf(x_grid, mu2, sigma2)
 
-        # Bayes decision boundary under equal priors: where p1(x) == p2(x).
-        # Find the first sign-change of the difference.
-        diff = p1 - p2
+        # Bayes decision boundary: where P(w₁)·P(x|w₁) == P(w₂)·P(x|w₂).
+        # With equal priors this is just the crossing of the likelihoods.
+        # With a skewed prior the boundary shifts toward the class that has
+        # the lower prior — more evidence is needed before we assign to it.
+        post1 = prior_w1 * p1
+        post2 = (1.0 - prior_w1) * p2
+        diff = post1 - post2
         crossings = np.where(np.diff(np.sign(diff)))[0]
         boundary = float(x_grid[crossings[0]]) if len(crossings) else None
 
@@ -395,20 +397,6 @@ def _(mo, np, norm, settings):
             name="P(x|w₂)",
             line=dict(color="crimson", width=2.5),
         ))
-
-        # Optional empirical overlay for the sampling setting. A histogram with
-        # many samples should hug P(x|w₁) — visual proof that more data gives
-        # a better estimate.
-        if N1 is not None:
-            samples = np.random.default_rng(seed=42).normal(mu1, sigma1, N1)
-            fig.add_trace(go.Histogram(
-                x=samples,
-                xbins=bin_edges,
-                histnorm="probability density",
-                marker=dict(color="lightsteelblue", line=dict(width=0)),
-                opacity=0.55,
-                name=f"samples from w₁ (N={N1})",
-            ))
 
         # Decision boundary as a toggleable trace — the "decision boundary"
         # legend entry starts hidden (visible="legendonly") so the densities
@@ -425,7 +413,6 @@ def _(mo, np, norm, settings):
             ))
 
         fig.update_layout(
-            barmode="overlay",
             height=440, width=950,
             margin=dict(t=10, b=40, l=40, r=20),
             xaxis=dict(title="x", showgrid=False, zeroline=False),
