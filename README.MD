@@ -53,16 +53,14 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Widrow-Hoff algorithm
    - Perceptron
 
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers.slides.html)
-   [![Marimo (WASM)](https://img.shields.io/badge/-Marimo%20WASM-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers/index.html)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers/index.html)
 
 <br>
 
 6. **Linear classifiers II** 
    - Support vector machines
 
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine.slides.html)
-   [![Marimo (WASM)](https://img.shields.io/badge/-Marimo%20WASM-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine/index.html)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine/index.html)
 
 <br>
 
