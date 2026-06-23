@@ -442,8 +442,13 @@ def _(mo):
         - Real data is complicated, we will make mistakes!
         - What is the probability of making an error with a Bayes classifier?
     - The probability of error can be modelled as follows:
-        - $P_e = P(\mathbf{x}\in R_1, w_2)+P(\mathbf{x}\in R_2, w_1)$
-        - $    = P(\mathbf{x}\in R_1(w_2))P(w_2) + P(\mathbf{x}\in R_2(w_1))P(w_1)$
+
+    $$
+    \begin{aligned}
+    P_e &= P(\mathbf{x}\in R_1, w_2) + P(\mathbf{x}\in R_2, w_1) \\
+        &= P(\mathbf{x}\in R_1(w_2))P(w_2) + P(\mathbf{x}\in R_2(w_1))P(w_1)
+    \end{aligned}
+    $$
         """
     )
     return
@@ -658,27 +663,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
-    mo.md(
-        r"""
-    ### Problem 2.12 from the book
-
-    - Below is code that generates the data associated with problem 2.12
-      from the book. Your task is to:
-        - Design a Bayesian classifier.
-        - Design a Bayesian classifier using the following risk parameters.
-          How does this change the decision boundary?
-            - $\lambda_{12}$: 1.0
-            - $\lambda_{21}$: 0.5
-        - Experiment with changing the mean and variance of each class.
-          What do you observe?
-        """
-    )
-    return
-
-
-@app.cell
-def _(np, plt):
+def _(mo, np, plt):
     number_of_samples_in_each_class = 100
 
     mu1_toy = np.array([1.0, 1.0])
@@ -701,12 +686,29 @@ def _(np, plt):
     ax_toy.set_ylabel("x2")
     ax_toy.legend()
     fig_toy.tight_layout()
-    return fig_toy, x_train, x_train_1, x_train_2, y_train
 
+    mo.vstack(
+        [
+            mo.md(
+                r"""
+    ### Problem 2.12 from the book
 
-@app.cell
-def _(fig_toy, mo):
-    mo.as_html(fig_toy)
+    - Below is code that generates the data associated with problem 2.12
+      from the book. Your task is to:
+        - Design a Bayesian classifier.
+        - Design a Bayesian classifier using the following risk parameters.
+          How does this change the decision boundary?
+            - $\lambda_{12}$: 1.0
+            - $\lambda_{21}$: 0.5
+        - Experiment with changing the mean and variance of each class.
+          What do you observe?
+                """
+            ),
+            mo.as_html(fig_toy),
+        ],
+        gap=2,
+    )
+    plt.close(fig_toy)
     return
 
 
