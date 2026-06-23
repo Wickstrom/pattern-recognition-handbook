@@ -11,7 +11,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Practical information
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/00/intro.slides.html)
-   [![Marimo (WASM)](https://img.shields.io/badge/-Marimo%20WASM-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/00/intro/index.html)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/00/intro/index.html)
 
 <br>
 
@@ -22,7 +22,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Probablity of error
    - Dealing with risk
 
-   [![Marimo (WASM)](https://img.shields.io/badge/-Marimo%20WASM-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory/index.html)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory/index.html)
 
 <br>
 
@@ -35,7 +35,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Parzen windowing
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation.slides.html)
-   [![Marimo (WASM)](https://img.shields.io/badge/-Marimo%20WASM-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation/index.html)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation/index.html)
 
 <br>
 
@@ -249,19 +249,19 @@ rebuilds the slides on every push to `main` and publishes the output to
 GitHub Pages via the official Pages API (`actions/deploy-pages`). One-time
 setup: in **Settings → Pages → Source**, choose **"GitHub Actions"**.
 
-## 🧪 Marimo (WASM) lectures
+## 🧪 Slides
 
 A growing set of lectures is published as [Marimo](https://marimo.io)
 notebooks running entirely in the browser via WebAssembly:
 
-- **Introduction to pattern recognition** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/00/intro/index.html)) — [`notebooks/00/intro.py`](notebooks/00/intro.py)
-- **Bayes decision theory** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory/index.html)) — [`notebooks/01/bayes_decision_theory.py`](notebooks/01/bayes_decision_theory.py)
-- **Density estimation I** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation/index.html)) — [`notebooks/02/density_estimation.py`](notebooks/02/density_estimation.py)
-- **Linear classifiers I** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers/index.html)) — [`notebooks/03/linear_classifiers.py`](notebooks/03/linear_classifiers.py)
-- **Linear classifiers II** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine/index.html)) — [`notebooks/03/support_vector_machine.py`](notebooks/03/support_vector_machine.py)
-- **Non-linear classifiers I** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1/index.html)) — [`notebooks/04/neural_networks_1.py`](notebooks/04/neural_networks_1.py)
-- **Non-linear classifiers II** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2/index.html)) — [`notebooks/04/neural_networks_2.py`](notebooks/04/neural_networks_2.py)
-- **Non-linear classifiers III** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3/index.html)) — [`notebooks/04/neural_networks_3.py`](notebooks/04/neural_networks_3.py)
+- **Introduction to pattern recognition** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/00/intro/index.html))
+- **Bayes decision theory** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory/index.html))
+- **Density estimation I** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation/index.html))
+- **Linear classifiers I** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers/index.html))
+- **Linear classifiers II** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine/index.html))
+- **Non-linear classifiers I** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1/index.html))
+- **Non-linear classifiers II** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2/index.html))
+- **Non-linear classifiers III** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3/index.html))
 
 Each `.py` notebook is content-equivalent to its `.ipynb` counterpart
 (same text, same figures) and is exported with
