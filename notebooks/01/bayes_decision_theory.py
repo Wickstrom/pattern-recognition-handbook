@@ -148,13 +148,11 @@ def _(fetch_ucirepo, np):
 
     # Pick a small handful of words that illustrate the spam/ham asymmetry.
     # (The 57 features in Spambase are sorted by frequency of each word /
-    # character; the indices below are the standard ones for "money",
-    # "george", "free", and "hp".)
+    # character; the indices below are the standard ones for "money" and
+    # "george".)
     word_index_map = {
         "money (idx 23)": 23,
         "george (idx 26)": 26,
-        "free (idx 15)": 15,
-        "hp (idx 47)": 47,
     }
     return X, ham_indices, spam_indices, word_index_map
 
@@ -339,117 +337,76 @@ def _(mo):
         r"""
     ### Example with overlapping Gaussians
 
-    - So far the two classes have been perfectly separable — the decision
-      boundary is unambiguous.
-    - In practice the Gaussians *overlap*: some samples are more likely
-      under the wrong class.
-    - Click a tab below to see how the **decision boundary** (the $x$ where
-      the two posteriors cross) shifts as you change the prior or move the
-      means closer together. Each tab pre-computes the figure, so all five
-      sit on a single slide.
+    - In practice we never see the true class-conditional densities $P(\mathbf{x}|w_i)$
+      — we have to **estimate** them from data.
+    - Click through the tabs to see how the empirical class-conditional density
+      (a histogram over $N$ drawn samples) changes as we vary $N$.
+    - **Question for the class:** What happens to the shape of the estimate as $N$
+      grows? What would you expect in the limit $N \to \infty$?
         """
     )
     return
 
 
 @app.cell
-def _(norm, np):
-    x_grid = np.linspace(-5, 7, 600)
-    mu1_const, sigma_const = 0.0, 1.0
-    p1_pdf = norm.pdf(x_grid, mu1_const, sigma_const)
-
-    # Curated (mu2, prior_w1) scenarios. Each tab covers a different teaching
-    # point — the label calls out what's interesting about the parameters so
-    # the boundary shift is intuitive.
-    scenarios = [
-        ("Modest separation, balanced prior", 1.5, 0.50),
-        ("Heavy overlap, balanced prior", 0.5, 0.50),
-        ("Well separated, balanced prior", 3.0, 0.50),
-        ("Small prior P(w₁)", 1.5, 0.10),
-        ("Large prior P(w₁)", 1.5, 0.90),
-    ]
-    return p1_pdf, scenarios, sigma_const, x_grid
+def _():
+    # Number-of-samples scenarios. Each tab swaps N (samples per class); the
+    # other parameters (means, sigma) are held fixed. The tab label shows the
+    # parameter being swapped so students can connect the visual change to N.
+    mu1_const, mu2_const, sigma_const = 0.0, 1.5, 1.0
+    sample_sizes = [10, 100, 1000, 10000, 100000]
+    return mu1_const, mu2_const, sample_sizes, sigma_const
 
 
 @app.cell
-def _(mo, np, norm, p1_pdf, scenarios, sigma_const, x_grid):
+def _(mo, mu1_const, mu2_const, np, sample_sizes, sigma_const):
     import plotly.graph_objects as go
-    from plotly.subplots import make_subplots
 
-    # Pre-compute one figure per scenario and bundle them into tabs. Putting
-    # the controls and the visualization in a single cell collapses them onto
-    # a single slide in reveal.js mode — no more "slider on slide N, figure
-    # on slide N+1" split.
-    scenario_tabs = {}
-    for label, mu2_val, prior_w1 in scenarios:
-        p2 = norm.pdf(x_grid, mu2_val, sigma_const)
-        post1 = prior_w1 * p1_pdf
-        post2 = (1.0 - prior_w1) * p2
-
-        # Decision boundary: where post1 == post2. Use the first sign-change of
-        # the difference as the boundary.
-        diff = post1 - post2
-        crossings = np.where(np.diff(np.sign(diff)))[0]
-        boundary = float(x_grid[crossings[0]]) if len(crossings) else None
-
-        fig_overlap = make_subplots(
-            rows=1, cols=2,
-            subplot_titles=("Class-conditional densities",
-                            "Posteriors + decision boundary"),
+    # Pre-compute one figure per sample size and bundle them into tabs. Fixed
+    # RNG seeds keep the histograms reproducible across re-renders so students
+    # see the same shape each time they click a tab.
+    sample_tabs = {}
+    for N in sample_sizes:
+        samples_w1 = np.random.default_rng(seed=42).normal(
+            mu1_const, sigma_const, N
         )
-        fig_overlap.add_trace(
-            go.Scatter(x=x_grid, y=p1_pdf, mode="lines", name="P(x|w₁)",
-                       line=dict(color="royalblue")),
-            row=1, col=1,
-        )
-        fig_overlap.add_trace(
-            go.Scatter(x=x_grid, y=p2, mode="lines", name="P(x|w₂)",
-                       line=dict(color="crimson")),
-            row=1, col=1,
-        )
-        fig_overlap.add_trace(
-            go.Scatter(x=x_grid, y=post1, mode="lines", name="P(w₁)·P(x|w₁)",
-                       line=dict(color="royalblue")),
-            row=1, col=2,
-        )
-        fig_overlap.add_trace(
-            go.Scatter(x=x_grid, y=post2, mode="lines", name="P(w₂)·P(x|w₂)",
-                       line=dict(color="crimson")),
-            row=1, col=2,
+        samples_w2 = np.random.default_rng(seed=43).normal(
+            mu2_const, sigma_const, N
         )
 
-        shapes = []
-        if boundary is not None:
-            shapes.append(
-                dict(
-                    type="line", xref="x2", yref="y2",
-                    x0=boundary, x1=boundary,
-                    y0=0, y1=float(max(post1.max(), post2.max())),
-                    line=dict(color="black", dash="dash", width=2),
-                )
-            )
+        fig = go.Figure()
+        fig.add_trace(go.Histogram(
+            x=samples_w1,
+            xbins=dict(start=-4, end=5.5, size=0.2),
+            histnorm="probability density",
+            marker=dict(color="royalblue", line=dict(width=0)),
+            opacity=0.65,
+            name="samples from w₁",
+        ))
+        fig.add_trace(go.Histogram(
+            x=samples_w2,
+            xbins=dict(start=-4, end=5.5, size=0.2),
+            histnorm="probability density",
+            marker=dict(color="crimson", line=dict(width=0)),
+            opacity=0.65,
+            name="samples from w₂",
+        ))
 
-        title_suffix = (
-            f" — boundary x ≈ {boundary:.2f}" if boundary is not None else ""
-        )
-        fig_overlap.update_layout(
-            title=dict(
-                text=(f"{label}  (μ₂ = {mu2_val:.2f},  P(w₁) = {prior_w1:.2f})"
-                      + title_suffix),
-                x=0.5,
-            ),
-            shapes=shapes,
-            height=460, width=1100,
-            margin=dict(t=80, b=40),
-            xaxis=dict(title="x"), xaxis2=dict(title="x"),
-            yaxis=dict(title="Likelihood"), yaxis2=dict(title="Discriminant"),
+        fig.update_layout(
+            barmode="overlay",
+            height=460, width=950,
+            margin=dict(t=10, b=40, l=40, r=20),
+            xaxis=dict(title="x", showgrid=False),
+            yaxis=dict(showgrid=False, zeroline=False),
             legend=dict(orientation="h", yanchor="bottom", y=1.02,
                         xanchor="center", x=0.5),
+            paper_bgcolor="white",
+            plot_bgcolor="white",
         )
 
-        scenario_tabs[label] = fig_overlap
+        sample_tabs[f"N = {N}"] = fig
 
-    mo.ui.tabs(scenario_tabs)
+    mo.ui.tabs(sample_tabs)
     return
 
 
