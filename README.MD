@@ -69,7 +69,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Backpropagation
    - Gradient descent
 
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1.slides.html)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1/index.html)
 
 <br>
 
@@ -82,7 +82,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Cross-entropy loss
    - Weight initialization
 
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2.slides.html)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2/index.html)
 
 <br>
 
@@ -91,7 +91,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - A vector perspective on backpropagation
    - Connecting neural networks and support vector machines
 
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3.slides.html)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3/index.html)
 
 <br>
 
@@ -259,6 +259,9 @@ notebooks running entirely in the browser via WebAssembly:
 - **Density estimation I** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation/index.html)) — [`notebooks/02/density_estimation.py`](notebooks/02/density_estimation.py)
 - **Linear classifiers I** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers/index.html)) — [`notebooks/03/linear_classifiers.py`](notebooks/03/linear_classifiers.py)
 - **Linear classifiers II** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine/index.html)) — [`notebooks/03/support_vector_machine.py`](notebooks/03/support_vector_machine.py)
+- **Non-linear classifiers I** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1/index.html)) — [`notebooks/04/neural_networks_1.py`](notebooks/04/neural_networks_1.py)
+- **Non-linear classifiers II** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2/index.html)) — [`notebooks/04/neural_networks_2.py`](notebooks/04/neural_networks_2.py)
+- **Non-linear classifiers III** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3/index.html)) — [`notebooks/04/neural_networks_3.py`](notebooks/04/neural_networks_3.py)
 
 Each `.py` notebook is content-equivalent to its `.ipynb` counterpart
 (same text, same figures) and is exported with
@@ -275,6 +278,9 @@ marimo edit notebooks/01/bayes_decision_theory.py
 marimo edit notebooks/02/density_estimation.py
 marimo edit notebooks/03/linear_classifiers.py
 marimo edit notebooks/03/support_vector_machine.py
+marimo edit notebooks/04/neural_networks_1.py
+marimo edit notebooks/04/neural_networks_2.py
+marimo edit notebooks/04/neural_networks_3.py
 ```
 
 The Marimo notebooks trade the slide-stepping UX for a reactive
