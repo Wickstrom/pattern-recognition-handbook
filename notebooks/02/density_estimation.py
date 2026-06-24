@@ -307,13 +307,22 @@ def _(mo):
 
 
 @app.cell
-def _(np):
-    # Load the breast-cancer features we visualize from a small bundled
-    # file instead of fetching from the UCI repository at runtime. The
-    # network call would intermittently fail in the WASM/Pyodide
-    # environment, breaking the rest of the cell graph.
-    data = np.load("media/breast_cancer_subset.npz")
-    X_bc = data["features"]
+def _():
+    import base64
+    import io
+
+    # Load the breast-cancer features we visualize from data embedded
+    # directly in the notebook. Fetching the dataset from UCI at runtime
+    # intermittently fails in the WASM/Pyodide environment, and shipping
+    # a sidecar file like `media/breast_cancer_subset.npz` does not work
+    # either — Pyodide's virtual filesystem does not have access to files
+    # placed next to the HTML page, so `np.load(...)` raises
+    # FileNotFoundError and `X_bc` ends up undefined.
+    _data_bytes = base64.b64decode(
+        "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"
+    )
+    _loaded = np.load(io.BytesIO(_data_bytes))
+    X_bc = _loaded["features"]
     X_1_name = "perimeter"
     X_2_name = "area"
     return X_1_name, X_2_name, X_bc
@@ -469,7 +478,7 @@ def _(mo):
         r"""
     ### What to expect from Parzen windows?
 
-    - $E[\hat{p}(x)]=\frac{1}{Nh}\sum_{i=1}^{N}E[\phi(\frac{x_i-x}{h})]$
+    - $E[\hat{p}(x)]=\frac{1}{Nh}\sum_{i=1}^{N}E\left[\phi\left(\frac{x_i-x}{h}\right)\right]$
     - Have
         - $E[g(y)]=\int g(y)p(y)dy$
     - $E[\hat{p}(x)] = $
@@ -485,7 +494,7 @@ def _(mo):
     ### What to expect from Parzen windows?
 
     - Note:
-        - $\lim_{h \to 0} \frac{1}{h}\phi(\frac{x'-x}{h}) = \delta(x'-x)$
+        - $\lim_{h \to 0} \frac{1}{h}\phi\left(\frac{x'-x}{h}\right) = \delta(x'-x)$
     - Thus:
         - $E[\hat{p}(x)]=p(x)$
         """
@@ -545,15 +554,15 @@ def _():
 
 @app.cell
 def _(KernelDensity, data_dist_1, data_dist_2, mo, np, plt):
-    data = np.concatenate([data_dist_1, data_dist_2])[:, np.newaxis]
-    kde = KernelDensity(kernel="gaussian", bandwidth=1.0).fit(data)
+    combined = np.concatenate([data_dist_1, data_dist_2])[:, np.newaxis]
+    kde = KernelDensity(kernel="gaussian", bandwidth=1.0).fit(combined)
 
-    x_approx = np.linspace(data.min() - 0.1, data.max() + 0.1, 500)[:, np.newaxis]
+    x_approx = np.linspace(combined.min() - 0.1, combined.max() + 0.1, 500)[:, np.newaxis]
     p_approx = np.exp(kde.score_samples(x_approx))
 
     fig_kde, ax_kde = plt.subplots(figsize=(8, 4))
     ax_kde.plot(x_approx, p_approx, "k", linewidth=2, label="PDF")
-    ax_kde.scatter(data, np.zeros_like(data), alpha=0.5)
+    ax_kde.scatter(combined, np.zeros_like(combined), alpha=0.5)
     ax_kde.grid(True)
 
     mo.as_html(fig_kde)
