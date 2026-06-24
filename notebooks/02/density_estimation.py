@@ -6,7 +6,6 @@
 #     "matplotlib",
 #     "scipy",
 #     "scikit-learn",
-#     "ucimlrepo",
 # ]
 # ///
 #
@@ -84,6 +83,8 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
+    ## Overview
+
     - In this lecture we will cover:
         - Parametric density estimation
             - Maximum likelihood
@@ -92,12 +93,6 @@ def _(mo):
             - Parzen window approach
         """
     )
-    return
-
-
-@app.cell
-def _(mo):
-    mo.md(r"""---""")
     return
 
 
@@ -301,6 +296,8 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
+    ### Overview
+
     - Real-world data rarely follow exact distributions.
     - So what do we do when we cannot find a parametric distribution that matches or data?
     - Consider the example below
@@ -310,16 +307,13 @@ def _(mo):
 
 
 @app.cell
-def _():
-    from ucimlrepo import fetch_ucirepo
-    return (fetch_ucirepo,)
-
-
-@app.cell
-def _(fetch_ucirepo):
-    breast_cancer_wisconsin_diagnostic = fetch_ucirepo(id=17)
-
-    X_bc = breast_cancer_wisconsin_diagnostic.data.features
+def _(np):
+    # Load the breast-cancer features we visualize from a small bundled
+    # file instead of fetching from the UCI repository at runtime. The
+    # network call would intermittently fail in the WASM/Pyodide
+    # environment, breaking the rest of the cell graph.
+    data = np.load("media/breast_cancer_subset.npz")
+    X_bc = data["features"]
     X_1_name = "perimeter"
     X_2_name = "area"
     return X_1_name, X_2_name, X_bc
@@ -328,7 +322,7 @@ def _(fetch_ucirepo):
 @app.cell
 def _(X_1_name, X_2_name, X_bc, mo, plt):
     fig_bc, ax_bc = plt.subplots(figsize=(4, 4))
-    ax_bc.scatter(X_bc.iloc[:, 4], X_bc.iloc[:, 5])
+    ax_bc.scatter(X_bc[:, 0], X_bc[:, 1])
     ax_bc.set_xlabel(X_1_name)
     ax_bc.set_ylabel(X_2_name)
 
@@ -475,7 +469,7 @@ def _(mo):
         r"""
     ### What to expect from Parzen windows?
 
-    - $E[\hat{p}(x)]=\frac{1}{Nh}\sum_{i=1^N}E[\phi(\frac{x_i-x}{h})]$
+    - $E[\hat{p}(x)]=\frac{1}{Nh}\sum_{i=1}^{N}E[\phi(\frac{x_i-x}{h})]$
     - Have
         - $E[g(y)]=\int g(y)p(y)dy$
     - $E[\hat{p}(x)] = $
