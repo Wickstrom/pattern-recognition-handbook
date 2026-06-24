@@ -70,10 +70,9 @@ def _(mo):
         - Data transformations.
         - Clustering.
     - Content for each component is contained in notebooks. The notebooks
-      are presented in class as slides using RISE (see
-      [here](https://github.com/FilippoMB/python-time-series-handbook?tab=readme-ov-file#-notebook-format-and-slides)
-      for more details). For this reason, the text in the notebooks is
-      organized with bullet points.
+      are presented in class as slides made with [Marimo](https://marimo.io)
+      and hosted with [GitHub Pages](https://pages.github.com/). For this
+      reason, the text in the notebooks is organized with bullet points.
         """
     )
     return
@@ -90,7 +89,7 @@ def _(mo):
     2. You will learn how to think more theoretically about how to approach a data analysis task.
         - Detailed derivations of complex topics like kernel methods, neural networks, and Laplacian Eigenmaps.
     3. You will derive state-of-the-art algorithms from first principles.
-        - Derivation of widely used algorithms like Support Vector Machines and Normalized Cuts.
+        - Derivation of widely used algorithms like Support Vector Machines.
     4. You will have hands-on experience from working with diverse data and tasks.
         """
     )
@@ -108,7 +107,7 @@ def _(mo):
     [Video from DINOv2 repository](https://github.com/facebookresearch/dinov2)
                 """
             ),
-            mo.video(src="media/dino.mp4", width=320, height=240, controls=True),
+            mo.video(src="media/dino.mp4", controls=True, style={"max-width": "100%", "height": "auto"}),
         ],
         gap=2,
     )
@@ -126,7 +125,7 @@ def _(mo):
     [Image from 3Blue1Brown.](https://www.3blue1brown.com/lessons/gpt)
                 """
             ),
-            mo.image(src="media/gptsoftmax.png", width="400px"),
+            mo.image(src="media/gptsoftmax.png", width="100%"),
         ],
         gap=2,
     )
@@ -144,9 +143,9 @@ def _(mo):
     [Image from GroundingDino](https://github.com/IDEA-Research/GroundingDINO/tree/main) and from [Lil'log](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/)
                 """
             ),
-            mo.image(src="media/grounding_dino.png", width="400px"),
-            mo.image(src="media/diffusion1.png", width="400px"),
-            mo.image(src="media/diffusion2.png", width="400px"),
+            mo.image(src="media/grounding_dino.png", width="100%"),
+            mo.image(src="media/diffusion1.png", width="100%"),
+            mo.image(src="media/diffusion2.png", width="100%"),
         ],
         gap=2,
     )
@@ -171,9 +170,7 @@ def _(mo):
         r"""
     ## Roadmap
 
-    ```{warning}
     This is an early version of the course. There might be imprecisions and errors. Also, some chapters might undergo significant revisions and changes.
-    ```
 
     I am planning to add more content over time to cover additional topics in new chapters and to extend the existing ones with new examples and explanations. If there is a specific topic you feel is missing or passages that you feel are not clear enough, open an <a class="github-button" href="https://github.com/Wickstrom/pattern-recognition-handbook/issues" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-issue-opened" aria-label="Issue FilippoMB/python-time-series-handbook on GitHub">Issue</a> on the repository on Github.
 
