@@ -275,7 +275,7 @@ def _(mo):
 
     - First: $\mathbf{z} = \mathbf{A} \mathbf{x}$ such that $\mathbf{z} \in \mathbb{R}^d$, $\mathbf{x} \in \mathbb{R}^d$, and $\mathbf{A} \in \mathbb{R}^{d \times d}
     $
-    - Want: \boldsymbol{\Sigma}_y diagonal!
+    - Want: $\boldsymbol{\Sigma}_y$ diagonal!
         """
     )
     return

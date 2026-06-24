@@ -178,7 +178,7 @@ def _(mo):
     ### Google as a Markov chain
 
     - $\boldsymbol{\Pi}$ has a special meaning
-    - Theorem: If $\mathbf{H}: H_{ij}=p_{ij}$ is a transition matrix and $0 \lt p_{ij} \lt 1$ then
+    - Theorem: If $\mathbf{H}: H_{ij}=p_{ij}$ is a transition matrix and $0 < p_{ij} < 1$ then
         - $\lambda_{max}=1$
         - $\boldsymbol{\Pi}_{max}$ is unique, positive, sums to one.
         - $\boldsymbol{\Pi}_{max}$ can always be found by the power method!
@@ -265,7 +265,7 @@ def _(mo):
         r"""
     ### Idea 4
 
-    - Modify $\mathbf{H}$ such that $0 \lt p_{ij} \lt 1$.
+    - Modify $\mathbf{H}$ such that $0 < p_{ij} < 1$.
     - Modification 1; Dangling nodes (no outlinks) creates zero rows in $\mathbf{H}$
     - $$ \mathbf{H}^T = \begin{bmatrix} 0 & \frac{1}{4} & \frac{1}{4} & \frac{1}{4} & \frac{1}{4} \\ 0 & 0 & \frac{1}{2} & \frac{1}{2} & 0 \\ 1 & 0 & 0 & 0 & 0 \\ \frac{1}{2} & 0 & \frac{1}{2} & 0 & 0 \\ 0 & 0 & 0 & 0 & 0 \end{bmatrix}$$
     - Replace zero row with row of 1/n probablities.

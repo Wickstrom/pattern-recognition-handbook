@@ -390,7 +390,7 @@ def _(mo):
     ### Examples of similarity measures
 
     - Inner-product: $$ s_i(\mathbf{x},\mathbf{y}) = \mathbf{x}^T \mathbf{y}$$
-    - Cosine: $$ s_i(\mathbf{x},\mathbf{y}) = \frac{\mathbf{x}^T \mathbf{y}}{||\mathbf{x}|| ||\mathbf{y}||} $$
+    - Cosine: $$ s_i(\mathbf{x},\mathbf{y}) = \frac{\mathbf{x}^T \mathbf{y}}{\| \mathbf{x} \| \, \| \mathbf{y} \|} $$
     - From dissimilarity measure: $s = \frac{a}{d}$ or $s = d_{\text{max}}-d$
         """
     )

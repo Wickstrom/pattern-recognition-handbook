@@ -146,7 +146,7 @@ def _(mo):
         r"""
     ## K-means
 
-    - Let $d(\mathbf{x}_i, \boldsymbol{\theta}_j) = ||\mathbf{x}_i-\boldsymbol{\theta}_j||^2$
+    - Let $d(\mathbf{x}_i, \boldsymbol{\theta}_j) = \| \mathbf{x}_i - \boldsymbol{\theta}_j \|^2$
     - Hence: $\frac{\partial}{\partial \boldsymbol{\theta}_k} J(\mathbf{U}^*, \boldsymbol{\Theta})$
     - $\boldsymbol{\theta}_k=$
         """
@@ -218,7 +218,7 @@ def _(mo):
     ### Example of spectral clustering
 
     - Cut the graph in two parts!
-    - Let $W(i,j)=\exp(-\frac{1}{2\sigma^2}||\mathbf{x_i}-\mathbf{x_j}||^2)$
+    - Let $W(i,j)=\exp(-\frac{1}{2\sigma^2}\| \mathbf{x_i} - \mathbf{x_j} \|^2)$
         """
     )
     return

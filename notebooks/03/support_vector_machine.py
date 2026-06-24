@@ -162,7 +162,7 @@ def _(mo):
 
     - Note: $g(\mathbf{x'})$ not unique: $$\mathbf{w'}=a\mathbf{w}$$
     - Define: $$g(\mathbf{x'})= \pm 1 \hspace{0.1cm} \text{for $\mathbf{x}$ on margin.}$$
-    - Hence: $$m_{\text{svm}}=\frac{2}{||\mathbf{w}||}$$
+    - Hence: $$m_{\text{svm}}=\frac{2}{\| \mathbf{w} \|}$$
         """
     )
     return
@@ -174,7 +174,7 @@ def _(mo):
         r"""
     ## SVM optimization problem
 
-    - $$ \underset{\mathbf{w}, w_0}{\operatorname{min}}\ J(\mathbf{w}, w_0)\coloneqq \frac{1}{2}||\mathbf{w}||^2 $$
+    - $$ \underset{\mathbf{w}, w_0}{\operatorname{min}}\ J(\mathbf{w}, w_0)\coloneqq \frac{1}{2}\| \mathbf{w} \|^2 $$
     - $$ \text{subject to} \hspace{0.2cm} y_i\left(\mathbf{w}^T \mathbf{x_i}+w_0\right) \geq 1$$
     - "A training algorithm for optimal margin classifiers" - (Boser, Guyon, Vapnik, 1992.)
     - "Support-vector networks" - (Cortes and Vapnik, 1995.)
@@ -194,7 +194,7 @@ def _(mo):
     - $$ \underset{\boldsymbol{\theta}}{\operatorname{min}}\ J(\boldsymbol{\theta}) $$
     - $$ \text{subject to} \hspace{0.2cm} f(\boldsymbol{\theta})= \theta_1 \theta_2-3 \geq 0 $$
     - Primal problem $\boldsymbol{\theta}$.
-    - Note: At $\boldsymbol{\theta}=\boldsymbol{\theta}_{*}\Rightarrow$ $$ \frac{\partial}{\partial \boldsymbol{\theta}} J(\boldsymbol{\theta}) = \lambda\frac{\partial}{\partial \boldsymbol{\theta}} f(\boldsymbol{\theta}) \text{, for } \lambda \gt 0$$
+    - Note: At $\boldsymbol{\theta}=\boldsymbol{\theta}_{*}\Rightarrow$ $$ \frac{\partial}{\partial \boldsymbol{\theta}} J(\boldsymbol{\theta}) = \lambda\frac{\partial}{\partial \boldsymbol{\theta}} f(\boldsymbol{\theta}) \text{, for } \lambda > 0$$
         """
     )
     return
@@ -402,8 +402,8 @@ def _(mo):
     ## Non-separable classes
 
     - Allow erros in training $\Rightarrow$
-    - SVM objective: $$ \underset{\mathbf{w}, w_0}{\operatorname{min}}\ J(\mathbf{w}, w_0)\coloneqq \frac{1}{2}||\mathbf{w}||^2 $$
-    - $$ \text{subject to} \hspace{0.2cm} y_i\left(\mathbf{w}^T \mathbf{x_i}+w_0\right) \geq $$
+    - SVM objective: $$ \underset{\mathbf{w}, w_0}{\operatorname{min}}\ J(\mathbf{w}, w_0)\coloneqq \frac{1}{2}\| \mathbf{w} \|^2 $$
+    - $$ \text{subject to} \hspace{0.2cm} y_i\left(\mathbf{w}^T \mathbf{x_i}+w_0\right) \geq 1$$
     - Dual formulation:
         """
     )
