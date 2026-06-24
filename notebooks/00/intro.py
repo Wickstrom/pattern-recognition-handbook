@@ -107,7 +107,7 @@ def _(mo):
     [Video from DINOv2 repository](https://github.com/facebookresearch/dinov2)
                 """
             ),
-            mo.video(src="media/dino.mp4", controls=True, style={"max-width": "100%", "height": "auto"}),
+            mo.video(src="media/dino.mp4", controls=True, width="100%"),
         ],
         gap=2,
     )
@@ -125,7 +125,7 @@ def _(mo):
     [Image from 3Blue1Brown.](https://www.3blue1brown.com/lessons/gpt)
                 """
             ),
-            mo.image(src="media/gptsoftmax.png", width="100%"),
+            mo.image(src="media/gptsoftmax.png", width="80%"),
         ],
         gap=2,
     )
@@ -143,9 +143,9 @@ def _(mo):
     [Image from GroundingDino](https://github.com/IDEA-Research/GroundingDINO/tree/main) and from [Lil'log](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/)
                 """
             ),
-            mo.image(src="media/grounding_dino.png", width="100%"),
-            mo.image(src="media/diffusion1.png", width="100%"),
-            mo.image(src="media/diffusion2.png", width="100%"),
+            mo.image(src="media/grounding_dino.png", width="80%"),
+            mo.image(src="media/diffusion1.png", width="80%"),
+            mo.image(src="media/diffusion2.png", width="80%"),
         ],
         gap=2,
     )
