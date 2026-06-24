@@ -120,6 +120,62 @@ def _(mo):
 
 
 @app.cell
+def _(np):
+    # A small fixed dataset of 1D samples so the sliders below move a
+    # Gaussian over the same data on every render.
+    data_param = np.array(
+        [-1.2, -0.8, -0.3, 0.1, 0.2, 0.5, 0.9, 1.4, 1.8, 2.1]
+    )
+    return (data_param,)
+
+
+@app.cell
+def _(data_param, mo, norm, np, plt):
+    mu_slider = mo.ui.slider(
+        start=-3.0, stop=4.0, step=0.1,
+        value=float(data_param.mean()),
+        show_value=True, label="Mean μ",
+    )
+    sigma_slider = mo.ui.slider(
+        start=0.2, stop=2.5, step=0.05,
+        value=float(data_param.std()),
+        show_value=True, label="Std σ",
+    )
+
+    mu_param = mu_slider.value
+    sigma_param = sigma_slider.value
+    log_lik_param = float(np.sum(norm.logpdf(data_param, mu_param, sigma_param)))
+
+    x_grid_param = np.linspace(data_param.min() - 1, data_param.max() + 1, 200)
+    pdf_param = norm.pdf(x_grid_param, mu_param, sigma_param)
+
+    fig_param, ax_param = plt.subplots(figsize=(7, 3.5))
+    ax_param.hist(
+        data_param, bins=8, density=True, alpha=0.4,
+        color="gray", edgecolor="black", label="data",
+    )
+    ax_param.plot(
+        x_grid_param, pdf_param, "r-", linewidth=2,
+        label=f"N({mu_param:.2f}, {sigma_param:.2f}²)",
+    )
+    ax_param.set_xlabel("x")
+    ax_param.set_ylabel("density")
+    ax_param.legend(loc="upper right")
+    ax_param.set_title(f"log-likelihood = {log_lik_param:.3f}")
+    fig_param.tight_layout()
+
+    mo.vstack(
+        [
+            mo.hstack([mu_slider, sigma_slider], justify="start", gap=2),
+            mo.as_html(fig_param),
+        ],
+        gap=1,
+    )
+    plt.close(fig_param)
+    return
+
+
+@app.cell
 def _():
     import numpy as np
     import matplotlib.pyplot as plt
