@@ -268,22 +268,25 @@ def _(mo, np, plt):
     # distribution in a square to show what happens when the normal
     # assumption breaks down — the MSE boundary becomes biased toward
     # the uniform cluster and stops matching the Bayes-optimal split.
+    # Means are kept close (along the diagonal) with moderate variance so
+    # the two clouds overlap noticeably and the MSE boundary is visibly
+    # pulled by outliers.
     scenarios_lc = {
-        "μ₁=(1,1), μ₂=(3,3), σ=0.4 (well-separated, equal σ)": (
-            "normal", np.array([1.0, 1.0]), 0.4,
-            "normal", np.array([3.0, 3.0]), 0.4,
+        "μ₁=(2,2), μ₂=(3.5,3.5), σ=0.6 (close, equal σ)": (
+            "normal", np.array([2.0, 2.0]), 0.6,
+            "normal", np.array([3.5, 3.5]), 0.6,
         ),
-        "μ₁=(1,1), μ₂=(3,3), σ₁=0.3, σ₂=0.8 (equal means, different σ)": (
-            "normal", np.array([1.0, 1.0]), 0.3,
-            "normal", np.array([3.0, 3.0]), 0.8,
-        ),
-        "μ₁=(1,1), μ₂=(2,2), σ=0.4 (close means)": (
-            "normal", np.array([1.0, 1.0]), 0.4,
+        "μ₁=(2,2), μ₂=(3.5,3.5), σ₁=0.4, σ₂=0.9 (close, different σ)": (
             "normal", np.array([2.0, 2.0]), 0.4,
+            "normal", np.array([3.5, 3.5]), 0.9,
+        ),
+        "μ₁=(2.2,2.2), μ₂=(3.3,3.3), σ=0.55 (very close means)": (
+            "normal", np.array([2.2, 2.2]), 0.55,
+            "normal", np.array([3.3, 3.3]), 0.55,
         ),
         "Class 1 uniform, Class 2 Gaussian (non-Gaussian)": (
-            "uniform", np.array([1.0, 1.0]), 0.5,
-            "normal", np.array([3.0, 3.0]), 0.4,
+            "uniform", np.array([2.0, 2.0]), 0.6,
+            "normal", np.array([3.5, 3.5]), 0.6,
         ),
     }
     return (scenarios_lc,)
@@ -295,7 +298,7 @@ def _(mo, scenarios_lc):
     # widget's `.value` in the same cell that created it.
     tabs_lc = mo.ui.tabs(
         scenarios_lc,
-        value="μ₁=(1,1), μ₂=(3,3), σ=0.4 (well-separated, equal σ)",
+        value="μ₁=(2,2), μ₂=(3.5,3.5), σ=0.6 (close, equal σ)",
     )
     switch_boundary = mo.ui.switch(
         value=True, label="Show decision boundary",
@@ -355,7 +358,7 @@ def _(mo, np, plt, scenarios_lc, switch_boundary, tabs_lc):
 
     if switch_boundary.value and abs(w1_lc) > 1e-9:
         # w0*x + w1*y + b = 0.5  ->  y = (0.5 - w0*x - b) / w1
-        x_min, x_max = -0.5, 4.5
+        x_min, x_max = 0.5, 5.0
         xs = np.array([x_min, x_max])
         ys = (0.5 - w0_lc * xs - b_lc) / w1_lc
         ax_lc.plot(
@@ -369,8 +372,8 @@ def _(mo, np, plt, scenarios_lc, switch_boundary, tabs_lc):
             label=f"MSE boundary  w=[{w0_lc:+.2f}, {w1_lc:+.2f}, {b_lc:+.2f}]",
         )
 
-    ax_lc.set_xlim(-0.5, 4.5)
-    ax_lc.set_ylim(-0.5, 4.5)
+    ax_lc.set_xlim(0.5, 5.0)
+    ax_lc.set_ylim(0.5, 5.0)
     ax_lc.set_xlabel("x1")
     ax_lc.set_ylabel("x2")
     ax_lc.set_title(f"Setting: {tabs_lc.value}")

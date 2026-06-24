@@ -120,40 +120,39 @@ def _(mo):
 
 
 @app.cell
-def _(np):
-    # A small fixed dataset of 1D samples so the sliders below move a
-    # Gaussian over the same data on every render.
-    data_param = np.array(
-        [-1.2, -0.8, -0.3, 0.1, 0.2, 0.5, 0.9, 1.4, 1.8, 2.1]
+def _(data_param, mo, norm, np, plt):
+    # Slider + reactive plot live in the same cell. Marimo normally forbids
+    # reading a UIElement's `.value` in the cell that created it, so we use
+    # `mo.state(allow_self_loops=True)` as a side-channel: the sliders'
+    # `on_change` callbacks push the new value into state, and reading
+    # `get_mu() / get_sigma()` re-runs this cell on each update.
+    get_mu, set_mu = mo.state(
+        float(data_param.mean()), allow_self_loops=True
     )
-    return (data_param,)
+    get_sigma, set_sigma = mo.state(
+        float(data_param.std()), allow_self_loops=True
+    )
 
-
-@app.cell
-def _(data_param, mo):
-    # Sliders must live in their own cell — Marimo forbids reading a
-    # widget's `.value` in the same cell that created it.
     mu_slider = mo.ui.slider(
         start=-3.0, stop=4.0, step=0.1,
-        value=float(data_param.mean()),
-        show_value=True, label="Mean μ",
+        value=get_mu(), show_value=True, label="Mean μ",
+        on_change=lambda v: set_mu(v),
     )
     sigma_slider = mo.ui.slider(
         start=0.2, stop=2.5, step=0.05,
-        value=float(data_param.std()),
-        show_value=True, label="Std σ",
+        value=get_sigma(), show_value=True, label="Std σ",
+        on_change=lambda v: set_sigma(v),
     )
-    mo.hstack([mu_slider, sigma_slider], justify="start", gap=2)
-    return mu_slider, sigma_slider
 
+    mu_param = get_mu()
+    sigma_param = get_sigma()
+    log_lik_param = float(
+        np.sum(norm.logpdf(data_param, mu_param, sigma_param))
+    )
 
-@app.cell
-def _(data_param, mo, mu_slider, norm, np, plt, sigma_slider):
-    mu_param = mu_slider.value
-    sigma_param = sigma_slider.value
-    log_lik_param = float(np.sum(norm.logpdf(data_param, mu_param, sigma_param)))
-
-    x_grid_param = np.linspace(data_param.min() - 1, data_param.max() + 1, 200)
+    x_grid_param = np.linspace(
+        data_param.min() - 1, data_param.max() + 1, 200
+    )
     pdf_param = norm.pdf(x_grid_param, mu_param, sigma_param)
 
     fig_param, ax_param = plt.subplots(figsize=(7, 3.5))
@@ -171,8 +170,16 @@ def _(data_param, mo, mu_slider, norm, np, plt, sigma_slider):
     ax_param.set_title(f"log-likelihood = {log_lik_param:.3f}")
     fig_param.tight_layout()
 
+    mo.vstack(
+        [
+            mo.hstack(
+                [mu_slider, sigma_slider], justify="start", gap=2
+            ),
+            mo.as_html(fig_param),
+        ],
+        gap=1,
+    )
     plt.close(fig_param)
-    mo.as_html(fig_param)
     return
 
 
