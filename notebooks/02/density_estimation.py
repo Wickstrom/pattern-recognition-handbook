@@ -120,14 +120,23 @@ def _(mo):
 
 
 @app.cell
-def _(data_param, mo, norm, np, plt):
+def _(mo, norm, np, plt):
     # Slider + reactive plot live in the same cell. Marimo normally forbids
-    # reading a UIElement's `.value` in the cell that created it, so we use
+    # reading a UIElement's `.value` in the same cell that created it, so we use
     # `mo.state(allow_self_loops=True)` as a side-channel: the sliders'
     # `on_change` callbacks push the new value into state, and reading
     # `get_mu() / get_sigma()` re-runs this cell on each update.
+    # A small fixed dataset of 1D samples so the sliders move a Gaussian
+    # over the same data on every render.
+    data_param = np.array(
+        [-1.2, -0.8, -0.3, 0.1, 0.2, 0.5, 0.9, 1.4, 1.8, 2.1]
+    )
+
     get_mu, set_mu = mo.state(
         float(data_param.mean()), allow_self_loops=True
+    )
+    get_sigma, set_sigma = mo.state(
+        float(data_param.std()), allow_self_loops=True
     )
     get_sigma, set_sigma = mo.state(
         float(data_param.std()), allow_self_loops=True

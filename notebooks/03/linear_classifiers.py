@@ -262,15 +262,15 @@ def _(mo):
 
 @app.cell
 def _(mo, np, plt):
-    # Four scenarios. The first three keep the Gaussian assumption and
-    # illustrate how mean separation and per-class variance change the
-    # MSE/LS solution. The last one replaces class 1 with a uniform
-    # distribution in a square to show what happens when the normal
-    # assumption breaks down — the MSE boundary becomes biased toward
-    # the uniform cluster and stops matching the Bayes-optimal split.
+    # Pre-compute one figure per scenario and bundle them into a single
+    # tabs widget so the controls and the visualization live in one cell
+    # (one slide in slides view — same pattern as the Bayes lecture's
+    # per-word tabs at notebooks/01/bayes_decision_theory.py).
     # Means are kept close (along the diagonal) with moderate variance so
     # the two clouds overlap noticeably and the MSE boundary is visibly
-    # pulled by outliers.
+    # pulled by outliers. The last scenario replaces class 1 with a
+    # uniform distribution to break the Gaussian assumption and skew
+    # the MSE boundary.
     scenarios_lc = {
         "μ₁=(2,2), μ₂=(3.5,3.5), σ=0.6 (close, equal σ)": (
             "normal", np.array([2.0, 2.0]), 0.6,
@@ -289,40 +289,8 @@ def _(mo, np, plt):
             "normal", np.array([3.5, 3.5]), 0.6,
         ),
     }
-    return (scenarios_lc,)
 
-
-@app.cell
-def _(mo, scenarios_lc):
-    # Widgets must live in their own cell — Marimo forbids reading a
-    # widget's `.value` in the same cell that created it.
-    tabs_lc = mo.ui.tabs(
-        scenarios_lc,
-        value="μ₁=(2,2), μ₂=(3.5,3.5), σ=0.6 (close, equal σ)",
-    )
-    switch_boundary = mo.ui.switch(
-        value=True, label="Show decision boundary",
-    )
-    mo.vstack(
-        [
-            tabs_lc,
-            mo.hstack(
-                [switch_boundary, mo.md("  Toggle the decision boundary above.")],
-                justify="start",
-                gap=2,
-            ),
-        ],
-        gap=1,
-    )
-    return switch_boundary, tabs_lc
-
-
-@app.cell
-def _(mo, np, plt, scenarios_lc, switch_boundary, tabs_lc):
-    # Read the active scenario from the tabs widget.
-    (c1_type, c1_loc, c1_scale,
-     c2_type, c2_loc, c2_scale) = scenarios_lc[tabs_lc.value]
-
+    np.random.seed(0)
     n_lc = 80
 
     def sample_lc(kind, loc, scale, n):
@@ -332,62 +300,68 @@ def _(mo, np, plt, scenarios_lc, switch_boundary, tabs_lc):
         # uniform inside a square of half-side `scale` around `loc`
         return loc + scale * (2 * np.random.rand(n, 2) - 1)
 
-    x1_lc = sample_lc(c1_type, c1_loc, c1_scale, n_lc)
-    x2_lc = sample_lc(c2_type, c2_loc, c2_scale, n_lc)
+    def make_fig_lc(title, c1_type, c1_loc, c1_scale, c2_type, c2_loc, c2_scale):
+        x1 = sample_lc(c1_type, c1_loc, c1_scale, n_lc)
+        x2 = sample_lc(c2_type, c2_loc, c2_scale, n_lc)
 
-    # MSE/LS solution: targets y = 0 for class 1, y = 1 for class 2,
-    # augmented with a column of ones for the bias term. Solve the
-    # normal equations and read off the decision boundary at 0.5.
-    X_lc = np.vstack([x1_lc, x2_lc])
-    y_lc = np.concatenate([np.zeros(n_lc), np.ones(n_lc)])
-    X_aug_lc = np.hstack([X_lc, np.ones((2 * n_lc, 1))])
-    w_lc = np.linalg.solve(X_aug_lc.T @ X_aug_lc, X_aug_lc.T @ y_lc)
-    w0_lc, w1_lc, b_lc = w_lc
+        # MSE/LS solution: targets y = 0 for class 1, y = 1 for class 2,
+        # augmented with a column of ones for the bias term. Solve the
+        # normal equations and read off the decision boundary at 0.5.
+        X = np.vstack([x1, x2])
+        y = np.concatenate([np.zeros(n_lc), np.ones(n_lc)])
+        X_aug = np.hstack([X, np.ones((2 * n_lc, 1))])
+        w = np.linalg.solve(X_aug.T @ X_aug, X_aug.T @ y)
+        w0, w1, b = w
 
-    fig_lc, ax_lc = plt.subplots(figsize=(7, 6))
-    ax_lc.scatter(
-        x1_lc[:, 0], x1_lc[:, 1],
-        s=40, facecolors="none", edgecolors="black", linewidth=1.5,
-        label="Class 1 (target 0)",
-    )
-    ax_lc.scatter(
-        x2_lc[:, 0], x2_lc[:, 1],
-        s=40, c="royalblue", alpha=0.5,
-        label="Class 2 (target 1)",
-    )
-
-    if switch_boundary.value and abs(w1_lc) > 1e-9:
-        # w0*x + w1*y + b = 0.5  ->  y = (0.5 - w0*x - b) / w1
-        x_min, x_max = 0.5, 5.0
-        xs = np.array([x_min, x_max])
-        ys = (0.5 - w0_lc * xs - b_lc) / w1_lc
-        ax_lc.plot(
-            xs, ys, "r--", linewidth=2.5,
-            label=f"MSE boundary  w=[{w0_lc:+.2f}, {w1_lc:+.2f}, {b_lc:+.2f}]",
+        fig, ax = plt.subplots(figsize=(7, 6))
+        ax.scatter(
+            x1[:, 0], x1[:, 1],
+            s=40, facecolors="none", edgecolors="black", linewidth=1.5,
+            label="Class 1 (target 0)",
         )
-    elif switch_boundary.value and abs(w1_lc) <= 1e-9:
-        # Vertical boundary case.
-        ax_lc.axvline(
-            x=(0.5 - b_lc) / w0_lc, color="red", linestyle="--", linewidth=2.5,
-            label=f"MSE boundary  w=[{w0_lc:+.2f}, {w1_lc:+.2f}, {b_lc:+.2f}]",
+        ax.scatter(
+            x2[:, 0], x2[:, 1],
+            s=40, c="royalblue", alpha=0.5,
+            label="Class 2 (target 1)",
         )
 
-    ax_lc.set_xlim(0.5, 5.0)
-    ax_lc.set_ylim(0.5, 5.0)
-    ax_lc.set_xlabel("x1")
-    ax_lc.set_ylabel("x2")
-    ax_lc.set_title(f"Setting: {tabs_lc.value}")
-    ax_lc.legend(loc="lower right", fontsize=9)
-    ax_lc.grid(True, alpha=0.3)
+        if abs(w1) > 1e-9:
+            # w0*x + w1*y + b = 0.5  ->  y = (0.5 - w0*x - b) / w1
+            xs = np.array([0.5, 5.0])
+            ys = (0.5 - w0 * xs - b) / w1
+            ax.plot(
+                xs, ys, "r--", linewidth=2.5,
+                label=f"MSE boundary  w=[{w0:+.2f}, {w1:+.2f}, {b:+.2f}]",
+            )
+        else:
+            # Vertical boundary case.
+            ax.axvline(
+                x=(0.5 - b) / w0, color="red", linestyle="--", linewidth=2.5,
+                label=f"MSE boundary  w=[{w0:+.2f}, {w1:+.2f}, {b:+.2f}]",
+            )
 
-    plt.close(fig_lc)
-    mo.vstack(
-        [
-            mo.md(f"**MSE weights:** {w_lc.round(3)}"),
-            mo.as_html(fig_lc),
-        ],
-        gap=1,
-    )
+        ax.set_xlim(0.5, 5.0)
+        ax.set_ylim(0.5, 5.0)
+        ax.set_xlabel("x1")
+        ax.set_ylabel("x2")
+        ax.set_title(title)
+        ax.legend(loc="lower right", fontsize=9)
+        ax.grid(True, alpha=0.3)
+        return fig, w
+
+    tabs_lc = {}
+    for title, params in scenarios_lc.items():
+        fig_lc, w_lc = make_fig_lc(title, *params)
+        tabs_lc[title] = mo.vstack(
+            [
+                mo.md(f"**MSE weights:** {w_lc.round(3)}"),
+                mo.as_html(fig_lc),
+            ],
+            gap=1,
+        )
+        plt.close(fig_lc)
+
+    mo.ui.tabs(tabs_lc)
     return
 
 
