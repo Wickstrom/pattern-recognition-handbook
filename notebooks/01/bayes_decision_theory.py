@@ -80,8 +80,8 @@ def _(mo):
             ),
             mo.vstack(
                 [
-                    mo.image(src="media/endingspam.png", style={"max-width": "100%", "height": "auto"}),
-                    mo.image(src="media/spam_example.png", style={"max-width": "100%", "height": "auto"}),
+                    mo.image(src="media/endingspam.png", style={"max-width": "69%", "height": "auto"}),
+                    mo.image(src="media/spam_example.png", style={"max-width": "69%", "height": "auto"}),
                 ],
                 gap=2,
             ),
@@ -231,7 +231,7 @@ def _(mo):
     - Note: modern large language models are modeling something very similar to the expression above.
                 """
             ),
-            mo.image(src="media/gpt.png", style={"max-width": "100%", "height": "auto"}),
+            mo.image(src="media/gpt.png", style={"max-width": "69%", "height": "auto"}),
             mo.md(
                 r"""
     **References:**
