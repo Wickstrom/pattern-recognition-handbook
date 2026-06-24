@@ -138,9 +138,6 @@ def _(mo, norm, np, plt):
     get_sigma, set_sigma = mo.state(
         float(data_param.std()), allow_self_loops=True
     )
-    get_sigma, set_sigma = mo.state(
-        float(data_param.std()), allow_self_loops=True
-    )
 
     mu_slider = mo.ui.slider(
         start=-3.0, stop=4.0, step=0.1,
