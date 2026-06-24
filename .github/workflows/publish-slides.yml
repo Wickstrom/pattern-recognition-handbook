@@ -48,6 +48,11 @@ jobs:
             mkdir -p "$target"
             # Copy media alongside the notebook so relative image paths resolve.
             cp -R "$dir/media" "$target/" 2>/dev/null || true
+            # Skip exercise notebooks — they're classic Jupyter notebooks for
+            # students to work in locally, not slide decks to be deployed.
+            case "$base" in
+              *_exercise) echo "Skipping $nb — exercise notebook"; continue ;;
+            esac
             # Skip if this notebook was replaced by a Marimo .py counterpart.
             if [ -f "$dir/$base.py" ]; then
               echo "Skipping $nb — Marimo counterpart at $dir/$base.py"

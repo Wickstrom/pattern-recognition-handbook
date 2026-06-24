@@ -3,6 +3,8 @@
 This is the collection of notebooks for the course *FYS-3012 - Pattern Recognition*, taught at UiT The Arctic University of Norway.
 You can view and execute the notebooks by clicking on the buttons below.
 
+**Slides** are Marimo notebooks rendered with [Marimo](https://marimo.io) and hosted on GitHub Pages. **Exercises** are classic Jupyter notebooks that you open and work in locally — click the exercise badge to view the notebook on GitHub, then clone the repo (or download the file) to fill in your solutions.
+
 ## 📑 Content
 
 1. **Introduction to pattern recognition** 
@@ -22,7 +24,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Dealing with risk
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory_exercise/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/01/bayes_decision_theory_exercise.ipynb)
 
 <br>
 
@@ -35,7 +37,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Parzen windowing
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation_exercise/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/02/density_estimation_exercise.ipynb)
 
 <br>
 
@@ -54,7 +56,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Perceptron
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers_exercise/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/linear_classifiers_exercise.ipynb)
 
 <br>
 
@@ -62,7 +64,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Support vector machines
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine_exercise/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine_exercise.ipynb)
 
 <br>
 
@@ -72,7 +74,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Gradient descent
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1_exercise/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/04/neural_networks_1_exercise.ipynb)
 
 <br>
 
@@ -86,7 +88,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Weight initialization
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2_exercise/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/04/neural_networks_2_exercise.ipynb)
 
 <br>
 
@@ -96,7 +98,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Connecting neural networks and support vector machines
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3_exercise/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/04/neural_networks_3_exercise.ipynb)
 
 <br>
 
@@ -106,7 +108,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Prototypical learning
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/05/rbf_networks/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/05/rbf_networks_exercise/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/05/rbf_networks_exercise.ipynb)
 
 <br>
 
@@ -117,7 +119,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Non-linear SVMs
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/06/kernel_methods/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/06/kernel_methods_exercise/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/06/kernel_methods_exercise.ipynb)
 
 <br>
 
@@ -126,7 +128,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Principal component analysis (PCA)
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/07/linear_dim_reduction/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/07/linear_dim_reduction_exercise/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/07/linear_dim_reduction_exercise.ipynb)
 
 <br>
 
@@ -135,7 +137,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Laplacian Eigenmaps
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/08/non_linear_dim_reduction/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/08/non_linear_dim_reduction_exercise/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/08/non_linear_dim_reduction_exercise.ipynb)
 
 <br>
 
@@ -151,7 +153,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Sequential clustering
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/10/seq_clustering/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/10/seq_clustering_exercise/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/10/seq_clustering_exercise.ipynb)
 
 <br>
 
@@ -159,7 +161,7 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Hierarchical
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/11/hier_clustering/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/11/hier_clustering_exercise/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/11/hier_clustering_exercise.ipynb)
 
 <br>
 
@@ -168,17 +170,16 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Spectral clustering
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/12/clustering/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/12/clustering_exercise/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/12/clustering_exercise.ipynb)
 
 <br>
 
 18. **Clustering evaluation** 
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/13/clustering_eval/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/13/clustering_eval_exercise/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/13/clustering_eval_exercise.ipynb)
 
 <br>
-
 
 ## 💻 How to code locally
 
@@ -267,22 +268,22 @@ A growing set of lectures is published as [Marimo](https://marimo.io)
 notebooks running entirely in the browser via WebAssembly:
 
 - **Introduction to pattern recognition** ([link](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/00/intro/index.html))
-- **Bayes decision theory** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory_exercise/index.html)
-- **Density estimation I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation_exercise/index.html)
-- **Linear classifiers I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers_exercise/index.html)
-- **Linear classifiers II** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine_exercise/index.html)
-- **Non-linear classifiers I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1_exercise/index.html)
-- **Non-linear classifiers II** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2_exercise/index.html)
-- **Non-linear classifiers III** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3_exercise/index.html)
-- **Non-linear classifiers IV** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/05/rbf_networks/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/05/rbf_networks_exercise/index.html)
-- **Non-linear classifiers V** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/06/kernel_methods/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/06/kernel_methods_exercise/index.html)
-- **Data transformations and dimensionality reduction I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/07/linear_dim_reduction/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/07/linear_dim_reduction_exercise/index.html)
-- **Data transformations and dimensionality reduction II** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/08/non_linear_dim_reduction/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/08/non_linear_dim_reduction_exercise/index.html)
+- **Bayes decision theory** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/01/bayes_decision_theory/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/01/bayes_decision_theory_exercise.ipynb)
+- **Density estimation I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/02/density_estimation_exercise.ipynb)
+- **Linear classifiers I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/linear_classifiers/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/linear_classifiers_exercise.ipynb)
+- **Linear classifiers II** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/03/support_vector_machine_exercise.ipynb)
+- **Non-linear classifiers I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_1/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/04/neural_networks_1_exercise.ipynb)
+- **Non-linear classifiers II** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_2/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/04/neural_networks_2_exercise.ipynb)
+- **Non-linear classifiers III** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/04/neural_networks_3_exercise.ipynb)
+- **Non-linear classifiers IV** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/05/rbf_networks/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/05/rbf_networks_exercise.ipynb)
+- **Non-linear classifiers V** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/06/kernel_methods/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/06/kernel_methods_exercise.ipynb)
+- **Data transformations and dimensionality reduction I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/07/linear_dim_reduction/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/07/linear_dim_reduction_exercise.ipynb)
+- **Data transformations and dimensionality reduction II** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/08/non_linear_dim_reduction/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/08/non_linear_dim_reduction_exercise.ipynb)
 - **Ranking** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/09/ranking/index.html))
-- **Clustering I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/10/seq_clustering/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/10/seq_clustering_exercise/index.html)
-- **Clustering II** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/11/hier_clustering/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/11/hier_clustering_exercise/index.html)
-- **Clustering III** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/12/clustering/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/12/clustering_exercise/index.html)
-- **Clustering evaluation** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/13/clustering_eval/index.html)) · [exercises](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/13/clustering_eval_exercise/index.html)
+- **Clustering I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/10/seq_clustering/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/10/seq_clustering_exercise.ipynb)
+- **Clustering II** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/11/hier_clustering/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/11/hier_clustering_exercise.ipynb)
+- **Clustering III** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/12/clustering/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/12/clustering_exercise.ipynb)
+- **Clustering evaluation** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/13/clustering_eval/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/13/clustering_eval_exercise.ipynb)
 
 Each `.py` notebook is content-equivalent to its `.ipynb` counterpart
 (same text, same figures) and is exported with
@@ -296,36 +297,21 @@ variable explorer):
 pip install marimo
 marimo edit notebooks/00/intro.py
 marimo edit notebooks/01/bayes_decision_theory.py
-marimo edit notebooks/01/bayes_decision_theory_exercise.py
 marimo edit notebooks/02/density_estimation.py
-marimo edit notebooks/02/density_estimation_exercise.py
 marimo edit notebooks/03/linear_classifiers.py
-marimo edit notebooks/03/linear_classifiers_exercise.py
 marimo edit notebooks/03/support_vector_machine.py
-marimo edit notebooks/03/support_vector_machine_exercise.py
 marimo edit notebooks/04/neural_networks_1.py
-marimo edit notebooks/04/neural_networks_1_exercise.py
 marimo edit notebooks/04/neural_networks_2.py
-marimo edit notebooks/04/neural_networks_2_exercise.py
 marimo edit notebooks/04/neural_networks_3.py
-marimo edit notebooks/04/neural_networks_3_exercise.py
 marimo edit notebooks/05/rbf_networks.py
-marimo edit notebooks/05/rbf_networks_exercise.py
 marimo edit notebooks/06/kernel_methods.py
-marimo edit notebooks/06/kernel_methods_exercise.py
 marimo edit notebooks/07/linear_dim_reduction.py
-marimo edit notebooks/07/linear_dim_reduction_exercise.py
 marimo edit notebooks/08/non_linear_dim_reduction.py
-marimo edit notebooks/08/non_linear_dim_reduction_exercise.py
 marimo edit notebooks/09/ranking.py
 marimo edit notebooks/10/seq_clustering.py
-marimo edit notebooks/10/seq_clustering_exercise.py
 marimo edit notebooks/11/hier_clustering.py
-marimo edit notebooks/11/hier_clustering_exercise.py
 marimo edit notebooks/12/clustering.py
-marimo edit notebooks/12/clustering_exercise.py
 marimo edit notebooks/13/clustering_eval.py
-marimo edit notebooks/13/clustering_eval_exercise.py
 ```
 
 The Marimo notebooks trade the slide-stepping UX for a reactive
