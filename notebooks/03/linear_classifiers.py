@@ -377,6 +377,7 @@ def _(mo, np, plt, scenarios_lc, switch_boundary, tabs_lc):
     ax_lc.legend(loc="lower right", fontsize=9)
     ax_lc.grid(True, alpha=0.3)
 
+    plt.close(fig_lc)
     mo.vstack(
         [
             mo.md(f"**MSE weights:** {w_lc.round(3)}"),
@@ -384,7 +385,6 @@ def _(mo, np, plt, scenarios_lc, switch_boundary, tabs_lc):
         ],
         gap=1,
     )
-    plt.close(fig_lc)
     return
 
 

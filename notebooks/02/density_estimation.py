@@ -171,8 +171,8 @@ def _(data_param, mo, mu_slider, norm, np, plt, sigma_slider):
     ax_param.set_title(f"log-likelihood = {log_lik_param:.3f}")
     fig_param.tight_layout()
 
-    mo.as_html(fig_param)
     plt.close(fig_param)
+    mo.as_html(fig_param)
     return
 
 
