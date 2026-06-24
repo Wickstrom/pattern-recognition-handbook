@@ -142,15 +142,15 @@ def _(mo):
         r"""
     ### Scatter matrices
 
-    - **Within class:** $$ \boldsymbol{S}_w = \sum_{i=1}^M P(\boldsymbol{w}_i) \boldsymbol{\Sigma}_i $$
+    - **Within class:** $ \boldsymbol{S}_w = \sum_{i=1}^M P(\boldsymbol{w}_i) \boldsymbol{\Sigma}_i $
 
-    - where $$\boldsymbol{\Sigma}_i = \mathbb{E}[(\boldsymbol{x} - \boldsymbol{\mu}_i)(\boldsymbol{x} - \boldsymbol{\mu}_i)^T]$$
+    - where $\boldsymbol{\Sigma}_i = \mathbb{E}[(\boldsymbol{x} - \boldsymbol{\mu}_i)(\boldsymbol{x} - \boldsymbol{\mu}_i)^T]$
 
     - Example:
 
     ---
 
-    - **Between class:** $$ \boldsymbol{S}_B = \sum_{i=1}^M P(\boldsymbol{w}_i) (\boldsymbol{\mu}_i - \boldsymbol{\mu})^2 $$
+    - **Between class:** $ \boldsymbol{S}_B = \sum_{i=1}^M P(\boldsymbol{w}_i) (\boldsymbol{\mu}_i - \boldsymbol{\mu})^2 $
 
     - Example:
         """
@@ -164,7 +164,7 @@ def _(mo):
         r"""
     ### Remark
 
-    - Class separability measures in $\mathbf{x}$ by e.g. $$\frac{\text{trace}(\boldsymbol{S}_w)}{\text{trace}(\boldsymbol{S}_B)}$$
+    - Class separability measures in $\mathbf{x}$ by e.g. $\frac{\text{trace}(\boldsymbol{S}_w)}{\text{trace}(\boldsymbol{S}_B)}$
         """
     )
     return
@@ -176,13 +176,13 @@ def _(mo):
         r"""
     ### Fisher discriminant analysis
 
-    - Remember; want to learn a transformation into 1D $$z = \mathbf{w}^T \mathbf{x} \Rightarrow \mu = \mathbf{w}^T \boldsymbol{\mu}$$
+    - Remember; want to learn a transformation into 1D $z = \mathbf{w}^T \mathbf{x} \Rightarrow \mu = \mathbf{w}^T \boldsymbol{\mu}$
 
-    - $$S_B = (\mu_1 - \mu_2)^2 = $$
+    - $S_B = (\mu_1 - \mu_2)^2 = $
 
-    - $$ \sigma^2 = \mathbb{E}[(x - \mu)^2] = $$
+    - $ \sigma^2 = \mathbb{E}[(x - \mu)^2] = $
 
-    - $$ S_w = \sigma_1^2 + \sigma_2^2 = $$
+    - $ S_w = \sigma_1^2 + \sigma_2^2 = $
 
     - Hence: Fisher discriminant ratio (FDR):
         """
@@ -210,9 +210,9 @@ def _(mo):
         r"""
     ### FDR
 
-    - Want: $$\arg\max_{\mathbf{w}} \frac{\mathbf{w}^T \boldsymbol{S}_B \mathbf{w}}{\mathbf{w}^T \boldsymbol{S}_w \mathbf{w}}$$
+    - Want: $\arg\max_{\mathbf{w}} \frac{\mathbf{w}^T \boldsymbol{S}_B \mathbf{w}}{\mathbf{w}^T \boldsymbol{S}_w \mathbf{w}}$
 
-    - At solution (problem x.x): $$\boldsymbol{S}_w \mathbf{w} = \lambda \boldsymbol{S}_B \mathbf{w}$$
+    - At solution (problem x.x): $\boldsymbol{S}_w \mathbf{w} = \lambda \boldsymbol{S}_B \mathbf{w}$
         """
     )
     return
@@ -342,7 +342,7 @@ def _(mo):
         r"""
     ### Interpreting the eigenvalues and eigenvectors
 
-    - Note: $$\boldsymbol{\Sigma}_y=$$
+    - Note: $\boldsymbol{\Sigma}_y=$
         """
     )
     return
@@ -354,7 +354,7 @@ def _(mo):
         r"""
     ### Variance maximally preserved
 
-    - First: $$ \sum_{i=1}^d \text{Var}(y_i) = \sum_{i=1}^d \lambda_i $$
+    - First: $ \sum_{i=1}^d \text{Var}(y_i) = \sum_{i=1}^d \lambda_i $
 
     - Thus: Let $\mathbf{A} = \mathbf{E} = [\mathbf{e}_1, \ldots, \mathbf{e}_d]$
 
@@ -382,7 +382,7 @@ def _(mo):
         r"""
     ### PCA is reconstruction / compression
 
-    - Have $$\mathbf{x} = \mathbf{A} \mathbf{z}$$
+    - Have $\mathbf{x} = \mathbf{A} \mathbf{z}$
         """
     )
     return
@@ -394,9 +394,9 @@ def _(mo):
         r"""
     ### PCA is reconstruction / compression
 
-    - **MSE:** $$ \mathbb{E}\left[\|\mathbf{x} - \hat{\mathbf{x}}\|^2\right] $$
+    - **MSE:** $ \mathbb{E}\left[\|\mathbf{x} - \hat{\mathbf{x}}\|^2\right] $
 
-    For $\mathbf{z} \in \mathbb{R}^k$: $$ \hat{\mathbf{x}} = \sum_{i=0}^{k-1} z(i) \mathbf {e}_i $$
+    For $\mathbf{z} \in \mathbb{R}^k$: $ \hat{\mathbf{x}} = \sum_{i=0}^{k-1} z(i) \mathbf {e}_i $
 
     If $y_i = 0$ for $i \geq k$:
     $$

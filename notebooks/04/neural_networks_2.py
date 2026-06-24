@@ -91,8 +91,8 @@ def _(mo):
     - McCulloch - Pitts neuron and the Perceptron was motivated by neurons in the brain.
     - Utilised a step function to mimic a neuron "firing".
     - Not good for gradient descent $\Rightarrow$ replace with a differentiable approximation of the step function.
-    - The "classic" activation function is the sigmoid activation function: $$f_{\text{s}}(x) = \dfrac{1}{1+\exp(-x)}$$
-    - Nice derivative: $$\frac{d f_{\text{s}}(x)}{dx}=f_{\text{s}}(x)(1-f_{\text{s}}(x))$$
+    - The "classic" activation function is the sigmoid activation function: $f_{\text{s}}(x) = \dfrac{1}{1+\exp(-x)}$
+    - Nice derivative: $\frac{d f_{\text{s}}(x)}{dx}=f_{\text{s}}(x)(1-f_{\text{s}}(x))$
         """
     )
     return
@@ -168,8 +168,8 @@ def _(mo):
         r"""
     ### What about other activation functions?
 
-    - Another classical choice: $$f_{\text{t}}(x) = \text{tanh}(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}$$
-    - Also nice derivative: $$\frac{d f_{\text{t}}(x) }{dx}=1-f_{\text{t}}(x)^2$$
+    - Another classical choice: $f_{\text{t}}(x) = \text{tanh}(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}$
+    - Also nice derivative: $\frac{d f_{\text{t}}(x) }{dx}=1-f_{\text{t}}(x)^2$
         """
     )
     return
@@ -246,8 +246,8 @@ def _(mo):
     ### Momentum
 
     - Idea: incorporate information from previous iteration. Keep the "momentum".
-    - Reminder: $$ \mathbf{w}_j^l (t+1) = \mathbf{w}_j^l (t) - \gamma \frac{\partial}{\partial  \mathbf{w}_j^l} J$$
-    - Now, with momentum: $$ \Delta \mathbf{w}_j^l = \alpha \mathbf{w}_j^l (t) - \gamma \frac{\partial}{\partial  \mathbf{w}_j^l} J$$
+    - Reminder: $ \mathbf{w}_j^l (t+1) = \mathbf{w}_j^l (t) - \gamma \frac{\partial}{\partial  \mathbf{w}_j^l} J$
+    - Now, with momentum: $ \Delta \mathbf{w}_j^l = \alpha \mathbf{w}_j^l (t) - \gamma \frac{\partial}{\partial  \mathbf{w}_j^l} J$
         """
     )
     return
@@ -260,10 +260,10 @@ def _(mo):
     ### Momentum for T succesive iteration steps
 
     - Momentum effectively increases the learning constant.
-    - Let $$ \frac{\partial}{\partial  \mathbf{w}_j^l} J = \mathbf{g}(t)$$
-    - $$ \Delta \mathbf{w}_j^l (T) = -\gamma \sum_{t=0}^{T-1} \alpha^t \mathbf{g}(T-t)+\alpha^T \Delta \mathbf{w}_j^l (0) $$
+    - Let $ \frac{\partial}{\partial  \mathbf{w}_j^l} J = \mathbf{g}(t)$
+    - $ \Delta \mathbf{w}_j^l (T) = -\gamma \sum_{t=0}^{T-1} \alpha^t \mathbf{g}(T-t)+\alpha^T \Delta \mathbf{w}_j^l (0) $
     - Now, assume we are in a low curvature point of the loss function $\Rightarrow$ gradient approximately constant!
-    - $$ \Delta \mathbf{w}_j^l (T) \approx -\gamma(1+\alpha+\alpha^2+ \cdots \alpha^{T-1})\mathbf{g} $$
+    - $ \Delta \mathbf{w}_j^l (T) \approx -\gamma(1+\alpha+\alpha^2+ \cdots \alpha^{T-1})\mathbf{g} $
         """
     )
     return
@@ -290,7 +290,7 @@ def _(mo):
     ### The softmax function
 
     - The standard choice for multiclass classification is to use a softmax function in the output layer.
-    - $$ \hat{y}_k = \frac{\exp(v_k^L)}{\sum_{k'} \exp(v_{k'}^L)} $$
+    - $ \hat{y}_k = \frac{\exp(v_k^L)}{\sum_{k'} \exp(v_{k'}^L)} $
     - Guarantees that the output lies in the interval $[0, 1]$ and sums to 1.
     - Note: **one-hot encoding**
         """
@@ -305,10 +305,10 @@ def _(mo):
     ### Derivative of the softmax function
 
     - Need to know derivative of softmax function for Backpropagation and gradient descent.
-    - Need to compute $$\frac{\partial}{\partial v^L_m} \hat{y}_k =  \frac{\partial}{\partial v^L_m} \frac{\exp(v_k^L)}{\sum_{k'} \exp(v_{k'}^L)}.$$
+    - Need to compute $\frac{\partial}{\partial v^L_m} \hat{y}_k =  \frac{\partial}{\partial v^L_m} \frac{\exp(v_k^L)}{\sum_{k'} \exp(v_{k'}^L)}.$
     - Key is to realize that we have two cases: $m=k$ and $m\neq k$
-    - For $m=k$: $$ \frac{\exp(v_k^L) \sum_{k'} \exp(v_{k'}^L)-\exp(v_k^L)\exp(v_m^L)}{(\sum_{k'} \exp(v_{k'}^L))^2} $$
-    - For $m\neq k$: $$ \frac{-\exp(v_k^L)\exp(v_m^L)}{(\sum_{k'} \exp(v_{k'}^L))^2} $$
+    - For $m=k$: $ \frac{\exp(v_k^L) \sum_{k'} \exp(v_{k'}^L)-\exp(v_k^L)\exp(v_m^L)}{(\sum_{k'} \exp(v_{k'}^L))^2} $
+    - For $m\neq k$: $ \frac{-\exp(v_k^L)\exp(v_m^L)}{(\sum_{k'} \exp(v_{k'}^L))^2} $
         """
     )
     return
@@ -321,10 +321,10 @@ def _(mo):
     ### Cross-entropy loss
 
     - Can use a squared error like we have done in the past.
-    - However, using the cross-entropy loss function is much more common: $$J_{ce} -\sum_{k=1}^{k_L} y_k(i) \log (\hat{y}_k)$$
+    - However, using the cross-entropy loss function is much more common: $J_{ce} -\sum_{k=1}^{k_L} y_k(i) \log (\hat{y}_k)$
     - Fits nicely with softmax, derivative of cross-entropy loss assuming softmax loss function and one-hot encoded labels.
     - Take derivative with respect to preactivation $v^L_m$. Key idea again, split sum into $m=k$ and $m\neq k$:
-    - $$ \frac{\partial}{\partial v^L_m} J_{ce} = -\frac{\partial}{\partial v^L_m} y_k(i) \log (\hat{y}_k) -\frac{\partial}{\partial v^L_m} \sum_{k'\neq m}^{k_L}y_{k'}(i) \log (\hat{y}_{k'})$$
+    - $ \frac{\partial}{\partial v^L_m} J_{ce} = -\frac{\partial}{\partial v^L_m} y_k(i) \log (\hat{y}_k) -\frac{\partial}{\partial v^L_m} \sum_{k'\neq m}^{k_L}y_{k'}(i) \log (\hat{y}_{k'})$
         """
     )
     return
@@ -354,7 +354,7 @@ def _(mo):
     - Many heuristics. Different choices for different activation functions. Will focus on sigmoid and tanh.
     - Key paper: Glorot and Bengio, Understanding the difficulty of training deep feedforward neural networks, 2010.
     - Avoid symmetry!
-    - Xavier initialization: $$ w_{jm}^l \sim \mathcal{U}\left(-\sqrt{\frac{6}{k_{l+1}+k_{l-1}}}, \sqrt{\frac{6}{k_{l+1}+k_{l-1}}}\right)$$
+    - Xavier initialization: $ w_{jm}^l \sim \mathcal{U}\left(-\sqrt{\frac{6}{k_{l+1}+k_{l-1}}}, \sqrt{\frac{6}{k_{l+1}+k_{l-1}}}\right)$
         """
     )
     return

@@ -211,7 +211,7 @@ def _(mo):
         r"""
     ### Example single link
 
-    - $$ \mathbf{P}_0 =  $$
+    - $ \mathbf{P}_0 =  $
         """
     )
     return
@@ -235,7 +235,7 @@ def _(mo):
         r"""
     ### Example complete link
 
-    - $$ \mathbf{P}_0 =  $$
+    - $ \mathbf{P}_0 =  $
         """
     )
     return

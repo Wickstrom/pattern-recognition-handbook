@@ -165,8 +165,8 @@ def _(mo):
         r"""
     ## Radial basis function (RBF) networks
 
-    - General idea: $$ f(\|\mathbf{x} - \mathbf{c}_i\|)$$
-    - RBF network: $$ f(\mathbf{x})= \exp(-\frac{1}{2\sigma_i^2}(\|\mathbf{x} - \mathbf{c}_i\|))$$
+    - General idea: $ f(\|\mathbf{x} - \mathbf{c}_i\|)$
+    - RBF network: $ f(\mathbf{x})= \exp(-\frac{1}{2\sigma_i^2}(\|\mathbf{x} - \mathbf{c}_i\|))$
     - Activation at node $f_i$ given by distance to $\mathbf{c}_i$.
         """
     )
@@ -181,9 +181,9 @@ def _(mo):
 
     - Any linear method will do!
     - Let $\mathbf{y}$ be the desired outputs. Construct matrix $\mathbf{G}$:
-    - $$ G = \begin{bmatrix} \phi(x_1, c_1) & \cdots & \phi(x_1, c_k) \\ \vdots & & \vdots \\ \phi(x_N, c_1) & \cdots & \phi(x_N, c_k) \end{bmatrix}_{N \times k} $$
+    - $ G = \begin{bmatrix} \phi(x_1, c_1) & \cdots & \phi(x_1, c_k) \\ \vdots & & \vdots \\ \phi(x_N, c_1) & \cdots & \phi(x_N, c_k) \end{bmatrix}_{N \times k} $
     - So:
-    - $$ \mathbf{g} = G \mathbf{w} = \begin{bmatrix} g(x_1) \\ \vdots \\ g(x_N) \end{bmatrix} $$
+    - $ \mathbf{g} = G \mathbf{w} = \begin{bmatrix} g(x_1) \\ \vdots \\ g(x_N) \end{bmatrix} $
         """
     )
     return
@@ -196,7 +196,7 @@ def _(mo):
     ### Estimating the weights
 
     - Choose $\mathbf{w}$ such that $J = \|\mathbf{y} - G\mathbf{w}\|^2$ is minimized.
-    - $$ \frac{\partial J}{\partial \mathbf{w}} = 0 \implies \boxed{\mathbf{w} = (G^\top G)^{-1} G^\top \mathbf{y}} $$
+    - $ \frac{\partial J}{\partial \mathbf{w}} = 0 \implies \boxed{\mathbf{w} = (G^\top G)^{-1} G^\top \mathbf{y}} $
         """
     )
     return

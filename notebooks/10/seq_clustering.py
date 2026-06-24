@@ -183,7 +183,7 @@ def _(mo):
         r"""
     ## Membership functions
 
-    - Let $$X = \{\mathbf{x_1}, \cdots, \mathbf{x_N}\}$$
+    - Let $X = \{\mathbf{x_1}, \cdots, \mathbf{x_N}\}$
     - Task: Assign cluster memberships to $\mathbf{x}_i$ for $i=1,\cdots,N$.
         """
     )
@@ -389,8 +389,8 @@ def _(mo):
         r"""
     ### Examples of similarity measures
 
-    - Inner-product: $$ s_i(\mathbf{x},\mathbf{y}) = \mathbf{x}^T \mathbf{y}$$
-    - Cosine: $$ s_i(\mathbf{x},\mathbf{y}) = \frac{\mathbf{x}^T \mathbf{y}}{\| \mathbf{x} \| \, \| \mathbf{y} \|} $$
+    - Inner-product: $ s_i(\mathbf{x},\mathbf{y}) = \mathbf{x}^T \mathbf{y}$
+    - Cosine: $ s_i(\mathbf{x},\mathbf{y}) = \frac{\mathbf{x}^T \mathbf{y}}{\| \mathbf{x} \| \, \| \mathbf{y} \|} $
     - From dissimilarity measure: $s = \frac{a}{d}$ or $s = d_{\text{max}}-d$
         """
     )
@@ -403,9 +403,9 @@ def _(mo):
         r"""
     ## Between vector and set C
 
-    - Max proximity: $$\rho_{\text{max}}(\mathbf{x}, C) = \underset{ \mathbf{y} \in C}{\max}\; \rho(\mathbf{x}, \mathbf{y})$$
-    - Min proximity: $$\rho_{\text{min}}(\mathbf{x}, C) = \underset{ \mathbf{y} \in C}{\min}\; \rho(\mathbf{x}, \mathbf{y})$$
-    - Average proximity: $$\rho_{\text{avg}}(\mathbf{x}, C) = \frac{1}{n_c}\sum_{\mathbf{y} \in C} \rho(\mathbf{x}, \mathbf{y}) $$
+    - Max proximity: $\rho_{\text{max}}(\mathbf{x}, C) = \underset{ \mathbf{y} \in C}{\max}\; \rho(\mathbf{x}, \mathbf{y})$
+    - Min proximity: $\rho_{\text{min}}(\mathbf{x}, C) = \underset{ \mathbf{y} \in C}{\min}\; \rho(\mathbf{x}, \mathbf{y})$
+    - Average proximity: $\rho_{\text{avg}}(\mathbf{x}, C) = \frac{1}{n_c}\sum_{\mathbf{y} \in C} \rho(\mathbf{x}, \mathbf{y}) $
 
     - And similarly for proximity between set $C_i$ and $C_j$
         """

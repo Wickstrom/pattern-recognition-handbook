@@ -75,16 +75,16 @@ def _(mo):
         r"""
     ## Remembering SVMs
 
-    - **Recall:**  From $L(\mathbf{w}, w_0)$: $$\mathbf{w} = \sum_{i \in SV} \lambda_i y_i \mathbf{x}_i$$
+    - **Recall:**  From $L(\mathbf{w}, w_0)$: $\mathbf{w} = \sum_{i \in SV} \lambda_i y_i \mathbf{x}_i$
 
-    - **Dual:**  $$ \max_{\lambda \geq 0} \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j \langle \mathbf{x}_i, \mathbf{x}_j \rangle$$
+    - **Dual:**  $ \max_{\lambda \geq 0} \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j \langle \mathbf{x}_i, \mathbf{x}_j \rangle$
 
-    - Subject to: $$ \sum_i \lambda_i y_i = 0$$
+    - Subject to: $ \sum_i \lambda_i y_i = 0$
     - Note: $\langle \mathbf{x}_i, \mathbf{x} \rangle$ denotes the inner product
 
     ---
 
-    - **In testing:** $$ g(\mathbf{x}) = \mathbf{w}^T \mathbf{x} + w_0 = \sum_{i \in SV} \lambda_i y_i \langle \mathbf{x}_i, \mathbf{x} \rangle + w_0 $$
+    - **In testing:** $ g(\mathbf{x}) = \mathbf{w}^T \mathbf{x} + w_0 = \sum_{i \in SV} \lambda_i y_i \langle \mathbf{x}_i, \mathbf{x} \rangle + w_0 $
         """
     )
     return
@@ -98,11 +98,11 @@ def _(mo):
 
     - Explicitly map $\mathbf{x}$, then use linear SVM.
 
-    - Let $$ \mathbf{z} = \begin{bmatrix} x_1^2 \\ \sqrt{2} x_1 x_2 \\ x_2^2 \end{bmatrix} $$ where $$\mathbf{x} = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}$$
+    - Let $ \mathbf{z} = \begin{bmatrix} x_1^2 \\ \sqrt{2} x_1 x_2 \\ x_2^2 \end{bmatrix} $ where $\mathbf{x} = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}$
 
     ---
 
-    - **Need:** $$\mathbf{z}_i^T \mathbf{z}_j = x_{i1}^2 x_{j1}^2 + 2 x_{i1} x_{i2} x_{j1} x {j2} + x_{i2}^2 x_{j2}^2 = $$
+    - **Need:** $\mathbf{z}_i^T \mathbf{z}_j = x_{i1}^2 x_{j1}^2 + 2 x_{i1} x_{i2} x_{j1} x {j2} + x_{i2}^2 x_{j2}^2 = $
         """
     )
     return
@@ -114,13 +114,13 @@ def _(mo):
         r"""
     ### Example with explicit mapping - training and testing
 
-    - **Training:**: $$ \sum_{i=1}^N \lambda_i + \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j \mathbf{z}_i^T \mathbf{z}_j $$
+    - **Training:**: $ \sum_{i=1}^N \lambda_i + \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j \mathbf{z}_i^T \mathbf{z}_j $
 
-    - $$ \sum_{i=1}^N \lambda_i + \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j K(\mathbf{x}_i,\mathbf{x}_j) $$
+    - $ \sum_{i=1}^N \lambda_i + \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j K(\mathbf{x}_i,\mathbf{x}_j) $
 
-    - **Testing:**  $$ g(\mathbf{z}) = \sum_{\mathbf{z}_i \in SV} \lambda_i y_i \mathbf{z}_i^T \mathbf{z}_j$$
+    - **Testing:**  $ g(\mathbf{z}) = \sum_{\mathbf{z}_i \in SV} \lambda_i y_i \mathbf{z}_i^T \mathbf{z}_j$
 
-    - $$ g(\mathbf{x}) = \sum_{\mathbf{x}_i \in SV} \lambda_i y_i K(\mathbf{x}_i, \mathbf{x})$$
+    - $ g(\mathbf{x}) = \sum_{\mathbf{x}_i \in SV} \lambda_i y_i K(\mathbf{x}_i, \mathbf{x})$
 
     - Can always find inner-product kernel $K(\mathbf{x}_i, \mathbf{x}_j)$!
         """
@@ -134,7 +134,7 @@ def _(mo):
         r"""
     ## Mercer's theorem
 
-    - $$K(\mathbf{x}_i,\mathbf{x}_j) = $$
+    - $K(\mathbf{x}_i,\mathbf{x}_j) = $
 
     - [Nice open access article on kernel methods for those who want to learn more.](https://arxiv.org/pdf/math/0701907)
         """
@@ -148,11 +148,11 @@ def _(mo):
         r"""
     ## Kernels
 
-    - **Polynomials:**  $$ K(\mathbf{x}_i, \mathbf{x}_j) = \left(\mathbf{x}_i^T,\mathbf{x}_j+1\right)^q \text{, where } q>0$$
+    - **Polynomials:**  $ K(\mathbf{x}_i, \mathbf{x}_j) = \left(\mathbf{x}_i^T,\mathbf{x}_j+1\right)^q \text{, where } q>0$
 
-    - **RBF:**  $$ K(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\frac{1}{2\sigma^2} \|\mathbf{x}_i - \mathbf{x}_j\|^2\right)$$
+    - **RBF:**  $ K(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\frac{1}{2\sigma^2} \|\mathbf{x}_i - \mathbf{x}_j\|^2\right)$
 
-    - **Tanh:**  $$ K(\mathbf{x}_i, \mathbf{x}_j) = \tanh\left(\beta\, \mathbf{x}_i^T \mathbf{x}_j + \gamma\right)$$
+    - **Tanh:**  $ K(\mathbf{x}_i, \mathbf{x}_j) = \tanh\left(\beta\, \mathbf{x}_i^T \mathbf{x}_j + \gamma\right)$
         """
     )
     return
@@ -166,9 +166,9 @@ def _(mo):
 
     - Choose $K(\mathbf{x}_i, \mathbf{x}_j)$
 
-    - **Training:**  $$\max_{\lambda \geq 0} \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j K(\mathbf{x}_i, \mathbf{x}_j)$$
+    - **Training:**  $\max_{\lambda \geq 0} \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j K(\mathbf{x}_i, \mathbf{x}_j)$
 
-    - **Test:**  $$g(\mathbf{x}) = \sum_{i \in SV} \lambda_i y_i K(\mathbf{x}_i, \mathbf{x}) +w_0$$
+    - **Test:**  $g(\mathbf{x}) = \sum_{i \in SV} \lambda_i y_i K(\mathbf{x}_i, \mathbf{x}) +w_0$
         """
     )
     return
@@ -190,8 +190,8 @@ def _(mo):
         r"""
     ### Non-separable classes
 
-    - Remember: $$ \mathbf{w}^T \mathbf{x} + w_0  \geq 1-\gamma$$
-    - Both classes: $$ y_i \left(\mathbf{w}^T \mathbf{x}_i + w_0\right)  \geq 1-\gamma_i$$
+    - Remember: $ \mathbf{w}^T \mathbf{x} + w_0  \geq 1-\gamma$
+    - Both classes: $ y_i \left(\mathbf{w}^T \mathbf{x}_i + w_0\right)  \geq 1-\gamma_i$
         """
     )
     return
@@ -204,16 +204,16 @@ def _(mo):
     ### Non-separable classes - in practice
 
     - Don't want too many $\gamma_i > 0$
-    - Minimize: $$J(\mathbf{w}, w_0, \gamma_i) = \frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{i=1}^N \gamma_i$$
-    - Subject to: $$ y_i \left( \mathbf{w}^T \mathbf{x}_i + w_0 \right) \geq 1 - \gamma_i$$
+    - Minimize: $J(\mathbf{w}, w_0, \gamma_i) = \frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{i=1}^N \gamma_i$
+    - Subject to: $ y_i \left( \mathbf{w}^T \mathbf{x}_i + w_0 \right) \geq 1 - \gamma_i$
 
     $$ \gamma_i \geq 0 $$
 
     ---
 
-    - **Dual:** $$ \max_{\lambda \geq 0} \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j \langle \mathbf{x}_i, \mathbf{x}_j \rangle $$
+    - **Dual:** $ \max_{\lambda \geq 0} \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j \langle \mathbf{x}_i, \mathbf{x}_j \rangle $
 
-    - Subject to: $$ \sum_i \lambda_i y_i = 0$$
+    - Subject to: $ \sum_i \lambda_i y_i = 0$
 
     $$ 0 \leq \lambda_i \leq C $$
         """

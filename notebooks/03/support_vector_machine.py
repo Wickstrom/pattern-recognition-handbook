@@ -129,7 +129,7 @@ def _(mo):
         r"""
     ## Support Vector Machine (SVM)
 
-    - Find $$g(\mathbf{x})=\mathbf{w}^T\mathbf{x}+w_0$$ such that the **margin** $m_{\text{svm}}$ is maximum (optimal).
+    - Find $g(\mathbf{x})=\mathbf{w}^T\mathbf{x}+w_0$ such that the **margin** $m_{\text{svm}}$ is maximum (optimal).
         - Leaves room for variation between training data and test data.
         - **Generalizes** better.
         """
@@ -160,9 +160,9 @@ def _(mo):
         r"""
     ### Support Vector Machine (SVM)
 
-    - Note: $g(\mathbf{x'})$ not unique: $$\mathbf{w'}=a\mathbf{w}$$
+    - Note: $g(\mathbf{x'})$ not unique: $\mathbf{w'}=a\mathbf{w}$
     - Define: $$g(\mathbf{x'})= \pm 1 \hspace{0.1cm} \text{for $\mathbf{x}$ on margin.}$$
-    - Hence: $$m_{\text{svm}}=\frac{2}{\| \mathbf{w} \|}$$
+    - Hence: $m_{\text{svm}}=\frac{2}{\| \mathbf{w} \|}$
         """
     )
     return
@@ -174,8 +174,8 @@ def _(mo):
         r"""
     ## SVM optimization problem
 
-    - $$ \underset{\mathbf{w}, w_0}{\operatorname{min}}\ J(\mathbf{w}, w_0)\coloneqq \frac{1}{2}\| \mathbf{w} \|^2 $$
-    - $$ \text{subject to} \hspace{0.2cm} y_i\left(\mathbf{w}^T \mathbf{x_i}+w_0\right) \geq 1$$
+    - $ \underset{\mathbf{w}, w_0}{\operatorname{min}}\ J(\mathbf{w}, w_0)\coloneqq \frac{1}{2}\| \mathbf{w} \|^2 $
+    - $ \text{subject to} \hspace{0.2cm} y_i\left(\mathbf{w}^T \mathbf{x_i}+w_0\right) \geq 1$
     - "A training algorithm for optimal margin classifiers" - (Boser, Guyon, Vapnik, 1992.)
     - "Support-vector networks" - (Cortes and Vapnik, 1995.)
     - How to optimize the objective function?
@@ -191,10 +191,10 @@ def _(mo):
         r"""
     ### Hint on Lagrangian optimization
 
-    - $$ \underset{\boldsymbol{\theta}}{\operatorname{min}}\ J(\boldsymbol{\theta}) $$
-    - $$ \text{subject to} \hspace{0.2cm} f(\boldsymbol{\theta})= \theta_1 \theta_2-3 \geq 0 $$
+    - $ \underset{\boldsymbol{\theta}}{\operatorname{min}}\ J(\boldsymbol{\theta}) $
+    - $ \text{subject to} \hspace{0.2cm} f(\boldsymbol{\theta})= \theta_1 \theta_2-3 \geq 0 $
     - Primal problem $\boldsymbol{\theta}$.
-    - Note: At $\boldsymbol{\theta}=\boldsymbol{\theta}_{*}\Rightarrow$ $$ \frac{\partial}{\partial \boldsymbol{\theta}} J(\boldsymbol{\theta}) = \lambda\frac{\partial}{\partial \boldsymbol{\theta}} f(\boldsymbol{\theta}) \text{, for } \lambda > 0$$
+    - Note: At $\boldsymbol{\theta}=\boldsymbol{\theta}_{*}\Rightarrow$ $ \frac{\partial}{\partial \boldsymbol{\theta}} J(\boldsymbol{\theta}) = \lambda\frac{\partial}{\partial \boldsymbol{\theta}} f(\boldsymbol{\theta}) \text{, for } \lambda > 0$
         """
     )
     return
@@ -206,8 +206,8 @@ def _(mo):
         r"""
     ### Defining the Lagrange function
 
-    - $$ L(\boldsymbol{\theta}, \lambda)=J(\boldsymbol{\theta})-\lambda f(\boldsymbol{\theta}) $$
-    - Then: $$ \underset{\boldsymbol{\theta}}{\operatorname{min}}\ L(\boldsymbol{\theta}, \lambda)  \Rightarrow \frac{\partial}{\partial \boldsymbol{\theta}}J(\boldsymbol{\theta}) - \lambda \frac{\partial}{\partial \boldsymbol{\theta}}f(\boldsymbol{\theta}) = 0$$
+    - $ L(\boldsymbol{\theta}, \lambda)=J(\boldsymbol{\theta})-\lambda f(\boldsymbol{\theta}) $
+    - Then: $ \underset{\boldsymbol{\theta}}{\operatorname{min}}\ L(\boldsymbol{\theta}, \lambda)  \Rightarrow \frac{\partial}{\partial \boldsymbol{\theta}}J(\boldsymbol{\theta}) - \lambda \frac{\partial}{\partial \boldsymbol{\theta}}f(\boldsymbol{\theta}) = 0$
         """
     )
     return
@@ -219,8 +219,8 @@ def _(mo):
         r"""
     ### Illustrating the Lagrangian
 
-    - $$ \underset{\boldsymbol{\theta}}{\operatorname{min}}\ J(\boldsymbol{\theta}) $$
-    - $$ \text{subject to} \hspace{0.2cm} f_i(\boldsymbol{\theta}) \geq 0 \hspace{0.2cm} \text{for } i=1,\cdots,N $$
+    - $ \underset{\boldsymbol{\theta}}{\operatorname{min}}\ J(\boldsymbol{\theta}) $
+    - $ \text{subject to} \hspace{0.2cm} f_i(\boldsymbol{\theta}) \geq 0 \hspace{0.2cm} \text{for } i=1,\cdots,N $
         """
     )
     return
@@ -234,8 +234,8 @@ def _(mo):
 
     - Note: Only one solution $\boldsymbol{\theta}$.
     - Due to $J(\boldsymbol{\theta})$ being convex and feasible region being a convex set.
-    - Langrange function: $$ L(\boldsymbol{\theta}, \lambda)=J(\boldsymbol{\theta})-\sum_{i=1}^N\lambda_i f_i(\boldsymbol{\theta}) $$
-    - Then:  $$ \frac{\partial}{\partial \boldsymbol{\theta}} L(\boldsymbol{\theta}, \lambda)= \frac{\partial}{\partial \boldsymbol{\theta}}J(\boldsymbol{\theta})-\sum_{i=1}^N\lambda_i \frac{\partial}{\partial \boldsymbol{\theta}}f_i(\boldsymbol{\theta})=\mathbf{0}$$
+    - Langrange function: $ L(\boldsymbol{\theta}, \lambda)=J(\boldsymbol{\theta})-\sum_{i=1}^N\lambda_i f_i(\boldsymbol{\theta}) $
+    - Then:  $ \frac{\partial}{\partial \boldsymbol{\theta}} L(\boldsymbol{\theta}, \lambda)= \frac{\partial}{\partial \boldsymbol{\theta}}J(\boldsymbol{\theta})-\sum_{i=1}^N\lambda_i \frac{\partial}{\partial \boldsymbol{\theta}}f_i(\boldsymbol{\theta})=\mathbf{0}$
         """
     )
     return
@@ -247,8 +247,8 @@ def _(mo):
         r"""
     ### Illustrating the Lagrangian
 
-    - Note: only one **active** constraint: $$f_1(\boldsymbol{\theta})=0$$
-    - $\Rightarrow$ $$\lambda_1 \geq 0, \hspace{0.1cm} \lambda_2 = 0, \hspace{0.1cm} \lambda_3 = 0$$
+    - Note: only one **active** constraint: $f_1(\boldsymbol{\theta})=0$
+    - $\Rightarrow$ $\lambda_1 \geq 0, \hspace{0.1cm} \lambda_2 = 0, \hspace{0.1cm} \lambda_3 = 0$
     - Draw $\Rightarrow$
         """
     )
@@ -264,7 +264,7 @@ def _(mo):
     - The SVM optimization objective is a nonlinear optimization task subject to a set of linear constraints.
     - Difficult to optimize, how do we konw if a solution is optimal?
     - The Karush-Kuhn-Tucker conditions is a well-known set of conditions for optimality in nonlinear optimization.
-    - At $\boldsymbol{\theta}=\boldsymbol{\theta}_*$: $$\frac{\partial}{\partial \boldsymbol{\theta}} L(\boldsymbol{\theta}, \lambda) = \mathbf{0} \\ \lambda_i f_i(\boldsymbol{\theta}) = 0 \\ \lambda_i \geq 0$$
+    - At $\boldsymbol{\theta}=\boldsymbol{\theta}_*$: $\frac{\partial}{\partial \boldsymbol{\theta}} L(\boldsymbol{\theta}, \lambda) = \mathbf{0} \\ \lambda_i f_i(\boldsymbol{\theta}) = 0 \\ \lambda_i \geq 0$
         """
     )
     return
@@ -276,9 +276,9 @@ def _(mo):
         r"""
     ### Dual problem ($\lambda$)
 
-    - Note: $$ \underset{\boldsymbol{\lambda} \geq 0}{\operatorname{max}}\ L(\boldsymbol{\theta}_*, \lambda) = J(\boldsymbol{\theta}_*)-\sum_{i=1}^N\lambda_i f_i(\boldsymbol{\theta}_*) $$
+    - Note: $ \underset{\boldsymbol{\lambda} \geq 0}{\operatorname{max}}\ L(\boldsymbol{\theta}_*, \lambda) = J(\boldsymbol{\theta}_*)-\sum_{i=1}^N\lambda_i f_i(\boldsymbol{\theta}_*) $
     - actually forces $\lambda_i f_i(\boldsymbol{\theta}_*)=0$ since $\lambda_i \geq 0$ and $f_i(\boldsymbol{\theta}_*) \geq 0$.
-    - Hence: $$ \underset{\boldsymbol{\lambda} \geq 0}{\operatorname{max}}\ L(\boldsymbol{\theta}_*, \lambda) = J(\boldsymbol{\theta}_*)$$
+    - Hence: $ \underset{\boldsymbol{\lambda} \geq 0}{\operatorname{max}}\ L(\boldsymbol{\theta}_*, \lambda) = J(\boldsymbol{\theta}_*)$
         """
     )
     return
@@ -338,7 +338,7 @@ def _(mo):
         r"""
     ### Remarks
 
-    - Let $y_i=1$ if $\lambda_i \neq 0$: $$\mathbf{w}^T\mathbf{x}_i+w_0=1$$
+    - Let $y_i=1$ if $\lambda_i \neq 0$: $\mathbf{w}^T\mathbf{x}_i+w_0=1$
         """
     )
     return
@@ -352,8 +352,8 @@ def _(mo):
 
     - Those $\mathbf{x_i}$ that are subject to $\lambda_i \neq 0$ are on the $\pm 1$ **margin**.
     - Only $\mathbf{x_i}$ in the set of support vectors (SV) are important.
-    - Hence: $$\mathbf{w}=\sum_{\mathbf{x_i}\in\text{SV}}\lambda_i y_i \mathbf{x_i}$$
-    - And for the bias: $$w_0$$
+    - Hence: $\mathbf{w}=\sum_{\mathbf{x_i}\in\text{SV}}\lambda_i y_i \mathbf{x_i}$
+    - And for the bias: $w_0$
         """
     )
     return
@@ -365,7 +365,7 @@ def _(mo):
         r"""
     ### Dual problem
 
-    Remember: $$L(\mathbf{w}, w_0, \lambda) = \frac{1}{2} \|\mathbf{w}\|^2 - \sum_{i=1}^N \lambda_i \left[ y_i (\mathbf{w}^T \mathbf{x}_i + w_0) - 1 \right]$$
+    Remember: $L(\mathbf{w}, w_0, \lambda) = \frac{1}{2} \|\mathbf{w}\|^2 - \sum_{i=1}^N \lambda_i \left[ y_i (\mathbf{w}^T \mathbf{x}_i + w_0) - 1 \right]$
         """
     )
     return
@@ -392,8 +392,8 @@ def _(mo):
     ## Non-separable classes
 
     - Allow erros in training $\Rightarrow$
-    - SVM objective: $$ \underset{\mathbf{w}, w_0}{\operatorname{min}}\ J(\mathbf{w}, w_0)\coloneqq \frac{1}{2}\| \mathbf{w} \|^2 $$
-    - $$ \text{subject to} \hspace{0.2cm} y_i\left(\mathbf{w}^T \mathbf{x_i}+w_0\right) \geq 1$$
+    - SVM objective: $ \underset{\mathbf{w}, w_0}{\operatorname{min}}\ J(\mathbf{w}, w_0)\coloneqq \frac{1}{2}\| \mathbf{w} \|^2 $
+    - $ \text{subject to} \hspace{0.2cm} y_i\left(\mathbf{w}^T \mathbf{x_i}+w_0\right) \geq 1$
     - Dual formulation:
         """
     )

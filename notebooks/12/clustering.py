@@ -76,7 +76,7 @@ def _(mo):
     ## Generalized hard algorithmic scheme (GHAS)
 
     - Recall:
-    - Hard memberships: $$ \mu_{ij} \in \{0, 1\}, \hspace{1.0cm} \sum_{j=1}^m mu_{ij} = 1$$
+    - Hard memberships: $ \mu_{ij} \in \{0, 1\}, \hspace{1.0cm} \sum_{j=1}^m mu_{ij} = 1$
         """
     )
     return
@@ -102,7 +102,7 @@ def _(mo):
     ## Cost function
 
     - Let $\mathbf{U} = [\mathbf{u}_1, \cdots , \mathbf{u}_N]$ and $\boldsymbol{\Theta}=[\boldsymbol{\theta}_1, \cdots , \boldsymbol{\theta}_N]$
-    - $$ \underset{\mathbf{U}, \boldsymbol{\Theta}}{\operatorname{min}}\ J(\mathbf{U}, \boldsymbol{\Theta}) \sum\limits_{i=1}^{N} \sum\limits_{j=1}^M n_{ij} d(\mathbf{x}_i, \boldsymbol{\theta}_j)$$
+    - $ \underset{\mathbf{U}, \boldsymbol{\Theta}}{\operatorname{min}}\ J(\mathbf{U}, \boldsymbol{\Theta}) \sum\limits_{i=1}^{N} \sum\limits_{j=1}^M n_{ij} d(\mathbf{x}_i, \boldsymbol{\theta}_j)$
     - where $d(\mathbf{x}_i, \boldsymbol{\theta}_j)$: Dissimilarity measure
         """
     )
@@ -130,10 +130,10 @@ def _(mo):
 
     - First step:
         - Assume $\boldsymbol{\Theta}$ fixed: $\boldsymbol{\Theta}^*$.
-        - $$ \underset{\mathbf{U}}{\operatorname{min}}\ J(\mathbf{U}, \boldsymbol{\Theta}^*):$$
+        - $ \underset{\mathbf{U}}{\operatorname{min}}\ J(\mathbf{U}, \boldsymbol{\Theta}^*):$
     - Second step:
         - Fix $\mathbf{U}$: $\mathbf{U}^*$
-        - $$ \underset{\mathbf{\boldsymbol{\Theta}}}{\operatorname{min}}\ J(\mathbf{U}^*, \boldsymbol{\Theta}):$$
+        - $ \underset{\mathbf{\boldsymbol{\Theta}}}{\operatorname{min}}\ J(\mathbf{U}^*, \boldsymbol{\Theta}):$
     - Have:
         """
     )
@@ -204,7 +204,7 @@ def _(mo):
         r"""
     ### Proximity (affinty) matrix
 
-    - $$ \mathbf{W} = [W(i,j)], \hspace{1.0cm} i,j=1,\cdots,N $$
+    - $ \mathbf{W} = [W(i,j)], \hspace{1.0cm} i,j=1,\cdots,N $
     - Symmetric!
         """
     )

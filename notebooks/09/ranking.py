@@ -133,8 +133,8 @@ def _(mo):
         r"""
     ### Idea 3 in matrix-vector form
 
-    - Let $$ \mathbf{H}^T = \begin{bmatrix} 0 & 0 & 1 & \frac{1}{2} \\ \frac{1}{3} & 0 & 0 \\ \frac{1}{3} & \frac{1}{2} & 0 & \frac{1}{2} \\ \frac{1}{3} & \frac{1}{2} & 0 & 0 \end{bmatrix}$$
-    - and $$ \boldsymbol{\Pi} = \begin{bmatrix} r_1 \\ r_2 \\ r_3 \\ r_4 \end{bmatrix}$$
+    - Let $ \mathbf{H}^T = \begin{bmatrix} 0 & 0 & 1 & \frac{1}{2} \\ \frac{1}{3} & 0 & 0 \\ \frac{1}{3} & \frac{1}{2} & 0 & \frac{1}{2} \\ \frac{1}{3} & \frac{1}{2} & 0 & 0 \end{bmatrix}$
+    - and $ \boldsymbol{\Pi} = \begin{bmatrix} r_1 \\ r_2 \\ r_3 \\ r_4 \end{bmatrix}$
     - Hence:
         """
     )
@@ -150,7 +150,7 @@ def _(mo):
     - $\boldsymbol{\Pi}$ is an eigenvector of $\mathbf{H}^T$ for $\lambda = 1$
     - World's most famous eigenvector
     - Google PageRank algorithm (with some modifications)
-    - Solution: $$ \boldsymbol{\Pi} = \begin{bmatrix} 0.4 \\ 0.1 \\ 0.3 \\ 0.2 \end{bmatrix}$$
+    - Solution: $ \boldsymbol{\Pi} = \begin{bmatrix} 0.4 \\ 0.1 \\ 0.3 \\ 0.2 \end{bmatrix}$
     - Alternatively:
         """
     )
@@ -165,7 +165,7 @@ def _(mo):
 
     - $\mathbf{H}$ is special!
         - Transition matrix in (homogeneous, discrete) Markov chain
-    - $$ \mathbf{H} = \begin{bmatrix} 0 & \frac{1}{3} & \frac{1}{3} & \frac{1}{3} \\ 0 & 0 & \frac{1}{2} & \frac{1}{2} \\ 1 & 0 & 0 & 0 \\ \frac{1}{2} & 0 & \frac{1}{2} & 0 \end{bmatrix}$$
+    - $ \mathbf{H} = \begin{bmatrix} 0 & \frac{1}{3} & \frac{1}{3} & \frac{1}{3} \\ 0 & 0 & \frac{1}{2} & \frac{1}{2} \\ 1 & 0 & 0 & 0 \\ \frac{1}{2} & 0 & \frac{1}{2} & 0 \end{bmatrix}$
         """
     )
     return
@@ -193,7 +193,7 @@ def _(mo):
         r"""
     ### Markov chain example
 
-    - $$ \mathbf{A}(\mathbf{H}^T) = \begin{bmatrix} 0.3 & 0.4 & 0.5 \\ 0.3 & 0.4 & 0.3 \\ 0.4 & 0.2 & 0.2 \end{bmatrix}$$
+    - $ \mathbf{A}(\mathbf{H}^T) = \begin{bmatrix} 0.3 & 0.4 & 0.5 \\ 0.3 & 0.4 & 0.3 \\ 0.4 & 0.2 & 0.2 \end{bmatrix}$
         """
     )
     return
@@ -208,7 +208,7 @@ def _(mo):
     - Find:
         - P(start @ C, end @ B after 2 deliveries)
     - $P(CA)P(AB)+P(CB)P(BB)+P(CC)P(CB)=0.33$
-    - $$ \begin{bmatrix} 0.41 & 0.38 & 0.37 \\ 0.33 & 0.34 & 0.33 \\ 0.26 & 0.28 & 0.30 \end{bmatrix} = \mathbf{A}\mathbf{A}=\mathbf{A}^2$$
+    - $ \begin{bmatrix} 0.41 & 0.38 & 0.37 \\ 0.33 & 0.34 & 0.33 \\ 0.26 & 0.28 & 0.30 \end{bmatrix} = \mathbf{A}\mathbf{A}=\mathbf{A}^2$
         """
     )
     return
@@ -221,7 +221,7 @@ def _(mo):
     ### Markov chain example
 
     - Probabilities after 5 and 6 steps:
-    - $$ \mathbf{A}^5 \approx \mathbf{A}^6 \approx \begin{bmatrix} 0.39 & 0.39 & 0.39 \\ 0.33 & 0.33 & 0.33 \\ 0.28 & 0.28 & 0.28 \end{bmatrix} $$
+    - $ \mathbf{A}^5 \approx \mathbf{A}^6 \approx \begin{bmatrix} 0.39 & 0.39 & 0.39 \\ 0.33 & 0.33 & 0.33 \\ 0.28 & 0.28 & 0.28 \end{bmatrix} $
     - Converges!
     - Stationary distribution.
         """
@@ -267,7 +267,7 @@ def _(mo):
 
     - Modify $\mathbf{H}$ such that $0 < p_{ij} < 1$.
     - Modification 1; Dangling nodes (no outlinks) creates zero rows in $\mathbf{H}$
-    - $$ \mathbf{H}^T = \begin{bmatrix} 0 & \frac{1}{4} & \frac{1}{4} & \frac{1}{4} & \frac{1}{4} \\ 0 & 0 & \frac{1}{2} & \frac{1}{2} & 0 \\ 1 & 0 & 0 & 0 & 0 \\ \frac{1}{2} & 0 & \frac{1}{2} & 0 & 0 \\ 0 & 0 & 0 & 0 & 0 \end{bmatrix}$$
+    - $ \mathbf{H}^T = \begin{bmatrix} 0 & \frac{1}{4} & \frac{1}{4} & \frac{1}{4} & \frac{1}{4} \\ 0 & 0 & \frac{1}{2} & \frac{1}{2} & 0 \\ 1 & 0 & 0 & 0 & 0 \\ \frac{1}{2} & 0 & \frac{1}{2} & 0 & 0 \\ 0 & 0 & 0 & 0 & 0 \end{bmatrix}$
     - Replace zero row with row of 1/n probablities.
         """
     )
@@ -280,7 +280,7 @@ def _(mo):
         r"""
     ### Modification 2
 
-    - Google matrix: $$ \mathbf{G} = \alpha \mathbf{S} + (1-\alpha)\mathbf{E}$$
+    - Google matrix: $ \mathbf{G} = \alpha \mathbf{S} + (1-\alpha)\mathbf{E}$
         """
     )
     return

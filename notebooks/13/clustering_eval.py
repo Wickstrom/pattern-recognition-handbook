@@ -206,7 +206,7 @@ def _(mo):
         r"""
     ## Normalized mutual information
 
-    - An alternative quality measure is normalized mutual information: $$ NMI(Y, \hat{Y})=\frac{2 I(Y, \hat{Y})}{H(Y) + H(\hat{Y})}$$
+    - An alternative quality measure is normalized mutual information: $ NMI(Y, \hat{Y})=\frac{2 I(Y, \hat{Y})}{H(Y) + H(\hat{Y})}$
         """
     )
     return

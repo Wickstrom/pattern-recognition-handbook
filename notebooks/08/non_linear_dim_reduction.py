@@ -122,7 +122,7 @@ def _(mo):
         Diagonal covariance matrix for transformed data.
     - Revisit to motviate kernel PCA.
     - Easier notation to work with autocorrelation matrix $\mathbf{R}$.
-    - Eigendecomposition: $$\mathbf{R} \mathbf{v} = \lambda \mathbf{v}$$
+    - Eigendecomposition: $\mathbf{R} \mathbf{v} = \lambda \mathbf{v}$
         """
     )
     return
@@ -134,8 +134,8 @@ def _(mo):
         r"""
     ### Eigenvectors of autocorrelation matrix R
 
-    - First: $$\lambda \mathbf{v}=$$
-    - Reordering for $$ \mathbf{v}= $$
+    - First: $\lambda \mathbf{v}=$
+    - Reordering for $ \mathbf{v}= $
         """
     )
     return
@@ -147,7 +147,7 @@ def _(mo):
         r"""
     ### Projection onto eigenvector
 
-    - $$ \mathbf{v}^T\phi(\mathbf{x}_t) = $$
+    - $ \mathbf{v}^T\phi(\mathbf{x}_t) = $
         """
     )
     return
@@ -159,14 +159,14 @@ def _(mo):
         r"""
     ### Finding the weights
 
-    - Given by solving $$\mathbf{K} \mathbf{a} = \tilde{\lambda} \mathbf{a}$$
+    - Given by solving $\mathbf{K} \mathbf{a} = \tilde{\lambda} \mathbf{a}$
     - $\tilde{\lambda}=\lambda N$
 
     ---
 
     - Remark: Eigenvectors of symmetric $\mathbf{R}$ assumed $\|\mathbf{v}_i\|_2 = 1$ and $\mathbf{v}_i^T \mathbf{v}_j = 1$:
 
-    - Have $$ \mathbf{v}^T \mathbf{v} = $$
+    - Have $ \mathbf{v}^T \mathbf{v} = $
         """
     )
     return
@@ -281,7 +281,7 @@ def _(mo):
     ### Mapping $\mathbf{x}_i$ to $\mathbf{z}_i$
 
     - Need a way to optimize the position of points in $\mathbb{R}^k$.
-    - Consider the following: $$ J(\mathbf{z}) = \frac{1}{2} \sum_i \sum_j (\mathbf{z}_i-\mathbf{z}_j)W_{ij}$$
+    - Consider the following: $ J(\mathbf{z}) = \frac{1}{2} \sum_i \sum_j (\mathbf{z}_i-\mathbf{z}_j)W_{ij}$
         """
     )
     return
@@ -307,8 +307,8 @@ def _(mo):
         r"""
     ### Optimizing the position of points in $\mathbb{R}^k$
 
-    - Have: $$ J(\mathbf{z}) = \frac{1}{2} $$
-    - Let $$ D_{ii} = $$
+    - Have: $ J(\mathbf{z}) = \frac{1}{2} $
+    - Let $ D_{ii} = $
         """
     )
     return
@@ -320,7 +320,7 @@ def _(mo):
         r"""
     ### Optimizing the position of points in $\mathbb{R}^k$
 
-    - Hence: $$ J(\mathbf{z}) = \mathbf{z}^T (\mathbf{D}-\mathbf{W}) \mathbf{z} = $$
+    - Hence: $ J(\mathbf{z}) = \mathbf{z}^T (\mathbf{D}-\mathbf{W}) \mathbf{z} = $
         """
     )
     return
@@ -361,8 +361,8 @@ def _(mo):
         r"""
     ### Laplacian eigenmaps optimization problem
 
-    - Minimize $$ \mathbf{z}^T \mathbf{L} \mathbf{z} $$
-    - Subject to $$ \mathbf{z}^T \mathbf{D} \mathbf{z} = 1$$
+    - Minimize $ \mathbf{z}^T \mathbf{L} \mathbf{z} $
+    - Subject to $ \mathbf{z}^T \mathbf{D} \mathbf{z} = 1$
         """
     )
     return
