@@ -120,65 +120,65 @@ def _(mo):
 
 
 @app.cell
-def _(np):
-    # A small fixed dataset of 1D samples so the sliders below move a
-    # Gaussian over the same data on every render.
+def _(mo, norm, np, plt):
+    # Pre-compute one figure per (μ, σ) preset and bundle them into a
+    # single tabs widget so the controls and the visualization live in
+    # one cell (one slide in slides view — same pattern as the Bayes
+    # lecture at notebooks/01/bayes_decision_theory.py and the linear
+    # classifier tabs at notebooks/03/linear_classifiers.py).
+    # Students click a preset to swap the Gaussian overlay; the data is
+    # fixed across all presets so the change in fit is what they see.
     data_param = np.array(
         [-1.2, -0.8, -0.3, 0.1, 0.2, 0.5, 0.9, 1.4, 1.8, 2.1]
     )
-    return (data_param,)
+    presets_param = {
+        "μ=0.0, σ=0.8": (0.0, 0.8),
+        "μ=0.5, σ=0.8": (0.5, 0.8),
+        "μ=0.9, σ=0.8": (0.9, 0.8),
+        "μ=0.9, σ=0.4": (0.9, 0.4),
+        "μ=0.9, σ=1.5": (0.9, 1.5),
+    }
 
+    tabs_param = {}
+    for label, (mu_p, sigma_p) in presets_param.items():
+        log_lik_p = float(
+            np.sum(norm.logpdf(data_param, mu_p, sigma_p))
+        )
+        x_grid_p = np.linspace(
+            data_param.min() - 1, data_param.max() + 1, 200
+        )
+        pdf_p = norm.pdf(x_grid_p, mu_p, sigma_p)
 
-@app.cell
-def _(data_param, mo):
-    # Sliders must live in their own cell — Marimo forbids reading a
-    # widget's `.value` in the same cell that created it. The plot cell
-    # below references these sliders as global variables, so it re-runs
-    # automatically when the user drags either slider.
-    mu_slider = mo.ui.slider(
-        start=-3.0, stop=4.0, step=0.1,
-        value=float(data_param.mean()),
-        show_value=True, label="Mean μ",
-    )
-    sigma_slider = mo.ui.slider(
-        start=0.2, stop=2.5, step=0.05,
-        value=float(data_param.std()),
-        show_value=True, label="Std σ",
-    )
-    mo.hstack([mu_slider, sigma_slider], justify="start", gap=2)
-    return mu_slider, sigma_slider
+        fig_p, ax_p = plt.subplots(figsize=(7, 3.5))
+        ax_p.hist(
+            data_param, bins=8, density=True, alpha=0.4,
+            color="gray", edgecolor="black", label="data",
+        )
+        ax_p.plot(
+            x_grid_p, pdf_p, "r-", linewidth=2,
+            label=f"N({mu_p:.2f}, {sigma_p:.2f}²)",
+        )
+        ax_p.set_xlabel("x")
+        ax_p.set_ylabel("density")
+        ax_p.legend(loc="upper right")
+        ax_p.set_title(
+            f"log-likelihood = {log_lik_p:.3f}  —  {label}"
+        )
+        fig_p.tight_layout()
 
+        tabs_param[label] = mo.vstack(
+            [
+                mo.md(
+                    f"**Setting:** {label} &nbsp;&nbsp; "
+                    f"**log-likelihood:** {log_lik_p:.3f}"
+                ),
+                mo.as_html(fig_p),
+            ],
+            gap=1,
+        )
+        plt.close(fig_p)
 
-@app.cell
-def _(data_param, mo, mu_slider, norm, np, plt, sigma_slider):
-    mu_param = mu_slider.value
-    sigma_param = sigma_slider.value
-    log_lik_param = float(
-        np.sum(norm.logpdf(data_param, mu_param, sigma_param))
-    )
-
-    x_grid_param = np.linspace(
-        data_param.min() - 1, data_param.max() + 1, 200
-    )
-    pdf_param = norm.pdf(x_grid_param, mu_param, sigma_param)
-
-    fig_param, ax_param = plt.subplots(figsize=(7, 3.5))
-    ax_param.hist(
-        data_param, bins=8, density=True, alpha=0.4,
-        color="gray", edgecolor="black", label="data",
-    )
-    ax_param.plot(
-        x_grid_param, pdf_param, "r-", linewidth=2,
-        label=f"N({mu_param:.2f}, {sigma_param:.2f}²)",
-    )
-    ax_param.set_xlabel("x")
-    ax_param.set_ylabel("density")
-    ax_param.legend(loc="upper right")
-    ax_param.set_title(f"log-likelihood = {log_lik_param:.3f}")
-    fig_param.tight_layout()
-
-    plt.close(fig_param)
-    mo.as_html(fig_param)
+    mo.ui.tabs(tabs_param)
     return
 
 
