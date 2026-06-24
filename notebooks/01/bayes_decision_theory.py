@@ -6,7 +6,6 @@
 #     "matplotlib",
 #     "scipy",
 #     "plotly",
-#     "ucimlrepo",
 # ]
 # ///
 #
@@ -68,7 +67,7 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.vstack(
+    mo.hstack(
         [
             mo.md(
                 r"""
@@ -79,15 +78,16 @@ def _(mo):
     - Mathematically, we want to find $P(\text{spam}|\text{content})$.
                 """
             ),
-            mo.hstack(
+            mo.vstack(
                 [
-                    mo.image(src="media/endingspam.png", width="200px"),
-                    mo.image(src="media/spam_example.png", width="400px"),
+                    mo.image(src="media/endingspam.png", style={"max-width": "100%", "height": "auto"}),
+                    mo.image(src="media/spam_example.png", style={"max-width": "100%", "height": "auto"}),
                 ],
-                justify="start",
                 gap=2,
             ),
         ],
+        justify="start",
+        align="start",
         gap=2,
     )
     return
@@ -133,39 +133,39 @@ def _():
     import numpy as np
     import matplotlib.pyplot as plt
     from scipy.stats import norm
-    from ucimlrepo import fetch_ucirepo
-    return fetch_ucirepo, norm, np, plt
+    return norm, np, plt
 
 
 @app.cell
-def _(fetch_ucirepo, np):
-    spambase = fetch_ucirepo(id=94)  # Spambase dataset from UCI Machine Learning Repository
-    X = spambase.data.features  # features of the dataset
-    y = spambase.data.targets  # targets of the dataset
-
-    ham_indices = np.where(y == 0)[0]
-    spam_indices = np.where(y == 1)[0]
-
-    # Pick a small handful of words that illustrate the spam/ham asymmetry.
-    # (The 57 features in Spambase are sorted by frequency of each word /
-    # character; the indices below are the standard ones for "money" and
-    # "george".)
-    word_index_map = {
-        "money (idx 23)": 23,
-        "george (idx 26)": 26,
+def _(np):
+    # Load the two Spambase columns we visualize from a small bundled file
+    # instead of fetching from the UCI repository at runtime. The network
+    # call would intermittently fail in the WASM/Pyodide environment,
+    # breaking the rest of the cell graph (the visualization cell throws
+    # "Ancestor raised an exception: cell-6" because of it).
+    data = np.load("media/spambase_subset.npz")
+    labels = data["labels"]
+    columns = {
+        "money (idx 23)": data["money"],
+        "george (idx 26)": data["george"],
     }
-    return X, ham_indices, spam_indices, word_index_map
+
+    ham_indices = np.where(labels == 0)[0]
+    spam_indices = np.where(labels == 1)[0]
+    word_index_map = {name: i for i, name in enumerate(columns.keys())}
+    X = np.stack(list(columns.values()), axis=1)
+    return X, columns, ham_indices, spam_indices, word_index_map
 
 
 @app.cell
-def _(X, ham_indices, mo, plt, spam_indices, word_index_map):
+def _(columns, ham_indices, mo, plt, spam_indices):
     # Pre-compute one figure per word and bundle them into tabs so the widget
     # and the visualization live in a single cell (one slide in slides view).
     word_tabs = {}
-    for word_label, idx in word_index_map.items():
+    for word_label, column in columns.items():
         word_name = word_label.split(" ")[0]
-        ham_mean = float(X.iloc[ham_indices, idx].mean())
-        spam_mean = float(X.iloc[spam_indices, idx].mean())
+        ham_mean = float(column[ham_indices].mean())
+        spam_mean = float(column[spam_indices].mean())
 
         fig_words, axes_words = plt.subplots(1, 2, figsize=(10, 3.5))
 
@@ -180,11 +180,11 @@ def _(X, ham_indices, mo, plt, spam_indices, word_index_map):
         axes_words[0].set_title("Spambase — mean occurrence")
 
         axes_words[1].hist(
-            X.iloc[spam_indices, idx],
+            column[spam_indices],
             bins=30, alpha=0.6, color="#c44e52", label="Spam",
         )
         axes_words[1].hist(
-            X.iloc[ham_indices, idx],
+            column[ham_indices],
             bins=30, alpha=0.6, color="#4c72b0", label="Ham",
         )
         axes_words[1].set_xlabel(f"Frequency of '{word_name}'")
@@ -205,23 +205,7 @@ def _(X, ham_indices, mo, plt, spam_indices, word_index_map):
         )
         plt.close(fig_words)
 
-    mo.ui.tabs(word_tabs)
-    return
-
-
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
-    ### Detection
-
-    - Need $P(W_1 \cap W_2 \cap \cdots \cap W_K|S)$
-    - Difficult!
-        - Think about what this term is actually saying.
-    - Need to simplify.
-    - Note: modern large language models are modeling something very similar to the expression above.
-        """
-    )
+    mo.ui.tabs(word_tabs, size="large")
     return
 
 
@@ -229,7 +213,18 @@ def _(mo):
 def _(mo):
     mo.vstack(
         [
-            mo.image(src="media/gpt.png", width="600px"),
+            mo.md(
+                r"""
+    ### Detection
+
+    - Need $P(W_1 \cap W_2 \cap \cdots \cap W_K|S)$
+    - Difficult!
+        - Think about what this term is actually saying.
+    - Need to simplify.
+    - Note: modern large language models are modeling something very similar to the expression above.
+                """
+            ),
+            mo.image(src="media/gpt.png", style={"max-width": "100%", "height": "auto"}),
             mo.md(
                 r"""
     **References:**
@@ -343,8 +338,6 @@ def _(mo):
     - Click the **"decision boundary"** entry in the legend to toggle it on or
       off. It starts **off** so the densities stand alone first; turn it on to
       see where the Bayes classifier would assign each $x$.
-    - **Question for the class:** For each setting, predict where the decision
-      boundary should fall *before* you toggle it on. Then check.
         """
     )
     return
@@ -418,14 +411,15 @@ def _(mo, np, norm, settings):
             xaxis=dict(title="x", showgrid=False, zeroline=False),
             yaxis=dict(showgrid=False, zeroline=False),
             legend=dict(orientation="h", yanchor="bottom", y=1.02,
-                        xanchor="center", x=0.5),
+                        xanchor="center", x=0.5,
+                        font=dict(size=16)),
             paper_bgcolor="white",
             plot_bgcolor="white",
         )
 
         sample_tabs[label] = fig
 
-    mo.ui.tabs(sample_tabs)
+    mo.ui.tabs(sample_tabs, size="large")
     return
 
 
