@@ -286,7 +286,13 @@ def _(mo, np, plt):
             "normal", np.array([3.0, 3.0]), 0.4,
         ),
     }
+    return (scenarios_lc,)
 
+
+@app.cell
+def _(mo, scenarios_lc):
+    # Widgets must live in their own cell — Marimo forbids reading a
+    # widget's `.value` in the same cell that created it.
     tabs_lc = mo.ui.tabs(
         scenarios_lc,
         value="μ₁=(1,1), μ₂=(3,3), σ=0.4 (well-separated, equal σ)",
@@ -294,7 +300,22 @@ def _(mo, np, plt):
     switch_boundary = mo.ui.switch(
         value=True, label="Show decision boundary",
     )
+    mo.vstack(
+        [
+            tabs_lc,
+            mo.hstack(
+                [switch_boundary, mo.md("  Toggle the decision boundary above.")],
+                justify="start",
+                gap=2,
+            ),
+        ],
+        gap=1,
+    )
+    return switch_boundary, tabs_lc
 
+
+@app.cell
+def _(mo, np, plt, scenarios_lc, switch_boundary, tabs_lc):
     # Read the active scenario from the tabs widget.
     (c1_type, c1_loc, c1_scale,
      c2_type, c2_loc, c2_scale) = scenarios_lc[tabs_lc.value]
@@ -358,12 +379,7 @@ def _(mo, np, plt):
 
     mo.vstack(
         [
-            tabs_lc,
-            mo.hstack(
-                [switch_boundary, mo.md(f"  **MSE weights:** {w_lc.round(3)}")],
-                justify="start",
-                gap=2,
-            ),
+            mo.md(f"**MSE weights:** {w_lc.round(3)}"),
             mo.as_html(fig_lc),
         ],
         gap=1,

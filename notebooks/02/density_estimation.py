@@ -130,7 +130,9 @@ def _(np):
 
 
 @app.cell
-def _(data_param, mo, norm, np, plt):
+def _(data_param, mo):
+    # Sliders must live in their own cell — Marimo forbids reading a
+    # widget's `.value` in the same cell that created it.
     mu_slider = mo.ui.slider(
         start=-3.0, stop=4.0, step=0.1,
         value=float(data_param.mean()),
@@ -141,7 +143,12 @@ def _(data_param, mo, norm, np, plt):
         value=float(data_param.std()),
         show_value=True, label="Std σ",
     )
+    mo.hstack([mu_slider, sigma_slider], justify="start", gap=2)
+    return mu_slider, sigma_slider
 
+
+@app.cell
+def _(data_param, mo, mu_slider, norm, np, plt, sigma_slider):
     mu_param = mu_slider.value
     sigma_param = sigma_slider.value
     log_lik_param = float(np.sum(norm.logpdf(data_param, mu_param, sigma_param)))
@@ -164,13 +171,7 @@ def _(data_param, mo, norm, np, plt):
     ax_param.set_title(f"log-likelihood = {log_lik_param:.3f}")
     fig_param.tight_layout()
 
-    mo.vstack(
-        [
-            mo.hstack([mu_slider, sigma_slider], justify="start", gap=2),
-            mo.as_html(fig_param),
-        ],
-        gap=1,
-    )
+    mo.as_html(fig_param)
     plt.close(fig_param)
     return
 
