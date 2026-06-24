@@ -10,7 +10,6 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Applications of pattern recognition
    - Practical information
 
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/00/intro.slides.html)
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/00/intro/index.html)
 
 <br>
@@ -35,7 +34,6 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Histogram approach
    - Parzen windowing
 
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation.slides.html)
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation/index.html)
    [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation_exercise/index.html)
 
@@ -174,8 +172,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-17. **Clustering III** 
-   - Clustering evaluation
+18. **Clustering evaluation** 
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/13/clustering_eval/index.html)
    [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/13/clustering_eval_exercise/index.html)

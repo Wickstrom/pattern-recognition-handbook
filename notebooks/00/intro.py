@@ -189,7 +189,7 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ## Practical information for 2025 version of UiT course
+    ## Practical information for 2026 version of UiT course
         """
     )
     return
@@ -216,13 +216,10 @@ def _(mo):
     ### Lecture and exercises
 
     1. Lectures:
-        - Mondays from 10:15 - 12:00
-        - Thursdays from 10:15 - 12:00
-    2. Exercises:
-        - Wednesdays from 14:15 - 16:00
         - Fridays from 08:15 - 10:00
-    3. First lecture 14th of August.
-    4. First exercise 27th of August.
+        - Mondays from 10:15 - 12:00
+    2. Exercises:
+        - Thursdays from 10:15 - 12:00
         """
     )
     return
@@ -234,9 +231,9 @@ def _(mo):
         r"""
     ### Exam
 
-    1. Home exam couting 50% of grade:
-        - Week 42 and 43, start 13th of October and end 3rd of November.
-    2. Digital exam in Wiseflow (multiple choice and short text answers) counting 50% of grade. Date not decided yet.
+    1. Home exam counting 50% of grade:
+        - Starts in week 40, handed in in week 42.
+    2. School exam in week 49 counting 50% of grade.
         """
     )
     return
