@@ -152,7 +152,7 @@ def _(mo):
 
     - **RBF:**  $$ K(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\frac{1}{2\sigma^2} \|\mathbf{x}_i - \mathbf{x}_j\|^2\right)$$
 
-    - **Tanh:**  $$ K(\mathbf{x}_i, \mathbf{x}_j) = \tanh\left(\beta\, \mathbf{x}_i^T \mathbf{x}_j + \gamma\right)$
+    - **Tanh:**  $$ K(\mathbf{x}_i, \mathbf{x}_j) = \tanh\left(\beta\, \mathbf{x}_i^T \mathbf{x}_j + \gamma\right)$$
         """
     )
     return
@@ -207,9 +207,7 @@ def _(mo):
     - Minimize: $$J(\mathbf{w}, w_0, \gamma_i) = \frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{i=1}^N \gamma_i$$
     - Subject to: $$ y_i \left( \mathbf{w}^T \mathbf{x}_i + w_0 \right) \geq 1 - \gamma_i$$
 
-    $$
-    \gamma_i \geq 0
-    $$
+    $$ \gamma_i \geq 0 $$
 
     ---
 
@@ -217,9 +215,7 @@ def _(mo):
 
     - Subject to: $$ \sum_i \lambda_i y_i = 0$$
 
-    $$
-    0 \leq \lambda_i \leq C
-    $$
+    $$ 0 \leq \lambda_i \leq C $$
         """
     )
     return

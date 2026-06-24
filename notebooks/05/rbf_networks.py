@@ -212,9 +212,7 @@ def _(mo):
        - Simple, but not optimum!
     - **Training of the centres:**  Let $\sigma_i^2$, $\mathbf{c}_i$, $w_i$, $i=1,\ldots,k$, be free parameters learned from the training set.
 
-       $$
-       \frac{\partial J}{\partial \mathbf{c}_i} = 0 \implies \mathbf{c}_i^{(\text{new})} = \mathbf{c}_i^{(\text{old})} + \mu \frac{\partial J}{\partial \mathbf{c}_i}
-       $$
+       $$ \frac{\partial J}{\partial \mathbf{c}_i} = 0 \implies \mathbf{c}_i^{(\text{new})} = \mathbf{c}_i^{(\text{old})} + \mu \frac{\partial J}{\partial \mathbf{c}_i} $$
     - Choose centres according to how the data are distributed in space. Draw ->
        - More about this later.
         """

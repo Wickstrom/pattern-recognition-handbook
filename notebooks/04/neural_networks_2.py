@@ -263,7 +263,7 @@ def _(mo):
     - Let $$ \frac{\partial}{\partial  \mathbf{w}_j^l} J = \mathbf{g}(t)$$
     - $$ \Delta \mathbf{w}_j^l (T) = -\gamma \sum_{t=0}^{T-1} \alpha^t \mathbf{g}(T-t)+\alpha^T \Delta \mathbf{w}_j^l (0) $$
     - Now, assume we are in a low curvature point of the loss function $\Rightarrow$ gradient approximately constant!
-    - $$ \Delta \mathbf{w}_j^l (T) \approx -\gamma(1+\alpha+\alpha^2+ \cdots \alpha^{T-1})\mathbf{g}
+    - $$ \Delta \mathbf{w}_j^l (T) \approx -\gamma(1+\alpha+\alpha^2+ \cdots \alpha^{T-1})\mathbf{g} $$
         """
     )
     return

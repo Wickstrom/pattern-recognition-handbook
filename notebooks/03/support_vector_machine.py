@@ -304,39 +304,29 @@ def _(mo):
 
     The Lagrangian for the SVM optimization problem is:
 
-    $$
-    L(\mathbf{w}, w_0, \lambda) = \frac{1}{2} \|\mathbf{w}\|^2 - \sum_{i=1}^N \lambda_i \left[ y_i (\mathbf{w}^T \mathbf{x}_i + w_0) - 1 \right]
-    $$
+    $$ L(\mathbf{w}, w_0, \lambda) = \frac{1}{2} \|\mathbf{w}\|^2 - \sum_{i=1}^N \lambda_i \left[ y_i (\mathbf{w}^T \mathbf{x}_i + w_0) - 1 \right] $$
 
     ---
 
     Taking the derivative with respect to $w_0$:
 
-    $$
-    \frac{\partial L}{\partial w_0} = -\sum_{i=1}^N \lambda_i y_i = 0
-    $$
+    $$ \frac{\partial L}{\partial w_0} = -\sum_{i=1}^N \lambda_i y_i = 0 $$
 
     ---
 
     Taking the derivative with respect to $\mathbf{w}$:
 
-    $$
-    \frac{\partial L}{\partial \mathbf{w}} = \mathbf{w} - \sum_{i=1}^N \lambda_i y_i \mathbf{x}_i = 0
-    $$
+    $$ \frac{\partial L}{\partial \mathbf{w}} = \mathbf{w} - \sum_{i=1}^N \lambda_i y_i \mathbf{x}_i = 0 $$
 
     ---
 
     Constraint KKT:
 
-    $$
-    \sum_{i=1}^N \lambda_i y_i = 0
-    $$
+    $$ \sum_{i=1}^N \lambda_i y_i = 0 $$
 
      and
 
-    $$
-    \lambda_i\left[ y_i (\mathbf{w}^T \mathbf{x}_i + w_0) - 1 \right]=0
-    $$
+    $$ \lambda_i\left[ y_i (\mathbf{w}^T \mathbf{x}_i + w_0) - 1 \right]=0 $$
         """
     )
     return

@@ -335,7 +335,7 @@ def _(mo):
     ### The Backpropagation algorithm - loss and optimization
 
     - Let $$J = \sum_{i=1}^N E (i),$$
-    - where $$E (i)=\sum_{m=1}^\frac{1}{2}e_m(i)^2$$
+    - where $$E (i) = \sum_{m=1}^{N} \frac{1}{2} e_m(i)^2$$
     - Want: $$ \underset{\mathbf{w}}{\operatorname{min}}\ J(\mathbf{w})$$
         """
     )
