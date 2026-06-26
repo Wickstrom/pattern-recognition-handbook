@@ -134,33 +134,71 @@ def _():
 
 
 @app.cell
-def _(beta, mo, norm, np, plt, uniform):
-    # Overview: a Normal, Uniform, and Beta PDF side-by-side, sampled from
-    # each distribution to show the shape the PDF is meant to describe.
-    normal_data_overview = np.random.normal(loc=0, scale=1, size=1000)
-    uniform_data_overview = np.random.uniform(low=-1, high=1, size=1000)
-    beta_data_overview = np.random.beta(a=2, b=5, size=1000)
+def _(mo):
+    mo.md(
+        r"""
+    ### What distribution is this?
 
-    x_normal_overview = np.linspace(normal_data_overview.min() - 0.1, normal_data_overview.max() + 0.1, 100)
-    p_normal_overview = norm.pdf(x_normal_overview, loc=0, scale=1)
+    - Five histograms, one distribution each — can you name them all?
+    - Click through the tabs. Every tab shows the same kind of plot
+      (a histogram of 1000 samples), so it's the *shape* you have to
+      read, not axis labels.
+    - The progression starts easy (textbook shapes) and ends with a
+      mixture that no single standard family can describe — a hint of
+      why we need the non-parametric methods later in the lecture.
+        """
+    )
+    return
 
-    x_uniform_overview = np.linspace(uniform_data_overview.min() - 0.1, uniform_data_overview.max() + 0.1, 100)
-    p_uniform_overview = uniform.pdf(x_uniform_overview, loc=-1, scale=2)
 
-    x_beta_overview = np.linspace(beta_data_overview.min() - 0.1, uniform_data_overview.max() + 0.1, 100)
-    p_beta_overview = beta.pdf(x_beta_overview, a=2, b=5)
+@app.cell
+def _(mo, np, plt):
+    # Pre-compute one histogram per distribution and bundle into tabs
+    # (same pattern as the parametric estimation example below). We
+    # deliberately do *not* overlay the true PDF — that would give the
+    # answer away. The distributions are, in order of difficulty:
+    #   1. Normal(0, 1)              — the textbook bell curve
+    #   2. Uniform(-2, 2)            — easy: it's flat
+    #   3. Beta(2, 5)                — single peak but skewed, bounded on [0, 1]
+    #   4. Exponential(1)            — one-sided decay; not symmetric, no lower tail
+    #   5. 0.5·N(-2, 0.7) + 0.5·N(2, 0.7)  — bimodal mixture
+    rng_q = np.random.default_rng(2)
+    n_samples = 1000
 
-    fig_dists, axes_dists = plt.subplots(1, 3, figsize=(12, 3))
-    axes_dists[0].plot(x_normal_overview, p_normal_overview, "k", linewidth=2, label="PDF")
-    axes_dists[0].set_title("Normal distribution")
-    axes_dists[1].plot(x_uniform_overview, p_uniform_overview, "k", linewidth=2, label="PDF")
-    axes_dists[1].set_title("Uniform distribution")
-    axes_dists[2].plot(x_beta_overview, p_beta_overview, "k", linewidth=2, label="PDF")
-    axes_dists[2].set_title("Beta distribution")
-    fig_dists.tight_layout()
+    dists = [
+        ("Distribution 1", lambda: rng_q.normal(0, 1, n_samples)),
+        ("Distribution 2", lambda: rng_q.uniform(-2, 2, n_samples)),
+        ("Distribution 3", lambda: rng_q.beta(2, 5, n_samples)),
+        ("Distribution 4", lambda: rng_q.exponential(1, n_samples)),
+        ("Distribution 5", lambda: np.concatenate([
+            rng_q.normal(-2, 0.7, n_samples // 2),
+            rng_q.normal(2, 0.7, n_samples - n_samples // 2),
+        ])),
+    ]
 
-    plt.close(fig_dists)
-    mo.as_html(fig_dists)
+    tabs_dist = {}
+    for tab_label_q, sampler in dists:
+        samples = sampler()
+        fig_dist, ax_dist = plt.subplots(figsize=(10, 5))
+        ax_dist.hist(
+            samples, bins=40, density=True,
+            color="#c44e52", alpha=0.75, edgecolor="black",
+        )
+        ax_dist.set_xlabel("x")
+        ax_dist.set_ylabel("density")
+        ax_dist.set_title("What distribution is this?")
+        fig_dist.tight_layout()
+
+        tabs_dist[tab_label_q] = mo.vstack(
+            [
+                mo.md(f"**{tab_label_q}** &nbsp; *Can you name it?*"),
+                mo.as_html(fig_dist),
+            ],
+            gap=1,
+        )
+        plt.close(fig_dist)
+
+    mo.ui.tabs(tabs_dist)
     return
 
 
@@ -288,7 +326,7 @@ def _(mo, norm, np, plt):
         )
         pdf_p = norm.pdf(x_grid_p, mu_p, sigma_p)
 
-        fig_p, ax_p = plt.subplots(figsize=(7, 3.5))
+        fig_p, ax_p = plt.subplots(figsize=(10, 5))
         ax_p.hist(
             data_param, bins=8, density=True, alpha=0.4,
             color="gray", edgecolor="black", label="data",
@@ -369,7 +407,7 @@ def _():
 
 @app.cell
 def _(X_1_name, X_2_name, X_bc, mo, plt):
-    fig_bc, ax_bc = plt.subplots(figsize=(5.5, 5.5))
+    fig_bc, ax_bc = plt.subplots(figsize=(6.5, 6.5))
     ax_bc.scatter(X_bc[:, 0], X_bc[:, 1])
     ax_bc.set_xlabel(X_1_name)
     ax_bc.set_ylabel(X_2_name)
@@ -404,7 +442,7 @@ def _(mo, norm, np, plt):
     x_normal_pdf = np.linspace(normal_data_pdf.min() - 0.1, normal_data_pdf.max() + 0.1, 100)
     p_normal_pdf = norm.pdf(x_normal_pdf, loc=0, scale=1)
 
-    fig_pdf, ax_pdf = plt.subplots(figsize=(8, 4))
+    fig_pdf, ax_pdf = plt.subplots(figsize=(10, 5))
     ax_pdf.plot(x_normal_pdf, p_normal_pdf, "k", linewidth=2, label="PDF")
     ax_pdf.axis("off")
 
@@ -420,7 +458,7 @@ def _(mo, norm, np, plt):
     x_normal_samples = np.linspace(normal_data_samples.min() - 0.1, normal_data_samples.max() + 0.1, 100)
     p_normal_samples = norm.pdf(x_normal_samples, loc=0, scale=1)
 
-    fig_samples, ax_samples = plt.subplots(figsize=(8, 4))
+    fig_samples, ax_samples = plt.subplots(figsize=(10, 5))
     ax_samples.plot(x_normal_samples, p_normal_samples, "k", linewidth=2, label="PDF")
     ax_samples.scatter(normal_data_example_samples, np.zeros_like(normal_data_example_samples), alpha=0.5)
     ax_samples.grid(True)
@@ -450,7 +488,7 @@ def _(mo, norm, np, plt):
     x_normal_alt = np.linspace(normal_data_alt.min() - 0.1, normal_data_alt.max() + 0.1, 100)
     p_normal_alt = norm.pdf(x_normal_alt, loc=0, scale=1)
 
-    fig_alt, ax_alt = plt.subplots(figsize=(8, 4))
+    fig_alt, ax_alt = plt.subplots(figsize=(10, 5))
     ax_alt.plot(x_normal_alt, p_normal_alt, "k", linewidth=2, label="PDF")
     ax_alt.scatter(normal_data_example_alt, np.zeros_like(normal_data_example_alt), alpha=0.5)
     ax_alt.grid(True)
@@ -501,7 +539,7 @@ def _(mo, norm, np, plt):
     x_normal_parzen = np.linspace(normal_data_parzen.min() - 0.1, normal_data_parzen.max() + 0.1, 100)
     p_normal_parzen = norm.pdf(x_normal_parzen, loc=0, scale=1)
 
-    fig_parzen, ax_parzen = plt.subplots(figsize=(8, 4))
+    fig_parzen, ax_parzen = plt.subplots(figsize=(10, 5))
     ax_parzen.plot(x_normal_parzen, p_normal_parzen, "k", linewidth=2, label="PDF")
     ax_parzen.scatter(normal_data_example_parzen, np.zeros_like(normal_data_example_parzen), alpha=0.5)
     ax_parzen.grid(True)
@@ -574,7 +612,7 @@ def _(mo, norm, np, plt):
     x_dist_2 = np.linspace(data_dist_2.min() - 0.1, data_dist_2.max() + 0.1, 100)
     p_dist_2 = norm.pdf(x_dist_2, loc=0, scale=1.5)
 
-    fig_mix, ax_mix = plt.subplots(figsize=(8, 3))
+    fig_mix, ax_mix = plt.subplots(figsize=(10, 5))
     ax_mix.plot(x_dist_1, p_dist_1, "k", linewidth=2, label="PDF")
     ax_mix.plot(x_dist_2, p_dist_2, "k", linewidth=2, label="PDF")
     ax_mix.scatter(data_dist_1, np.zeros_like(data_dist_1) - 0.1, alpha=0.5)
@@ -599,7 +637,7 @@ def _(KernelDensity, data_dist_1, data_dist_2, mo, np, plt):
     x_approx = np.linspace(combined.min() - 0.1, combined.max() + 0.1, 500)[:, np.newaxis]
     p_approx = np.exp(kde.score_samples(x_approx))
 
-    fig_kde, ax_kde = plt.subplots(figsize=(8, 4))
+    fig_kde, ax_kde = plt.subplots(figsize=(10, 5))
     ax_kde.plot(x_approx, p_approx, "k", linewidth=2, label="PDF")
     ax_kde.scatter(combined, np.zeros_like(combined), alpha=0.5)
     ax_kde.grid(True)
@@ -617,8 +655,12 @@ def _(mo):
 
     - Now plug the Parzen estimate $\hat{p}(\mathbf{x}|w_i)$ into the Bayes rule:
         - Decide $w_1$ when $\hat{p}(\mathbf{x}|w_1) > \hat{p}(\mathbf{x}|w_2)$.
-    - Each class below is a **70/30 Gaussian + uniform** mixture — slightly
-      non-Gaussian, so the right answer isn't a straight line.
+    - The two classes below form the classic **two-moons** shape — each
+      is a curved arc with noise, clearly not a Gaussian blob. A
+      *parametric* Gaussian fit per class would draw a near-straight
+      decision line through the overlap and misclassify the moons;
+      Parzen windows with the right bandwidth recover the curved
+      boundary.
     - Click the tabs to see how the kernel width $h$ trades bias vs.
       variance in the boundary.
         """
@@ -628,43 +670,34 @@ def _(mo):
 
 @app.cell
 def _(KernelDensity, mo, np, plt):
-    # Pre-compute one figure per h preset and bundle into tabs (same
-    # pattern as the parametric estimation example above). The 2D sample
-    # is fixed across presets so the only thing that changes between
-    # tabs is the kernel width. Each class is 70% Gaussian + 30%
-    # uniform noise — the uniform "wings" break Gaussianity so the
-    # right boundary isn't a straight line.
-    rng = np.random.default_rng(1)
+    # Two interleaving "moons" — the canonical non-Gaussian 2D example.
+    # Each class is a noisy arc, so the true decision boundary is a
+    # non-linear curve that no parametric Gaussian can capture.
+    # Parzen-window estimation, on the other hand, can recover it as
+    # long as the bandwidth is roughly the noise scale.
+    rng_pb = np.random.default_rng(3)
     n_per_class = 200
+    noise = 0.12
 
-    cls0_g = rng.normal(
-        loc=(0.0, 0.0), scale=0.7,
-        size=(int(0.7 * n_per_class), 2),
-    )
-    cls0_u = rng.uniform(
-        low=(-1.5, -1.5), high=(1.5, 1.5),
-        size=(n_per_class - len(cls0_g), 2),
-    )
-    X0 = np.vstack([cls0_g, cls0_u])
-
-    cls1_g = rng.normal(
-        loc=(2.5, 2.5), scale=0.7,
-        size=(int(0.7 * n_per_class), 2),
-    )
-    cls1_u = rng.uniform(
-        low=(1.0, 1.0), high=(4.0, 4.0),
-        size=(n_per_class - len(cls1_g), 2),
-    )
-    X1 = np.vstack([cls1_g, cls1_u])
+    theta = np.linspace(0, np.pi, n_per_class)
+    # Outer moon: arc opening downward
+    X0 = np.column_stack([np.cos(theta), np.sin(theta)])
+    # Inner moon: arc opening upward, offset right and down
+    X1 = np.column_stack([
+        1 - np.cos(theta),
+        -np.sin(theta) - 0.5,
+    ])
+    X0 += rng_pb.normal(0, noise, X0.shape)
+    X1 += rng_pb.normal(0, noise, X1.shape)
 
     h_presets = {
+        "h = 0.05": 0.05,
         "h = 0.15": 0.15,
         "h = 0.30": 0.30,
         "h = 0.60": 0.60,
-        "h = 1.00": 1.00,
     }
 
-    grid_min, grid_max, n_grid = -2.5, 5.5, 140
+    grid_min, grid_max, n_grid = -2.0, 2.5, 160
     xx, yy = np.meshgrid(
         np.linspace(grid_min, grid_max, n_grid),
         np.linspace(grid_min, grid_max, n_grid),
@@ -681,7 +714,7 @@ def _(KernelDensity, mo, np, plt):
         ).reshape(xx.shape)
         decision = (log_diff > 0).astype(float)
 
-        fig_pb, ax_pb = plt.subplots(figsize=(5.5, 5.5))
+        fig_pb, ax_pb = plt.subplots(figsize=(6.5, 6.5))
         ax_pb.contourf(
             xx, yy, decision,
             levels=[-0.5, 0.5, 1.5],
@@ -703,8 +736,9 @@ def _(KernelDensity, mo, np, plt):
         ax_pb.set_ylim(grid_min, grid_max)
         ax_pb.set_xlabel("x₁")
         ax_pb.set_ylabel("x₂")
+        ax_pb.set_aspect("equal")
         ax_pb.set_title(f"Parzen–Bayes decision boundary  ({tab_label})")
-        ax_pb.legend(loc="upper left")
+        ax_pb.legend(loc="upper right")
         fig_pb.tight_layout()
 
         tabs_pb[tab_label] = mo.vstack(
