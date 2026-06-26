@@ -222,8 +222,8 @@ def _(beta, mo, norm, np, plt, uniform):
     axes_dists[2].set_title("Beta distribution")
     fig_dists.tight_layout()
 
-    mo.as_html(fig_dists)
     plt.close(fig_dists)
+    mo.as_html(fig_dists)
     return
 
 
@@ -283,8 +283,8 @@ def _(mo, norm, np, plt):
     axes_lik[1].plot(x_normal_bad, p_normal_bad, "k", linewidth=2, label="PDF")
     fig_lik.tight_layout()
 
-    mo.as_html(fig_lik)
     plt.close(fig_lik)
+    mo.as_html(fig_lik)
     return
 
 
@@ -398,8 +398,8 @@ def _(X_1_name, X_2_name, X_bc, mo, plt):
     ax_bc.set_xlabel(X_1_name)
     ax_bc.set_ylabel(X_2_name)
 
-    mo.as_html(fig_bc)
     plt.close(fig_bc)
+    mo.as_html(fig_bc)
     return
 
 
@@ -432,8 +432,8 @@ def _(mo, norm, np, plt):
     ax_pdf.plot(x_normal_pdf, p_normal_pdf, "k", linewidth=2, label="PDF")
     ax_pdf.axis("off")
 
-    mo.as_html(fig_pdf)
     plt.close(fig_pdf)
+    mo.as_html(fig_pdf)
     return
 
 
@@ -449,8 +449,8 @@ def _(mo, norm, np, plt):
     ax_samples.scatter(normal_data_example_samples, np.zeros_like(normal_data_example_samples), alpha=0.5)
     ax_samples.grid(True)
 
-    mo.as_html(fig_samples)
     plt.close(fig_samples)
+    mo.as_html(fig_samples)
     return
 
 
@@ -479,8 +479,8 @@ def _(mo, norm, np, plt):
     ax_alt.scatter(normal_data_example_alt, np.zeros_like(normal_data_example_alt), alpha=0.5)
     ax_alt.grid(True)
 
-    mo.as_html(fig_alt)
     plt.close(fig_alt)
+    mo.as_html(fig_alt)
     return
 
 
@@ -530,8 +530,8 @@ def _(mo, norm, np, plt):
     ax_parzen.scatter(normal_data_example_parzen, np.zeros_like(normal_data_example_parzen), alpha=0.5)
     ax_parzen.grid(True)
 
-    mo.as_html(fig_parzen)
     plt.close(fig_parzen)
+    mo.as_html(fig_parzen)
     return
 
 
@@ -604,8 +604,8 @@ def _(mo, norm, np, plt):
     ax_mix.scatter(data_dist_1, np.zeros_like(data_dist_1) - 0.1, alpha=0.5)
     ax_mix.scatter(data_dist_2, np.zeros_like(data_dist_2) - 0.1, alpha=0.5)
 
-    mo.as_html(fig_mix)
     plt.close(fig_mix)
+    mo.as_html(fig_mix)
     return data_dist_1, data_dist_2
 
 
@@ -628,8 +628,116 @@ def _(KernelDensity, data_dist_1, data_dist_2, mo, np, plt):
     ax_kde.scatter(combined, np.zeros_like(combined), alpha=0.5)
     ax_kde.grid(True)
 
-    mo.as_html(fig_kde)
     plt.close(fig_kde)
+    mo.as_html(fig_kde)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
+    ### Parzen + Bayes: how does $h$ shape the decision boundary?
+
+    - Now plug the Parzen estimate $\hat{p}(\mathbf{x}|w_i)$ into the Bayes rule:
+        - Decide $w_1$ when $\hat{p}(\mathbf{x}|w_1) > \hat{p}(\mathbf{x}|w_2)$.
+    - Each class below is a **70/30 Gaussian + uniform** mixture — slightly
+      non-Gaussian, so the right answer isn't a straight line.
+    - Move the slider to see how the kernel width $h$ trades bias vs.
+      variance in the boundary.
+        """
+    )
+    return
+
+
+@app.cell
+def _(np):
+    # Fixed 2D sample so the slider only changes the estimate, not the
+    # data each frame. Each class is 70% Gaussian + 30% uniform noise —
+    # the uniform "wings" make a Gaussian parametric fit a poor match.
+    rng = np.random.default_rng(1)
+    n_per_class = 200
+
+    cls0_g = rng.normal(
+        loc=(0.0, 0.0), scale=0.7,
+        size=(int(0.7 * n_per_class), 2),
+    )
+    cls0_u = rng.uniform(
+        low=(-1.5, -1.5), high=(1.5, 1.5),
+        size=(n_per_class - len(cls0_g), 2),
+    )
+    X0 = np.vstack([cls0_g, cls0_u])
+
+    cls1_g = rng.normal(
+        loc=(2.5, 2.5), scale=0.7,
+        size=(int(0.7 * n_per_class), 2),
+    )
+    cls1_u = rng.uniform(
+        low=(1.0, 1.0), high=(4.0, 4.0),
+        size=(n_per_class - len(cls1_g), 2),
+    )
+    X1 = np.vstack([cls1_g, cls1_u])
+    return X0, X1
+
+
+@app.cell
+def _(KernelDensity, X0, X1, mo, np, plt):
+    # Slider and reactive figure share a cell via `mo.state(allow_self_loops=True)` —
+    # Marimo normally forbids reading a UIElement's `.value` in the cell that
+    # created it, so the slider's `on_change` pushes the value into state and
+    # we read `get_h()` here. Keeps the widget next to the plot in slides view.
+    get_h, set_h = mo.state(0.3, allow_self_loops=True)
+
+    h_slider = mo.ui.slider(
+        start=0.1, stop=1.5, step=0.05,
+        value=get_h(), show_value=True,
+        label="Kernel bandwidth h",
+        on_change=lambda v: set_h(v),
+    )
+
+    h = get_h()
+    kde0 = KernelDensity(kernel="gaussian", bandwidth=h).fit(X0)
+    kde1 = KernelDensity(kernel="gaussian", bandwidth=h).fit(X1)
+
+    grid_min, grid_max, n_grid = -2.5, 5.5, 140
+    xx, yy = np.meshgrid(
+        np.linspace(grid_min, grid_max, n_grid),
+        np.linspace(grid_min, grid_max, n_grid),
+    )
+    log_diff = (
+        kde0.score_samples(np.column_stack([xx.ravel(), yy.ravel()]))
+        - kde1.score_samples(np.column_stack([xx.ravel(), yy.ravel()]))
+    ).reshape(xx.shape)
+    decision = (log_diff > 0).astype(float)
+
+    fig_pb, ax_pb = plt.subplots(figsize=(6.5, 6))
+    ax_pb.contourf(
+        xx, yy, decision,
+        levels=[-0.5, 0.5, 1.5],
+        colors=["#f4cccc", "#cfe2f3"], alpha=0.4,
+    )
+    ax_pb.contour(
+        xx, yy, log_diff, levels=[0],
+        colors="black", linewidths=2,
+    )
+    ax_pb.scatter(
+        X0[:, 0], X0[:, 1], c="#c44e52", edgecolor="k",
+        s=18, alpha=0.7, label="Class 0",
+    )
+    ax_pb.scatter(
+        X1[:, 0], X1[:, 1], c="#4c72b0", edgecolor="k",
+        s=18, alpha=0.7, label="Class 1",
+    )
+    ax_pb.set_xlim(grid_min, grid_max)
+    ax_pb.set_ylim(grid_min, grid_max)
+    ax_pb.set_xlabel("x₁")
+    ax_pb.set_ylabel("x₂")
+    ax_pb.set_title(f"Parzen–Bayes decision boundary  (h = {h:.2f})")
+    ax_pb.legend(loc="upper left")
+    fig_pb.tight_layout()
+
+    plt.close(fig_pb)
+    mo.vstack([h_slider, mo.as_html(fig_pb)], gap=1)
     return
 
 
