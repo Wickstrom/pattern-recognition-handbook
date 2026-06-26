@@ -120,69 +120,6 @@ def _(mo):
 
 
 @app.cell
-def _(mo, norm, np, plt):
-    # Pre-compute one figure per (μ, σ) preset and bundle them into a
-    # single tabs widget so the controls and the visualization live in
-    # one cell (one slide in slides view — same pattern as the Bayes
-    # lecture at notebooks/01/bayes_decision_theory.py and the linear
-    # classifier tabs at notebooks/03/linear_classifiers.py).
-    # Students click a preset to swap the Gaussian overlay; the data is
-    # fixed across all presets so the change in fit is what they see.
-    data_param = np.array(
-        [-1.2, -0.8, -0.3, 0.1, 0.2, 0.5, 0.9, 1.4, 1.8, 2.1]
-    )
-    presets_param = {
-        "μ=0.0, σ=0.8": (0.0, 0.8),
-        "μ=0.5, σ=0.8": (0.5, 0.8),
-        "μ=0.9, σ=0.8": (0.9, 0.8),
-        "μ=0.9, σ=0.4": (0.9, 0.4),
-        "μ=0.9, σ=1.5": (0.9, 1.5),
-    }
-
-    tabs_param = {}
-    for label, (mu_p, sigma_p) in presets_param.items():
-        log_lik_p = float(
-            np.sum(norm.logpdf(data_param, mu_p, sigma_p))
-        )
-        x_grid_p = np.linspace(
-            data_param.min() - 1, data_param.max() + 1, 200
-        )
-        pdf_p = norm.pdf(x_grid_p, mu_p, sigma_p)
-
-        fig_p, ax_p = plt.subplots(figsize=(7, 3.5))
-        ax_p.hist(
-            data_param, bins=8, density=True, alpha=0.4,
-            color="gray", edgecolor="black", label="data",
-        )
-        ax_p.plot(
-            x_grid_p, pdf_p, "r-", linewidth=2,
-            label=f"N({mu_p:.2f}, {sigma_p:.2f}²)",
-        )
-        ax_p.set_xlabel("x")
-        ax_p.set_ylabel("density")
-        ax_p.legend(loc="upper right")
-        ax_p.set_title(
-            f"log-likelihood = {log_lik_p:.3f}  —  {label}"
-        )
-        fig_p.tight_layout()
-
-        tabs_param[label] = mo.vstack(
-            [
-                mo.md(
-                    f"**Setting:** {label} &nbsp;&nbsp; "
-                    f"**log-likelihood:** {log_lik_p:.3f}"
-                ),
-                mo.as_html(fig_p),
-            ],
-            gap=1,
-        )
-        plt.close(fig_p)
-
-    mo.ui.tabs(tabs_param)
-    return
-
-
-@app.cell
 def _():
     import numpy as np
     import matplotlib.pyplot as plt
@@ -264,31 +201,6 @@ def _(mo):
 
 
 @app.cell
-def _(mo, norm, np, plt):
-    # Likelihood intuition: same data overlaid with a "good" fit (matching
-    # parameters) and a "bad" fit (mean offset by 2). The good fit puts
-    # most of its mass where the samples are.
-    normal_data_lik = np.random.normal(loc=0, scale=1, size=50)
-
-    x_normal_good = np.linspace(normal_data_lik.min() - 0.1, normal_data_lik.max() + 0.1, 100)
-    p_normal_good = norm.pdf(x_normal_good, loc=0, scale=1)
-
-    x_normal_bad = np.linspace(normal_data_lik.min() - 0.1, normal_data_lik.max() + 3.0, 100)
-    p_normal_bad = norm.pdf(x_normal_bad, loc=2, scale=1)
-
-    fig_lik, axes_lik = plt.subplots(1, 2, figsize=(6, 3))
-    axes_lik[0].scatter(normal_data_lik, np.zeros_like(normal_data_lik), alpha=0.5)
-    axes_lik[0].plot(x_normal_good, p_normal_good, "k", linewidth=2, label="PDF")
-    axes_lik[1].scatter(normal_data_lik, np.zeros_like(normal_data_lik), alpha=0.5)
-    axes_lik[1].plot(x_normal_bad, p_normal_bad, "k", linewidth=2, label="PDF")
-    fig_lik.tight_layout()
-
-    plt.close(fig_lik)
-    mo.as_html(fig_lik)
-    return
-
-
-@app.cell
 def _(mo):
     mo.md(
         r"""
@@ -346,6 +258,70 @@ def _(mo):
 
 
 @app.cell
+def _(mo, norm, np, plt):
+    # Interactive demo for the maximum-likelihood derivation above.
+    # Pre-compute one figure per (μ, σ) preset and bundle into a single
+    # tabs widget so the controls and the visualization live in one cell
+    # (one slide in slides view — same pattern as the Bayes lecture at
+    # notebooks/01/bayes_decision_theory.py and the linear classifier
+    # tabs at notebooks/03/linear_classifiers.py). Students click a preset
+    # to swap the Gaussian overlay; the data is fixed across all presets
+    # so the change in fit is what they see.
+    data_param = np.array(
+        [-1.2, -0.8, -0.3, 0.1, 0.2, 0.5, 0.9, 1.4, 1.8, 2.1]
+    )
+    presets_param = {
+        "μ=0.0, σ=0.8": (0.0, 0.8),
+        "μ=0.5, σ=0.8": (0.5, 0.8),
+        "μ=0.9, σ=0.8": (0.9, 0.8),
+        "μ=0.9, σ=0.4": (0.9, 0.4),
+        "μ=0.9, σ=1.5": (0.9, 1.5),
+    }
+
+    tabs_param = {}
+    for label, (mu_p, sigma_p) in presets_param.items():
+        log_lik_p = float(
+            np.sum(norm.logpdf(data_param, mu_p, sigma_p))
+        )
+        x_grid_p = np.linspace(
+            data_param.min() - 1, data_param.max() + 1, 200
+        )
+        pdf_p = norm.pdf(x_grid_p, mu_p, sigma_p)
+
+        fig_p, ax_p = plt.subplots(figsize=(7, 3.5))
+        ax_p.hist(
+            data_param, bins=8, density=True, alpha=0.4,
+            color="gray", edgecolor="black", label="data",
+        )
+        ax_p.plot(
+            x_grid_p, pdf_p, "r-", linewidth=2,
+            label=f"N({mu_p:.2f}, {sigma_p:.2f}²)",
+        )
+        ax_p.set_xlabel("x")
+        ax_p.set_ylabel("density")
+        ax_p.legend(loc="upper right")
+        ax_p.set_title(
+            f"log-likelihood = {log_lik_p:.3f}  —  {label}"
+        )
+        fig_p.tight_layout()
+
+        tabs_param[label] = mo.vstack(
+            [
+                mo.md(
+                    f"**Setting:** {label} &nbsp;&nbsp; "
+                    f"**log-likelihood:** {log_lik_p:.3f}"
+                ),
+                mo.as_html(fig_p),
+            ],
+            gap=1,
+        )
+        plt.close(fig_p)
+
+    mo.ui.tabs(tabs_param)
+    return
+
+
+@app.cell
 def _(mo):
     mo.md(
         r"""
@@ -393,7 +369,7 @@ def _():
 
 @app.cell
 def _(X_1_name, X_2_name, X_bc, mo, plt):
-    fig_bc, ax_bc = plt.subplots(figsize=(4, 4))
+    fig_bc, ax_bc = plt.subplots(figsize=(5.5, 5.5))
     ax_bc.scatter(X_bc[:, 0], X_bc[:, 1])
     ax_bc.set_xlabel(X_1_name)
     ax_bc.set_ylabel(X_2_name)
@@ -643,7 +619,7 @@ def _(mo):
         - Decide $w_1$ when $\hat{p}(\mathbf{x}|w_1) > \hat{p}(\mathbf{x}|w_2)$.
     - Each class below is a **70/30 Gaussian + uniform** mixture — slightly
       non-Gaussian, so the right answer isn't a straight line.
-    - Move the slider to see how the kernel width $h$ trades bias vs.
+    - Click the tabs to see how the kernel width $h$ trades bias vs.
       variance in the boundary.
         """
     )
@@ -651,10 +627,13 @@ def _(mo):
 
 
 @app.cell
-def _(np):
-    # Fixed 2D sample so the slider only changes the estimate, not the
-    # data each frame. Each class is 70% Gaussian + 30% uniform noise —
-    # the uniform "wings" make a Gaussian parametric fit a poor match.
+def _(KernelDensity, mo, np, plt):
+    # Pre-compute one figure per h preset and bundle into tabs (same
+    # pattern as the parametric estimation example above). The 2D sample
+    # is fixed across presets so the only thing that changes between
+    # tabs is the kernel width. Each class is 70% Gaussian + 30%
+    # uniform noise — the uniform "wings" break Gaussianity so the
+    # right boundary isn't a straight line.
     rng = np.random.default_rng(1)
     n_per_class = 200
 
@@ -677,67 +656,67 @@ def _(np):
         size=(n_per_class - len(cls1_g), 2),
     )
     X1 = np.vstack([cls1_g, cls1_u])
-    return X0, X1
 
-
-@app.cell
-def _(KernelDensity, X0, X1, mo, np, plt):
-    # Slider and reactive figure share a cell via `mo.state(allow_self_loops=True)` —
-    # Marimo normally forbids reading a UIElement's `.value` in the cell that
-    # created it, so the slider's `on_change` pushes the value into state and
-    # we read `get_h()` here. Keeps the widget next to the plot in slides view.
-    get_h, set_h = mo.state(0.3, allow_self_loops=True)
-
-    h_slider = mo.ui.slider(
-        start=0.1, stop=1.5, step=0.05,
-        value=get_h(), show_value=True,
-        label="Kernel bandwidth h",
-        on_change=lambda v: set_h(v),
-    )
-
-    h = get_h()
-    kde0 = KernelDensity(kernel="gaussian", bandwidth=h).fit(X0)
-    kde1 = KernelDensity(kernel="gaussian", bandwidth=h).fit(X1)
+    h_presets = {
+        "h = 0.15": 0.15,
+        "h = 0.30": 0.30,
+        "h = 0.60": 0.60,
+        "h = 1.00": 1.00,
+    }
 
     grid_min, grid_max, n_grid = -2.5, 5.5, 140
     xx, yy = np.meshgrid(
         np.linspace(grid_min, grid_max, n_grid),
         np.linspace(grid_min, grid_max, n_grid),
     )
-    log_diff = (
-        kde0.score_samples(np.column_stack([xx.ravel(), yy.ravel()]))
-        - kde1.score_samples(np.column_stack([xx.ravel(), yy.ravel()]))
-    ).reshape(xx.shape)
-    decision = (log_diff > 0).astype(float)
+    grid_pts = np.column_stack([xx.ravel(), yy.ravel()])
 
-    fig_pb, ax_pb = plt.subplots(figsize=(6.5, 6))
-    ax_pb.contourf(
-        xx, yy, decision,
-        levels=[-0.5, 0.5, 1.5],
-        colors=["#f4cccc", "#cfe2f3"], alpha=0.4,
-    )
-    ax_pb.contour(
-        xx, yy, log_diff, levels=[0],
-        colors="black", linewidths=2,
-    )
-    ax_pb.scatter(
-        X0[:, 0], X0[:, 1], c="#c44e52", edgecolor="k",
-        s=18, alpha=0.7, label="Class 0",
-    )
-    ax_pb.scatter(
-        X1[:, 0], X1[:, 1], c="#4c72b0", edgecolor="k",
-        s=18, alpha=0.7, label="Class 1",
-    )
-    ax_pb.set_xlim(grid_min, grid_max)
-    ax_pb.set_ylim(grid_min, grid_max)
-    ax_pb.set_xlabel("x₁")
-    ax_pb.set_ylabel("x₂")
-    ax_pb.set_title(f"Parzen–Bayes decision boundary  (h = {h:.2f})")
-    ax_pb.legend(loc="upper left")
-    fig_pb.tight_layout()
+    tabs_pb = {}
+    for tab_label, h_val in h_presets.items():
+        kde0 = KernelDensity(kernel="gaussian", bandwidth=h_val).fit(X0)
+        kde1 = KernelDensity(kernel="gaussian", bandwidth=h_val).fit(X1)
+        log_diff = (
+            kde0.score_samples(grid_pts)
+            - kde1.score_samples(grid_pts)
+        ).reshape(xx.shape)
+        decision = (log_diff > 0).astype(float)
 
-    plt.close(fig_pb)
-    mo.vstack([h_slider, mo.as_html(fig_pb)], gap=1)
+        fig_pb, ax_pb = plt.subplots(figsize=(5.5, 5.5))
+        ax_pb.contourf(
+            xx, yy, decision,
+            levels=[-0.5, 0.5, 1.5],
+            colors=["#f4cccc", "#cfe2f3"], alpha=0.4,
+        )
+        ax_pb.contour(
+            xx, yy, log_diff, levels=[0],
+            colors="black", linewidths=2,
+        )
+        ax_pb.scatter(
+            X0[:, 0], X0[:, 1], c="#c44e52", edgecolor="k",
+            s=18, alpha=0.7, label="Class 0",
+        )
+        ax_pb.scatter(
+            X1[:, 0], X1[:, 1], c="#4c72b0", edgecolor="k",
+            s=18, alpha=0.7, label="Class 1",
+        )
+        ax_pb.set_xlim(grid_min, grid_max)
+        ax_pb.set_ylim(grid_min, grid_max)
+        ax_pb.set_xlabel("x₁")
+        ax_pb.set_ylabel("x₂")
+        ax_pb.set_title(f"Parzen–Bayes decision boundary  ({tab_label})")
+        ax_pb.legend(loc="upper left")
+        fig_pb.tight_layout()
+
+        tabs_pb[tab_label] = mo.vstack(
+            [
+                mo.md(f"**Bandwidth:** {tab_label}"),
+                mo.as_html(fig_pb),
+            ],
+            gap=1,
+        )
+        plt.close(fig_pb)
+
+    mo.ui.tabs(tabs_pb)
     return
 
 
