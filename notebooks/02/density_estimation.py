@@ -134,11 +134,11 @@ def _():
 
 
 @app.cell
-def _(mo, np, plt):
-    # Pre-compute one histogram per distribution and bundle into tabs
-    # (same pattern as the parametric estimation example below). We
-    # deliberately do *not* overlay the true PDF — that would give the
-    # answer away. The distributions are, in order of difficulty:
+def _(np, plt):
+    # Pre-compute one histogram per distribution (same pattern as the
+    # parametric estimation example below). We deliberately do *not*
+    # overlay the true PDF — that would give the answer away. The
+    # distributions are, in order of difficulty:
     #   1. Normal(0, 1)     — the textbook bell curve
     #   2. Uniform(-2, 2)   — easy: it's flat
     #   3. Beta(2, 5)       — single peak but skewed, bounded on [0, 1]
@@ -155,36 +155,53 @@ def _(mo, np, plt):
         ("Distribution 5", "Beta(0.5, 0.5)",    lambda: rng_q.beta(0.5, 0.5, n_samples)),
     ]
 
-    # Reveal the family name for each tab when the toggle is on; hide
-    # it otherwise so the shape is what the students read.
-    show_name_q = mo.ui.switch(value=False, label="Show distribution names")
-
-    tabs_dist = {}
-    for tab_label_q, dist_name_q, sampler in dists:
-        samples = sampler()
-        fig_dist, ax_dist = plt.subplots(figsize=(10, 5))
-        ax_dist.hist(
-            samples, bins=40, density=True,
+    figs_dist = {}
+    for _tab_label_q, _dist_name_q, _sampler in dists:
+        _samples = _sampler()
+        _fig_dist, _ax_dist = plt.subplots(figsize=(10, 5))
+        _ax_dist.hist(
+            _samples, bins=40, density=True,
             color="#c44e52", alpha=0.75, edgecolor="black",
         )
-        ax_dist.set_xlabel("x")
-        ax_dist.set_ylabel("density")
-        ax_dist.set_title("What distribution is this?")
-        fig_dist.tight_layout()
+        _ax_dist.set_xlabel("x")
+        _ax_dist.set_ylabel("density")
+        _ax_dist.set_title("What distribution is this?")
+        _fig_dist.tight_layout()
+        figs_dist[_tab_label_q] = _fig_dist
+        plt.close(_fig_dist)
 
-        label_md = (
-            f"**{tab_label_q}**: *{dist_name_q}*"
+    return dists, figs_dist
+
+
+@app.cell
+def _(mo):
+    # Lives in its own cell so the tabs cell below can read
+    # show_name_q.value without violating Marimo's "no reading a
+    # UIElement in the cell that created it" rule.
+    show_name_q = mo.ui.switch(value=False, label="Show distribution names")
+    return (show_name_q,)
+
+
+@app.cell
+def _(dists, figs_dist, mo, show_name_q):
+    # Bundle the pre-computed figures into tabs. The label above each
+    # figure toggles between the bare "Distribution N" and the
+    # "Distribution N: *Family*" reveal depending on the switch.
+    tabs_dist = {}
+    for _tab_label_q, _dist_name_q, _sampler in dists:
+        _fig_dist = figs_dist[_tab_label_q]
+        _label_md = (
+            f"**{_tab_label_q}**: *{_dist_name_q}*"
             if show_name_q.value
-            else f"**{tab_label_q}**"
+            else f"**{_tab_label_q}**"
         )
-        tabs_dist[tab_label_q] = mo.vstack(
+        tabs_dist[_tab_label_q] = mo.vstack(
             [
-                mo.md(label_md),
-                mo.as_html(fig_dist),
+                mo.md(_label_md),
+                mo.as_html(_fig_dist),
             ],
             gap=1,
         )
-        plt.close(fig_dist)
 
     mo.vstack([show_name_q, mo.ui.tabs(tabs_dist)])
     return
@@ -657,7 +674,7 @@ def _(mo):
 
 
 @app.cell
-def _(KernelDensity, mo, np, plt):
+def _(KernelDensity, np):
     # Two interleaving "moons" — the canonical non-Gaussian 2D example.
     # Each class is a noisy arc, so the true decision boundary is a
     # non-linear curve that no parametric Gaussian can capture.
@@ -669,75 +686,104 @@ def _(KernelDensity, mo, np, plt):
 
     theta = np.linspace(0, np.pi, n_per_class)
     # Outer moon: arc opening downward
-    X0 = np.column_stack([np.cos(theta), np.sin(theta)])
+    X0_pb = np.column_stack([np.cos(theta), np.sin(theta)])
     # Inner moon: arc opening upward, offset right and down
-    X1 = np.column_stack([
+    X1_pb = np.column_stack([
         1 - np.cos(theta),
         -np.sin(theta) - 0.5,
     ])
-    X0 += rng_pb.normal(0, noise, X0.shape)
-    X1 += rng_pb.normal(0, noise, X1.shape)
+    X0_pb += rng_pb.normal(0, noise, X0_pb.shape)
+    X1_pb += rng_pb.normal(0, noise, X1_pb.shape)
 
-    h_presets = {
+    h_presets_pb = {
         "h = 0.05": 0.05,
         "h = 0.15": 0.15,
         "h = 0.50": 0.50,
         "h = 1.50 (too large)": 1.50,
     }
 
-    grid_min, grid_max, n_grid = -2.0, 2.5, 160
-    xx, yy = np.meshgrid(
-        np.linspace(grid_min, grid_max, n_grid),
-        np.linspace(grid_min, grid_max, n_grid),
+    grid_min_pb, grid_max_pb, n_grid_pb = -2.0, 2.5, 160
+    xx_pb, yy_pb = np.meshgrid(
+        np.linspace(grid_min_pb, grid_max_pb, n_grid_pb),
+        np.linspace(grid_min_pb, grid_max_pb, n_grid_pb),
     )
-    grid_pts = np.column_stack([xx.ravel(), yy.ravel()])
+    grid_pts_pb = np.column_stack([xx_pb.ravel(), yy_pb.ravel()])
 
-    # Reveal the decision boundary (filled regions + contour line) when
-    # on; show only the raw data points when off, so students can think
-    # about the boundary before the answer is overlaid.
+    # Pre-compute the log-density difference and binarized decision
+    # for each bandwidth preset so the rendering cell below only has
+    # to draw (and re-draw on switch toggle), not refit the KDEs.
+    tab_data_pb = {}
+    for _tab_label_pb, _h_val_pb in h_presets_pb.items():
+        _kde0 = KernelDensity(kernel="gaussian", bandwidth=_h_val_pb).fit(X0_pb)
+        _kde1 = KernelDensity(kernel="gaussian", bandwidth=_h_val_pb).fit(X1_pb)
+        _log_diff = (
+            _kde0.score_samples(grid_pts_pb)
+            - _kde1.score_samples(grid_pts_pb)
+        ).reshape(xx_pb.shape)
+        _decision = (_log_diff > 0).astype(float)
+        tab_data_pb[_tab_label_pb] = (_log_diff, _decision)
+
+    return X0_pb, X1_pb, grid_max_pb, grid_min_pb, h_presets_pb, tab_data_pb, xx_pb, yy_pb
+
+
+@app.cell
+def _(mo):
+    # Lives in its own cell so the tabs cell below can read
+    # show_boundary_pb.value without violating Marimo's "no reading
+    # a UIElement in the cell that created it" rule.
     show_boundary_pb = mo.ui.switch(value=True, label="Show decision boundary")
+    return (show_boundary_pb,)
 
+
+@app.cell
+def _(
+    X0_pb,
+    X1_pb,
+    grid_max_pb,
+    grid_min_pb,
+    h_presets_pb,
+    mo,
+    plt,
+    show_boundary_pb,
+    tab_data_pb,
+    xx_pb,
+    yy_pb,
+):
     tabs_pb = {}
-    for tab_label, h_val in h_presets.items():
-        kde0 = KernelDensity(kernel="gaussian", bandwidth=h_val).fit(X0)
-        kde1 = KernelDensity(kernel="gaussian", bandwidth=h_val).fit(X1)
-        log_diff = (
-            kde0.score_samples(grid_pts)
-            - kde1.score_samples(grid_pts)
-        ).reshape(xx.shape)
-        decision = (log_diff > 0).astype(float)
+    for tab_label_pb, _h_val_pb in h_presets_pb.items():
+        log_diff, decision = tab_data_pb[tab_label_pb]
 
         fig_pb, ax_pb = plt.subplots(figsize=(6.5, 6.5))
         if show_boundary_pb.value:
             ax_pb.contourf(
-                xx, yy, decision,
+                xx_pb, yy_pb, decision,
                 levels=[-0.5, 0.5, 1.5],
                 colors=["#f4cccc", "#cfe2f3"], alpha=0.4,
             )
             ax_pb.contour(
-                xx, yy, log_diff, levels=[0],
+                xx_pb, yy_pb, log_diff, levels=[0],
                 colors="black", linewidths=2,
             )
         ax_pb.scatter(
-            X0[:, 0], X0[:, 1], c="#c44e52", edgecolor="k",
+            X0_pb[:, 0], X0_pb[:, 1], c="#c44e52", edgecolor="k",
             s=18, alpha=0.7, label="Class 0",
         )
         ax_pb.scatter(
-            X1[:, 0], X1[:, 1], c="#4c72b0", edgecolor="k",
+            X1_pb[:, 0], X1_pb[:, 1], c="#4c72b0", edgecolor="k",
             s=18, alpha=0.7, label="Class 1",
         )
-        ax_pb.set_xlim(grid_min, grid_max)
-        ax_pb.set_ylim(grid_min, grid_max)
+        ax_pb.set_xlim(grid_min_pb, grid_max_pb)
+        ax_pb.set_ylim(grid_min_pb, grid_max_pb)
         ax_pb.set_xlabel("x₁")
         ax_pb.set_ylabel("x₂")
         ax_pb.set_aspect("equal")
-        ax_pb.set_title(f"Parzen–Bayes decision boundary  ({tab_label})")
+        ax_pb.set_title(f"Parzen–Bayes decision boundary  ({tab_label_pb})")
         ax_pb.legend(loc="upper right")
         fig_pb.tight_layout()
 
-        tabs_pb[tab_label] = mo.vstack(
+        tabs_pb[tab_label_pb] = mo.vstack(
             [
-                mo.md(f"**Bandwidth:** {tab_label}"),
+                mo.md(f"**Bandwidth:** {tab_label_pb}"),
                 mo.as_html(fig_pb),
             ],
             gap=1,

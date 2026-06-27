@@ -252,9 +252,6 @@ def _(mo):
     - Toggle the **decision boundary** to overlay the linear separator
       that the MSE solution (with targets $y \in \{0, 1\}$) places at
       $\mathbf{w}^T\mathbf{x}=0.5$.
-    - The third tab uses a *moon*-shaped class 1 and a Gaussian class 2
-      to show that the MSE boundary fails once the data is not
-      Gaussian.
         """
     )
     return
@@ -586,7 +583,7 @@ def _(mo):
 
 
 @app.cell
-def _(X_aug_wh, X_wh, mo, n_wh, np, plt, x1_wh, x2_wh, y_wh):
+def _(X_aug_wh, X_wh, n_wh, np, y_wh):
     # First interactive run: random initial weights drawn from
     # N(0, 0.5²) with a fixed seed so the trajectory is reproducible
     # across renders. The trace is pre-computed once for the four
@@ -610,7 +607,32 @@ def _(X_aug_wh, X_wh, mo, n_wh, np, plt, x1_wh, x2_wh, y_wh):
         trace_wh_a.append(_w_new)
         update_idx_wh_a.append(_idx)
 
+    return rho_wh_a, trace_wh_a, update_idx_wh_a, n_steps_wh_a
+
+
+@app.cell
+def _(mo):
+    # Lives in its own cell so the rendering cell below can read
+    # step_btn_a.value without violating Marimo's "no reading a
+    # UIElement in the cell that created it" rule.
     step_btn_a = mo.ui.button(value=0, label="Next Widrow-Hoff update")
+    return (step_btn_a,)
+
+
+@app.cell
+def _(
+    X_wh,
+    mo,
+    n_steps_wh_a,
+    np,
+    plt,
+    rho_wh_a,
+    step_btn_a,
+    trace_wh_a,
+    update_idx_wh_a,
+    x1_wh,
+    x2_wh,
+):
     _step_a = min(step_btn_a.value, n_steps_wh_a)
     _w_a = trace_wh_a[_step_a]
     _hi_a = update_idx_wh_a[_step_a - 1] if _step_a > 0 else None
@@ -676,7 +698,7 @@ def _(mo):
 
 
 @app.cell
-def _(X_aug_wh, X_wh, mo, n_wh, np, plt, x1_wh, x2_wh, y_wh):
+def _(X_aug_wh, X_wh, n_wh, np, y_wh):
     # Second interactive run with a different seed so the four
     # updates follow a noticeably different trajectory. Same
     # alternating order and learning rate as start A for a fair
@@ -696,7 +718,32 @@ def _(X_aug_wh, X_wh, mo, n_wh, np, plt, x1_wh, x2_wh, y_wh):
         trace_wh_b.append(_w_new)
         update_idx_wh_b.append(_idx)
 
+    return rho_wh_b, trace_wh_b, update_idx_wh_b, n_steps_wh_b
+
+
+@app.cell
+def _(mo):
+    # Lives in its own cell so the rendering cell below can read
+    # step_btn_b.value without violating Marimo's "no reading a
+    # UIElement in the cell that created it" rule.
     step_btn_b = mo.ui.button(value=0, label="Next Widrow-Hoff update")
+    return (step_btn_b,)
+
+
+@app.cell
+def _(
+    X_wh,
+    mo,
+    n_steps_wh_b,
+    np,
+    plt,
+    rho_wh_b,
+    step_btn_b,
+    trace_wh_b,
+    update_idx_wh_b,
+    x1_wh,
+    x2_wh,
+):
     _step_b = min(step_btn_b.value, n_steps_wh_b)
     _w_b = trace_wh_b[_step_b]
     _hi_b = update_idx_wh_b[_step_b - 1] if _step_b > 0 else None
@@ -826,7 +873,7 @@ def _(mo):
 
 
 @app.cell
-def _(X_aug_wh, X_wh, mo, n_wh, np, plt, x1_wh, x2_wh, y_wh):
+def _(X_aug_wh, X_wh, n_wh, np, y_wh):
     # Same data and the same random initialization as the first
     # Widrow-Hoff slide; only the update rule differs. Same
     # class 1 / class 2 alternation so each step targets a sample
@@ -853,7 +900,32 @@ def _(X_aug_wh, X_wh, mo, n_wh, np, plt, x1_wh, x2_wh, y_wh):
         trace_p.append(_w_new)
         update_idx_p.append(_idx)
 
+    return rho_p, trace_p, update_idx_p, n_steps_p
+
+
+@app.cell
+def _(mo):
+    # Lives in its own cell so the rendering cell below can read
+    # step_btn_p.value without violating Marimo's "no reading a
+    # UIElement in the cell that created it" rule.
     step_btn_p = mo.ui.button(value=0, label="Next Perceptron update")
+    return (step_btn_p,)
+
+
+@app.cell
+def _(
+    X_wh,
+    mo,
+    n_steps_p,
+    np,
+    plt,
+    rho_p,
+    step_btn_p,
+    trace_p,
+    update_idx_p,
+    x1_wh,
+    x2_wh,
+):
     _step_p = min(step_btn_p.value, n_steps_p)
     _w_p = trace_p[_step_p]
     _hi_p = update_idx_p[_step_p - 1] if _step_p > 0 else None
