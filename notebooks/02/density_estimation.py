@@ -134,50 +134,33 @@ def _():
 
 
 @app.cell
-def _(mo):
-    mo.md(
-        r"""
-    ### What distribution is this?
-
-    - Five histograms, one distribution each — can you name them all?
-    - Click through the tabs. Every tab shows the same kind of plot
-      (a histogram of 1000 samples), so it's the *shape* you have to
-      read, not axis labels.
-    - The progression starts easy (textbook shapes) and ends with a
-      mixture that no single standard family can describe — a hint of
-      why we need the non-parametric methods later in the lecture.
-        """
-    )
-    return
-
-
-@app.cell
 def _(mo, np, plt):
     # Pre-compute one histogram per distribution and bundle into tabs
     # (same pattern as the parametric estimation example below). We
     # deliberately do *not* overlay the true PDF — that would give the
     # answer away. The distributions are, in order of difficulty:
-    #   1. Normal(0, 1)              — the textbook bell curve
-    #   2. Uniform(-2, 2)            — easy: it's flat
-    #   3. Beta(2, 5)                — single peak but skewed, bounded on [0, 1]
-    #   4. Exponential(1)            — one-sided decay; not symmetric, no lower tail
-    #   5. 0.5·N(-2, 0.7) + 0.5·N(2, 0.7)  — bimodal mixture
+    #   1. Normal(0, 1)     — the textbook bell curve
+    #   2. Uniform(-2, 2)   — easy: it's flat
+    #   3. Beta(2, 5)       — single peak but skewed, bounded on [0, 1]
+    #   4. Exponential(1)   — one-sided decay; not symmetric, no lower tail
+    #   5. Beta(0.5, 0.5)   — U-shape on [0, 1]; tempting to call uniform
     rng_q = np.random.default_rng(2)
     n_samples = 1000
 
     dists = [
-        ("Distribution 1", lambda: rng_q.normal(0, 1, n_samples)),
-        ("Distribution 2", lambda: rng_q.uniform(-2, 2, n_samples)),
-        ("Distribution 3", lambda: rng_q.beta(2, 5, n_samples)),
-        ("Distribution 4", lambda: rng_q.exponential(1, n_samples)),
-        ("Distribution 5", lambda: np.concatenate([
-            rng_q.normal(-2, 0.7, n_samples // 2),
-            rng_q.normal(2, 0.7, n_samples - n_samples // 2),
-        ])),
+        ("Distribution 1", "Normal(0, 1)",      lambda: rng_q.normal(0, 1, n_samples)),
+        ("Distribution 2", "Uniform(-2, 2)",    lambda: rng_q.uniform(-2, 2, n_samples)),
+        ("Distribution 3", "Beta(2, 5)",        lambda: rng_q.beta(2, 5, n_samples)),
+        ("Distribution 4", "Exponential(1)",    lambda: rng_q.exponential(1, n_samples)),
+        ("Distribution 5", "Beta(0.5, 0.5)",    lambda: rng_q.beta(0.5, 0.5, n_samples)),
     ]
 
+    # Reveal the family name for each tab when the toggle is on; hide
+    # it otherwise so the shape is what the students read.
+    show_name_q = mo.ui.switch(value=False, label="Show distribution names")
+
     tabs_dist = {}
-    for tab_label_q, sampler in dists:
+    for tab_label_q, dist_name_q, sampler in dists:
         samples = sampler()
         fig_dist, ax_dist = plt.subplots(figsize=(10, 5))
         ax_dist.hist(
@@ -189,16 +172,21 @@ def _(mo, np, plt):
         ax_dist.set_title("What distribution is this?")
         fig_dist.tight_layout()
 
+        label_md = (
+            f"**{tab_label_q}**: *{dist_name_q}*"
+            if show_name_q.value
+            else f"**{tab_label_q}**"
+        )
         tabs_dist[tab_label_q] = mo.vstack(
             [
-                mo.md(f"**{tab_label_q}** &nbsp; *Can you name it?*"),
+                mo.md(label_md),
                 mo.as_html(fig_dist),
             ],
             gap=1,
         )
         plt.close(fig_dist)
 
-    mo.ui.tabs(tabs_dist)
+    mo.vstack([show_name_q, mo.ui.tabs(tabs_dist)])
     return
 
 
@@ -377,7 +365,7 @@ def _(mo):
 
     - Real-world data rarely follow exact distributions.
     - So what do we do when we cannot find a parametric distribution that matches or data?
-    - Consider the example below
+    - Consider the following example
         """
     )
     return
@@ -558,7 +546,7 @@ def _(mo):
     - $E[\hat{p}(x)]=\frac{1}{Nh}\sum_{i=1}^{N}E\left[\phi\left(\frac{x_i-x}{h}\right)\right]$
     - Have
         - $E[g(y)]=\int g(y)p(y)dy$
-    - $E[\hat{p}(x)] = $
+    - $E[\hat{p}(x)] = \frac{1}{Nh}\sum_{i=1}^{N}\int \phi\left(\frac{x_i-x}{h}\right) p(x_i)\,dx_i$
         """
     )
     return
@@ -693,8 +681,8 @@ def _(KernelDensity, mo, np, plt):
     h_presets = {
         "h = 0.05": 0.05,
         "h = 0.15": 0.15,
-        "h = 0.30": 0.30,
-        "h = 0.60": 0.60,
+        "h = 0.50": 0.50,
+        "h = 1.50 (too large)": 1.50,
     }
 
     grid_min, grid_max, n_grid = -2.0, 2.5, 160
@@ -703,6 +691,11 @@ def _(KernelDensity, mo, np, plt):
         np.linspace(grid_min, grid_max, n_grid),
     )
     grid_pts = np.column_stack([xx.ravel(), yy.ravel()])
+
+    # Reveal the decision boundary (filled regions + contour line) when
+    # on; show only the raw data points when off, so students can think
+    # about the boundary before the answer is overlaid.
+    show_boundary_pb = mo.ui.switch(value=True, label="Show decision boundary")
 
     tabs_pb = {}
     for tab_label, h_val in h_presets.items():
@@ -715,15 +708,16 @@ def _(KernelDensity, mo, np, plt):
         decision = (log_diff > 0).astype(float)
 
         fig_pb, ax_pb = plt.subplots(figsize=(6.5, 6.5))
-        ax_pb.contourf(
-            xx, yy, decision,
-            levels=[-0.5, 0.5, 1.5],
-            colors=["#f4cccc", "#cfe2f3"], alpha=0.4,
-        )
-        ax_pb.contour(
-            xx, yy, log_diff, levels=[0],
-            colors="black", linewidths=2,
-        )
+        if show_boundary_pb.value:
+            ax_pb.contourf(
+                xx, yy, decision,
+                levels=[-0.5, 0.5, 1.5],
+                colors=["#f4cccc", "#cfe2f3"], alpha=0.4,
+            )
+            ax_pb.contour(
+                xx, yy, log_diff, levels=[0],
+                colors="black", linewidths=2,
+            )
         ax_pb.scatter(
             X0[:, 0], X0[:, 1], c="#c44e52", edgecolor="k",
             s=18, alpha=0.7, label="Class 0",
@@ -750,7 +744,7 @@ def _(KernelDensity, mo, np, plt):
         )
         plt.close(fig_pb)
 
-    mo.ui.tabs(tabs_pb)
+    mo.vstack([show_boundary_pb, mo.ui.tabs(tabs_pb)])
     return
 
 

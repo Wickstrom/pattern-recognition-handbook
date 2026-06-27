@@ -252,9 +252,9 @@ def _(mo):
     - Toggle the **decision boundary** to overlay the linear separator
       that the MSE solution (with targets $y \in \{0, 1\}$) places at
       $\mathbf{w}^T\mathbf{x}=0.5$.
-    - The last setting replaces class 1 with a *uniform* distribution in
-      a square to break the Gaussian assumption. The MSE boundary is no
-      longer Bayes-optimal once the normal-data assumption fails.
+    - The third tab uses a *moon*-shaped class 1 and a Gaussian class 2
+      to show that the MSE boundary fails once the data is not
+      Gaussian.
         """
     )
     return
@@ -262,15 +262,13 @@ def _(mo):
 
 @app.cell
 def _(mo, np, plt):
-    # Pre-compute one figure per scenario and bundle them into a single
-    # tabs widget so the controls and the visualization live in one cell
-    # (one slide in slides view — same pattern as the Bayes lecture's
-    # per-word tabs at notebooks/01/bayes_decision_theory.py).
-    # Means are kept close (along the diagonal) with moderate variance so
-    # the two clouds overlap noticeably and the MSE boundary is visibly
-    # pulled by outliers. The last scenario replaces class 1 with a
-    # uniform distribution to break the Gaussian assumption and skew
-    # the MSE boundary.
+    # Three scenarios to keep the slide focused. The first two stress
+    # the MSE solution under Gaussian assumptions (close means with
+    # equal vs. different variances). The third deliberately violates
+    # the Gaussian assumption by giving class 1 a *moon* shape and
+    # class 2 a Gaussian that overlaps it, so the MSE straight-line
+    # boundary is no longer Bayes-optimal — the failure is highlighted
+    # with a thicker dashed line and a bold title in the figure.
     scenarios_lc = {
         "μ₁=(2,2), μ₂=(3.5,3.5), σ=0.6 (close, equal σ)": (
             "normal", np.array([2.0, 2.0]), 0.6,
@@ -280,13 +278,9 @@ def _(mo, np, plt):
             "normal", np.array([2.0, 2.0]), 0.4,
             "normal", np.array([3.5, 3.5]), 0.9,
         ),
-        "μ₁=(2.2,2.2), μ₂=(3.3,3.3), σ=0.55 (very close means)": (
-            "normal", np.array([2.2, 2.2]), 0.55,
-            "normal", np.array([3.3, 3.3]), 0.55,
-        ),
-        "Class 1 uniform, Class 2 Gaussian (non-Gaussian)": (
-            "uniform", np.array([2.0, 2.0]), 0.6,
-            "normal", np.array([3.5, 3.5]), 0.6,
+        "Class 1 = half-moon arc, Class 2 = Gaussian  (MSE breaks down!)": (
+            "moon", None, None,
+            "normal", np.array([2.5, 2.6]), 0.5,
         ),
     }
 
@@ -297,10 +291,23 @@ def _(mo, np, plt):
         if kind == "normal":
             cov = (scale ** 2) * np.eye(2)
             return np.random.multivariate_normal(loc, cov, n)
-        # uniform inside a square of half-side `scale` around `loc`
-        return loc + scale * (2 * np.random.rand(n, 2) - 1)
+        # Half-moon: upper 180-degree arc centered at (2.5, 2.5),
+        # radius 1.4, plus a touch of thickness noise so the band has
+        # a visible width rather than a hairline.
+        theta = np.linspace(0, np.pi, n)
+        moon_radius = 1.4
+        moon_cx, moon_cy = 2.5, 2.5
+        x = moon_cx + moon_radius * np.cos(theta)
+        y = moon_cy + moon_radius * np.sin(theta)
+        samples = np.column_stack([x, y])
+        samples += np.random.normal(0, 0.1, samples.shape)
+        return samples
 
-    def make_fig_lc(title, c1_type, c1_loc, c1_scale, c2_type, c2_loc, c2_scale):
+    # Toggle the linear MSE boundary on/off so students can first read
+    # the data, then check what the LS solution places on top.
+    show_boundary_lc = mo.ui.switch(value=True, label="Show decision boundary")
+
+    def make_fig_lc(title, c1_type, c1_loc, c1_scale, c2_type, c2_loc, c2_scale, highlight=False):
         x1 = sample_lc(c1_type, c1_loc, c1_scale, n_lc)
         x2 = sample_lc(c2_type, c2_loc, c2_scale, n_lc)
 
@@ -325,33 +332,40 @@ def _(mo, np, plt):
             label="Class 2 (target 1)",
         )
 
-        if abs(w1) > 1e-9:
-            # w0*x + w1*y + b = 0.5  ->  y = (0.5 - w0*x - b) / w1
-            xs = np.array([0.5, 5.0])
-            ys = (0.5 - w0 * xs - b) / w1
-            ax.plot(
-                xs, ys, "r--", linewidth=2.5,
-                label=f"MSE boundary  w=[{w0:+.2f}, {w1:+.2f}, {b:+.2f}]",
-            )
-        else:
-            # Vertical boundary case.
-            ax.axvline(
-                x=(0.5 - b) / w0, color="red", linestyle="--", linewidth=2.5,
-                label=f"MSE boundary  w=[{w0:+.2f}, {w1:+.2f}, {b:+.2f}]",
-            )
+        if show_boundary_lc.value:
+            boundary_lw = 3.5 if highlight else 2.5
+            if abs(w1) > 1e-9:
+                # w0*x + w1*y + b = 0.5  ->  y = (0.5 - w0*x - b) / w1
+                xs = np.array([0.5, 5.0])
+                ys = (0.5 - w0 * xs - b) / w1
+                ax.plot(
+                    xs, ys, "r--", linewidth=boundary_lw,
+                    label=f"MSE boundary  w=[{w0:+.2f}, {w1:+.2f}, {b:+.2f}]",
+                )
+            else:
+                # Vertical boundary case.
+                ax.axvline(
+                    x=(0.5 - b) / w0, color="red", linestyle="--", linewidth=boundary_lw,
+                    label=f"MSE boundary  w=[{w0:+.2f}, {w1:+.2f}, {b:+.2f}]",
+                )
 
         ax.set_xlim(0.5, 5.0)
         ax.set_ylim(0.5, 5.0)
         ax.set_xlabel("x1")
         ax.set_ylabel("x2")
-        ax.set_title(title)
+        if highlight:
+            ax.set_title(title, fontweight="bold", color="darkred")
+        else:
+            ax.set_title(title)
         ax.legend(loc="lower right", fontsize=9)
         ax.grid(True, alpha=0.3)
         return fig, w
 
     tabs_lc = {}
-    for title, params in scenarios_lc.items():
-        fig_lc, w_lc = make_fig_lc(title, *params)
+    titles_lc = list(scenarios_lc.keys())
+    for idx_lc, (title, params) in enumerate(scenarios_lc.items()):
+        highlight_lc = idx_lc == len(scenarios_lc) - 1
+        fig_lc, w_lc = make_fig_lc(title, *params, highlight=highlight_lc)
         tabs_lc[title] = mo.vstack(
             [
                 mo.md(f"**MSE weights:** {w_lc.round(3)}"),
@@ -361,7 +375,7 @@ def _(mo, np, plt):
         )
         plt.close(fig_lc)
 
-    mo.ui.tabs(tabs_lc)
+    mo.vstack([show_boundary_lc, mo.ui.tabs(tabs_lc)])
     return
 
 
@@ -448,9 +462,7 @@ def _(mo):
         r"""
     ### Limitations of MSE and LS classifier
 
-    - Batch learning
-    - Solves equation in one step
-        - Correlation matrix and inverse of correlation matrix.
+    - $\mathbf{w}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T \mathbf{y}$
     - What could be potential problems?
         """
     )
@@ -505,7 +517,7 @@ def _(mo):
         r"""
     ### Derivatie of MSE loss
 
-    - Need to calculate $$\frac{\partial}{\partial \widehat{\mathbf{w}}(k-1)} J(\widehat{\mathbf{w}}(k-1))$$
+    - Need to calculate $\frac{\partial}{\partial \widehat{\mathbf{w}}(k-1)} J(\widehat{\mathbf{w}}(k-1))$
         """
     )
     return
@@ -525,7 +537,10 @@ def _(mo):
 def _(mo, np, plt):
     # Same two-class setup as the intro, but with tighter clusters and
     # a smaller inter-class distance — used for the in-class
-    # Widrow-Hoff / Perceptron update trace.
+    # Widrow-Hoff / Perceptron update trace. Targets are encoded as
+    # +1 / -1 so the Widrow-Hoff gradient step
+    # w ← w + ρ (y − wᵀx) x and the perceptron step
+    # w ← w + ρ y x fall out naturally.
     n_wh = 7
 
     mu1_wh = np.array([1, 1])
@@ -534,20 +549,201 @@ def _(mo, np, plt):
 
     x1_wh = np.random.multivariate_normal(mu1_wh, sigma_wh, n_wh)
     x2_wh = np.random.multivariate_normal(mu2_wh, sigma_wh, n_wh)
+    X_wh = np.vstack([x1_wh, x2_wh])
+    y_wh = np.concatenate([np.ones(n_wh), -np.ones(n_wh)])
+    X_aug_wh = np.hstack([X_wh, np.ones((2 * n_wh, 1))])
 
     fig_wh, ax_wh = plt.subplots(figsize=(5, 5))
     ax_wh.scatter(
         x1_wh[:, 0], x1_wh[:, 1],
-        s=120, facecolors="none", edgecolors="black", linewidth=3.0, label="Class 1",
+        s=120, facecolors="none", edgecolors="black", linewidth=3.0, label="Class 1 (+1)",
     )
     ax_wh.scatter(
         x2_wh[:, 0], x2_wh[:, 1],
-        s=120, facecolors="none", edgecolors="blue", linewidth=3.0, label="Class 2",
+        s=120, facecolors="none", edgecolors="blue", linewidth=3.0, label="Class 2 (−1)",
     )
     ax_wh.legend()
 
     mo.as_html(fig_wh)
     plt.close(fig_wh)
+    return X_aug_wh, X_wh, n_wh, x1_wh, x2_wh, y_wh
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
+    ### Interactive: Widrow-Hoff update
+
+    - Start from *random* initial weights and click **Next update** to
+      step through four Widrow-Hoff gradient updates:
+      $\mathbf{w}(k+1) = \mathbf{w}(k) + \rho (y - \mathbf{w}^T\mathbf{x})\mathbf{x}$.
+    - The point consumed by the most recent update is highlighted in
+      red so you can see which sample drove the new boundary.
+        """
+    )
+    return
+
+
+@app.cell
+def _(X_aug_wh, X_wh, mo, n_wh, np, plt, x1_wh, x2_wh, y_wh):
+    # First interactive run: random initial weights drawn from
+    # N(0, 0.5²) with a fixed seed so the trajectory is reproducible
+    # across renders. The trace is pre-computed once for the four
+    # sequential updates; the button picks which step to display.
+    # We alternate class 1 / class 2 across the four steps so each
+    # step makes a visible move (a pure class-1 sweep would bias the
+    # boundary off-screen).
+    rng_wh_a = np.random.default_rng(42)
+    w_wh_a_init = rng_wh_a.normal(0, 0.5, size=3)
+    rho_wh_a = 0.08
+
+    n_steps_wh_a = 4
+    trace_wh_a = [w_wh_a_init.copy()]
+    update_idx_wh_a = []
+    for _step in range(n_steps_wh_a):
+        # Even step → class 1 point, odd step → class 2 point.
+        _idx = (_step // 2) + (_step % 2) * n_wh
+        _x_i = X_aug_wh[_idx]
+        _y_i = y_wh[_idx]
+        _w_new = trace_wh_a[-1] + rho_wh_a * (_y_i - np.dot(trace_wh_a[-1], _x_i)) * _x_i
+        trace_wh_a.append(_w_new)
+        update_idx_wh_a.append(_idx)
+
+    step_btn_a = mo.ui.button(value=0, label="Next Widrow-Hoff update")
+    _step_a = min(step_btn_a.value, n_steps_wh_a)
+    _w_a = trace_wh_a[_step_a]
+    _hi_a = update_idx_wh_a[_step_a - 1] if _step_a > 0 else None
+
+    fig_wh_a, ax_wh_a = plt.subplots(figsize=(5, 5))
+    ax_wh_a.scatter(
+        x1_wh[:, 0], x1_wh[:, 1],
+        s=120, facecolors="none", edgecolors="black", linewidth=3.0,
+        label="Class 1 (+1)",
+    )
+    ax_wh_a.scatter(
+        x2_wh[:, 0], x2_wh[:, 1],
+        s=120, facecolors="none", edgecolors="blue", linewidth=3.0,
+        label="Class 2 (−1)",
+    )
+    if _hi_a is not None:
+        _x_h = X_wh[_hi_a]
+        ax_wh_a.scatter(
+            [_x_h[0]], [_x_h[1]], s=400, facecolors="none",
+            edgecolors="red", linewidth=3.5, label="Update point",
+        )
+    if abs(_w_a[1]) > 1e-9:
+        # w0*x + w1*y + b = 0  ->  y = -(w0*x + b) / w1
+        _xs_a = np.array([0.0, 3.0])
+        _ys_a = -(_w_a[0] * _xs_a + _w_a[2]) / _w_a[1]
+        ax_wh_a.plot(
+            _xs_a, _ys_a, "r--", linewidth=2.5,
+            label=f"Boundary  w=[{_w_a[0]:+.2f}, {_w_a[1]:+.2f}, {_w_a[2]:+.2f}]",
+        )
+    ax_wh_a.set_xlim(0.0, 3.0)
+    ax_wh_a.set_ylim(0.0, 3.0)
+    ax_wh_a.set_xlabel("x1")
+    ax_wh_a.set_ylabel("x2")
+    ax_wh_a.set_title(f"Widrow-Hoff, start A — step {_step_a}/{n_steps_wh_a}")
+    ax_wh_a.legend(loc="upper right", fontsize=8)
+    ax_wh_a.grid(True, alpha=0.3)
+    plt.close(fig_wh_a)
+
+    mo.vstack([
+        mo.hstack([
+            step_btn_a,
+            mo.md(
+                f"&nbsp;**Step {_step_a} / {n_steps_wh_a}** &nbsp; "
+                f"weights: `{_w_a.round(3)}`"
+            ),
+        ]),
+        mo.as_html(fig_wh_a),
+    ])
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
+    ### Interactive: Widrow-Hoff update (different start)
+
+    - Same four updates, same data — only the random initialization
+      changes. Compare the trajectory to the previous slide.
+        """
+    )
+    return
+
+
+@app.cell
+def _(X_aug_wh, X_wh, mo, n_wh, np, plt, x1_wh, x2_wh, y_wh):
+    # Second interactive run with a different seed so the four
+    # updates follow a noticeably different trajectory. Same
+    # alternating order and learning rate as start A for a fair
+    # side-by-side comparison.
+    rng_wh_b = np.random.default_rng(123)
+    w_wh_b_init = rng_wh_b.normal(0, 0.5, size=3)
+    rho_wh_b = 0.08
+
+    n_steps_wh_b = 4
+    trace_wh_b = [w_wh_b_init.copy()]
+    update_idx_wh_b = []
+    for _step in range(n_steps_wh_b):
+        _idx = (_step // 2) + (_step % 2) * n_wh
+        _x_i = X_aug_wh[_idx]
+        _y_i = y_wh[_idx]
+        _w_new = trace_wh_b[-1] + rho_wh_b * (_y_i - np.dot(trace_wh_b[-1], _x_i)) * _x_i
+        trace_wh_b.append(_w_new)
+        update_idx_wh_b.append(_idx)
+
+    step_btn_b = mo.ui.button(value=0, label="Next Widrow-Hoff update")
+    _step_b = min(step_btn_b.value, n_steps_wh_b)
+    _w_b = trace_wh_b[_step_b]
+    _hi_b = update_idx_wh_b[_step_b - 1] if _step_b > 0 else None
+
+    fig_wh_b, ax_wh_b = plt.subplots(figsize=(5, 5))
+    ax_wh_b.scatter(
+        x1_wh[:, 0], x1_wh[:, 1],
+        s=120, facecolors="none", edgecolors="black", linewidth=3.0,
+        label="Class 1 (+1)",
+    )
+    ax_wh_b.scatter(
+        x2_wh[:, 0], x2_wh[:, 1],
+        s=120, facecolors="none", edgecolors="blue", linewidth=3.0,
+        label="Class 2 (−1)",
+    )
+    if _hi_b is not None:
+        _x_h = X_wh[_hi_b]
+        ax_wh_b.scatter(
+            [_x_h[0]], [_x_h[1]], s=400, facecolors="none",
+            edgecolors="red", linewidth=3.5, label="Update point",
+        )
+    if abs(_w_b[1]) > 1e-9:
+        _xs_b = np.array([0.0, 3.0])
+        _ys_b = -(_w_b[0] * _xs_b + _w_b[2]) / _w_b[1]
+        ax_wh_b.plot(
+            _xs_b, _ys_b, "r--", linewidth=2.5,
+            label=f"Boundary  w=[{_w_b[0]:+.2f}, {_w_b[1]:+.2f}, {_w_b[2]:+.2f}]",
+        )
+    ax_wh_b.set_xlim(0.0, 3.0)
+    ax_wh_b.set_ylim(0.0, 3.0)
+    ax_wh_b.set_xlabel("x1")
+    ax_wh_b.set_ylabel("x2")
+    ax_wh_b.set_title(f"Widrow-Hoff, start B — step {_step_b}/{n_steps_wh_b}")
+    ax_wh_b.legend(loc="upper right", fontsize=8)
+    ax_wh_b.grid(True, alpha=0.3)
+    plt.close(fig_wh_b)
+
+    mo.vstack([
+        mo.hstack([
+            step_btn_b,
+            mo.md(
+                f"&nbsp;**Step {_step_b} / {n_steps_wh_b}** &nbsp; "
+                f"weights: `{_w_b.round(3)}`"
+            ),
+        ]),
+        mo.as_html(fig_wh_b),
+    ])
     return
 
 
@@ -557,7 +753,7 @@ def _(mo):
         r"""
     ### How do we stop?
 
-    - Check value of cost function $$J(\widehat{\mathbf{w}}(k)) \simeq J(\widehat{\mathbf{w}}(k-1))$$
+    - Check value of cost function $J(\widehat{\mathbf{w}}(k)) \simeq J(\widehat{\mathbf{w}}(k-1))$
         """
     )
     return
@@ -615,9 +811,97 @@ def _(mo):
         r"""
     ### Example
 
-    - Show code example in linearly separable data.
+    - Same data and the same random initialization as the first
+      Widrow-Hoff slide, but now we apply the **perceptron** rule:
+      $\mathbf{w}(k+1) = \mathbf{w}(k) + \rho\, y_k\, \mathbf{x}_k$
+      only when $\text{sign}(\mathbf{w}^T\mathbf{x}_k) \neq y_k$.
+    - Click **Next update** to step through four perceptron updates
+      and compare the trajectory to the Widrow-Hoff slide — the
+      perceptron leaves the weights alone whenever a point is already
+      correctly classified, so the boundary moves in larger, sparser
+      jumps.
         """
     )
+    return
+
+
+@app.cell
+def _(X_aug_wh, X_wh, mo, n_wh, np, plt, x1_wh, x2_wh, y_wh):
+    # Same data and the same random initialization as the first
+    # Widrow-Hoff slide; only the update rule differs. Same
+    # class 1 / class 2 alternation so each step targets a sample
+    # we can highlight.
+    rng_p = np.random.default_rng(42)
+    w_p_init = rng_p.normal(0, 0.5, size=3)
+    rho_p = 0.05
+
+    n_steps_p = 4
+    trace_p = [w_p_init.copy()]
+    update_idx_p = []
+    for _step in range(n_steps_p):
+        # Same alternating index pattern as the Widrow-Hoff runs.
+        _idx = (_step // 2) + (_step % 2) * n_wh
+        _x_i = X_aug_wh[_idx]
+        _y_i = y_wh[_idx]
+        _w_prev = trace_p[-1]
+        _y_pred = np.sign(np.dot(_w_prev, _x_i))
+        # Perceptron rule: update only when misclassified.
+        if _y_pred != _y_i:
+            _w_new = _w_prev + rho_p * _y_i * _x_i
+        else:
+            _w_new = _w_prev
+        trace_p.append(_w_new)
+        update_idx_p.append(_idx)
+
+    step_btn_p = mo.ui.button(value=0, label="Next Perceptron update")
+    _step_p = min(step_btn_p.value, n_steps_p)
+    _w_p = trace_p[_step_p]
+    _hi_p = update_idx_p[_step_p - 1] if _step_p > 0 else None
+
+    fig_p, ax_p = plt.subplots(figsize=(5, 5))
+    ax_p.scatter(
+        x1_wh[:, 0], x1_wh[:, 1],
+        s=120, facecolors="none", edgecolors="black", linewidth=3.0,
+        label="Class 1 (+1)",
+    )
+    ax_p.scatter(
+        x2_wh[:, 0], x2_wh[:, 1],
+        s=120, facecolors="none", edgecolors="blue", linewidth=3.0,
+        label="Class 2 (−1)",
+    )
+    if _hi_p is not None:
+        _x_h = X_wh[_hi_p]
+        ax_p.scatter(
+            [_x_h[0]], [_x_h[1]], s=400, facecolors="none",
+            edgecolors="red", linewidth=3.5, label="Update point",
+        )
+    if abs(_w_p[1]) > 1e-9:
+        # w0*x + w1*y + b = 0  ->  y = -(w0*x + b) / w1
+        _xs_p = np.array([0.0, 3.0])
+        _ys_p = -(_w_p[0] * _xs_p + _w_p[2]) / _w_p[1]
+        ax_p.plot(
+            _xs_p, _ys_p, "r--", linewidth=2.5,
+            label=f"Boundary  w=[{_w_p[0]:+.2f}, {_w_p[1]:+.2f}, {_w_p[2]:+.2f}]",
+        )
+    ax_p.set_xlim(0.0, 3.0)
+    ax_p.set_ylim(0.0, 3.0)
+    ax_p.set_xlabel("x1")
+    ax_p.set_ylabel("x2")
+    ax_p.set_title(f"Perceptron — step {_step_p}/{n_steps_p}")
+    ax_p.legend(loc="upper right", fontsize=8)
+    ax_p.grid(True, alpha=0.3)
+    plt.close(fig_p)
+
+    mo.vstack([
+        mo.hstack([
+            step_btn_p,
+            mo.md(
+                f"&nbsp;**Step {_step_p} / {n_steps_p}** &nbsp; "
+                f"weights: `{_w_p.round(3)}`"
+            ),
+        ]),
+        mo.as_html(fig_p),
+    ])
     return
 
 
