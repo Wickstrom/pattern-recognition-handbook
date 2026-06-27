@@ -161,7 +161,7 @@ def _(mo):
     ### Support Vector Machine (SVM)
 
     - Note: $g(\mathbf{x'})$ not unique: $\mathbf{w'}=a\mathbf{w}$
-    - Define: $$g(\mathbf{x'})= \pm 1 \hspace{0.1cm} \text{for $\mathbf{x}$ on margin.}$$
+    - Define: $g(\mathbf{x'})= \pm 1 \hspace{0.1cm} \text{for } \mathbf{x} \text{ on margin.}$
     - Hence: $m_{\text{svm}}=\frac{2}{\| \mathbf{w} \|}$
         """
     )
@@ -264,7 +264,10 @@ def _(mo):
     - The SVM optimization objective is a nonlinear optimization task subject to a set of linear constraints.
     - Difficult to optimize, how do we konw if a solution is optimal?
     - The Karush-Kuhn-Tucker conditions is a well-known set of conditions for optimality in nonlinear optimization.
-    - At $\boldsymbol{\theta}=\boldsymbol{\theta}_*$: $\frac{\partial}{\partial \boldsymbol{\theta}} L(\boldsymbol{\theta}, \lambda) = \mathbf{0} \\ \lambda_i f_i(\boldsymbol{\theta}) = 0 \\ \lambda_i \geq 0$
+    - At $\boldsymbol{\theta}=\boldsymbol{\theta}_*$ the KKT conditions read:
+        - $\frac{\partial}{\partial \boldsymbol{\theta}} L(\boldsymbol{\theta}, \lambda) = \mathbf{0}$
+        - $\lambda_i f_i(\boldsymbol{\theta}) = 0$
+        - $\lambda_i \geq 0$
         """
     )
     return
@@ -304,29 +307,29 @@ def _(mo):
 
     The Lagrangian for the SVM optimization problem is:
 
-    $$ L(\mathbf{w}, w_0, \lambda) = \frac{1}{2} \|\mathbf{w}\|^2 - \sum_{i=1}^N \lambda_i \left[ y_i (\mathbf{w}^T \mathbf{x}_i + w_0) - 1 \right] $$
+    $L(\mathbf{w}, w_0, \lambda) = \frac{1}{2} \|\mathbf{w}\|^2 - \sum_{i=1}^N \lambda_i \left[ y_i (\mathbf{w}^T \mathbf{x}_i + w_0) - 1 \right]$
 
     ---
 
     Taking the derivative with respect to $w_0$:
 
-    $$ \frac{\partial L}{\partial w_0} = -\sum_{i=1}^N \lambda_i y_i = 0 $$
+    $\frac{\partial L}{\partial w_0} = -\sum_{i=1}^N \lambda_i y_i = 0$
 
     ---
 
     Taking the derivative with respect to $\mathbf{w}$:
 
-    $$ \frac{\partial L}{\partial \mathbf{w}} = \mathbf{w} - \sum_{i=1}^N \lambda_i y_i \mathbf{x}_i = 0 $$
+    $\frac{\partial L}{\partial \mathbf{w}} = \mathbf{w} - \sum_{i=1}^N \lambda_i y_i \mathbf{x}_i = 0$
 
     ---
 
     Constraint KKT:
 
-    $$ \sum_{i=1}^N \lambda_i y_i = 0 $$
+    $\sum_{i=1}^N \lambda_i y_i = 0$
 
      and
 
-    $$ \lambda_i\left[ y_i (\mathbf{w}^T \mathbf{x}_i + w_0) - 1 \right]=0 $$
+    $\lambda_i\left[ y_i (\mathbf{w}^T \mathbf{x}_i + w_0) - 1 \right]=0$
         """
     )
     return
