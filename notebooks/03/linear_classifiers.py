@@ -285,7 +285,7 @@ def _(mo, np, plt, show_boundary_lc):
         ),
         "Option 3": (
             "moon", None, None,
-            "normal", np.array([4.2, 1.5]), 0.5,
+            "normal", np.array([2.5, 1.8]), 0.35,
         ),
     }
 
@@ -296,12 +296,14 @@ def _(mo, np, plt, show_boundary_lc):
         if kind == "normal":
             cov = (scale ** 2) * np.eye(2)
             return np.random.multivariate_normal(loc, cov, n)
-        # Half-moon: upper 180-degree arc centered at (2.5, 2.5),
-        # radius 1.4, plus a touch of thickness noise so the band has
-        # a visible width rather than a hairline.
+        # Half-moon: upper 180-degree arc centered at (2.5, 3.5),
+        # radius 0.9, plus a touch of thickness noise so the band has
+        # a visible width rather than a hairline. Stacked vertically
+        # above the Gaussian at (2.5, 1.8) so the MSE failure story
+        # reads as "classes above each other, no good linear boundary".
         theta = np.linspace(0, np.pi, n)
-        moon_radius = 1.4
-        moon_cx, moon_cy = 2.5, 2.5
+        moon_radius = 0.9
+        moon_cx, moon_cy = 2.5, 3.5
         x = moon_cx + moon_radius * np.cos(theta)
         y = moon_cy + moon_radius * np.sin(theta)
         samples = np.column_stack([x, y])
@@ -614,7 +616,7 @@ def _(mo, n_steps_wh_a):
     # backward through the trajectory (rather than only stepping forward).
     step_btn_a = mo.ui.radio(
         options={f"Step {k}": k for k in range(n_steps_wh_a + 1)},
-        value=0,
+        value="Step 0",
         label=f"Step (0..{n_steps_wh_a})",
     )
     return (step_btn_a,)
@@ -729,7 +731,7 @@ def _(mo, n_steps_wh_b):
     # backward through the trajectory.
     step_btn_b = mo.ui.radio(
         options={f"Step {k}": k for k in range(n_steps_wh_b + 1)},
-        value=0,
+        value="Step 0",
         label=f"Step (0..{n_steps_wh_b})",
     )
     return (step_btn_b,)
@@ -912,7 +914,7 @@ def _(mo, n_steps_p):
     # backward through the trajectory.
     step_btn_p = mo.ui.radio(
         options={f"Step {k}": k for k in range(n_steps_p + 1)},
-        value=0,
+        value="Step 0",
         label=f"Step (0..{n_steps_p})",
     )
     return (step_btn_p,)

@@ -290,7 +290,7 @@ def _(mo):
     ### The softmax function
 
     - The standard choice for multiclass classification is to use a softmax function in the output layer.
-    - $\hat{y}_k = \frac{\exp(h_k^L)}{\sum_{k'} \exp(h_{k'}^L)}$
+    - $\displaystyle \hat{y}_k = \dfrac{\exp(h_k^L)}{\sum_{k'} \exp(h_{k'}^L)}$
     - Guarantees that the output lies in the interval $[0, 1]$ and sums to 1.
     - Note: **one-hot encoding**
         """
@@ -305,10 +305,10 @@ def _(mo):
     ### Derivative of the softmax function
 
     - Need to know derivative of softmax function for Backpropagation and gradient descent.
-    - Need to compute $\frac{\partial}{\partial h^L_m} \hat{y}_k =  \frac{\partial}{\partial h^L_m} \frac{\exp(h_k^L)}{\sum_{k'} \exp(h_{k'}^L)}.$
+    - Need to compute $\displaystyle \dfrac{\partial}{\partial h^L_m} \hat{y}_k = \dfrac{\partial}{\partial h^L_m} \dfrac{\exp(h_k^L)}{\sum_{k'} \exp(h_{k'}^L)}.$
     - Key is to realize that we have two cases: $m=k$ and $m\neq k$
-    - For $m=k$: $\frac{\exp(h_k^L) \sum_{k'} \exp(h_{k'}^L)-\exp(h_k^L)\exp(h_m^L)}{(\sum_{k'} \exp(h_{k'}^L))^2}$
-    - For $m\neq k$: $\frac{-\exp(h_k^L)\exp(h_m^L)}{(\sum_{k'} \exp(h_{k'}^L))^2}$
+    - For $m=k$: $\displaystyle \dfrac{\exp(h_k^L) \sum_{k'} \exp(h_{k'}^L)-\exp(h_k^L)\exp(h_m^L)}{\left(\sum_{k'} \exp(h_{k'}^L)\right)^2}$
+    - For $m\neq k$: $\displaystyle \dfrac{-\exp(h_k^L)\exp(h_m^L)}{\left(\sum_{k'} \exp(h_{k'}^L)\right)^2}$
         """
     )
     return

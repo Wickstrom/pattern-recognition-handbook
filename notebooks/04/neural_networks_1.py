@@ -124,35 +124,35 @@ def _(mo, np, plt):
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
-    ## Neural networks - a brief history
-
-    - McCulloch - Pitts neuron (1946).
-    - The Perceptron (Rosenblatt, 1950's).
-    - The XOR problem (Minsky and Papert, 1969) - the first AI winter.
-    - (Debated topic) Backpropagation (Rumelhart, Hinton, Williams, 1986) - a new hope.
-    - Lacked data and compute, difficult to train (1990s) - the second AI winter.
-    - AlexNet (Krizhevsky, Sutskever, Hinton, 2013) - the deep learning revolution.
-        """
-    )
-    return
-
-
-@app.cell
-def _(mo):
-    # Timeline strip: McCulloch-Pitts neuron, Rosenblatt, Minsky/Papert,
-    # AlexNet. Kept as one row so the lecture can refer to all four at
-    # once while talking through the timeline above.
-    mo.hstack(
+    # Timeline slide: heading + photo strip in one cell. Heights are
+    # uniform so the row of mixed-aspect images (one portrait, one
+    # wide landscape, two near-square) lines up cleanly.
+    mo.vstack(
         [
-            mo.image(src="media/mcpitts.png", width="150px"),
-            mo.image(src="media/rosenblatt.jpg", width="150px"),
-            mo.image(src="media/mnp.png", width="150px"),
-            mo.image(src="media/alexnet.jpeg", width="150px"),
+            mo.md(
+                r"""
+            ## Neural networks - a brief history
+
+            - McCulloch - Pitts neuron (1946).
+            - The Perceptron (Rosenblatt, 1950's).
+            - The XOR problem (Minsky and Papert, 1969) - the first AI winter.
+            - (Debated topic) Backpropagation (Rumelhart, Hinton, Williams, 1986) - a new hope.
+            - Lacked data and compute, difficult to train (1990s) - the second AI winter.
+            - AlexNet (Krizhevsky, Sutskever, Hinton, 2013) - the deep learning revolution.
+                """
+            ),
+            mo.hstack(
+                [
+                    mo.image(src="media/mcpitts.png", height="180px"),
+                    mo.image(src="media/rosenblatt.jpg", height="180px"),
+                    mo.image(src="media/mnp.png", height="180px"),
+                    mo.image(src="media/alexnet.jpeg", height="180px"),
+                ],
+                justify="start",
+                gap=2,
+            ),
         ],
-        justify="start",
-        gap=2,
+        gap=1,
     )
     return
 
@@ -194,17 +194,40 @@ def _(mo, np, plt):
     y_xor = np.concatenate(y_xor)
 
     fig_xor, ax_xor = plt.subplots(figsize=(8, 8))
-    ax_xor.scatter(X_xor[y_xor == 0, 0], X_xor[y_xor == 0, 1], color="blue", label="Class 0")
-    ax_xor.scatter(X_xor[y_xor == 1, 0], X_xor[y_xor == 1, 1], color="red", label="Class 1")
+    ax_xor.scatter(
+        X_xor[y_xor == 0, 0], X_xor[y_xor == 0, 1],
+        color="blue", s=180, edgecolor="k", alpha=0.75, label="Class 0",
+    )
+    ax_xor.scatter(
+        X_xor[y_xor == 1, 0], X_xor[y_xor == 1, 1],
+        color="red", s=180, edgecolor="k", alpha=0.75, label="Class 1",
+    )
+
+    corner_labels = [
+        ((0, 0), "Class 0", "blue", (-0.42, -0.22), "right"),
+        ((1, 1), "Class 0", "blue", (1.05, 1.05),  "left"),
+        ((0, 1), "Class 1", "red",  (-0.42, 1.05),  "right"),
+        ((1, 0), "Class 1", "red",  (1.05, -0.22),  "left"),
+    ]
+    for corner, label, color, offset, ha in corner_labels:
+        ax_xor.annotate(
+            f"({corner[0]}, {corner[1]}) — {label}",
+            xy=corner, xytext=offset,
+            fontsize=13, color=color, fontweight="bold", ha=ha,
+        )
+
     ax_xor.set_aspect("equal")
     ax_xor.set_xlabel("x1")
     ax_xor.set_ylabel("x2")
-    ax_xor.legend()
+    ax_xor.set_xlim(-0.55, 1.55)
+    ax_xor.set_ylim(-0.55, 1.55)
+    ax_xor.set_title("XOR: no straight line separates the two classes", fontsize=14)
+    ax_xor.legend(loc="upper center", bbox_to_anchor=(0.5, -0.08), ncol=2)
     fig_xor.tight_layout()
 
     mo.as_html(fig_xor)
     plt.close(fig_xor)
-    return
+    return X_xor, y_xor
 
 
 @app.cell
@@ -221,7 +244,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo, plt):
+def _(X_xor, mo, plt, y_xor):
     # Side-by-side: original XOR (no linear boundary works) and an
     # empty canvas the lecturer can draw the desired transformation on
     # by hand. Right panel is intentionally blank.
@@ -241,7 +264,7 @@ def _(mo, plt):
 
     mo.as_html(fig_xform)
     plt.close(fig_xform)
-    return X_xor, y_xor
+    return
 
 
 @app.cell
