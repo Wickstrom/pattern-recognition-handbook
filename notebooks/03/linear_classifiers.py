@@ -296,14 +296,13 @@ def _(mo, np, plt, show_boundary_lc):
         if kind == "normal":
             cov = (scale ** 2) * np.eye(2)
             return np.random.multivariate_normal(loc, cov, n)
-        # Half-moon: upper 180-degree arc centered at (2.5, 3.5),
-        # radius 0.9, plus a touch of thickness noise so the band has
-        # a visible width rather than a hairline. Stacked vertically
-        # above the Gaussian at (2.5, 1.8) so the MSE failure story
-        # reads as "classes above each other, no good linear boundary".
+        # Half-moon: upper 180-degree arc centred at the same point as
+        # the Gaussian, with a radius just large enough that the arc
+        # straddles the Gaussian — the two classes overlap, no linear
+        # boundary separates them, MSE makes obvious mistakes.
         theta = np.linspace(0, np.pi, n)
-        moon_radius = 0.9
-        moon_cx, moon_cy = 2.5, 3.5
+        moon_radius = 0.8
+        moon_cx, moon_cy = 2.5, 1.4
         x = moon_cx + moon_radius * np.cos(theta)
         y = moon_cy + moon_radius * np.sin(theta)
         samples = np.column_stack([x, y])
@@ -638,10 +637,10 @@ def _(
 ):
     _step_a = int(step_btn_a.value) if step_btn_a.value is not None else 0
     _w_a = trace_wh_a[_step_a]
-    # The sample processed at the current step is update_idx_wh_a[k-1]
-    # for step k ≥ 1; at step 0 no update has happened yet so we
-    # preview the first sample that will be processed.
-    _idx_cur_a = update_idx_wh_a[_step_a - 1] if _step_a >= 1 else update_idx_wh_a[0]
+    # At step 0 nothing has been processed yet, so no highlight.
+    # At step k ≥ 1 the just-processed sample is update_idx_wh_a[k-1]
+    # (the sample used to compute update k).
+    _idx_cur_a = update_idx_wh_a[_step_a - 1] if _step_a >= 1 else None
 
     fig_wh_a, ax_wh_a = plt.subplots(figsize=(5, 5))
     ax_wh_a.scatter(
@@ -654,26 +653,26 @@ def _(
         s=120, facecolors="none", edgecolors="blue", linewidth=3.0,
         label="Class 2 (−1)",
     )
-    # Green ring on the sample being processed at this step.
-    _x_h_a = X_wh[_idx_cur_a]
-    ax_wh_a.scatter(
-        [_x_h_a[0]], [_x_h_a[1]], s=450, facecolors="none",
-        edgecolors="#2ca02c", linewidth=3.5, label="Current sample",
-    )
+    if _idx_cur_a is not None:
+        _x_h_a = X_wh[_idx_cur_a]
+        ax_wh_a.scatter(
+            [_x_h_a[0]], [_x_h_a[1]], s=450, facecolors="none",
+            edgecolors="#2ca02c", linewidth=3.5, label="Current sample",
+        )
     if abs(_w_a[1]) > 1e-9:
         # w0*x + w1*y + b = 0  ->  y = -(w0*x + b) / w1
         _xs_a = np.array([0.0, 3.0])
         _ys_a = -(_w_a[0] * _xs_a + _w_a[2]) / _w_a[1]
         ax_wh_a.plot(
             _xs_a, _ys_a, "r--", linewidth=2.5,
-            label=f"Boundary  w=[{_w_a[0]:+.2f}, {_w_a[1]:+.2f}, {_w_a[2]:+.2f}]",
+            label="Decision boundary",
         )
     ax_wh_a.set_xlim(0.0, 3.0)
     ax_wh_a.set_ylim(0.0, 3.0)
     ax_wh_a.set_xlabel("x1")
     ax_wh_a.set_ylabel("x2")
     ax_wh_a.set_title(f"Widrow-Hoff, start A — step {_step_a}/{n_steps_wh_a}")
-    ax_wh_a.legend(loc="upper right", fontsize=8)
+    ax_wh_a.legend(loc="upper right", fontsize=11)
     ax_wh_a.grid(True, alpha=0.3)
     plt.close(fig_wh_a)
 
@@ -936,7 +935,7 @@ def _(
 ):
     _step_p = int(step_btn_p.value) if step_btn_p.value is not None else 0
     _w_p = trace_p[_step_p]
-    _idx_cur_p = update_idx_p[_step_p - 1] if _step_p >= 1 else update_idx_p[0]
+    _idx_cur_p = update_idx_p[_step_p - 1] if _step_p >= 1 else None
 
     fig_p, ax_p = plt.subplots(figsize=(5, 5))
     ax_p.scatter(
@@ -949,26 +948,26 @@ def _(
         s=120, facecolors="none", edgecolors="blue", linewidth=3.0,
         label="Class 2 (−1)",
     )
-    # Green ring on the sample being processed at this step.
-    _x_h_p = X_wh[_idx_cur_p]
-    ax_p.scatter(
-        [_x_h_p[0]], [_x_h_p[1]], s=450, facecolors="none",
-        edgecolors="#2ca02c", linewidth=3.5, label="Current sample",
-    )
+    if _idx_cur_p is not None:
+        _x_h_p = X_wh[_idx_cur_p]
+        ax_p.scatter(
+            [_x_h_p[0]], [_x_h_p[1]], s=450, facecolors="none",
+            edgecolors="#2ca02c", linewidth=3.5, label="Current sample",
+        )
     if abs(_w_p[1]) > 1e-9:
         # w0*x + w1*y + b = 0  ->  y = -(w0*x + b) / w1
         _xs_p = np.array([0.0, 3.0])
         _ys_p = -(_w_p[0] * _xs_p + _w_p[2]) / _w_p[1]
         ax_p.plot(
             _xs_p, _ys_p, "r--", linewidth=2.5,
-            label=f"Boundary  w=[{_w_p[0]:+.2f}, {_w_p[1]:+.2f}, {_w_p[2]:+.2f}]",
+            label="Decision boundary",
         )
     ax_p.set_xlim(0.0, 3.0)
     ax_p.set_ylim(0.0, 3.0)
     ax_p.set_xlabel("x1")
     ax_p.set_ylabel("x2")
     ax_p.set_title(f"Perceptron — step {_step_p}/{n_steps_p}")
-    ax_p.legend(loc="upper right", fontsize=8)
+    ax_p.legend(loc="upper right", fontsize=11)
     ax_p.grid(True, alpha=0.3)
     plt.close(fig_p)
 
@@ -979,6 +978,119 @@ def _(
             f"weights: `{_w_p.round(3)}`"
         ),
         mo.as_html(fig_p),
+    ])
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
+    ### Interactive: Perceptron update (different learning rate)
+
+    - Same four updates, same data — only the learning rate is
+      different. Compare the trajectory to the previous slide.
+        """
+    )
+    return
+
+
+@app.cell
+def _(X_aug_wh, X_wh, n_wh, np, y_wh):
+    # Duplicate of the perceptron run with a larger learning rate
+    # (0.20 vs the previous 0.05) so the boundary moves faster and
+    # converges further inside the same four updates.
+    rng_p2 = np.random.default_rng(42)
+    w_p2_init = rng_p2.normal(0, 0.5, size=3)
+    rho_p2 = 0.20
+
+    n_steps_p2 = 4
+    trace_p2 = [w_p2_init.copy()]
+    update_idx_p2 = []
+    for _step in range(n_steps_p2):
+        _idx = (_step // 2) + (_step % 2) * n_wh
+        _x_i = X_aug_wh[_idx]
+        _y_i = y_wh[_idx]
+        _w_prev = trace_p2[-1]
+        _y_pred = np.sign(np.dot(_w_prev, _x_i))
+        if _y_pred != _y_i:
+            _w_new = _w_prev + rho_p2 * _y_i * _x_i
+        else:
+            _w_new = _w_prev
+        trace_p2.append(_w_new)
+        update_idx_p2.append(_idx)
+
+    return rho_p2, trace_p2, update_idx_p2, n_steps_p2
+
+
+@app.cell
+def _(mo, n_steps_p2):
+    step_btn_p2 = mo.ui.radio(
+        options={f"Step {k}": k for k in range(n_steps_p2 + 1)},
+        value="Step 0",
+        label=f"Step (0..{n_steps_p2})",
+    )
+    return (step_btn_p2,)
+
+
+@app.cell
+def _(
+    X_wh,
+    mo,
+    n_steps_p2,
+    np,
+    plt,
+    rho_p2,
+    step_btn_p2,
+    trace_p2,
+    update_idx_p2,
+    x1_wh,
+    x2_wh,
+):
+    _step_p2 = int(step_btn_p2.value) if step_btn_p2.value is not None else 0
+    _w_p2 = trace_p2[_step_p2]
+    _idx_cur_p2 = update_idx_p2[_step_p2 - 1] if _step_p2 >= 1 else None
+
+    fig_p2, ax_p2 = plt.subplots(figsize=(5, 5))
+    ax_p2.scatter(
+        x1_wh[:, 0], x1_wh[:, 1],
+        s=120, facecolors="none", edgecolors="black", linewidth=3.0,
+        label="Class 1 (+1)",
+    )
+    ax_p2.scatter(
+        x2_wh[:, 0], x2_wh[:, 1],
+        s=120, facecolors="none", edgecolors="blue", linewidth=3.0,
+        label="Class 2 (−1)",
+    )
+    if _idx_cur_p2 is not None:
+        _x_h_p2 = X_wh[_idx_cur_p2]
+        ax_p2.scatter(
+            [_x_h_p2[0]], [_x_h_p2[1]], s=450, facecolors="none",
+            edgecolors="#2ca02c", linewidth=3.5, label="Current sample",
+        )
+    if abs(_w_p2[1]) > 1e-9:
+        _xs_p2 = np.array([0.0, 3.0])
+        _ys_p2 = -(_w_p2[0] * _xs_p2 + _w_p2[2]) / _w_p2[1]
+        ax_p2.plot(
+            _xs_p2, _ys_p2, "r--", linewidth=2.5,
+            label="Decision boundary",
+        )
+    ax_p2.set_xlim(0.0, 3.0)
+    ax_p2.set_ylim(0.0, 3.0)
+    ax_p2.set_xlabel("x1")
+    ax_p2.set_ylabel("x2")
+    ax_p2.set_title(f"Perceptron, ρ={rho_p2} — step {_step_p2}/{n_steps_p2}")
+    ax_p2.legend(loc="upper right", fontsize=11)
+    ax_p2.grid(True, alpha=0.3)
+    plt.close(fig_p2)
+
+    mo.vstack([
+        step_btn_p2,
+        mo.md(
+            f"**Step {_step_p2} / {n_steps_p2}** &nbsp;—&nbsp; "
+            f"weights: `{_w_p2.round(3)}`"
+        ),
+        mo.as_html(fig_p2),
     ])
     return
 

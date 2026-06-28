@@ -383,7 +383,7 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the output layer
 
-    - $\frac{\partial}{\partial \mathbf{w}_j^L} E (i) = \frac{\partial}{\partial \mathbf{w}_j^L} h_j^L (i) \frac{\partial}{\partial h_j^L (i) }E (i)$
+    - $\frac{\partial}{\partial \mathbf{w}_j^L} E (i) = \frac{\partial}{\partial \mathbf{w}_j^L} z_j^L (i) \frac{\partial}{\partial z_j^L (i) }E (i)$
         """
     )
     return
@@ -395,9 +395,9 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the output layer
 
-    - $\frac{\partial}{\partial \mathbf{w}_j^L} E (i) = \frac{\partial}{\partial \mathbf{w}_j^L} h_j^L (i) \frac{\partial}{\partial h_j^L (i) }E (i)$
-    - $\frac{\partial}{\partial \mathbf{w}_j^L} h_j^L (i) = \ldots$
-    - $\frac{\partial}{\partial h_j^L (i) }E (i) = \ldots$
+    - $\frac{\partial}{\partial \mathbf{w}_j^L} E (i) = \frac{\partial}{\partial \mathbf{w}_j^L} z_j^L (i) \frac{\partial}{\partial z_j^L (i) }E (i)$
+    - $\frac{\partial}{\partial \mathbf{w}_j^L} z_j^L (i) = \ldots$
+    - $\frac{\partial}{\partial z_j^L (i) }E (i) = \ldots$
         """
     )
     return
@@ -421,8 +421,8 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the hidden layers
 
-    - For layer $L-1$ and neuron $j$: $\frac{\partial}{\partial \mathbf{w}_j^{L-1}} E (i) = \frac{\partial}{\partial \mathbf{w}_j^{L-1}} h_j^{L-1} (i) \frac{\partial}{\partial h_j^{L-1} (i) }E (i).$
-    - $h_j^{L-1}$ not present in $E (i)$, comes through $h_j^{L}$
+    - For layer $L-1$ and neuron $j$: $\frac{\partial}{\partial \mathbf{w}_j^{L-1}} E (i) = \frac{\partial}{\partial \mathbf{w}_j^{L-1}} z_j^{L-1} (i) \frac{\partial}{\partial z_j^{L-1} (i) }E (i).$
+    - $z_j^{L-1}$ not present in $E (i)$, comes through $z_j^{L}$
         """
     )
     return
@@ -434,11 +434,11 @@ def _(mo):
         r"""
     ### Gradients of the hidden layers - chain rule
 
-    - $\frac{\partial}{\partial h_j^{L-1} (i) }E (i) = \delta_j^{L-1}(i) =$
+    - $\frac{\partial}{\partial z_j^{L-1} (i) }E (i) = \delta_j^{L-1}(i) =$
 
     ---
 
-    - $\frac{\partial h_j^{L} (i)}{\partial h_j^{L-1} (i) } =$
+    - $\frac{\partial z_j^{L} (i)}{\partial z_j^{L-1} (i) } =$
 
     ---
 
