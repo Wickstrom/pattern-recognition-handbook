@@ -275,15 +275,15 @@ def _(mo, np, plt, show_boundary_lc):
     # class 2 a Gaussian placed well away from it, so the MSE
     # straight-line boundary is no longer Bayes-optimal.
     scenarios_lc = {
-        "Option 1 — μ₁=(2,2), μ₂=(3.5,3.5), σ=0.6 (close, equal σ)": (
+        "Option 1": (
             "normal", np.array([2.0, 2.0]), 0.6,
             "normal", np.array([3.5, 3.5]), 0.6,
         ),
-        "Option 2 — μ₁=(2,2), μ₂=(3.5,3.5), σ₁=0.4, σ₂=0.9 (close, different σ)": (
+        "Option 2": (
             "normal", np.array([2.0, 2.0]), 0.4,
             "normal", np.array([3.5, 3.5]), 0.9,
         ),
-        "Option 3 — Class 1 = half-moon arc, Class 2 = Gaussian (MSE breaks down!)": (
+        "Option 3": (
             "moon", None, None,
             "normal", np.array([4.2, 1.5]), 0.5,
         ),
@@ -367,13 +367,7 @@ def _(mo, np, plt, show_boundary_lc):
     for idx_lc, (title, params) in enumerate(scenarios_lc.items()):
         highlight_lc = idx_lc == len(scenarios_lc) - 1
         fig_lc, w_lc = make_fig_lc(title, *params, highlight=highlight_lc, show_boundary=show_boundary_lc.value)
-        tabs_lc[title] = mo.vstack(
-            [
-                mo.md(f"**MSE weights:** {w_lc.round(3)}"),
-                mo.as_html(fig_lc),
-            ],
-            gap=1,
-        )
+        tabs_lc[title] = mo.as_html(fig_lc)
         plt.close(fig_lc)
 
     mo.vstack([show_boundary_lc, mo.ui.tabs(tabs_lc)])
@@ -619,7 +613,7 @@ def _(mo, n_steps_wh_a):
     # One radio button per time step so the user can jump forward and
     # backward through the trajectory (rather than only stepping forward).
     step_btn_a = mo.ui.radio(
-        options=[k for k in range(n_steps_wh_a + 1)],
+        options={f"Step {k}": k for k in range(n_steps_wh_a + 1)},
         value=0,
         label=f"Step (0..{n_steps_wh_a})",
     )
@@ -734,7 +728,7 @@ def _(mo, n_steps_wh_b):
     # One radio button per time step so the user can jump forward and
     # backward through the trajectory.
     step_btn_b = mo.ui.radio(
-        options=[k for k in range(n_steps_wh_b + 1)],
+        options={f"Step {k}": k for k in range(n_steps_wh_b + 1)},
         value=0,
         label=f"Step (0..{n_steps_wh_b})",
     )
@@ -917,7 +911,7 @@ def _(mo, n_steps_p):
     # One radio button per time step so the user can jump forward and
     # backward through the trajectory.
     step_btn_p = mo.ui.radio(
-        options=[k for k in range(n_steps_p + 1)],
+        options={f"Step {k}": k for k in range(n_steps_p + 1)},
         value=0,
         label=f"Step (0..{n_steps_p})",
     )

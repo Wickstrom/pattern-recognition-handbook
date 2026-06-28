@@ -129,7 +129,7 @@ def _(mo):
         r"""
     ## Support Vector Machine (SVM)
 
-    - Find $g(\mathbf{x})=\mathbf{w}^T\mathbf{x}+w_0 $such that the **margin** $m_{\text{svm}}$is maximum (optimal).
+    - Find $g(\mathbf{x})=\mathbf{w}^T\mathbf{x}+w_0$ such that the **margin** $m_{\text{svm}}$ is maximum (optimal).
         - Leaves room for variation between training data and test data.
         - **Generalizes** better.
         """
@@ -282,7 +282,7 @@ def _(mo):
     ### Dual problem ($\lambda$)
 
     - Note: $\max_{\boldsymbol{\lambda} \geq 0}\, L(\boldsymbol{\theta}_*, \lambda) = J(\boldsymbol{\theta}_*) - \sum_{i=1}^N \lambda_i f_i(\boldsymbol{\theta}_*)$
-    - actually forces $\lambda_i f_i(\boldsymbol{\theta}_*)=0 $since $\lambda_i \geq 0 $and $f_i(\boldsymbol{\theta}_*) \geq 0$.
+    - actually forces $\lambda_i f_i(\boldsymbol{\theta}_*)=0$ since $\lambda_i \geq 0$ and $f_i(\boldsymbol{\theta}_*) \geq 0$.
     - Hence: $\max_{\boldsymbol{\lambda} \geq 0}\, L(\boldsymbol{\theta}_*, \lambda) = J(\boldsymbol{\theta}_*)$
         """
     )
@@ -343,7 +343,7 @@ def _(mo):
         r"""
     ### Remarks
 
-    - Let $y_i=1 $if $\lambda_i \neq 0$: $\mathbf{w}^T\mathbf{x}_i+w_0=1$
+    - Let $y_i=1$ if $\lambda_i \neq 0$: $\mathbf{w}^T\mathbf{x}_i+w_0=1$
         """
     )
     return
@@ -355,7 +355,7 @@ def _(mo):
         r"""
     ## Support vectors
 
-    - Those $\mathbf{x_i}$that are subject to $\lambda_i \neq 0 $are on the $\pm 1$ **margin**.
+    - Those $\mathbf{x_i}$ that are subject to $\lambda_i \neq 0$ are on the $\pm 1$ **margin**.
     - Only $\mathbf{x_i}$in the set of support vectors (SV) are important.
     - Hence: $\mathbf{w}=\sum_{\mathbf{x_i}\in\text{SV}}\lambda_i y_i \mathbf{x_i}$
     - And for the bias: $w_0$

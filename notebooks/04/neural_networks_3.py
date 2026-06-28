@@ -195,13 +195,13 @@ def _(mo):
         r"""
     ### Forward pass with linear algebra
 
-    - Before we looked at the output of one neuron: $v_j^l = \mathbf{w}_j^l \mathbf{y}^{l-1}$
+    - Before we looked at the pre-activation of one neuron: $h_j^l = \mathbf{w}_j^l \mathbf{z}^{l-1}$
     - Note: augmented space!
-    - Now we look at output of the whole layer: $\mathbf{v}^l = \mathbf{W}^l \mathbf{y}^{l-1}$
+    - Now we look at the pre-activations of the whole layer: $\mathbf{h}^l = \mathbf{W}^l \mathbf{z}^{l-1}$
 
     ---
 
-    - Reminder: $\mathbf{y}^{l-1} = \begin{bmatrix} y_1^{l-1} \\ y_2^{l-1} \\ \vdots \\ y_{k_{l-1}}^{l-1} \\ 1 \end{bmatrix}$
+    - Reminder: $\mathbf{z}^{l-1} = \begin{bmatrix} z_1^{l-1} \\ z_2^{l-1} \\ \vdots \\ z_{k_{l-1}}^{l-1} \\ 1 \end{bmatrix}$
 
     ---
 
@@ -235,11 +235,11 @@ def _(mo):
         r"""
     ### Backward pass with linear algebra and vector calculus
 
-    - Previously, for the output layer: $\frac{\partial}{\partial \mathbf{w}_j^L} E (i) = \frac{\partial}{\partial \mathbf{w}_j^L} v_j^L (i) \frac{\partial}{\partial v_j^L (i) }E (i)$
+    - Previously, for the output layer: $\frac{\partial}{\partial \mathbf{w}_j^L} E (i) = \frac{\partial}{\partial \mathbf{w}_j^L} h_j^L (i) \frac{\partial}{\partial h_j^L (i) }E (i)$
     - Want: $\frac{\partial J}{\partial \mathbf{W}^l}$
     - Difficult, ends up with a vector by matrix derivate.
-    - Start simpler: $\frac{\partial}{\partial \mathbf{w}_j^L} \mathbf{v}^L \frac{\partial}{\partial \mathbf{v}^L}\mathbf{e}^T\mathbf{e}\frac{1}{2}$
-    - Where we assume one-hot encoded labels and $\mathbf{e}=(f(\mathbf{v}^L)-\mathbf{y})$
+    - Start simpler: $\frac{\partial}{\partial \mathbf{w}_j^L} \mathbf{h}^L \frac{\partial}{\partial \mathbf{h}^L}\mathbf{e}^T\mathbf{e}\frac{1}{2}$
+    - Where we assume one-hot encoded labels and $\mathbf{e}=(f(\mathbf{h}^L)-\mathbf{y})$
         """
     )
     return
@@ -251,9 +251,9 @@ def _(mo):
         r"""
     ### Finding $\delta$ for output layer
 
-    - We have dealt with the following term before $\frac{\partial}{\partial \mathbf{v}^L}\mathbf{e}^T\mathbf{e}\frac{1}{2}=\mathbf{e}\frac{\partial}{\partial \mathbf{v}^L}(f(\mathbf{v}^L)-\mathbf{y})$
-    - $\mathbf{y}$ does not depend on $\mathbf{v}^L$, and we keep the derivative of $f(\mathbf{v}^L)$ general.
-    - We have a vector by vector derivative $\Rightarrow$ Jacobian: $\frac{\partial f(\mathbf{v}^L)}{\partial \mathbf{v}^L} = \begin{bmatrix} \frac{\partial}{\partial v^L_1}f(v_1^L)  &  \frac{\partial}{\partial v^L_1} f(v_2^L) & \cdots & \frac{\partial}{\partial v^L_1} f(v^L_{k_{L}})  \\ \frac{\partial}{\partial v_2^L} f(v_1^L)  &  \frac{\partial}{\partial v^L_2} f(v_2^L)  & \cdots & \frac{\partial}{\partial v_2^L} f(v_2^L)  \\ \vdots    & \vdots    & \ddots & \vdots          \\ \frac{\partial}{\partial v_{k_L}} f(v_1^L)  &  \frac{\partial}{\partial v_{k_L}^L} f(v_2^L) & \cdots & \frac{\partial}{\partial v_{k_L}} f(v_2^L)  \end{bmatrix}$
+    - We have dealt with the following term before $\frac{\partial}{\partial \mathbf{h}^L}\mathbf{e}^T\mathbf{e}\frac{1}{2}=\mathbf{e}\frac{\partial}{\partial \mathbf{h}^L}(f(\mathbf{h}^L)-\mathbf{y})$
+    - $\mathbf{y}$ does not depend on $\mathbf{h}^L$, and we keep the derivative of $f(\mathbf{h}^L)$ general.
+    - We have a vector by vector derivative $\Rightarrow$ Jacobian: $\frac{\partial f(\mathbf{h}^L)}{\partial \mathbf{h}^L} = \begin{bmatrix} \frac{\partial}{\partial h^L_1}f(h_1^L)  &  \frac{\partial}{\partial h^L_1} f(h_2^L) & \cdots & \frac{\partial}{\partial h^L_1} f(h^L_{k_{L}})  \\ \frac{\partial}{\partial h_2^L} f(h_1^L)  &  \frac{\partial}{\partial h^L_2} f(h_2^L)  & \cdots & \frac{\partial}{\partial h_2^L} f(h_2^L)  \\ \vdots    & \vdots    & \ddots & \vdots          \\ \frac{\partial}{\partial h_{k_L}} f(h_1^L)  &  \frac{\partial}{\partial h_{k_L}^L} f(h_2^L) & \cdots & \frac{\partial}{\partial h_{k_L}} f(h_2^L)  \end{bmatrix}$
         """
     )
     return
@@ -265,7 +265,7 @@ def _(mo):
         r"""
     ### Finding $\delta$ for output layer
 
-    - Can be compatctly represented as $\frac{\partial}{\partial \mathbf{v}^L}\mathbf{e}^T\mathbf{e}\frac{1}{2} = \mathbf{e} \odot f'(\mathbf{v}^L) = \boldsymbol{\delta}^L$
+    - Can be compatctly represented as $\frac{\partial}{\partial \mathbf{h}^L}\mathbf{e}^T\mathbf{e}\frac{1}{2} = \mathbf{e} \odot f'(\mathbf{h}^L) = \boldsymbol{\delta}^L$
     - $\odot$ is the Hadamard product or elementwise multiplication.
         """
     )
@@ -278,8 +278,8 @@ def _(mo):
         r"""
     ### Backward pass with linear algebra and vector calculus
 
-    - Now, we turn to: $\frac{\partial}{\partial \mathbf{w}_j^L} \mathbf{v}^L$
-    - Vector by vector derivatve $\Rightarrow$ Jacobian matrix: $\begin{bmatrix} \frac{\partial}{\partial w_{1,1}^L}v^L_1  &  \frac{\partial}{\partial w_{1,1}^L} v^L_2 & \cdots & \frac{\partial}{\partial w_{1, 1}^L} v^L_{k_{L-1}}  \\ \frac{\partial}{\partial w_{1,2}^L} v^L_1  &  \frac{\partial}{\partial w_{1,2}^L} v^L_2  & \cdots & \frac{\partial}{\partial w_{1, 2}^L} v^L_{k_{L-1}}  \\ \vdots    & \vdots    & \ddots & \vdots          \\ \frac{\partial}{\partial w_{1, k_l}^L} v_1^L  &  \frac{\partial}{\partial w_{1, k_l}^L} v^L_2 & \cdots & \frac{\partial}{\partial w_{1, k_l}^L} v^L_{k_{L-1}}  \end{bmatrix}$
+    - Now, we turn to: $\frac{\partial}{\partial \mathbf{w}_j^L} \mathbf{h}^L$
+    - Vector by vector derivatve $\Rightarrow$ Jacobian matrix: $\begin{bmatrix} \frac{\partial}{\partial w_{1,1}^L}h^L_1  &  \frac{\partial}{\partial w_{1,1}^L} h^L_2 & \cdots & \frac{\partial}{\partial w_{1, 1}^L} h^L_{k_{L-1}}  \\ \frac{\partial}{\partial w_{1,2}^L} h^L_1  &  \frac{\partial}{\partial w_{1,2}^L} h^L_2  & \cdots & \frac{\partial}{\partial w_{1, 2}^L} h^L_{k_{L-1}}  \\ \vdots    & \vdots    & \ddots & \vdots          \\ \frac{\partial}{\partial w_{1, k_l}^L} h_1^L  &  \frac{\partial}{\partial w_{1, k_l}^L} h^L_2 & \cdots & \frac{\partial}{\partial w_{1, k_l}^L} h^L_{k_{L-1}}  \end{bmatrix}$
         """
     )
     return
@@ -291,12 +291,12 @@ def _(mo):
         r"""
     ### Derivative of one element in Jacobian
 
-    - Reminder: $v^L_1 = w_{1,1}*y^{L-1}_1 + w_{1,2}*y^{L-1}_2 + \cdots w_{1,k_{L-1}}*y^{L-1}_{k_{L-1}} + 1*w_{1,0}$
-    - Therefore: $\frac{\partial}{\partial w_{1,1}}v^L_1 = \frac{\partial}{\partial w_{1,1}} w_{1,1}*y^{L-1}_1 + \frac{\partial}{\partial w_{1,1}} w_{1,2}*y^{L-1}_2 + \cdots \frac{\partial}{\partial w_{1,1}} w_{1,k_{L-1}}*y^{L-1}_{k_{L-1}} + 1*w_{1,0}$
+    - Reminder: $h^L_1 = w_{1,1}*z^{L-1}_1 + w_{1,2}*z^{L-1}_2 + \cdots w_{1,k_{L-1}}*z^{L-1}_{k_{L-1}} + 1*w_{1,0}$
+    - Therefore: $\frac{\partial}{\partial w_{1,1}}h^L_1 = \frac{\partial}{\partial w_{1,1}} w_{1,1}*z^{L-1}_1 + \frac{\partial}{\partial w_{1,1}} w_{1,2}*z^{L-1}_2 + \cdots \frac{\partial}{\partial w_{1,1}} w_{1,k_{L-1}}*z^{L-1}_{k_{L-1}} + 1*w_{1,0}$
 
     ---
 
-    - Back to Jacobian: $\begin{bmatrix} y_1^{L-1} & 0 & \cdots & 0 \\ y_2^{L-1} & 0 & \cdots & 0 \\ \vdots    & \vdots & \ddots & \vdots \\ y_{k_l}^{L-1} & 0 & \cdots & 0 \end{bmatrix}$
+    - Back to Jacobian: $\begin{bmatrix} z_1^{L-1} & 0 & \cdots & 0 \\ z_2^{L-1} & 0 & \cdots & 0 \\ \vdots    & \vdots & \ddots & \vdots \\ z_{k_l}^{L-1} & 0 & \cdots & 0 \end{bmatrix}$
         """
     )
     return
@@ -323,7 +323,7 @@ def _(mo):
     - Take a step back. Derivative of loss with respect to neuron 1 gave non-zero elements in column 1.
     - If we repeat process of derivative with resepct to neuron $j$, coulmn $j$ will be non-zero.
     - We can get all derivatives with one matrix operation:
-    - $\frac{\partial J}{\partial \mathbf{W}^L} = (\mathbf{y}^{L-1})^T \boldsymbol{\delta}^L$
+    - $\frac{\partial J}{\partial \mathbf{W}^L} = (\mathbf{z}^{L-1})^T \boldsymbol{\delta}^L$
         """
     )
     return

@@ -106,12 +106,16 @@ def _(mo, np, plt):
     x_outer_circles = r_outer_circles * np.cos(theta_outer_circles) + 0.2 * np.random.randn(n_samples_circles // 2)
     y_outer_circles = r_outer_circles * np.sin(theta_outer_circles) + 0.2 * np.random.randn(n_samples_circles // 2)
 
-    fig_circles, ax_circles = plt.subplots(figsize=(6.5, 6.5))
+    fig_circles, ax_circles = plt.subplots(figsize=(8, 8))
     ax_circles.scatter(x_inner_circles, y_inner_circles, color="blue", edgecolor="k",
                        s=80, label="Class 1")
     ax_circles.scatter(x_outer_circles, y_outer_circles, color="red", edgecolor="k",
                        s=80, label="Class 2")
+    ax_circles.set_aspect("equal")
+    ax_circles.set_xlabel("x1")
+    ax_circles.set_ylabel("x2")
     ax_circles.legend()
+    fig_circles.tight_layout()
 
     mo.as_html(fig_circles)
     plt.close(fig_circles)
@@ -189,12 +193,14 @@ def _(mo, np, plt):
     X_xor = np.vstack(X_xor)
     y_xor = np.concatenate(y_xor)
 
-    fig_xor, ax_xor = plt.subplots(figsize=(6.5, 6.5))
+    fig_xor, ax_xor = plt.subplots(figsize=(8, 8))
     ax_xor.scatter(X_xor[y_xor == 0, 0], X_xor[y_xor == 0, 1], color="blue", label="Class 0")
     ax_xor.scatter(X_xor[y_xor == 1, 0], X_xor[y_xor == 1, 1], color="red", label="Class 1")
+    ax_xor.set_aspect("equal")
     ax_xor.set_xlabel("x1")
     ax_xor.set_ylabel("x2")
     ax_xor.legend()
+    fig_xor.tight_layout()
 
     mo.as_html(fig_xor)
     plt.close(fig_xor)
@@ -219,15 +225,19 @@ def _(mo, plt):
     # Side-by-side: original XOR (no linear boundary works) and an
     # empty canvas the lecturer can draw the desired transformation on
     # by hand. Right panel is intentionally blank.
-    fig_xform, (ax_xform_1, ax_xform_2) = plt.subplots(1, 2, figsize=(10, 4.5))
+    fig_xform, (ax_xform_1, ax_xform_2) = plt.subplots(1, 2, figsize=(12, 5))
     ax_xform_1.scatter(X_xor[y_xor == 0, 0], X_xor[y_xor == 0, 1], color="blue", label="Class 0")
     ax_xform_1.scatter(X_xor[y_xor == 1, 0], X_xor[y_xor == 1, 1], color="red", label="Class 1")
+    ax_xform_1.set_aspect("equal")
     ax_xform_1.set_xlabel("x1")
     ax_xform_1.set_ylabel("x2")
+    ax_xform_1.legend()
     ax_xform_2.set_ylim(-0.5, 1.5)
     ax_xform_2.set_xlim(-0.5, 1.5)
+    ax_xform_2.set_aspect("equal")
     ax_xform_2.set_xlabel("x1")
     ax_xform_2.set_ylabel("x2")
+    fig_xform.tight_layout()
 
     mo.as_html(fig_xform)
     plt.close(fig_xform)
@@ -239,12 +249,14 @@ def _(X_xor, mo, plt):
     # Same as the right panel above but in its own slide so students
     # can sit with the question "what transformation makes this
     # linearly separable?" before the next slide gives the answer.
-    fig_xform_blank, ax_xform_blank = plt.subplots(figsize=(6.5, 6.5))
+    fig_xform_blank, ax_xform_blank = plt.subplots(figsize=(8, 8))
     ax_xform_blank.set_ylim(-0.5, 1.5)
     ax_xform_blank.set_xlim(-0.5, 1.5)
+    ax_xform_blank.set_aspect("equal")
     ax_xform_blank.set_xlabel("x1")
     ax_xform_blank.set_ylabel("x2")
     ax_xform_blank.scatter(X_xor[:, 0], X_xor[:, 1], color="gray", alpha=0.3)
+    fig_xform_blank.tight_layout()
 
     mo.as_html(fig_xform_blank)
     plt.close(fig_xform_blank)
@@ -348,7 +360,7 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the output layer
 
-    - $\frac{\partial}{\partial \mathbf{w}_j^L} E (i) = \frac{\partial}{\partial \mathbf{w}_j^L} v_j^L (i) \frac{\partial}{\partial v_j^L (i) }E (i)$
+    - $\frac{\partial}{\partial \mathbf{w}_j^L} E (i) = \frac{\partial}{\partial \mathbf{w}_j^L} h_j^L (i) \frac{\partial}{\partial h_j^L (i) }E (i)$
         """
     )
     return
@@ -360,9 +372,9 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the output layer
 
-    - $\frac{\partial}{\partial \mathbf{w}_j^L} E (i) = \frac{\partial}{\partial \mathbf{w}_j^L} v_j^L (i) \frac{\partial}{\partial v_j^L (i) }E (i)$
-    - $\frac{\partial}{\partial \mathbf{w}_j^L} v_j^L (i) = \ldots$
-    - $\frac{\partial}{\partial v_j^L (i) }E (i) = \ldots$
+    - $\frac{\partial}{\partial \mathbf{w}_j^L} E (i) = \frac{\partial}{\partial \mathbf{w}_j^L} h_j^L (i) \frac{\partial}{\partial h_j^L (i) }E (i)$
+    - $\frac{\partial}{\partial \mathbf{w}_j^L} h_j^L (i) = \ldots$
+    - $\frac{\partial}{\partial h_j^L (i) }E (i) = \ldots$
         """
     )
     return
@@ -386,8 +398,8 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the hidden layers
 
-    - For layer $L-1$ and neuron $j$: $\frac{\partial}{\partial \mathbf{w}_j^{L-1}} E (i) = \frac{\partial}{\partial \mathbf{w}_j^{L-1}} v_j^{L-1} (i) \frac{\partial}{\partial v_j^{L-1} (i) }E (i).$
-    - $v_j^{L-1}$not present in $E (i)$, comes through $v_j^{L}$
+    - For layer $L-1$ and neuron $j$: $\frac{\partial}{\partial \mathbf{w}_j^{L-1}} E (i) = \frac{\partial}{\partial \mathbf{w}_j^{L-1}} h_j^{L-1} (i) \frac{\partial}{\partial h_j^{L-1} (i) }E (i).$
+    - $h_j^{L-1}$ not present in $E (i)$, comes through $h_j^{L}$
         """
     )
     return
@@ -399,15 +411,15 @@ def _(mo):
         r"""
     ### Gradients of the hidden layers - chain rule
 
-    - $\frac{\partial}{\partial v_j^{L-1} (i) }E (i) = \delta_j^{L-1}(i) = $
+    - $\frac{\partial}{\partial h_j^{L-1} (i) }E (i) = \delta_j^{L-1}(i) =$
 
     ---
 
-    - $\frac{\partial v_j^{L} (i)}{\partial v_j^{L-1} (i) } = $
+    - $\frac{\partial h_j^{L} (i)}{\partial h_j^{L-1} (i) } =$
 
     ---
 
-    - $\delta_j^{L-1}(i) = $
+    - $\delta_j^{L-1}(i) =$
 
     ---
 
