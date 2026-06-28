@@ -262,7 +262,7 @@ def _(mo):
     # Lives in its own cell so the rendering cell below can read
     # show_boundary_lc.value without violating Marimo's "no reading
     # a UIElement in the cell that created it" rule.
-    show_boundary_lc = mo.ui.switch(value=True, label="Show decision boundary")
+    show_boundary_lc = mo.ui.switch(value=False, label="Show decision boundary")
     return (show_boundary_lc,)
 
 
@@ -272,21 +272,20 @@ def _(mo, np, plt, show_boundary_lc):
     # the MSE solution under Gaussian assumptions (close means with
     # equal vs. different variances). The third deliberately violates
     # the Gaussian assumption by giving class 1 a *moon* shape and
-    # class 2 a Gaussian that overlaps it, so the MSE straight-line
-    # boundary is no longer Bayes-optimal — the failure is highlighted
-    # with a thicker dashed line and a bold title in the figure.
+    # class 2 a Gaussian placed well away from it, so the MSE
+    # straight-line boundary is no longer Bayes-optimal.
     scenarios_lc = {
-        "μ₁=(2,2), μ₂=(3.5,3.5), σ=0.6 (close, equal σ)": (
+        "Option 1 — μ₁=(2,2), μ₂=(3.5,3.5), σ=0.6 (close, equal σ)": (
             "normal", np.array([2.0, 2.0]), 0.6,
             "normal", np.array([3.5, 3.5]), 0.6,
         ),
-        "μ₁=(2,2), μ₂=(3.5,3.5), σ₁=0.4, σ₂=0.9 (close, different σ)": (
+        "Option 2 — μ₁=(2,2), μ₂=(3.5,3.5), σ₁=0.4, σ₂=0.9 (close, different σ)": (
             "normal", np.array([2.0, 2.0]), 0.4,
             "normal", np.array([3.5, 3.5]), 0.9,
         ),
-        "Class 1 = half-moon arc, Class 2 = Gaussian  (MSE breaks down!)": (
+        "Option 3 — Class 1 = half-moon arc, Class 2 = Gaussian (MSE breaks down!)": (
             "moon", None, None,
-            "normal", np.array([2.5, 2.6]), 0.5,
+            "normal", np.array([4.2, 1.5]), 0.5,
         ),
     }
 
@@ -309,7 +308,7 @@ def _(mo, np, plt, show_boundary_lc):
         samples += np.random.normal(0, 0.1, samples.shape)
         return samples
 
-    def make_fig_lc(title, c1_type, c1_loc, c1_scale, c2_type, c2_loc, c2_scale, highlight=False, show_boundary=True):
+    def make_fig_lc(title, c1_type, c1_loc, c1_scale, c2_type, c2_loc, c2_scale, highlight=False, show_boundary=False):
         x1 = sample_lc(c1_type, c1_loc, c1_scale, n_lc)
         x2 = sample_lc(c2_type, c2_loc, c2_scale, n_lc)
 
@@ -617,24 +616,18 @@ def _(X_aug_wh, X_wh, n_wh, np, y_wh):
 
 @app.cell
 def _(mo, n_steps_wh_a):
-    # Use an explicit mo.state counter so the click is guaranteed to
-    # propagate, and so the rendering cell reads the count via a getter
-    # (not .value of a UIElement).
-    get_step_a, set_step_a = mo.state(0)
-
-    def _next_step_a(_):
-        set_step_a(lambda v: min(v + 1, n_steps_wh_a))
-
-    step_btn_a = mo.ui.button(
-        on_click=_next_step_a, label="Next Widrow-Hoff update",
+    # Button group with one button per time step so the user can jump
+    # forward and backward through the trajectory (rather than only
+    # stepping forward).
+    step_btn_a = mo.ui.button_group(
+        [mo.ui.button(label=f"Step {k}") for k in range(n_steps_wh_a + 1)],
     )
-    return get_step_a, step_btn_a
+    return (step_btn_a,)
 
 
 @app.cell
 def _(
     X_wh,
-    get_step_a,
     mo,
     n_steps_wh_a,
     np,
@@ -646,7 +639,7 @@ def _(
     x1_wh,
     x2_wh,
 ):
-    _step_a = min(get_step_a(), n_steps_wh_a)
+    _step_a = int(step_btn_a.value) if step_btn_a.value is not None else 0
     _w_a = trace_wh_a[_step_a]
     # The sample processed at the current step is update_idx_wh_a[k-1]
     # for step k ≥ 1; at step 0 no update has happened yet so we
@@ -688,13 +681,11 @@ def _(
     plt.close(fig_wh_a)
 
     mo.vstack([
-        mo.hstack([
-            step_btn_a,
-            mo.md(
-                f"&nbsp;**Step {_step_a} / {n_steps_wh_a}** &nbsp; "
-                f"weights: `{_w_a.round(3)}`"
-            ),
-        ]),
+        step_btn_a,
+        mo.md(
+            f"**Step {_step_a} / {n_steps_wh_a}** &nbsp;—&nbsp; "
+            f"weights: `{_w_a.round(3)}`"
+        ),
         mo.as_html(fig_wh_a),
     ])
     return
@@ -739,24 +730,17 @@ def _(X_aug_wh, X_wh, n_wh, np, y_wh):
 
 @app.cell
 def _(mo, n_steps_wh_b):
-    # Use an explicit mo.state counter so the click is guaranteed to
-    # propagate, and so the rendering cell reads the count via a getter
-    # (not .value of a UIElement).
-    get_step_b, set_step_b = mo.state(0)
-
-    def _next_step_b(_):
-        set_step_b(lambda v: min(v + 1, n_steps_wh_b))
-
-    step_btn_b = mo.ui.button(
-        on_click=_next_step_b, label="Next Widrow-Hoff update",
+    # Button group with one button per time step so the user can jump
+    # forward and backward through the trajectory.
+    step_btn_b = mo.ui.button_group(
+        [mo.ui.button(label=f"Step {k}") for k in range(n_steps_wh_b + 1)],
     )
-    return get_step_b, step_btn_b
+    return (step_btn_b,)
 
 
 @app.cell
 def _(
     X_wh,
-    get_step_b,
     mo,
     n_steps_wh_b,
     np,
@@ -768,7 +752,7 @@ def _(
     x1_wh,
     x2_wh,
 ):
-    _step_b = min(get_step_b(), n_steps_wh_b)
+    _step_b = int(step_btn_b.value) if step_btn_b.value is not None else 0
     _w_b = trace_wh_b[_step_b]
     _idx_cur_b = update_idx_wh_b[_step_b - 1] if _step_b >= 1 else update_idx_wh_b[0]
 
@@ -806,13 +790,11 @@ def _(
     plt.close(fig_wh_b)
 
     mo.vstack([
-        mo.hstack([
-            step_btn_b,
-            mo.md(
-                f"&nbsp;**Step {_step_b} / {n_steps_wh_b}** &nbsp; "
-                f"weights: `{_w_b.round(3)}`"
-            ),
-        ]),
+        step_btn_b,
+        mo.md(
+            f"**Step {_step_b} / {n_steps_wh_b}** &nbsp;—&nbsp; "
+            f"weights: `{_w_b.round(3)}`"
+        ),
         mo.as_html(fig_wh_b),
     ])
     return
@@ -929,24 +911,17 @@ def _(X_aug_wh, X_wh, n_wh, np, y_wh):
 
 @app.cell
 def _(mo, n_steps_p):
-    # Use an explicit mo.state counter so the click is guaranteed to
-    # propagate, and so the rendering cell reads the count via a getter
-    # (not .value of a UIElement).
-    get_step_p, set_step_p = mo.state(0)
-
-    def _next_step_p(_):
-        set_step_p(lambda v: min(v + 1, n_steps_p))
-
-    step_btn_p = mo.ui.button(
-        on_click=_next_step_p, label="Next Perceptron update",
+    # Button group with one button per time step so the user can jump
+    # forward and backward through the trajectory.
+    step_btn_p = mo.ui.button_group(
+        [mo.ui.button(label=f"Step {k}") for k in range(n_steps_p + 1)],
     )
-    return get_step_p, step_btn_p
+    return (step_btn_p,)
 
 
 @app.cell
 def _(
     X_wh,
-    get_step_p,
     mo,
     n_steps_p,
     np,
@@ -958,7 +933,7 @@ def _(
     x1_wh,
     x2_wh,
 ):
-    _step_p = min(get_step_p(), n_steps_p)
+    _step_p = int(step_btn_p.value) if step_btn_p.value is not None else 0
     _w_p = trace_p[_step_p]
     _idx_cur_p = update_idx_p[_step_p - 1] if _step_p >= 1 else update_idx_p[0]
 
@@ -997,13 +972,11 @@ def _(
     plt.close(fig_p)
 
     mo.vstack([
-        mo.hstack([
-            step_btn_p,
-            mo.md(
-                f"&nbsp;**Step {_step_p} / {n_steps_p}** &nbsp; "
-                f"weights: `{_w_p.round(3)}`"
-            ),
-        ]),
+        step_btn_p,
+        mo.md(
+            f"**Step {_step_p} / {n_steps_p}** &nbsp;—&nbsp; "
+            f"weights: `{_w_p.round(3)}`"
+        ),
         mo.as_html(fig_p),
     ])
     return

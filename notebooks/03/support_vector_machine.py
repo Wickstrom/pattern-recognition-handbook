@@ -129,7 +129,7 @@ def _(mo):
         r"""
     ## Support Vector Machine (SVM)
 
-    - Find $g(\mathbf{x})=\mathbf{w}^T\mathbf{x}+w_0$ such that the **margin** $m_{\text{svm}}$ is maximum (optimal).
+    - Find $g(\mathbf{x})=\mathbf{w}^T\mathbf{x}+w_0 $such that the **margin** $m_{\text{svm}}$is maximum (optimal).
         - Leaves room for variation between training data and test data.
         - **Generalizes** better.
         """
@@ -160,7 +160,7 @@ def _(mo):
         r"""
     ### Support Vector Machine (SVM)
 
-    - Note: $g(\mathbf{x'})$ not unique: $\mathbf{w'}=a\mathbf{w}$
+    - Note: $g(\mathbf{x'})$not unique: $\mathbf{w'}=a\mathbf{w}$
     - Define: $g(\mathbf{x'})= \pm 1 \hspace{0.1cm} \text{for } \mathbf{x} \text{ on margin.}$
     - Hence: $m_{\text{svm}}=\frac{2}{\| \mathbf{w} \|}$
         """
@@ -235,9 +235,9 @@ def _(mo):
     ### Illustrating the Lagrangian
 
     - Note: Only one solution $\boldsymbol{\theta}$.
-    - Due to $J(\boldsymbol{\theta})$ being convex and feasible region being a convex set.
-    - Langrange function: $ L(\boldsymbol{\theta}, \lambda)=J(\boldsymbol{\theta})-\sum_{i=1}^N\lambda_i f_i(\boldsymbol{\theta}) $
-    - Then:  $ \frac{\partial}{\partial \boldsymbol{\theta}} L(\boldsymbol{\theta}, \lambda)= \frac{\partial}{\partial \boldsymbol{\theta}}J(\boldsymbol{\theta})-\sum_{i=1}^N\lambda_i \frac{\partial}{\partial \boldsymbol{\theta}}f_i(\boldsymbol{\theta})=\mathbf{0}$
+    - Due to $J(\boldsymbol{\theta})$being convex and feasible region being a convex set.
+    - Langrange function: $L(\boldsymbol{\theta}, \lambda)=J(\boldsymbol{\theta})-\sum_{i=1}^N\lambda_i f_i(\boldsymbol{\theta})$
+    - Then:  $\frac{\partial}{\partial \boldsymbol{\theta}} L(\boldsymbol{\theta}, \lambda)= \frac{\partial}{\partial \boldsymbol{\theta}}J(\boldsymbol{\theta})-\sum_{i=1}^N\lambda_i \frac{\partial}{\partial \boldsymbol{\theta}}f_i(\boldsymbol{\theta})=\mathbf{0}$
         """
     )
     return
@@ -266,7 +266,7 @@ def _(mo):
     - The SVM optimization objective is a nonlinear optimization task subject to a set of linear constraints.
     - Difficult to optimize, how do we konw if a solution is optimal?
     - The Karush-Kuhn-Tucker conditions is a well-known set of conditions for optimality in nonlinear optimization.
-    - At $\boldsymbol{\theta}=\boldsymbol{\theta}_*$ the KKT conditions read:
+    - At $\boldsymbol{\theta}=\boldsymbol{\theta}_*$the KKT conditions read:
         - $\frac{\partial}{\partial \boldsymbol{\theta}} L(\boldsymbol{\theta}, \lambda) = \mathbf{0}$
         - $\lambda_i f_i(\boldsymbol{\theta}) = 0$
         - $\lambda_i \geq 0$
@@ -282,7 +282,7 @@ def _(mo):
     ### Dual problem ($\lambda$)
 
     - Note: $\max_{\boldsymbol{\lambda} \geq 0}\, L(\boldsymbol{\theta}_*, \lambda) = J(\boldsymbol{\theta}_*) - \sum_{i=1}^N \lambda_i f_i(\boldsymbol{\theta}_*)$
-    - actually forces $\lambda_i f_i(\boldsymbol{\theta}_*)=0$ since $\lambda_i \geq 0$ and $f_i(\boldsymbol{\theta}_*) \geq 0$.
+    - actually forces $\lambda_i f_i(\boldsymbol{\theta}_*)=0 $since $\lambda_i \geq 0 $and $f_i(\boldsymbol{\theta}_*) \geq 0$.
     - Hence: $\max_{\boldsymbol{\lambda} \geq 0}\, L(\boldsymbol{\theta}_*, \lambda) = J(\boldsymbol{\theta}_*)$
         """
     )
@@ -343,7 +343,7 @@ def _(mo):
         r"""
     ### Remarks
 
-    - Let $y_i=1$ if $\lambda_i \neq 0$: $\mathbf{w}^T\mathbf{x}_i+w_0=1$
+    - Let $y_i=1 $if $\lambda_i \neq 0$: $\mathbf{w}^T\mathbf{x}_i+w_0=1$
         """
     )
     return
@@ -355,8 +355,8 @@ def _(mo):
         r"""
     ## Support vectors
 
-    - Those $\mathbf{x_i}$ that are subject to $\lambda_i \neq 0$ are on the $\pm 1$ **margin**.
-    - Only $\mathbf{x_i}$ in the set of support vectors (SV) are important.
+    - Those $\mathbf{x_i}$that are subject to $\lambda_i \neq 0 $are on the $\pm 1$ **margin**.
+    - Only $\mathbf{x_i}$in the set of support vectors (SV) are important.
     - Hence: $\mathbf{w}=\sum_{\mathbf{x_i}\in\text{SV}}\lambda_i y_i \mathbf{x_i}$
     - And for the bias: $w_0$
         """

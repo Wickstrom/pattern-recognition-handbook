@@ -134,7 +134,7 @@ def _(mo):
         r"""
     ## Agglomerative algorithms
 
-    - $g(c_i, cj) \rightarrow$ proximity between clusters $c_i$ and $c_j$
+    - $g(c_i, cj) \rightarrow $proximity between clusters $c_i $and $c_j$
         """
     )
     return
@@ -159,7 +159,7 @@ def _(mo):
         r"""
     ### Matrix-based implementation
 
-    - Note: $g(c_i, cj)$ formed from proximity between data points.
+    - Note: $g(c_i, cj)$formed from proximity between data points.
     - Will focus on dissimilarity
         """
     )
@@ -172,7 +172,7 @@ def _(mo):
         r"""
     ### Dissimilarity matrix
 
-    - Define $\mathbf{P} (N \times N)$ such that $P_{ij}=d(\mathbf{x}_i, \mathbf{x}_j)$.
+    - Define $\mathbf{P} (N \times N)$such that $P_{ij}=d(\mathbf{x}_i, \mathbf{x}_j)$.
         - Symmetric
         - $P_ii=d_0$ (smallest value along diagonal)
         """
@@ -211,7 +211,7 @@ def _(mo):
         r"""
     ### Example single link
 
-    - $ \mathbf{P}_0 =  $
+    - $\mathbf{P}_0 =  $
         """
     )
     return
@@ -235,7 +235,7 @@ def _(mo):
         r"""
     ### Example complete link
 
-    - $ \mathbf{P}_0 =  $
+    - $\mathbf{P}_0 =  $
         """
     )
     return

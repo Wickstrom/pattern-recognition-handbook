@@ -135,7 +135,7 @@ def _(mo):
     ### Eigenvectors of autocorrelation matrix R
 
     - First: $\lambda \mathbf{v}=$
-    - Reordering for $ \mathbf{v}= $
+    - Reordering for $\mathbf{v}= $
         """
     )
     return
@@ -147,7 +147,7 @@ def _(mo):
         r"""
     ### Projection onto eigenvector
 
-    - $ \mathbf{v}^T\phi(\mathbf{x}_t) = $
+    - $\mathbf{v}^T\phi(\mathbf{x}_t) = $
         """
     )
     return
@@ -164,9 +164,9 @@ def _(mo):
 
     ---
 
-    - Remark: Eigenvectors of symmetric $\mathbf{R}$ assumed $\|\mathbf{v}_i\|_2 = 1$ and $\mathbf{v}_i^T \mathbf{v}_j = 1$:
+    - Remark: Eigenvectors of symmetric $\mathbf{R}$assumed$\|\mathbf{v}_i\|_2 = 1 $and $\mathbf{v}_i^T \mathbf{v}_j = 1$:
 
-    - Have $ \mathbf{v}^T \mathbf{v} = $
+    - Have $\mathbf{v}^T \mathbf{v} = $
         """
     )
     return
@@ -253,8 +253,8 @@ def _(mo):
         r"""
     ### Laplacian Eigenmaps - key idea
 
-    - Transform $\mathbf{x} \in \mathbb{R}^d$ into $\mathbf{z} \in \mathbb{R}^k$, where $k \leq d$
-    - Such that: neighbors in $\mathbb{R}^d$ stay neighbors in $\mathbb{R}^k$
+    - Transform $\mathbf{x} \in \mathbb{R}^d $into $\mathbf{z} \in \mathbb{R}^k$, where $k \leq d$
+    - Such that: neighbors in $\mathbb{R}^d $stay neighbors in $\mathbb{R}^k$
         """
     )
     return
@@ -278,10 +278,10 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ### Mapping $\mathbf{x}_i$ to $\mathbf{z}_i$
+    ### Mapping $\mathbf{x}_i $to $\mathbf{z}_i$
 
     - Need a way to optimize the position of points in $\mathbb{R}^k$.
-    - Consider the following: $ J(\mathbf{z}) = \frac{1}{2} \sum_i \sum_j (\mathbf{z}_i-\mathbf{z}_j)W_{ij}$
+    - Consider the following: $J(\mathbf{z}) = \frac{1}{2} \sum_i \sum_j (\mathbf{z}_i-\mathbf{z}_j)W_{ij}$
         """
     )
     return
@@ -293,7 +293,7 @@ def _(mo):
         r"""
     ### Optimizing the position of points in $\mathbb{R}^k$
 
-    - Reasonable to minimize $J(\mathbf{z})$ with respect to $\mathbf{z}$
+    - Reasonable to minimize $J(\mathbf{z})$with respect to $\mathbf{z}$
     - Obvious solution not interesting.
         - What is the obvious solution?
         """
@@ -307,8 +307,8 @@ def _(mo):
         r"""
     ### Optimizing the position of points in $\mathbb{R}^k$
 
-    - Have: $ J(\mathbf{z}) = \frac{1}{2} $
-    - Let $ D_{ii} = $
+    - Have: $J(\mathbf{z}) = \frac{1}{2}$
+    - Let $D_{ii} = $
         """
     )
     return
@@ -320,7 +320,7 @@ def _(mo):
         r"""
     ### Optimizing the position of points in $\mathbb{R}^k$
 
-    - Hence: $ J(\mathbf{z}) = \mathbf{z}^T (\mathbf{D}-\mathbf{W}) \mathbf{z} = $
+    - Hence: $J(\mathbf{z}) = \mathbf{z}^T (\mathbf{D}-\mathbf{W}) \mathbf{z} = $
         """
     )
     return
@@ -361,8 +361,8 @@ def _(mo):
         r"""
     ### Laplacian eigenmaps optimization problem
 
-    - Minimize $ \mathbf{z}^T \mathbf{L} \mathbf{z} $
-    - Subject to $ \mathbf{z}^T \mathbf{D} \mathbf{z} = 1$
+    - Minimize $\mathbf{z}^T \mathbf{L} \mathbf{z}$
+    - Subject to $\mathbf{z}^T \mathbf{D} \mathbf{z} = 1$
         """
     )
     return
@@ -440,7 +440,7 @@ def _(mo):
     \end{bmatrix}
     $$
 
-    Probabilities of a "walk" from $x_i$ to $x_j$.
+    Probabilities of a "walk" from $x_i $to $x_j$.
         """
     )
     return

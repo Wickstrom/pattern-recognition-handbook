@@ -281,7 +281,7 @@ def _(mo):
         r"""
     ### Classification capabilites of 2LP
 
-    - A hidden layer maps $\mathbf{x}\in \mathcal{R}^d$ onto vertices of a p-dimensional cube (hidden layer with p neurons).
+    - A hidden layer maps $\mathbf{x}\in \mathcal{R}^d $onto vertices of a p-dimensional cube (hidden layer with p neurons).
     - A 2LP can separate classes represented as union of polyhedral regions.
     - Not all regions can be separated!
         - More layers increases the capacity of the network.
@@ -336,7 +336,7 @@ def _(mo):
 
     - Let $J = \sum_{i=1}^N E (i),$
     - where $E (i) = \sum_{m=1}^{N} \frac{1}{2} e_m(i)^2$
-    - Want: $ \underset{\mathbf{w}}{\operatorname{min}}\ J(\mathbf{w})$
+    - Want: $\underset{\mathbf{w}}{\operatorname{min}}\ J(\mathbf{w})$
         """
     )
     return
@@ -360,9 +360,9 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the output layer
 
-    - $ \frac{\partial}{\partial \mathbf{w}_j^L} E (i) = \frac{\partial}{\partial \mathbf{w}_j^L} v_j^L (i) \frac{\partial}{\partial v_j^L (i) }E (i)$
-    - $ \frac{\partial}{\partial \mathbf{w}_j^L} v_j^L (i) = $
-    - $ \frac{\partial}{\partial v_j^L (i) }E (i) = $
+    - $\frac{\partial}{\partial \mathbf{w}_j^L} E (i) = \frac{\partial}{\partial \mathbf{w}_j^L} v_j^L (i) \frac{\partial}{\partial v_j^L (i) }E (i)$
+    - $\frac{\partial}{\partial \mathbf{w}_j^L} v_j^L (i) = $
+    - $\frac{\partial}{\partial v_j^L (i) }E (i) = $
         """
     )
     return
@@ -374,7 +374,7 @@ def _(mo):
         r"""
     ### Gradient descent reminder
 
-    - Reminder: $ \mathbf{w}_j^L (t+1) = \mathbf{w}_j^L (t) - \gamma \frac{\partial}{\partial  \mathbf{w}_j^L} J$
+    - Reminder: $\mathbf{w}_j^L (t+1) = \mathbf{w}_j^L (t) - \gamma \frac{\partial}{\partial  \mathbf{w}_j^L} J$
         """
     )
     return
@@ -386,8 +386,8 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the hidden layers
 
-    - For layer $L-1$ and neuron $j$: $\frac{\partial}{\partial \mathbf{w}_j^{L-1}} E (i) = \frac{\partial}{\partial \mathbf{w}_j^{L-1}} v_j^{L-1} (i) \frac{\partial}{\partial v_j^{L-1} (i) }E (i).$
-    - $v_j^{L-1}$ not present in $E (i)$, comes through $v_j^{L}$
+    - For layer $L-1 $and neuron $j$: $\frac{\partial}{\partial \mathbf{w}_j^{L-1}} E (i) = \frac{\partial}{\partial \mathbf{w}_j^{L-1}} v_j^{L-1} (i) \frac{\partial}{\partial v_j^{L-1} (i) }E (i).$
+    - $v_j^{L-1}$not present in $E (i)$, comes through $v_j^{L}$
         """
     )
     return
@@ -407,11 +407,11 @@ def _(mo):
 
     ---
 
-    - $ \delta_j^{L-1}(i) = $
+    - $\delta_j^{L-1}(i) = $
 
     ---
 
-    - Error at output $(L)$ propagated to $(L-1)$ to compute gradients of weights.
+    - Error at output$(L)$propagated to$(L-1)$to compute gradients of weights.
     - Repeat to compute gradients for the entire network!
         """
     )

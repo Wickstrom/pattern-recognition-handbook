@@ -731,7 +731,7 @@ def _(mo):
     # Lives in its own cell so the tabs cell below can read
     # show_boundary_pb.value without violating Marimo's "no reading
     # a UIElement in the cell that created it" rule.
-    show_boundary_pb = mo.ui.switch(value=True, label="Show decision boundary")
+    show_boundary_pb = mo.ui.switch(value=False, label="Show decision boundary")
     return (show_boundary_pb,)
 
 
