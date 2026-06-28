@@ -296,13 +296,13 @@ def _(mo, np, plt, show_boundary_lc):
         if kind == "normal":
             cov = (scale ** 2) * np.eye(2)
             return np.random.multivariate_normal(loc, cov, n)
-        # Half-moon: upper 180-degree arc centred at the same point as
-        # the Gaussian, with a radius just large enough that the arc
-        # straddles the Gaussian — the two classes overlap, no linear
-        # boundary separates them, MSE makes obvious mistakes.
+        # Half-moon: upper 180-degree arc centred above the Gaussian
+        # with a wider radius so the two clusters are clearly
+        # distinct yet close enough that any straight line through
+        # them makes obvious classification errors.
         theta = np.linspace(0, np.pi, n)
-        moon_radius = 0.8
-        moon_cx, moon_cy = 2.5, 1.4
+        moon_radius = 1.4
+        moon_cx, moon_cy = 2.5, 2.7
         x = moon_cx + moon_radius * np.cos(theta)
         y = moon_cy + moon_radius * np.sin(theta)
         samples = np.column_stack([x, y])
@@ -637,10 +637,11 @@ def _(
 ):
     _step_a = int(step_btn_a.value) if step_btn_a.value is not None else 0
     _w_a = trace_wh_a[_step_a]
-    # At step 0 nothing has been processed yet, so no highlight.
-    # At step k ≥ 1 the just-processed sample is update_idx_wh_a[k-1]
-    # (the sample used to compute update k).
-    _idx_cur_a = update_idx_wh_a[_step_a - 1] if _step_a >= 1 else None
+    # Show the sample that will be processed at the NEXT step
+    # (update_idx_wh_a[k]) so students see where the boundary is
+    # headed before it moves. At the final step there is no next
+    # update, so no highlight.
+    _idx_cur_a = update_idx_wh_a[_step_a] if _step_a < n_steps_wh_a else None
 
     fig_wh_a, ax_wh_a = plt.subplots(figsize=(5, 5))
     ax_wh_a.scatter(
@@ -935,7 +936,7 @@ def _(
 ):
     _step_p = int(step_btn_p.value) if step_btn_p.value is not None else 0
     _w_p = trace_p[_step_p]
-    _idx_cur_p = update_idx_p[_step_p - 1] if _step_p >= 1 else None
+    _idx_cur_p = update_idx_p[_step_p] if _step_p < n_steps_p else None
 
     fig_p, ax_p = plt.subplots(figsize=(5, 5))
     ax_p.scatter(
@@ -1049,7 +1050,7 @@ def _(
 ):
     _step_p2 = int(step_btn_p2.value) if step_btn_p2.value is not None else 0
     _w_p2 = trace_p2[_step_p2]
-    _idx_cur_p2 = update_idx_p2[_step_p2 - 1] if _step_p2 >= 1 else None
+    _idx_cur_p2 = update_idx_p2[_step_p2] if _step_p2 < n_steps_p2 else None
 
     fig_p2, ax_p2 = plt.subplots(figsize=(5, 5))
     ax_p2.scatter(

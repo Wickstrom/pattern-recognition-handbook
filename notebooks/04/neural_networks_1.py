@@ -83,7 +83,6 @@ def _(mo):
 
     - Our focus has so far been on linear classifiers. Now, our focus will shift to **non-linear classifiers**.
     - We will start with learning about neural networks.
-    - Example:
         """
     )
     return
@@ -174,6 +173,46 @@ def _(mo):
 
 @app.cell
 def _(mo, np, plt):
+    # The XOR truth table, drawn as a scatter of the four corners of
+    # the unit square. Labels are the XOR of the two inputs.
+    corners_xor_ex = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+    labels_xor_ex = np.array([0, 1, 1, 0])
+
+    fig_xor_ex, ax_xor_ex = plt.subplots(figsize=(6, 6))
+    for (cx_xor_ex, cy_xor_ex), lbl_xor_ex in zip(corners_xor_ex, labels_xor_ex):
+        color_xor_ex = "red" if lbl_xor_ex == 1 else "blue"
+        ax_xor_ex.scatter(
+            cx_xor_ex, cy_xor_ex, s=600, color=color_xor_ex,
+            edgecolor="k", linewidth=2.0,
+        )
+        ax_xor_ex.annotate(
+            f"({int(cx_xor_ex)}, {int(cy_xor_ex)})\nXOR = {int(lbl_xor_ex)}",
+            xy=(cx_xor_ex, cy_xor_ex),
+            xytext=(cx_xor_ex + (0.18 if cx_xor_ex == 0 else -0.18),
+                    cy_xor_ex + (0.18 if cy_xor_ex == 0 else -0.18)),
+            fontsize=12, ha="left" if cx_xor_ex == 0 else "right",
+            va="bottom" if cy_xor_ex == 0 else "top",
+            fontweight="bold",
+        )
+
+    ax_xor_ex.set_aspect("equal")
+    ax_xor_ex.set_xlabel("x1")
+    ax_xor_ex.set_ylabel("x2")
+    ax_xor_ex.set_xlim(-0.55, 1.55)
+    ax_xor_ex.set_ylim(-0.55, 1.55)
+    ax_xor_ex.set_xticks([0, 1])
+    ax_xor_ex.set_yticks([0, 1])
+    ax_xor_ex.set_title("XOR truth table at the corners of the unit square", fontsize=13)
+    ax_xor_ex.grid(True, alpha=0.3)
+    fig_xor_ex.tight_layout()
+
+    mo.as_html(fig_xor_ex)
+    plt.close(fig_xor_ex)
+    return
+
+
+@app.cell
+def _(mo, np, plt):
     # XOR dataset: four small Gaussian blobs at the corners of the
     # unit square with labels {0, 1, 1, 0}. The original notebook sets
     # seed 42 for reproducibility across renders.
@@ -216,13 +255,20 @@ def _(mo, np, plt):
             fontsize=13, color=color, fontweight="bold", ha=ha,
         )
 
+    # One candidate linear decision boundary — illustrates visually
+    # that any straight line will misclassify at least one corner.
+    ax_xor.plot(
+        [-0.3, 1.3], [0.85, 0.15], "k--", linewidth=2.0,
+        label="Best linear attempt",
+    )
+
     ax_xor.set_aspect("equal")
     ax_xor.set_xlabel("x1")
     ax_xor.set_ylabel("x2")
     ax_xor.set_xlim(-0.55, 1.55)
     ax_xor.set_ylim(-0.55, 1.55)
     ax_xor.set_title("XOR: no straight line separates the two classes", fontsize=14)
-    ax_xor.legend(loc="upper center", bbox_to_anchor=(0.5, -0.08), ncol=2)
+    ax_xor.legend(loc="upper center", bbox_to_anchor=(0.5, -0.08), ncol=3)
     fig_xor.tight_layout()
 
     mo.as_html(fig_xor)
@@ -383,7 +429,7 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the output layer
 
-    - $\frac{\partial}{\partial \mathbf{w}_j^L} E (i) = \frac{\partial}{\partial \mathbf{w}_j^L} z_j^L (i) \frac{\partial}{\partial z_j^L (i) }E (i)$
+    - Chain rule through the activation: $\frac{\partial E (i)}{\partial \mathbf{w}_j^L} = \frac{\partial z_j^L (i)}{\partial \mathbf{w}_j^L} \frac{\partial a_j^L (i)}{\partial z_j^L (i)} \frac{\partial E (i)}{\partial a_j^L (i)}$
         """
     )
     return
@@ -395,9 +441,10 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the output layer
 
-    - $\frac{\partial}{\partial \mathbf{w}_j^L} E (i) = \frac{\partial}{\partial \mathbf{w}_j^L} z_j^L (i) \frac{\partial}{\partial z_j^L (i) }E (i)$
-    - $\frac{\partial}{\partial \mathbf{w}_j^L} z_j^L (i) = \ldots$
-    - $\frac{\partial}{\partial z_j^L (i) }E (i) = \ldots$
+    - Chain rule: $\frac{\partial E (i)}{\partial \mathbf{w}_j^L} = \frac{\partial z_j^L (i)}{\partial \mathbf{w}_j^L} \frac{\partial a_j^L (i)}{\partial z_j^L (i)} \frac{\partial E (i)}{\partial a_j^L (i)}$
+    - $\frac{\partial z_j^L (i)}{\partial \mathbf{w}_j^L} = \mathbf{a}^{L-1}(i)$ (the activations of the previous layer)
+    - $\frac{\partial a_j^L (i)}{\partial z_j^L (i)} = f'(z_j^L(i))$ (activation-function derivative)
+    - $\frac{\partial E (i)}{\partial a_j^L (i)} = a_j^L(i) - y_i$ (for squared error)
         """
     )
     return
@@ -421,8 +468,8 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the hidden layers
 
-    - For layer $L-1$ and neuron $j$: $\frac{\partial}{\partial \mathbf{w}_j^{L-1}} E (i) = \frac{\partial}{\partial \mathbf{w}_j^{L-1}} z_j^{L-1} (i) \frac{\partial}{\partial z_j^{L-1} (i) }E (i).$
-    - $z_j^{L-1}$ not present in $E (i)$, comes through $z_j^{L}$
+    - For layer $L-1$ and neuron $j$: $\frac{\partial E (i)}{\partial \mathbf{w}_j^{L-1}} = \frac{\partial z_j^{L-1} (i)}{\partial \mathbf{w}_j^{L-1}} \frac{\partial a_j^{L-1} (i)}{\partial z_j^{L-1} (i)} \frac{\partial E (i)}{\partial a_j^{L-1} (i)}.$
+    - $z_j^{L-1}$ not present in $E (i)$, comes through $a_j^{L-1}$ and onward to the output.
         """
     )
     return
@@ -434,11 +481,11 @@ def _(mo):
         r"""
     ### Gradients of the hidden layers - chain rule
 
-    - $\frac{\partial}{\partial z_j^{L-1} (i) }E (i) = \delta_j^{L-1}(i) =$
+    - $\dfrac{\partial E (i)}{\partial a_j^{L-1} (i) } = \delta_j^{L-1}(i) =$
 
     ---
 
-    - $\frac{\partial z_j^{L} (i)}{\partial z_j^{L-1} (i) } =$
+    - $\dfrac{\partial a_j^{L} (i)}{\partial a_j^{L-1} (i) } =$
 
     ---
 
