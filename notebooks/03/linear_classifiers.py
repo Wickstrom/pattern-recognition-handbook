@@ -616,11 +616,12 @@ def _(X_aug_wh, X_wh, n_wh, np, y_wh):
 
 @app.cell
 def _(mo, n_steps_wh_a):
-    # Button group with one button per time step so the user can jump
-    # forward and backward through the trajectory (rather than only
-    # stepping forward).
-    step_btn_a = mo.ui.button_group(
-        [mo.ui.button(label=f"Step {k}") for k in range(n_steps_wh_a + 1)],
+    # One radio button per time step so the user can jump forward and
+    # backward through the trajectory (rather than only stepping forward).
+    step_btn_a = mo.ui.radio(
+        options=[k for k in range(n_steps_wh_a + 1)],
+        value=0,
+        label=f"Step (0..{n_steps_wh_a})",
     )
     return (step_btn_a,)
 
@@ -730,10 +731,12 @@ def _(X_aug_wh, X_wh, n_wh, np, y_wh):
 
 @app.cell
 def _(mo, n_steps_wh_b):
-    # Button group with one button per time step so the user can jump
-    # forward and backward through the trajectory.
-    step_btn_b = mo.ui.button_group(
-        [mo.ui.button(label=f"Step {k}") for k in range(n_steps_wh_b + 1)],
+    # One radio button per time step so the user can jump forward and
+    # backward through the trajectory.
+    step_btn_b = mo.ui.radio(
+        options=[k for k in range(n_steps_wh_b + 1)],
+        value=0,
+        label=f"Step (0..{n_steps_wh_b})",
     )
     return (step_btn_b,)
 
@@ -911,10 +914,12 @@ def _(X_aug_wh, X_wh, n_wh, np, y_wh):
 
 @app.cell
 def _(mo, n_steps_p):
-    # Button group with one button per time step so the user can jump
-    # forward and backward through the trajectory.
-    step_btn_p = mo.ui.button_group(
-        [mo.ui.button(label=f"Step {k}") for k in range(n_steps_p + 1)],
+    # One radio button per time step so the user can jump forward and
+    # backward through the trajectory.
+    step_btn_p = mo.ui.radio(
+        options=[k for k in range(n_steps_p + 1)],
+        value=0,
+        label=f"Step (0..{n_steps_p})",
     )
     return (step_btn_p,)
 

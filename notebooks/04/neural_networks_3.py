@@ -249,11 +249,11 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ### Finding $\delta $for output layer
+    ### Finding $\delta$ for output layer
 
     - We have dealt with the following term before $\frac{\partial}{\partial \mathbf{v}^L}\mathbf{e}^T\mathbf{e}\frac{1}{2}=\mathbf{e}\frac{\partial}{\partial \mathbf{v}^L}(f(\mathbf{v}^L)-\mathbf{y})$
-    - $\mathbf{y}$does not depend on $\mathbf{v}^L$, and we keep the derivative of $f(\mathbf{v}^L)$general.
-    - We have a vector by vector derivative $\Rightarrow $Jacobian: $\frac{\partial f(\mathbf{v}^L)}{\partial \mathbf{v}^L} = \begin{bmatrix} \frac{\partial}{\partial v^L_1}f(v_1^L)  &  \frac{\partial}{\partial v^L_1} f(v_2^L) & \cdots & \frac{\partial}{\partial v^L_1} f(v^L_{k_{L}})  \\ \frac{\partial}{\partial v_2^L} f(v_1^L)  &  \frac{\partial}{\partial v^L_2} f(v_2^L)  & \cdots & \frac{\partial}{\partial v_2^L} f(v_2^L)  \\ \vdots    & \vdots    & \ddots & \vdots          \\ \frac{\partial}{\partial v_{k_L}} f(v_1^L)  &  \frac{\partial}{\partial v_{k_L}^L} f(v_2^L)  & \cdots & \frac{\partial}{\partial v_{k_L}} f(v_2^L)  \end{bmatrix}$
+    - $\mathbf{y}$ does not depend on $\mathbf{v}^L$, and we keep the derivative of $f(\mathbf{v}^L)$ general.
+    - We have a vector by vector derivative $\Rightarrow$ Jacobian: $\frac{\partial f(\mathbf{v}^L)}{\partial \mathbf{v}^L} = \begin{bmatrix} \frac{\partial}{\partial v^L_1}f(v_1^L)  &  \frac{\partial}{\partial v^L_1} f(v_2^L) & \cdots & \frac{\partial}{\partial v^L_1} f(v^L_{k_{L}})  \\ \frac{\partial}{\partial v_2^L} f(v_1^L)  &  \frac{\partial}{\partial v^L_2} f(v_2^L)  & \cdots & \frac{\partial}{\partial v_2^L} f(v_2^L)  \\ \vdots    & \vdots    & \ddots & \vdots          \\ \frac{\partial}{\partial v_{k_L}} f(v_1^L)  &  \frac{\partial}{\partial v_{k_L}^L} f(v_2^L) & \cdots & \frac{\partial}{\partial v_{k_L}} f(v_2^L)  \end{bmatrix}$
         """
     )
     return
@@ -263,10 +263,10 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ### Finding $\delta $for output layer
+    ### Finding $\delta$ for output layer
 
     - Can be compatctly represented as $\frac{\partial}{\partial \mathbf{v}^L}\mathbf{e}^T\mathbf{e}\frac{1}{2} = \mathbf{e} \odot f'(\mathbf{v}^L) = \boldsymbol{\delta}^L$
-    - $\odot $is the Hadamard product or elementwise multiplication.
+    - $\odot$ is the Hadamard product or elementwise multiplication.
         """
     )
     return
@@ -279,7 +279,7 @@ def _(mo):
     ### Backward pass with linear algebra and vector calculus
 
     - Now, we turn to: $\frac{\partial}{\partial \mathbf{w}_j^L} \mathbf{v}^L$
-    - Vector by vector derivatve $\Rightarrow $Jacobian matrix: $\begin{bmatrix} \frac{\partial}{\partial w_{1,1}^L}v^L_1  &  \frac{\partial}{\partial w_{1,1}^L} v^L_2 & \cdots & \frac{\partial}{\partial w_{1, 1}^L} v^L_{k_{L-1}}  \\ \frac{\partial}{\partial w_{1,2}^L} v^L_1  &  \frac{\partial}{\partial w_{1,2}^L} v^L_2  & \cdots & \frac{\partial}{\partial w_{1, 2}^L} v^L_{k_{L-1}}  \\ \vdots    & \vdots    & \ddots & \vdots          \\ \frac{\partial}{\partial w_{1, k_l}^L} v_1^L  &  \frac{\partial}{\partial w_{1, k_l}^L} v^L_2  & \cdots & \frac{\partial}{\partial w_{1, k_l}^L} v^L_{k_{L-1}}  \end{bmatrix}$
+    - Vector by vector derivatve $\Rightarrow$ Jacobian matrix: $\begin{bmatrix} \frac{\partial}{\partial w_{1,1}^L}v^L_1  &  \frac{\partial}{\partial w_{1,1}^L} v^L_2 & \cdots & \frac{\partial}{\partial w_{1, 1}^L} v^L_{k_{L-1}}  \\ \frac{\partial}{\partial w_{1,2}^L} v^L_1  &  \frac{\partial}{\partial w_{1,2}^L} v^L_2  & \cdots & \frac{\partial}{\partial w_{1, 2}^L} v^L_{k_{L-1}}  \\ \vdots    & \vdots    & \ddots & \vdots          \\ \frac{\partial}{\partial w_{1, k_l}^L} v_1^L  &  \frac{\partial}{\partial w_{1, k_l}^L} v^L_2 & \cdots & \frac{\partial}{\partial w_{1, k_l}^L} v^L_{k_{L-1}}  \end{bmatrix}$
         """
     )
     return
@@ -321,7 +321,7 @@ def _(mo):
     ### Putting it all together
 
     - Take a step back. Derivative of loss with respect to neuron 1 gave non-zero elements in column 1.
-    - If we repeat process of derivative with resepct to neuron $j$, coulmn $j $will be non-zero.
+    - If we repeat process of derivative with resepct to neuron $j$, coulmn $j$ will be non-zero.
     - We can get all derivatives with one matrix operation:
     - $\frac{\partial J}{\partial \mathbf{W}^L} = (\mathbf{y}^{L-1})^T \boldsymbol{\delta}^L$
         """
@@ -336,7 +336,7 @@ def _(mo):
     ### What have we gained?
 
     - A lot of work, but clean result with simple rule.
-    - To find gradients of loss with respect to weights in layer $l$, look at $\delta $from current layer and output from previous layer.
+    - To find gradients of loss with respect to weights in layer $l$, look at $\delta$ from current layer and output from previous layer.
         """
     )
     return
