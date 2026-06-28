@@ -174,8 +174,10 @@ def _(mo):
         r"""
     ## SVM optimization problem
 
-    - $ \underset{\mathbf{w}, w_0}{\operatorname{min}}\ J(\mathbf{w}, w_0)\coloneqq \frac{1}{2}\| \mathbf{w} \|^2 $
-    - $ \text{subject to} \hspace{0.2cm} y_i\left(\mathbf{w}^T \mathbf{x_i}+w_0\right) \geq 1$
+    $$\min_{\mathbf{w},\, w_0}\; J(\mathbf{w}, w_0) := \tfrac{1}{2}\,\|\mathbf{w}\|^2$$
+
+    $$\text{subject to}\quad y_i\!\left(\mathbf{w}^T \mathbf{x}_i + w_0\right) \ge 1$$
+
     - "A training algorithm for optimal margin classifiers" - (Boser, Guyon, Vapnik, 1992.)
     - "Support-vector networks" - (Cortes and Vapnik, 1995.)
     - How to optimize the objective function?
@@ -191,10 +193,10 @@ def _(mo):
         r"""
     ### Hint on Lagrangian optimization
 
-    - $ \underset{\boldsymbol{\theta}}{\operatorname{min}}\ J(\boldsymbol{\theta}) $
-    - $ \text{subject to} \hspace{0.2cm} f(\boldsymbol{\theta})= \theta_1 \theta_2-3 \geq 0 $
+    - $\min_{\boldsymbol{\theta}}\, J(\boldsymbol{\theta})$
+    - $\text{subject to}\;\; f(\boldsymbol{\theta}) = \theta_1\theta_2 - 3 \geq 0$
     - Primal problem $\boldsymbol{\theta}$.
-    - Note: At $\boldsymbol{\theta}=\boldsymbol{\theta}_{*}\Rightarrow$ $ \frac{\partial}{\partial \boldsymbol{\theta}} J(\boldsymbol{\theta}) = \lambda\frac{\partial}{\partial \boldsymbol{\theta}} f(\boldsymbol{\theta}) \text{, for } \lambda > 0$
+    - Note: At $\boldsymbol{\theta}=\boldsymbol{\theta}_{*}\Rightarrow$ $\frac{\partial}{\partial \boldsymbol{\theta}} J(\boldsymbol{\theta}) = \lambda\frac{\partial}{\partial \boldsymbol{\theta}} f(\boldsymbol{\theta}),\;\text{for } \lambda > 0$
         """
     )
     return
@@ -206,8 +208,8 @@ def _(mo):
         r"""
     ### Defining the Lagrange function
 
-    - $ L(\boldsymbol{\theta}, \lambda)=J(\boldsymbol{\theta})-\lambda f(\boldsymbol{\theta}) $
-    - Then: $ \underset{\boldsymbol{\theta}}{\operatorname{min}}\ L(\boldsymbol{\theta}, \lambda)  \Rightarrow \frac{\partial}{\partial \boldsymbol{\theta}}J(\boldsymbol{\theta}) - \lambda \frac{\partial}{\partial \boldsymbol{\theta}}f(\boldsymbol{\theta}) = 0$
+    - $L(\boldsymbol{\theta}, \lambda) = J(\boldsymbol{\theta}) - \lambda f(\boldsymbol{\theta})$
+    - Then: $\min_{\boldsymbol{\theta}}\, L(\boldsymbol{\theta}, \lambda) \;\Rightarrow\; \frac{\partial}{\partial \boldsymbol{\theta}}J(\boldsymbol{\theta}) - \lambda \frac{\partial}{\partial \boldsymbol{\theta}}f(\boldsymbol{\theta}) = 0$
         """
     )
     return
@@ -219,8 +221,8 @@ def _(mo):
         r"""
     ### Illustrating the Lagrangian
 
-    - $ \underset{\boldsymbol{\theta}}{\operatorname{min}}\ J(\boldsymbol{\theta}) $
-    - $ \text{subject to} \hspace{0.2cm} f_i(\boldsymbol{\theta}) \geq 0 \hspace{0.2cm} \text{for } i=1,\cdots,N $
+    - $\min_{\boldsymbol{\theta}}\, J(\boldsymbol{\theta})$
+    - $\text{subject to}\;\; f_i(\boldsymbol{\theta}) \geq 0\;\;\text{for } i=1,\dots,N$
         """
     )
     return
@@ -279,9 +281,9 @@ def _(mo):
         r"""
     ### Dual problem ($\lambda$)
 
-    - Note: $ \underset{\boldsymbol{\lambda} \geq 0}{\operatorname{max}}\ L(\boldsymbol{\theta}_*, \lambda) = J(\boldsymbol{\theta}_*)-\sum_{i=1}^N\lambda_i f_i(\boldsymbol{\theta}_*) $
+    - Note: $\max_{\boldsymbol{\lambda} \geq 0}\, L(\boldsymbol{\theta}_*, \lambda) = J(\boldsymbol{\theta}_*) - \sum_{i=1}^N \lambda_i f_i(\boldsymbol{\theta}_*)$
     - actually forces $\lambda_i f_i(\boldsymbol{\theta}_*)=0$ since $\lambda_i \geq 0$ and $f_i(\boldsymbol{\theta}_*) \geq 0$.
-    - Hence: $ \underset{\boldsymbol{\lambda} \geq 0}{\operatorname{max}}\ L(\boldsymbol{\theta}_*, \lambda) = J(\boldsymbol{\theta}_*)$
+    - Hence: $\max_{\boldsymbol{\lambda} \geq 0}\, L(\boldsymbol{\theta}_*, \lambda) = J(\boldsymbol{\theta}_*)$
         """
     )
     return
@@ -395,8 +397,8 @@ def _(mo):
     ## Non-separable classes
 
     - Allow erros in training $\Rightarrow$
-    - SVM objective: $ \underset{\mathbf{w}, w_0}{\operatorname{min}}\ J(\mathbf{w}, w_0)\coloneqq \frac{1}{2}\| \mathbf{w} \|^2 $
-    - $ \text{subject to} \hspace{0.2cm} y_i\left(\mathbf{w}^T \mathbf{x_i}+w_0\right) \geq 1$
+    - SVM objective: $\min_{\mathbf{w}, w_0}\, J(\mathbf{w}, w_0) := \tfrac{1}{2}\,\|\mathbf{w}\|^2$
+    - $\text{subject to}\;\; y_i\!\left(\mathbf{w}^T \mathbf{x}_i + w_0\right) \geq 1$
     - Dual formulation:
         """
     )

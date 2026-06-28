@@ -696,10 +696,10 @@ def _(KernelDensity, np):
     X1_pb += rng_pb.normal(0, noise, X1_pb.shape)
 
     h_presets_pb = {
-        "h = 0.05": 0.05,
+        "h = 0.01": 0.01,
         "h = 0.15": 0.15,
         "h = 0.50": 0.50,
-        "h = 1.50 (too large)": 1.50,
+        "h = 1.50": 1.50,
     }
 
     grid_min_pb, grid_max_pb, n_grid_pb = -2.0, 2.5, 160

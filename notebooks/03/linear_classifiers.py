@@ -258,7 +258,16 @@ def _(mo):
 
 
 @app.cell
-def _(mo, np, plt):
+def _(mo):
+    # Lives in its own cell so the rendering cell below can read
+    # show_boundary_lc.value without violating Marimo's "no reading
+    # a UIElement in the cell that created it" rule.
+    show_boundary_lc = mo.ui.switch(value=True, label="Show decision boundary")
+    return (show_boundary_lc,)
+
+
+@app.cell
+def _(mo, np, plt, show_boundary_lc):
     # Three scenarios to keep the slide focused. The first two stress
     # the MSE solution under Gaussian assumptions (close means with
     # equal vs. different variances). The third deliberately violates
@@ -300,11 +309,7 @@ def _(mo, np, plt):
         samples += np.random.normal(0, 0.1, samples.shape)
         return samples
 
-    # Toggle the linear MSE boundary on/off so students can first read
-    # the data, then check what the LS solution places on top.
-    show_boundary_lc = mo.ui.switch(value=True, label="Show decision boundary")
-
-    def make_fig_lc(title, c1_type, c1_loc, c1_scale, c2_type, c2_loc, c2_scale, highlight=False):
+    def make_fig_lc(title, c1_type, c1_loc, c1_scale, c2_type, c2_loc, c2_scale, highlight=False, show_boundary=True):
         x1 = sample_lc(c1_type, c1_loc, c1_scale, n_lc)
         x2 = sample_lc(c2_type, c2_loc, c2_scale, n_lc)
 
@@ -329,7 +334,7 @@ def _(mo, np, plt):
             label="Class 2 (target 1)",
         )
 
-        if show_boundary_lc.value:
+        if show_boundary:
             boundary_lw = 3.5 if highlight else 2.5
             if abs(w1) > 1e-9:
                 # w0*x + w1*y + b = 0.5  ->  y = (0.5 - w0*x - b) / w1
@@ -362,7 +367,7 @@ def _(mo, np, plt):
     titles_lc = list(scenarios_lc.keys())
     for idx_lc, (title, params) in enumerate(scenarios_lc.items()):
         highlight_lc = idx_lc == len(scenarios_lc) - 1
-        fig_lc, w_lc = make_fig_lc(title, *params, highlight=highlight_lc)
+        fig_lc, w_lc = make_fig_lc(title, *params, highlight=highlight_lc, show_boundary=show_boundary_lc.value)
         tabs_lc[title] = mo.vstack(
             [
                 mo.md(f"**MSE weights:** {w_lc.round(3)}"),
@@ -611,17 +616,25 @@ def _(X_aug_wh, X_wh, n_wh, np, y_wh):
 
 
 @app.cell
-def _(mo):
-    # Lives in its own cell so the rendering cell below can read
-    # step_btn_a.value without violating Marimo's "no reading a
-    # UIElement in the cell that created it" rule.
-    step_btn_a = mo.ui.button(value=0, label="Next Widrow-Hoff update")
-    return (step_btn_a,)
+def _(mo, n_steps_wh_a):
+    # Use an explicit mo.state counter so the click is guaranteed to
+    # propagate, and so the rendering cell reads the count via a getter
+    # (not .value of a UIElement).
+    get_step_a, set_step_a = mo.state(0)
+
+    def _next_step_a(_):
+        set_step_a(lambda v: min(v + 1, n_steps_wh_a))
+
+    step_btn_a = mo.ui.button(
+        on_click=_next_step_a, label="Next Widrow-Hoff update",
+    )
+    return get_step_a, step_btn_a
 
 
 @app.cell
 def _(
     X_wh,
+    get_step_a,
     mo,
     n_steps_wh_a,
     np,
@@ -633,9 +646,12 @@ def _(
     x1_wh,
     x2_wh,
 ):
-    _step_a = min(step_btn_a.value, n_steps_wh_a)
+    _step_a = min(get_step_a(), n_steps_wh_a)
     _w_a = trace_wh_a[_step_a]
-    _hi_a = update_idx_wh_a[_step_a - 1] if _step_a > 0 else None
+    # The sample processed at the current step is update_idx_wh_a[k-1]
+    # for step k ≥ 1; at step 0 no update has happened yet so we
+    # preview the first sample that will be processed.
+    _idx_cur_a = update_idx_wh_a[_step_a - 1] if _step_a >= 1 else update_idx_wh_a[0]
 
     fig_wh_a, ax_wh_a = plt.subplots(figsize=(5, 5))
     ax_wh_a.scatter(
@@ -648,12 +664,12 @@ def _(
         s=120, facecolors="none", edgecolors="blue", linewidth=3.0,
         label="Class 2 (−1)",
     )
-    if _hi_a is not None:
-        _x_h = X_wh[_hi_a]
-        ax_wh_a.scatter(
-            [_x_h[0]], [_x_h[1]], s=400, facecolors="none",
-            edgecolors="red", linewidth=3.5, label="Update point",
-        )
+    # Green ring on the sample being processed at this step.
+    _x_h_a = X_wh[_idx_cur_a]
+    ax_wh_a.scatter(
+        [_x_h_a[0]], [_x_h_a[1]], s=450, facecolors="none",
+        edgecolors="#2ca02c", linewidth=3.5, label="Current sample",
+    )
     if abs(_w_a[1]) > 1e-9:
         # w0*x + w1*y + b = 0  ->  y = -(w0*x + b) / w1
         _xs_a = np.array([0.0, 3.0])
@@ -722,17 +738,25 @@ def _(X_aug_wh, X_wh, n_wh, np, y_wh):
 
 
 @app.cell
-def _(mo):
-    # Lives in its own cell so the rendering cell below can read
-    # step_btn_b.value without violating Marimo's "no reading a
-    # UIElement in the cell that created it" rule.
-    step_btn_b = mo.ui.button(value=0, label="Next Widrow-Hoff update")
-    return (step_btn_b,)
+def _(mo, n_steps_wh_b):
+    # Use an explicit mo.state counter so the click is guaranteed to
+    # propagate, and so the rendering cell reads the count via a getter
+    # (not .value of a UIElement).
+    get_step_b, set_step_b = mo.state(0)
+
+    def _next_step_b(_):
+        set_step_b(lambda v: min(v + 1, n_steps_wh_b))
+
+    step_btn_b = mo.ui.button(
+        on_click=_next_step_b, label="Next Widrow-Hoff update",
+    )
+    return get_step_b, step_btn_b
 
 
 @app.cell
 def _(
     X_wh,
+    get_step_b,
     mo,
     n_steps_wh_b,
     np,
@@ -744,9 +768,9 @@ def _(
     x1_wh,
     x2_wh,
 ):
-    _step_b = min(step_btn_b.value, n_steps_wh_b)
+    _step_b = min(get_step_b(), n_steps_wh_b)
     _w_b = trace_wh_b[_step_b]
-    _hi_b = update_idx_wh_b[_step_b - 1] if _step_b > 0 else None
+    _idx_cur_b = update_idx_wh_b[_step_b - 1] if _step_b >= 1 else update_idx_wh_b[0]
 
     fig_wh_b, ax_wh_b = plt.subplots(figsize=(5, 5))
     ax_wh_b.scatter(
@@ -759,12 +783,12 @@ def _(
         s=120, facecolors="none", edgecolors="blue", linewidth=3.0,
         label="Class 2 (−1)",
     )
-    if _hi_b is not None:
-        _x_h = X_wh[_hi_b]
-        ax_wh_b.scatter(
-            [_x_h[0]], [_x_h[1]], s=400, facecolors="none",
-            edgecolors="red", linewidth=3.5, label="Update point",
-        )
+    # Green ring on the sample being processed at this step.
+    _x_h_b = X_wh[_idx_cur_b]
+    ax_wh_b.scatter(
+        [_x_h_b[0]], [_x_h_b[1]], s=450, facecolors="none",
+        edgecolors="#2ca02c", linewidth=3.5, label="Current sample",
+    )
     if abs(_w_b[1]) > 1e-9:
         _xs_b = np.array([0.0, 3.0])
         _ys_b = -(_w_b[0] * _xs_b + _w_b[2]) / _w_b[1]
@@ -904,17 +928,25 @@ def _(X_aug_wh, X_wh, n_wh, np, y_wh):
 
 
 @app.cell
-def _(mo):
-    # Lives in its own cell so the rendering cell below can read
-    # step_btn_p.value without violating Marimo's "no reading a
-    # UIElement in the cell that created it" rule.
-    step_btn_p = mo.ui.button(value=0, label="Next Perceptron update")
-    return (step_btn_p,)
+def _(mo, n_steps_p):
+    # Use an explicit mo.state counter so the click is guaranteed to
+    # propagate, and so the rendering cell reads the count via a getter
+    # (not .value of a UIElement).
+    get_step_p, set_step_p = mo.state(0)
+
+    def _next_step_p(_):
+        set_step_p(lambda v: min(v + 1, n_steps_p))
+
+    step_btn_p = mo.ui.button(
+        on_click=_next_step_p, label="Next Perceptron update",
+    )
+    return get_step_p, step_btn_p
 
 
 @app.cell
 def _(
     X_wh,
+    get_step_p,
     mo,
     n_steps_p,
     np,
@@ -926,9 +958,9 @@ def _(
     x1_wh,
     x2_wh,
 ):
-    _step_p = min(step_btn_p.value, n_steps_p)
+    _step_p = min(get_step_p(), n_steps_p)
     _w_p = trace_p[_step_p]
-    _hi_p = update_idx_p[_step_p - 1] if _step_p > 0 else None
+    _idx_cur_p = update_idx_p[_step_p - 1] if _step_p >= 1 else update_idx_p[0]
 
     fig_p, ax_p = plt.subplots(figsize=(5, 5))
     ax_p.scatter(
@@ -941,12 +973,12 @@ def _(
         s=120, facecolors="none", edgecolors="blue", linewidth=3.0,
         label="Class 2 (−1)",
     )
-    if _hi_p is not None:
-        _x_h = X_wh[_hi_p]
-        ax_p.scatter(
-            [_x_h[0]], [_x_h[1]], s=400, facecolors="none",
-            edgecolors="red", linewidth=3.5, label="Update point",
-        )
+    # Green ring on the sample being processed at this step.
+    _x_h_p = X_wh[_idx_cur_p]
+    ax_p.scatter(
+        [_x_h_p[0]], [_x_h_p[1]], s=450, facecolors="none",
+        edgecolors="#2ca02c", linewidth=3.5, label="Current sample",
+    )
     if abs(_w_p[1]) > 1e-9:
         # w0*x + w1*y + b = 0  ->  y = -(w0*x + b) / w1
         _xs_p = np.array([0.0, 3.0])
