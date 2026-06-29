@@ -94,10 +94,11 @@ def _(mo):
 
 @app.cell
 def _(mo, np, plt):
-    # Perceptron-comparison example: two well-separated Gaussians with
-    # the same covariance, but wider apart than the linear-classifiers
-    # examples. Many hyperplanes separate this data, motivating the
-    # need for SVM's margin-maximization argument.
+    # Two well-separated Gaussians with a few candidate separating
+    # lines drawn in between. The point: any straight line that
+    # separates the two clusters will do, but the lines sit at very
+    # different distances from the nearest points. SVM picks the
+    # one that maximises this margin.
     n_perceptron = 100
 
     mu1_perceptron = np.array([1, 1])
@@ -116,10 +117,25 @@ def _(mo, np, plt):
         x_train_2_perceptron[:, 0], x_train_2_perceptron[:, 1],
         s=120, facecolors="none", edgecolors="blue", linewidth=3.0, label="Class 2",
     )
+
+    # Three candidate separating lines between the two clusters.
+    # Each line perfectly separates the data, but only the middle
+    # one (orange, thick) sits equidistant from both clusters —
+    # that is the max-margin boundary the SVM will pick.
+    candidate_lines = [
+        ((-0.5, 3.6), (3.5, -0.4), "gray",   1.5, "--"),
+        ((-0.5, 2.5), (3.5,  1.5), "orange", 3.5, "-"),
+        (( 0.5, 3.0), (2.7,  0.4), "gray",   1.5, ":"),
+    ]
+    for (p1, p2, color, lw, ls) in candidate_lines:
+        xs = np.array([p1[0], p2[0]])
+        ys = np.array([p1[1], p2[1]])
+        ax_perceptron.plot(xs, ys, color=color, linewidth=lw, linestyle=ls)
+
     ax_perceptron.legend()
 
-    mo.as_html(fig_perceptron)
     plt.close(fig_perceptron)
+    mo.as_html(fig_perceptron)
     return
 
 

@@ -116,8 +116,8 @@ def _(mo, np, plt):
     ax_circles.legend()
     fig_circles.tight_layout()
 
-    mo.as_html(fig_circles)
     plt.close(fig_circles)
+    mo.as_html(fig_circles)
     return
 
 
@@ -206,8 +206,8 @@ def _(mo, np, plt):
     ax_xor_ex.grid(True, alpha=0.3)
     fig_xor_ex.tight_layout()
 
-    mo.as_html(fig_xor_ex)
     plt.close(fig_xor_ex)
+    mo.as_html(fig_xor_ex)
     return
 
 
@@ -271,8 +271,8 @@ def _(mo, np, plt):
     ax_xor.legend(loc="upper center", bbox_to_anchor=(0.5, -0.08), ncol=3)
     fig_xor.tight_layout()
 
-    mo.as_html(fig_xor)
     plt.close(fig_xor)
+    mo.as_html(fig_xor)
     return X_xor, y_xor
 
 
@@ -308,8 +308,8 @@ def _(X_xor, mo, plt, y_xor):
     ax_xform_2.set_ylabel("x2")
     fig_xform.tight_layout()
 
-    mo.as_html(fig_xform)
     plt.close(fig_xform)
+    mo.as_html(fig_xform)
     return
 
 
@@ -327,8 +327,8 @@ def _(X_xor, mo, plt):
     ax_xform_blank.scatter(X_xor[:, 0], X_xor[:, 1], color="gray", alpha=0.3)
     fig_xform_blank.tight_layout()
 
-    mo.as_html(fig_xform_blank)
     plt.close(fig_xform_blank)
+    mo.as_html(fig_xform_blank)
     return
 
 
@@ -369,6 +369,81 @@ def _(mo):
         - But how to train?
         """
     )
+    return
+
+
+@app.cell
+def _(mo, np, plt):
+    # 3D illustration for "classification capabilities of a 2LP".
+    # Draws the input cube with Gaussian clusters at its corners —
+    # labelled as class 0 (blue, even-sum corners) and class 1
+    # (red, odd-sum corners). The figure is intentionally large and
+    # uncluttered so the lecturer can sketch polyhedral separating
+    # regions (e.g. planes / convex hulls) on top of it during class.
+    from mpl_toolkits.mplot3d import Axes3D  # noqa: F401  (registers 3d projection)
+
+    corners_2lp = np.array(
+        [[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1],
+         [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]],
+        dtype=float,
+    )
+    labels_2lp = np.array([0, 1, 1, 0, 1, 0, 0, 1])
+
+    rng_2lp = np.random.default_rng(7)
+    n_per_corner_2lp = 25
+    std_2lp = 0.10
+
+    X_2lp = np.vstack([
+        c + std_2lp * rng_2lp.standard_normal((n_per_corner_2lp, 3))
+        for c in corners_2lp
+    ])
+    y_2lp = np.concatenate([np.full(n_per_corner_2lp, lab) for lab in labels_2lp])
+
+    fig_2lp = plt.figure(figsize=(12, 9))
+    ax_2lp = fig_2lp.add_subplot(111, projection="3d")
+
+    ax_2lp.scatter(
+        X_2lp[y_2lp == 0, 0], X_2lp[y_2lp == 0, 1], X_2lp[y_2lp == 0, 2],
+        c="royalblue", s=70, edgecolor="k", alpha=0.85, label="Class 0",
+        depthshade=True,
+    )
+    ax_2lp.scatter(
+        X_2lp[y_2lp == 1, 0], X_2lp[y_2lp == 1, 1], X_2lp[y_2lp == 1, 2],
+        c="crimson",  s=70, edgecolor="k", alpha=0.85, label="Class 1",
+        depthshade=True,
+    )
+
+    # Draw the cube edges so the input region is unmistakable and
+    # the lecturer has clear surfaces to draw separating planes on.
+    edge_start_end = [
+        ((0, 0, 0), (1, 0, 0)), ((0, 0, 0), (0, 1, 0)), ((0, 0, 0), (0, 0, 1)),
+        ((1, 1, 1), (0, 1, 1)), ((1, 1, 1), (1, 0, 1)), ((1, 1, 1), (1, 1, 0)),
+        ((1, 0, 0), (1, 1, 0)), ((1, 0, 0), (1, 0, 1)),
+        ((0, 1, 0), (1, 1, 0)), ((0, 1, 0), (0, 1, 1)),
+        ((0, 0, 1), (1, 0, 1)), ((0, 0, 1), (0, 1, 1)),
+    ]
+    for (s, e) in edge_start_end:
+        ax_2lp.plot(
+            [s[0], e[0]], [s[1], e[1]], [s[2], e[2]],
+            color="black", linewidth=1.2,
+        )
+
+    ax_2lp.set_xlim(-0.4, 1.4)
+    ax_2lp.set_ylim(-0.4, 1.4)
+    ax_2lp.set_zlim(-0.4, 1.4)
+    ax_2lp.set_xlabel("x1")
+    ax_2lp.set_ylabel("x2")
+    ax_2lp.set_zlabel("x3")
+    ax_2lp.set_title(
+        "Classification capabilities of a 2LP — Gaussian clusters at the corners of the input cube",
+        fontsize=13,
+    )
+    ax_2lp.legend(loc="upper left", fontsize=11)
+    ax_2lp.view_init(elev=22, azim=35)
+    fig_2lp.tight_layout()
+
+    plt.close(fig_2lp)
+    mo.as_html(fig_2lp)
     return
 
 
@@ -415,9 +490,11 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - loss and optimization
 
-    - Let $J = \sum_{i=1}^N E (i),$
-    - where $E (i) = \sum_{m=1}^{N} \frac{1}{2} e_m(i)^2$
-    - Want: $\underset{\mathbf{w}}{\operatorname{min}}\ J(\mathbf{w})$
+    $$\displaystyle J = \sum_{i=1}^N E (i),$$
+
+    $$\displaystyle E (i) = \sum_{m=1}^{N} \tfrac{1}{2}\, e_m(i)^2$$
+
+    - Want: $\displaystyle\underset{\mathbf{w}}{\operatorname{min}}\ J(\mathbf{w})$
         """
     )
     return
@@ -429,7 +506,7 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the output layer
 
-    - Chain rule through the activation: $\frac{\partial E (i)}{\partial \mathbf{w}_j^L} = \frac{\partial z_j^L (i)}{\partial \mathbf{w}_j^L} \frac{\partial a_j^L (i)}{\partial z_j^L (i)} \frac{\partial E (i)}{\partial a_j^L (i)}$
+    $$\displaystyle \frac{\partial E (i)}{\partial \mathbf{w}_j^L} \;=\; \frac{\partial z_j^L (i)}{\partial \mathbf{w}_j^L} \;\frac{\partial a_j^L (i)}{\partial z_j^L (i)} \;\frac{\partial E (i)}{\partial a_j^L (i)}$$
         """
     )
     return
@@ -441,10 +518,13 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the output layer
 
-    - Chain rule: $\frac{\partial E (i)}{\partial \mathbf{w}_j^L} = \frac{\partial z_j^L (i)}{\partial \mathbf{w}_j^L} \frac{\partial a_j^L (i)}{\partial z_j^L (i)} \frac{\partial E (i)}{\partial a_j^L (i)}$
-    - $\frac{\partial z_j^L (i)}{\partial \mathbf{w}_j^L} = \mathbf{a}^{L-1}(i)$ (the activations of the previous layer)
-    - $\frac{\partial a_j^L (i)}{\partial z_j^L (i)} = f'(z_j^L(i))$ (activation-function derivative)
-    - $\frac{\partial E (i)}{\partial a_j^L (i)} = a_j^L(i) - y_i$ (for squared error)
+    $$\displaystyle \frac{\partial E (i)}{\partial \mathbf{w}_j^L} \;=\; \frac{\partial z_j^L (i)}{\partial \mathbf{w}_j^L} \;\frac{\partial a_j^L (i)}{\partial z_j^L (i)} \;\frac{\partial E (i)}{\partial a_j^L (i)}$$
+
+    $$\displaystyle \frac{\partial z_j^L (i)}{\partial \mathbf{w}_j^L} = \mathbf{a}^{L-1}(i) \quad \text{(the activations of the previous layer)}$$
+
+    $$\displaystyle \frac{\partial a_j^L (i)}{\partial z_j^L (i)} = f'(z_j^L(i)) \quad \text{(activation-function derivative)}$$
+
+    $$\displaystyle \frac{\partial E (i)}{\partial a_j^L (i)} = a_j^L(i) - y_i \quad \text{(for squared error)}$$
         """
     )
     return
@@ -456,7 +536,7 @@ def _(mo):
         r"""
     ### Gradient descent reminder
 
-    - Reminder: $\mathbf{w}_j^L (t+1) = \mathbf{w}_j^L (t) - \gamma \frac{\partial}{\partial  \mathbf{w}_j^L} J$
+    $$\displaystyle \mathbf{w}_j^L (t+1) \;=\; \mathbf{w}_j^L (t) \;-\; \gamma\, \frac{\partial}{\partial \mathbf{w}_j^L} J$$
         """
     )
     return
@@ -468,7 +548,8 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the hidden layers
 
-    - For layer $L-1$ and neuron $j$: $\frac{\partial E (i)}{\partial \mathbf{w}_j^{L-1}} = \frac{\partial z_j^{L-1} (i)}{\partial \mathbf{w}_j^{L-1}} \frac{\partial a_j^{L-1} (i)}{\partial z_j^{L-1} (i)} \frac{\partial E (i)}{\partial a_j^{L-1} (i)}.$
+    $$\displaystyle \frac{\partial E (i)}{\partial \mathbf{w}_j^{L-1}} \;=\; \frac{\partial z_j^{L-1} (i)}{\partial \mathbf{w}_j^{L-1}} \;\frac{\partial a_j^{L-1} (i)}{\partial z_j^{L-1} (i)} \;\frac{\partial E (i)}{\partial a_j^{L-1} (i)}.$$
+
     - $z_j^{L-1}$ not present in $E (i)$, comes through $a_j^{L-1}$ and onward to the output.
         """
     )
@@ -481,19 +562,19 @@ def _(mo):
         r"""
     ### Gradients of the hidden layers - chain rule
 
-    - $\dfrac{\partial E (i)}{\partial a_j^{L-1} (i) } = \delta_j^{L-1}(i) =$
+    $$\displaystyle \frac{\partial E (i)}{\partial a_j^{L-1} (i) } \;=\; \delta_j^{L-1}(i) \;=\;$$
 
     ---
 
-    - $\dfrac{\partial a_j^{L} (i)}{\partial a_j^{L-1} (i) } =$
+    $$\displaystyle \frac{\partial a_j^{L} (i)}{\partial a_j^{L-1} (i) } \;=\;$$
 
     ---
 
-    - $\delta_j^{L-1}(i) =$
+    $$\displaystyle \delta_j^{L-1}(i) \;=\;$$
 
     ---
 
-    - Error at output$(L)$propagated to$(L-1)$to compute gradients of weights.
+    - Error at output $(L)$ propagated to $(L-1)$ to compute gradients of weights.
     - Repeat to compute gradients for the entire network!
         """
     )
@@ -518,25 +599,25 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
-    ### Top tips for implementing and understanding backpropagation
+    mo.vstack(
+        [
+            mo.md(
+                r"""
+        ### Top tips for implementing and understanding backpropagation
 
-    - Keep it simple in the begining!
-    - Start with a fixed architecture.
-        - Do not have the same number of neurons in a layer.
-    - Do all calculations by hand before you start programming.
-    - When you start programming, cross reference your implementation with your hand-calculations.
-    - There is only one loop, the outer loop of the number of epochs.
-        - Matrix multiplication!
-        """
+        - Keep it simple in the begining!
+        - Start with a fixed architecture.
+            - Do not have the same number of neurons in a layer.
+        - Do all calculations by hand before you start programming.
+        - When you start programming, cross reference your implementation with your hand-calculations.
+        - There is only one loop, the outer loop of the number of epochs.
+            - Matrix multiplication!
+                """
+            ),
+            mo.image(src="media/mlp.jpg", width="500px"),
+        ],
+        gap=1,
     )
-    return
-
-
-@app.cell
-def _(mo):
-    mo.image(src="media/mlp.jpg", width="500px")
     return
 
 

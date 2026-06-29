@@ -284,8 +284,8 @@ def _(mo, np, plt, show_boundary_lc):
             "normal", np.array([3.5, 3.5]), 0.9,
         ),
         "Option 3": (
-            "moon", None, None,
-            "normal", np.array([2.5, 1.8]), 0.35,
+            "moon_up", None, None,
+            "moon_down", None, None,
         ),
     }
 
@@ -296,15 +296,22 @@ def _(mo, np, plt, show_boundary_lc):
         if kind == "normal":
             cov = (scale ** 2) * np.eye(2)
             return np.random.multivariate_normal(loc, cov, n)
-        # Half-moon: upper 180-degree arc centred above the Gaussian
-        # with a wider radius so the two clusters are clearly
-        # distinct yet close enough that any straight line through
-        # them makes obvious classification errors.
+        if kind == "moon_up":
+            # Upper moon: arc from (-1, 0) up over (0, 1) to (1, 0).
+            theta = np.linspace(0, np.pi, n)
+            radius = 1.0
+            x = radius * np.cos(theta)
+            y = radius * np.sin(theta)
+            samples = np.column_stack([x, y])
+            samples += np.random.normal(0, 0.1, samples.shape)
+            return samples
+        # moon_down: lower moon, offset right so the two crescents
+        # interleave — the classic two-moons pattern. Any straight-line
+        # decision boundary will misclassify at least one crescent.
         theta = np.linspace(0, np.pi, n)
-        moon_radius = 1.4
-        moon_cx, moon_cy = 2.5, 2.7
-        x = moon_cx + moon_radius * np.cos(theta)
-        y = moon_cy + moon_radius * np.sin(theta)
+        radius = 1.0
+        x = 1.0 + radius * np.cos(theta)
+        y = -0.5 - radius * np.sin(theta)
         samples = np.column_stack([x, y])
         samples += np.random.normal(0, 0.1, samples.shape)
         return samples
@@ -338,7 +345,7 @@ def _(mo, np, plt, show_boundary_lc):
             boundary_lw = 3.5 if highlight else 2.5
             if abs(w1) > 1e-9:
                 # w0*x + w1*y + b = 0.5  ->  y = (0.5 - w0*x - b) / w1
-                xs = np.array([0.5, 5.0])
+                xs = np.array([x1[:, 0].min() - 0.5, x2[:, 0].max() + 0.5])
                 ys = (0.5 - w0 * xs - b) / w1
                 ax.plot(
                     xs, ys, "r--", linewidth=boundary_lw,
@@ -351,8 +358,10 @@ def _(mo, np, plt, show_boundary_lc):
                     label=f"MSE boundary  w=[{w0:+.2f}, {w1:+.2f}, {b:+.2f}]",
                 )
 
-        ax.set_xlim(0.5, 5.0)
-        ax.set_ylim(0.5, 5.0)
+        x_all = np.concatenate([x1[:, 0], x2[:, 0]])
+        y_all = np.concatenate([x1[:, 1], x2[:, 1]])
+        ax.set_xlim(x_all.min() - 0.5, x_all.max() + 0.5)
+        ax.set_ylim(y_all.min() - 0.5, y_all.max() + 0.5)
         ax.set_xlabel("x1")
         ax.set_ylabel("x2")
         if highlight:
@@ -361,6 +370,7 @@ def _(mo, np, plt, show_boundary_lc):
             ax.set_title(title)
         ax.legend(loc="lower right", fontsize=9)
         ax.grid(True, alpha=0.3)
+        ax.set_aspect("equal")
         return fig, w
 
     tabs_lc = {}
@@ -867,11 +877,6 @@ def _(mo):
       Widrow-Hoff slide, but now we apply the **perceptron** rule:
       $\mathbf{w}(k+1) = \mathbf{w}(k) + \rho\, y_k\, \mathbf{x}_k$
       only when $\text{sign}(\mathbf{w}^T\mathbf{x}_k) \neq y_k$.
-    - Click **Next update** to step through four perceptron updates
-      and compare the trajectory to the Widrow-Hoff slide — the
-      perceptron leaves the weights alone whenever a point is already
-      correctly classified, so the boundary moves in larger, sparser
-      jumps.
         """
     )
     return
