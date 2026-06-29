@@ -173,46 +173,6 @@ def _(mo):
 
 @app.cell
 def _(mo, np, plt):
-    # The XOR truth table, drawn as a scatter of the four corners of
-    # the unit square. Labels are the XOR of the two inputs.
-    corners_xor_ex = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-    labels_xor_ex = np.array([0, 1, 1, 0])
-
-    fig_xor_ex, ax_xor_ex = plt.subplots(figsize=(6, 6))
-    for (cx_xor_ex, cy_xor_ex), lbl_xor_ex in zip(corners_xor_ex, labels_xor_ex):
-        color_xor_ex = "red" if lbl_xor_ex == 1 else "blue"
-        ax_xor_ex.scatter(
-            cx_xor_ex, cy_xor_ex, s=600, color=color_xor_ex,
-            edgecolor="k", linewidth=2.0,
-        )
-        ax_xor_ex.annotate(
-            f"({int(cx_xor_ex)}, {int(cy_xor_ex)})\nXOR = {int(lbl_xor_ex)}",
-            xy=(cx_xor_ex, cy_xor_ex),
-            xytext=(cx_xor_ex + (0.18 if cx_xor_ex == 0 else -0.18),
-                    cy_xor_ex + (0.18 if cy_xor_ex == 0 else -0.18)),
-            fontsize=12, ha="left" if cx_xor_ex == 0 else "right",
-            va="bottom" if cy_xor_ex == 0 else "top",
-            fontweight="bold",
-        )
-
-    ax_xor_ex.set_aspect("equal")
-    ax_xor_ex.set_xlabel("x1")
-    ax_xor_ex.set_ylabel("x2")
-    ax_xor_ex.set_xlim(-0.55, 1.55)
-    ax_xor_ex.set_ylim(-0.55, 1.55)
-    ax_xor_ex.set_xticks([0, 1])
-    ax_xor_ex.set_yticks([0, 1])
-    ax_xor_ex.set_title("XOR truth table at the corners of the unit square", fontsize=13)
-    ax_xor_ex.grid(True, alpha=0.3)
-    fig_xor_ex.tight_layout()
-
-    plt.close(fig_xor_ex)
-    mo.as_html(fig_xor_ex)
-    return
-
-
-@app.cell
-def _(mo, np, plt):
     # XOR dataset: four small Gaussian blobs at the corners of the
     # unit square with labels {0, 1, 1, 0}. The original notebook sets
     # seed 42 for reproducibility across renders.
@@ -242,33 +202,12 @@ def _(mo, np, plt):
         color="red", s=180, edgecolor="k", alpha=0.75, label="Class 1",
     )
 
-    corner_labels = [
-        ((0, 0), "Class 0", "blue", (-0.42, -0.22), "right"),
-        ((1, 1), "Class 0", "blue", (1.05, 1.05),  "left"),
-        ((0, 1), "Class 1", "red",  (-0.42, 1.05),  "right"),
-        ((1, 0), "Class 1", "red",  (1.05, -0.22),  "left"),
-    ]
-    for corner, label, color, offset, ha in corner_labels:
-        ax_xor.annotate(
-            f"({corner[0]}, {corner[1]}) — {label}",
-            xy=corner, xytext=offset,
-            fontsize=13, color=color, fontweight="bold", ha=ha,
-        )
-
-    # One candidate linear decision boundary — illustrates visually
-    # that any straight line will misclassify at least one corner.
-    ax_xor.plot(
-        [-0.3, 1.3], [0.85, 0.15], "k--", linewidth=2.0,
-        label="Best linear attempt",
-    )
-
     ax_xor.set_aspect("equal")
     ax_xor.set_xlabel("x1")
     ax_xor.set_ylabel("x2")
     ax_xor.set_xlim(-0.55, 1.55)
     ax_xor.set_ylim(-0.55, 1.55)
-    ax_xor.set_title("XOR: no straight line separates the two classes", fontsize=14)
-    ax_xor.legend(loc="upper center", bbox_to_anchor=(0.5, -0.08), ncol=3)
+    ax_xor.legend(loc="upper center", bbox_to_anchor=(0.5, -0.08), ncol=2)
     fig_xor.tight_layout()
 
     plt.close(fig_xor)
@@ -310,25 +249,6 @@ def _(X_xor, mo, plt, y_xor):
 
     plt.close(fig_xform)
     mo.as_html(fig_xform)
-    return
-
-
-@app.cell
-def _(X_xor, mo, plt):
-    # Same as the right panel above but in its own slide so students
-    # can sit with the question "what transformation makes this
-    # linearly separable?" before the next slide gives the answer.
-    fig_xform_blank, ax_xform_blank = plt.subplots(figsize=(8, 8))
-    ax_xform_blank.set_ylim(-0.5, 1.5)
-    ax_xform_blank.set_xlim(-0.5, 1.5)
-    ax_xform_blank.set_aspect("equal")
-    ax_xform_blank.set_xlabel("x1")
-    ax_xform_blank.set_ylabel("x2")
-    ax_xform_blank.scatter(X_xor[:, 0], X_xor[:, 1], color="gray", alpha=0.3)
-    fig_xform_blank.tight_layout()
-
-    plt.close(fig_xform_blank)
-    mo.as_html(fig_xform_blank)
     return
 
 
