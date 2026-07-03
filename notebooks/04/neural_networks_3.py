@@ -28,7 +28,7 @@ __generated_with = "0.23.10"
 app = marimo.App(
     width="medium",
     layout_file="layouts/neural_networks_3.slides.json",
-    css_file="neural_networks_3.css",
+    css_file="../_shared/math.css",
 )
 
 

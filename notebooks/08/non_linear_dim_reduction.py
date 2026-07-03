@@ -28,6 +28,7 @@ __generated_with = "0.23.10"
 app = marimo.App(
     width="medium",
     layout_file="layouts/non_linear_dim_reduction.slides.json",
+    css_file="../_shared/math.css",
 )
 
 
@@ -83,7 +84,7 @@ def _(mo):
     - Both methods use a linear transformation.
     - Today, we will learn about non-linear DTDR techniques:
         - Kernel PCA (1998)
-        - Laplcian Eigenmaps (2003)
+        - Laplacian Eigenmaps (2003)
         """
     )
     return
@@ -120,7 +121,7 @@ def _(mo):
 
     - PCA idea:
         Diagonal covariance matrix for transformed data.
-    - Revisit to motviate kernel PCA.
+    - Revisit to motivate kernel PCA.
     - Easier notation to work with autocorrelation matrix $\mathbf{R}$.
     - Eigendecomposition: $\mathbf{R} \mathbf{v} = \lambda \mathbf{v}$
         """
@@ -164,7 +165,7 @@ def _(mo):
 
     ---
 
-    - Remark: Eigenvectors of symmetric $\mathbf{R}$assumed$\|\mathbf{v}_i\|_2 = 1 $and $\mathbf{v}_i^T \mathbf{v}_j = 1$:
+    - Remark: Eigenvectors of symmetric $\mathbf{R}$ assumed $\|\mathbf{v}_i\|_2 = 1$ and $\mathbf{v}_i^T \mathbf{v}_j = 1$:
 
     - Have $\mathbf{v}^T \mathbf{v} = $
         """
@@ -253,8 +254,8 @@ def _(mo):
         r"""
     ### Laplacian Eigenmaps - key idea
 
-    - Transform $\mathbf{x} \in \mathbb{R}^d $into $\mathbf{z} \in \mathbb{R}^k$, where $k \leq d$
-    - Such that: neighbors in $\mathbb{R}^d $stay neighbors in $\mathbb{R}^k$
+    - Transform $\mathbf{x} \in \mathbb{R}^d$ into $\mathbf{z} \in \mathbb{R}^k$, where $k \leq d$
+    - Such that: neighbors in $\mathbb{R}^d$ stay neighbors in $\mathbb{R}^k$
         """
     )
     return
@@ -293,7 +294,7 @@ def _(mo):
         r"""
     ### Optimizing the position of points in $\mathbb{R}^k$
 
-    - Reasonable to minimize $J(\mathbf{z})$with respect to $\mathbf{z}$
+    - Reasonable to minimize $J(\mathbf{z})$ with respect to $\mathbf{z}$
     - Obvious solution not interesting.
         - What is the obvious solution?
         """

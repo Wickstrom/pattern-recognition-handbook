@@ -21,6 +21,7 @@ __generated_with = "0.23.10"
 app = marimo.App(
     width="medium",
     layout_file="layouts/linear_dim_reduction.slides.json",
+    css_file="../_shared/math.css",
 )
 
 
@@ -63,7 +64,7 @@ def _(mo):
 
     - So far, the course has been problem oriented (mainly classification).
     - However, an essential part of pattern recognition is data analysis.
-    - In this lecture, we will look at methods that compress data into a more compact representation thorugh linear transformations.
+    - In this lecture, we will look at methods that compress data into a more compact representation through linear transformations.
         """
     )
     return
@@ -198,7 +199,7 @@ def _(mo):
 
     - Don't need $P(w_1) = P(w_2)$, but easy to solve.
 
-    - If $P(w_1) \neq P(w_2)$: $\mathbf{w}$is the leading eigenvector of $\boldsymbol{S}_w^{-1} \boldsymbol{S}_B$.
+    - If $P(w_1) \neq P(w_2)$: $\mathbf{w}$ is the leading eigenvector of $\boldsymbol{S}_w^{-1} \boldsymbol{S}_B$.
         """
     )
     return
@@ -298,7 +299,7 @@ def _(mo):
 
     ---
 
-    - $\boldsymbol{\Sigma}_x$: symmetric and positive semi-definite $\implies $orthogonal eigenvectors and non-negative eigenvalues.
+    - $\boldsymbol{\Sigma}_x$: symmetric and positive semi-definite $\implies$ orthogonal eigenvectors and non-negative eigenvalues.
         """
     )
     return
@@ -395,7 +396,7 @@ def _(mo):
 
     - **MSE:** $\mathbb{E}\left[\|\mathbf{x} - \hat{\mathbf{x}}\|^2\right]$
 
-    For $\mathbf{z} \in \mathbb{R}^k$: $\hat{\mathbf{x}} = \sum_{i=0}^{k-1} z(i) \mathbf {e}_i$
+    For $\mathbf{z} \in \mathbb{R}^k$: $\hat{\mathbf{x}} = \sum_{i=0}^{k-1} z(i) \mathbf{e}_i$
 
     If $y_i = 0$ for $i \geq k$:
     $$
@@ -406,7 +407,7 @@ def _(mo):
 
     ---
 
-    - **Compression:** Store/save $\mathbf{z} \in \mathbb{R}^k $instead of $\mathbf{x}$ (e.g. images).
+    - **Compression:** Store/save $\mathbf{z} \in \mathbb{R}^k$ instead of $\mathbf{x}$ (e.g. images).
     - **Reconstruct:** $\hat{\mathbf{x}}$ using $\mathbf{z}$.
         """
     )

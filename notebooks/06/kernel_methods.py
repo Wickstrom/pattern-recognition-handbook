@@ -21,6 +21,7 @@ __generated_with = "0.23.10"
 app = marimo.App(
     width="medium",
     layout_file="layouts/kernel_methods.slides.json",
+    css_file="../_shared/math.css",
 )
 
 
@@ -121,7 +122,7 @@ def _(mo):
         r"""
     ### Example with explicit mapping - training and testing
 
-    - **Training:**: $\sum_{i=1}^N \lambda_i + \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j \mathbf{z}_i^T \mathbf{z}_j$
+    - **Training:** $\sum_{i=1}^N \lambda_i + \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j \mathbf{z}_i^T \mathbf{z}_j$
 
     - $\sum_{i=1}^N \lambda_i + \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j K(\mathbf{x}_i,\mathbf{x}_j)$
 
@@ -155,7 +156,7 @@ def _(mo):
         r"""
     ## Kernels
 
-    - **Polynomials:**  $K(\mathbf{x}_i, \mathbf{x}_j) = \left(\mathbf{x}_i^T,\mathbf{x}_j+1\right)^q \text{, where } q>0$
+    - **Polynomials:**  $K(\mathbf{x}_i, \mathbf{x}_j) = \left(\mathbf{x}_i^T \mathbf{x}_j + 1\right)^q \text{, where } q>0$
 
     - **RBF:**  $K(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\frac{1}{2\sigma^2} \|\mathbf{x}_i - \mathbf{x}_j\|^2\right)$
 
@@ -175,7 +176,7 @@ def _(mo):
 
     - **Training:**  $\max_{\lambda \geq 0} \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j K(\mathbf{x}_i, \mathbf{x}_j)$
 
-    - **Test:**  $g(\mathbf{x}) = \sum_{i \in SV} \lambda_i y_i K(\mathbf{x}_i, \mathbf{x}) +w_0$
+    - **Test:**  $g(\mathbf{x}) = \sum_{i \in SV} \lambda_i y_i K(\mathbf{x}_i, \mathbf{x}) + w_0$
         """
     )
     return
@@ -197,8 +198,8 @@ def _(mo):
         r"""
     ### Non-separable classes
 
-    - Remember: $\mathbf{w}^T \mathbf{x} + w_0  \geq 1-\gamma$
-    - Both classes: $y_i \left(\mathbf{w}^T \mathbf{x}_i + w_0\right)  \geq 1-\gamma_i$
+    - Remember: $\mathbf{w}^T \mathbf{x} + w_0 \geq 1-\gamma$
+    - Both classes: $y_i \left(\mathbf{w}^T \mathbf{x}_i + w_0\right) \geq 1-\gamma_i$
         """
     )
     return
