@@ -7,7 +7,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 ## 📑 Content
 
-1. **Introduction to pattern recognition** 
+1. **Introduction to pattern recognition**
    - What is pattern recognition?
    - Applications of pattern recognition
    - Practical information
@@ -16,7 +16,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-2. **Bayes decision theory** 
+2. **Bayes decision theory**
    - Motivation
    - Naïve Bayes assumption
    - Bayes classifier
@@ -28,7 +28,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-3. **Density estimation I** 
+3. **Density estimation I**
    - Parametric density estimation
    - Likelihood function
    - Maximum-likelihood estimation
@@ -41,7 +41,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-4. **Density estimation II** 
+4. **Density estimation II**
    - K nearest neighbor
    - Mixture models
 
@@ -49,7 +49,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-5. **Linear classifiers I** 
+5. **Linear classifiers I**
    - Mean squared error (MSE) classifier
    - Least sum of squares classifier
    - Widrow-Hoff algorithm
@@ -60,7 +60,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-6. **Linear classifiers II** 
+6. **Linear classifiers II**
    - Support vector machines
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine/index.html)
@@ -68,7 +68,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-7. **Non-linear classifiers I** 
+7. **Non-linear classifiers I**
    - Multilayer Perceptron
    - Backpropagation
    - Gradient descent
@@ -78,7 +78,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-8. **Non-linear classifiers II** 
+8. **Non-linear classifiers II**
    - Activation functions
    - The vanishing gradient problem
    - Gradient descent with momentum
@@ -92,7 +92,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-9. **Non-linear classifiers III** 
+9. **Non-linear classifiers III**
    - Neural networks as representation learning
    - A vector perspective on backpropagation
    - Connecting neural networks and support vector machines
@@ -102,7 +102,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-10. **Non-linear classifiers IV** 
+10. **Non-linear classifiers IV**
    - Function approximation for non-linear classification
    - Radial basis function (RBF) networks
    - Prototypical learning
@@ -132,7 +132,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-13. **Data transformations and dimensionality reduction II** 
+13. **Data transformations and dimensionality reduction II**
    - Kernel PCA
    - Laplacian Eigenmaps
 
@@ -141,7 +141,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-14. **Ranking** 
+14. **Ranking**
    - Ranking
    - PageRank algorithm
 
@@ -149,7 +149,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-15. **Clustering I** 
+15. **Clustering I**
    - Sequential clustering
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/10/seq_clustering/index.html)
@@ -157,7 +157,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-16. **Clustering II** 
+16. **Clustering II**
    - Hierarchical
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/11/hier_clustering/index.html)
@@ -165,7 +165,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-17. **Clustering III** 
+17. **Clustering III**
    - K-means
    - Spectral clustering
 
@@ -174,7 +174,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-18. **Clustering evaluation** 
+18. **Clustering evaluation**
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/13/clustering_eval/index.html)
    [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/13/clustering_eval_exercise.ipynb)
