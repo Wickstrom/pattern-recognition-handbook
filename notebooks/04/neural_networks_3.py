@@ -197,7 +197,7 @@ def _(mo):
 
     - Before we looked at the pre-activation of one neuron: $z_j^l = \mathbf{w}_j^l \mathbf{a}^{l-1}$
     - Note: augmented space!
-    - Now we look at the pre-activations of the whole layer: $\mathbf{z}^l = \mathbf{W}^l \mathbf{a}^{l-1}$
+    - Now we look at the pre-activations of the whole layer: $\mathbf{z}^l =$
 
     ---
 
@@ -269,7 +269,10 @@ def _(mo):
         r"""
     ### Finding $\delta$ for output layer
 
-    - Can be compatctly represented as $\frac{\partial}{\partial \mathbf{z}^L}\mathbf{e}^T\mathbf{e}\frac{1}{2} = \mathbf{e} \odot f'(\mathbf{z}^L) = \boldsymbol{\delta}^L$
+    - Can be compatctly represented as $\frac{\partial}{\partial \mathbf{z}^L}\mathbf{e}^T\mathbf{e}\frac{1}{2} =$
+
+    ---
+
     - $\odot$ is the Hadamard product or elementwise multiplication.
         """
     )
@@ -283,7 +286,9 @@ def _(mo):
     ### Backward pass with linear algebra and vector calculus
 
     - Now, we turn to: $\frac{\partial}{\partial \mathbf{w}_j^L} \mathbf{z}^L$
-    - Vector by vector derivatve $\Rightarrow$ Jacobian matrix: $\begin{bmatrix} \frac{\partial}{\partial w_{1,1}^L}z^L_1  &  \frac{\partial}{\partial w_{1,1}^L} z^L_2 & \cdots & \frac{\partial}{\partial w_{1, 1}^L} z^L_{k_{L-1}}  \\ \frac{\partial}{\partial w_{1,2}^L} z^L_1  &  \frac{\partial}{\partial w_{1,2}^L} z^L_2  & \cdots & \frac{\partial}{\partial w_{1, 2}^L} z^L_{k_{L-1}}  \\ \vdots    & \vdots    & \ddots & \vdots          \\ \frac{\partial}{\partial w_{1, k_l}^L} z_1^L  &  \frac{\partial}{\partial w_{1, k_l}^L} z^L_2 & \cdots & \frac{\partial}{\partial w_{1, k_l}^L} z^L_{k_{L-1}}  \end{bmatrix}$
+    - Vector by vector derivatve $\Rightarrow$ Jacobian matrix:
+
+    ---
         """
     )
     return
@@ -296,11 +301,11 @@ def _(mo):
     ### Derivative of one element in Jacobian
 
     - Reminder: $z^L_1 = w_{1,1}*a^{L-1}_1 + w_{1,2}*a^{L-1}_2 + \cdots w_{1,k_{L-1}}*a^{L-1}_{k_{L-1}} + 1*w_{1,0}$
-    - Therefore: $\frac{\partial}{\partial w_{1,1}}z^L_1 = \frac{\partial}{\partial w_{1,1}} w_{1,1}*a^{L-1}_1 + \frac{\partial}{\partial w_{1,1}} w_{1,2}*a^{L-1}_2 + \cdots \frac{\partial}{\partial w_{1,1}} w_{1,k_{L-1}}*a^{L-1}_{k_{L-1}} + 1*w_{1,0}$
+    - Therefore: $\frac{\partial}{\partial w_{1,1}}z^L_1 =$
 
     ---
 
-    - Back to Jacobian: $\begin{bmatrix} a_1^{L-1} & 0 & \cdots & 0 \\ a_2^{L-1} & 0 & \cdots & 0 \\ \vdots    & \vdots & \ddots & \vdots \\ a_{k_l}^{L-1} & 0 & \cdots & 0 \end{bmatrix}$
+    - Back to Jacobian:
         """
     )
     return
@@ -329,7 +334,9 @@ def _(mo):
     - Take a step back. Derivative of loss with respect to neuron 1 gave non-zero elements in column 1.
     - If we repeat process of derivative with resepct to neuron $j$, coulmn $j$ will be non-zero.
     - We can get all derivatives with one matrix operation:
-    - $\frac{\partial J}{\partial \mathbf{W}^L} = (\mathbf{a}^{L-1})^T \boldsymbol{\delta}^L$
+    - $\frac{\partial J}{\partial \mathbf{W}^L} =$
+
+    ---
         """
     )
     return
