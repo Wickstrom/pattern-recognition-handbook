@@ -1,0 +1,25 @@
+[project]
+name = "pattern-recognition-handbook"
+version = "0.1.0"
+description = "Lecture notebooks for FYS-3012 Pattern Recognition (UiT)"
+requires-python = ">=3.10"
+dependencies = [
+    "marimo>=0.23",
+    "numpy",
+    "matplotlib",
+    "scipy",
+    "scikit-learn",
+    "plotly",
+    "pandas",
+    "ucimlrepo",
+    "ipykernel",
+    "ipywidgets",
+    "nbconvert",
+    "jinja2",
+]
+
+[tool.uv]
+# Each marimo .py under notebooks/ ships its own PEP 723 inline script
+# metadata. uv reads those automatically when you run a single notebook
+# (`uv run marimo edit notebooks/01/foo.py`), so the deps above only
+# need to cover what a Jupyter user touches via `uv run jupyter lab`.

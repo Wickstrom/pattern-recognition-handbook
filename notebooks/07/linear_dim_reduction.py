@@ -164,7 +164,7 @@ def _(mo):
         r"""
     ### Remark
 
-    - Class separability measures in $\mathbf{x}$by e.g. $\frac{\text{trace}(\boldsymbol{S}_w)}{\text{trace}(\boldsymbol{S}_B)}$
+    - Class separability measures in $\mathbf{x}$ by e.g. $\frac{\text{trace}(\boldsymbol{S}_w)}{\text{trace}(\boldsymbol{S}_B)}$
         """
     )
     return
@@ -260,7 +260,7 @@ def _(mo):
         r"""
     ### Remark
 
-    - Generalized to $z = \mathbf{w}^T \mathbf{x} \in \mathbb{R}^k $where $k \leq d$.
+    - Generalized to $z = \mathbf{w}^T \mathbf{x} \in \mathbb{R}^k$ where $k \leq d$.
         - More complex (pages 291-297 in book).
         """
     )
@@ -273,9 +273,8 @@ def _(mo):
         r"""
     ## Principal Component Analysis (PCA)
 
-    - First: $\mathbf{z} = \mathbf{A} \mathbf{x}$such that $\mathbf{z} \in \mathbb{R}^d$, $\mathbf{x} \in \mathbb{R}^d$, and $\mathbf{A} \in \mathbb{R}^{d \times d}
-    $
-    - Want: $\boldsymbol{\Sigma}_y $diagonal!
+    - First: $\mathbf{z} = \mathbf{A} \mathbf{x}$ such that $\mathbf{z} \in \mathbb{R}^d$, $\mathbf{x} \in \mathbb{R}^d$, and $\mathbf{A} \in \mathbb{R}^{d \times d}$
+    - Want: $\boldsymbol{\Sigma}_y$ diagonal!
         """
     )
     return
@@ -398,7 +397,7 @@ def _(mo):
 
     For $\mathbf{z} \in \mathbb{R}^k$: $\hat{\mathbf{x}} = \sum_{i=0}^{k-1} z(i) \mathbf {e}_i$
 
-    If $y_i = 0 $for $i \geq k$:
+    If $y_i = 0$ for $i \geq k$:
     $$
     \mathbb{E}\left[\|\mathbf{x} - \hat{\mathbf{x}}\|^2\right] = \sum_{i=k}^{d-1} \lambda_i
     $$
@@ -408,7 +407,7 @@ def _(mo):
     ---
 
     - **Compression:** Store/save $\mathbf{z} \in \mathbb{R}^k $instead of $\mathbf{x}$ (e.g. images).
-    - **Reconstruct:** $\hat{\mathbf{x}}$using $\mathbf{z}$.
+    - **Reconstruct:** $\hat{\mathbf{x}}$ using $\mathbf{z}$.
         """
     )
     return

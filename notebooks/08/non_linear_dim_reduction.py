@@ -278,7 +278,7 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ### Mapping $\mathbf{x}_i $to $\mathbf{z}_i$
+    ### Mapping $\mathbf{x}_i$ to $\mathbf{z}_i$
 
     - Need a way to optimize the position of points in $\mathbb{R}^k$.
     - Consider the following: $J(\mathbf{z}) = \frac{1}{2} \sum_i \sum_j (\mathbf{z}_i-\mathbf{z}_j)W_{ij}$
@@ -440,7 +440,7 @@ def _(mo):
     \end{bmatrix}
     $$
 
-    Probabilities of a "walk" from $x_i $to $x_j$.
+    Probabilities of a "walk" from $x_i$ to $x_j$.
         """
     )
     return

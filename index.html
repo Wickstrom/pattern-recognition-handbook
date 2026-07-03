@@ -62,18 +62,17 @@
       <p class="lede">FYS-3012, UiT The Arctic University of Norway — Kristoffer Wickstrøm</p>
 
       <div class="note">
-        Most slides are rendered with <code>jupyter nbconvert --to slides</code>,
-        the same Reveal.js pipeline that RISE uses, so the nested
-        horizontal/vertical slide structure matches what you'd see live in
-        RISE. They're static HTML and served from GitHub Pages, so they
-        never time out.
-      </div>
-      <div class="note">
         Decks tagged <span class="badge">marimo</span> are exported with
         <code>marimo export html-wasm</code> and run entirely in your browser
         via WebAssembly — the Python interpreter, dependencies, and code all
         live inside the page. Give them a few seconds to spin up on first
         load.
+      </div>
+      <div class="note">
+        Untagged decks are static <code>jupyter nbconvert --to slides</code>
+        Reveal.js output served from GitHub Pages, so they never time out
+        the way a live Jupyter kernel can. Use <kbd>←</kbd> / <kbd>→</kbd>
+        for navigation.
       </div>
 
       <h2>Module 1 — Foundations</h2>

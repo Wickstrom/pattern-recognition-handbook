@@ -183,86 +183,83 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 ## 💻 How to code locally
 
-To run the notebooks locally the recommended steps are the following:
+The repo is packaged with [uv](https://docs.astral.sh/uv/) — a single
+static binary that installs Python and project dependencies in one step.
+It's orders of magnitude faster than a hand-rolled pip/venv setup
+(Rust-based, resolves against PyPI), produces a reproducible lockfile
+(`uv.lock`), and doesn't require a separate Python distribution or
+activation dance.
 
-1. Download and install [Miniconda](https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html).
-
-2. Download the [env.yml](https://github.com/FilippoMB/python-time-series-handbook/blob/main/env.yml) file.
-
-3. Open the shell and navigate to the location with the `yml` file you just downloaded.
-    - If you are on Windows, open the Miniconda shell.
-
-4. Install the environment with 
-   ```{bash}
-   > conda env create -f env.yml
-   ```
-
-5. Activate your environment: 
-   ```{bash}
-   > conda activate pytsa
-   ```
-
-6. Go to the folder with the notebooks
-
-7. Launch Jupyter Lab with the command 
-   ```{bash}
-   > jupyter lab
-   ```
-
-## 🎞 Lecture slides (static RISE-compatible decks on GitHub Pages)
-
-Each notebook is rendered as a static Reveal.js slide deck using
-`jupyter nbconvert --to slides` — the same Reveal.js pipeline that powers
-[RISE](https://rise.readthedocs.io/en/latest/). The output is identical to
-what you'd see in RISE (nested horizontal slides and vertical sub-slides
-driven by the cell-level `slide_type` metadata) but the HTML is static, so
-it never times out the way a live Jupyter kernel can. The slides are
-deployed automatically to GitHub Pages on every push to `main`.
-
-**Live slides:** https://Wickstrom.github.io/pattern-recognition-handbook/
-
-### Build locally
-
-From the repo root, render every notebook with the same command the CI uses:
+Install uv once ([standalone installer](https://docs.astral.sh/uv/getting-started/installation/)),
+then from the repo root:
 
 ```{bash}
-python -m pip install jupyter nbconvert marimo
-for nb in notebooks/*/*.ipynb; do
-  jupyter nbconvert --to slides "$nb" --output-dir "_slides/$(dirname "$nb")"
-done
-for nb in notebooks/*/*.py; do
-  dir=$(dirname "$nb")
-  base=$(basename "$nb" .py)
-  target="_slides/$dir/$base"
-  mkdir -p "$target"
-  marimo export html-wasm "$nb" -o "$target" --mode run
-done
+uv sync
+uv run jupyter lab
 ```
 
-This writes one `*.slides.html` per `.ipynb` notebook and one
-`<name>/index.html` (with an `assets/` directory of WASM bundles) per
-`.py` marimo notebook into `_slides/`. Open `_slides/index.html` to
-browse them.
+`uv sync` reads `pyproject.toml` and installs every dependency (marimo,
+numpy, matplotlib, scipy, scikit-learn, plotly, pandas, ucimlrepo, ipykernel,
+ipywidgets) into a project-local virtualenv. Subsequent runs reuse that venv.
 
-### Keyboard shortcuts (inside a deck)
+To run a single Marimo notebook (with the per-notebook deps declared in the
+PEP 723 header at the top of each `.py` file):
 
-| Key | Action |
-| --- | --- |
-| <kbd>←</kbd> / <kbd>→</kbd> | previous / next slide |
-| <kbd>↑</kbd> / <kbd>↓</kbd> | previous / next sub-slide |
-| <kbd>Space</kbd> | advance |
-| <kbd>f</kbd> | fullscreen |
-| <kbd>?</kbd> | help overlay |
+```{bash}
+uv run marimo edit notebooks/01/bayes_decision_theory.py
+```
 
-### Deployment
+uv reads the inline script metadata and resolves those deps into an ephemeral
+venv on first run, so you don't need to `uv sync` first.
 
-A GitHub Actions workflow at
-[`.github/workflows/publish-slides.yml`](.github/workflows/publish-slides.yml)
-rebuilds the slides on every push to `main` and publishes the output to
-GitHub Pages via the official Pages API (`actions/deploy-pages`). One-time
-setup: in **Settings → Pages → Source**, choose **"GitHub Actions"**.
+## 📝 How to work with the exercises
 
-## 🧪 Slides
+Most lectures ship with a companion exercise notebook named
+`*_exercise.ipynb` (the Content block above links to it from each lecture).
+Unlike the slides — which are Marimo WASM apps you just click — exercises are
+classic Jupyter notebooks that you open and edit locally.
+
+**Workflow:**
+
+1. From the repo root, run `uv run jupyter lab` (after the one-time `uv sync`
+   from the "How to code locally" section). This opens the Jupyter Lab UI in
+   your browser with the whole repo available on the left.
+2. Open the exercise notebook from the Content block — e.g.
+   `notebooks/01/bayes_decision_theory_exercise.ipynb`.
+3. Each notebook starts with a `# <Title> — programming exercises` heading and
+   a short `## Programming exercises` intro cell, followed by alternating
+   question / starter-code pairs.
+4. **Add your own code cells below each starter** — there are no `# TODO`
+   placeholders; the question text and the starter cell are the only signal
+   for where to work.
+5. Save your progress in your working copy of the repo. To get a fresh copy
+   of an exercise, re-download the file from the GitHub link in the Content
+   block above (or `git checkout -- notebooks/<dir>/<name>_exercise.ipynb`
+   if you have the repo cloned).
+
+**Datasets used:**
+
+- Synthetic samples generated inline (Gaussians, uniform, XOR, cosine,
+  hand-picked 2-D points).
+- `sklearn.datasets.make_moons` and `make_swiss_roll` (no download required).
+- `sklearn.datasets.load_wine` (no download required).
+- The Iris dataset via `ucimlrepo.fetch_ucirepo(id=53)` — this *does* require
+  internet on first run; cached afterwards.
+
+**Figure stability:**
+
+A few notebooks call `np.random.seed(0)` at the top so figures look the
+same every time you re-render. If you change the seed or remove it, figures
+will reshuffle on each run.
+
+**Theoretical exercises:**
+
+Not every assignment is a programming exercise. Theoretical exercises exist
+but, due to copyright on the course textbook, are not published in this
+public repository. They are distributed separately through a private course
+repository (see your course portal for access).
+
+## 🎞 Slides
 
 A growing set of lectures is published as [Marimo](https://marimo.io)
 notebooks running entirely in the browser via WebAssembly:
@@ -294,24 +291,23 @@ To run any of them locally in edit mode (live code, file watchers,
 variable explorer):
 
 ```{bash}
-pip install marimo
-marimo edit notebooks/00/intro.py
-marimo edit notebooks/01/bayes_decision_theory.py
-marimo edit notebooks/02/density_estimation.py
-marimo edit notebooks/03/linear_classifiers.py
-marimo edit notebooks/03/support_vector_machine.py
-marimo edit notebooks/04/neural_networks_1.py
-marimo edit notebooks/04/neural_networks_2.py
-marimo edit notebooks/04/neural_networks_3.py
-marimo edit notebooks/05/rbf_networks.py
-marimo edit notebooks/06/kernel_methods.py
-marimo edit notebooks/07/linear_dim_reduction.py
-marimo edit notebooks/08/non_linear_dim_reduction.py
-marimo edit notebooks/09/ranking.py
-marimo edit notebooks/10/seq_clustering.py
-marimo edit notebooks/11/hier_clustering.py
-marimo edit notebooks/12/clustering.py
-marimo edit notebooks/13/clustering_eval.py
+uv run marimo edit notebooks/00/intro.py
+uv run marimo edit notebooks/01/bayes_decision_theory.py
+uv run marimo edit notebooks/02/density_estimation.py
+uv run marimo edit notebooks/03/linear_classifiers.py
+uv run marimo edit notebooks/03/support_vector_machine.py
+uv run marimo edit notebooks/04/neural_networks_1.py
+uv run marimo edit notebooks/04/neural_networks_2.py
+uv run marimo edit notebooks/04/neural_networks_3.py
+uv run marimo edit notebooks/05/rbf_networks.py
+uv run marimo edit notebooks/06/kernel_methods.py
+uv run marimo edit notebooks/07/linear_dim_reduction.py
+uv run marimo edit notebooks/08/non_linear_dim_reduction.py
+uv run marimo edit notebooks/09/ranking.py
+uv run marimo edit notebooks/10/seq_clustering.py
+uv run marimo edit notebooks/11/hier_clustering.py
+uv run marimo edit notebooks/12/clustering.py
+uv run marimo edit notebooks/13/clustering_eval.py
 ```
 
 The Marimo notebooks trade the slide-stepping UX for a reactive
@@ -319,25 +315,6 @@ notebook UX — for example, in the Bayes lecture the slider for the
 overlapping-Gaussians figure is a real `mo.ui.slider` instead of a
 baked-in Plotly animation, and the bar-chart example reacts to a
 word-selection dropdown.
-
-## 🎥 Notebook format and RISE (local interactive slides)
-
-For *local* lectures where you want to execute code live during the talk, the
-notebooks can still be presented interactively with
-[RISE](https://rise.readthedocs.io/en/latest/).
-If you open a notebook you will see the following structure:
-
-<img src="https://raw.githubusercontent.com/FilippoMB/python-time-series-handbook/main/notebooks/00/media/slides_nb.png" style="width: 50%" align="center">
-
-The top-right button indicates the type of slide, which is stored in the metadata of the cell. To enable the visualization of the slide type you must first install RISE and then on the top menu select `View -> Cell Toolbar -> Slieshow`. Also, to split the cells like in the example, you must enable `Split Cells Notebook` from the [nbextensions](https://jupyter-contrib-nbextensions.readthedocs.io/en/latest/index.html).
-
-By pressing the `Enter\Exit RISE Slideshow` button at the top you can enter the slideshow presentation.
-
-<img src="https://raw.githubusercontent.com/FilippoMB/python-time-series-handbook/main/notebooks/00/media/slides_rise.png" style="width: 40%" align="center">
-<img src="https://raw.githubusercontent.com/FilippoMB/python-time-series-handbook/main/notebooks/00/media/slides_rise2.png" style="width: 40%" align="center">
-<img src="https://raw.githubusercontent.com/FilippoMB/python-time-series-handbook/main/notebooks/00/media/slides_rise3.png" style="width: 40%" align="center">
-
-See the [RISE documentation](https://rise.readthedocs.io/en/latest/) for more info.
 
 ## 📝 Citation
 

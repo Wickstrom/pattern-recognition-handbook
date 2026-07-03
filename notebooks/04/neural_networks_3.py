@@ -201,11 +201,11 @@ def _(mo):
 
     ---
 
-    - Reminder: $\mathbf{a}^{l-1} = \begin{bmatrix} a_1^{l-1} \\ a_2^{l-1} \\ \vdots \\ a_{k_{l-1}}^{l-1} \\ 1 \end{bmatrix}$
+    - Reminder: $\mathbf{a}^{l-1} =$
 
     ---
 
-    - And : $\mathbf{W}^l = \begin{bmatrix} w_{1,1}^l & w_{1,2}^l & \cdots & w_{1,k_{l-1}}^l & w_{1,0}^l \\ w_{2,1}^l & w_{2,2}^l & \cdots & w_{2,k_{l-1}}^l & w_{2,0}^l \\ \vdots    & \vdots    & \ddots & \vdots          \\ w_{k_l,1}^l & w_{k_l,2}^l & \cdots & w_{k_l,k_{l-1}}^l & w_{k_l,0}^l\end{bmatrix}$
+    - And : $\mathbf{W}^l =$
         """
     )
     return
@@ -223,7 +223,9 @@ def _(mo):
 
     ---
 
-    - Then: $\mathbf{Z}^l = \mathbf{A}^{l-1} (\mathbf{W}^l)^T$
+    - Then:
+
+    ---
         """
     )
     return
@@ -253,7 +255,9 @@ def _(mo):
 
     - We have dealt with the following term before $\frac{\partial}{\partial \mathbf{z}^L}\mathbf{e}^T\mathbf{e}\frac{1}{2}=\mathbf{e}\frac{\partial}{\partial \mathbf{z}^L}(\mathbf{a}^L-\mathbf{y})$
     - $\mathbf{y}$ does not depend on $\mathbf{z}^L$, and we keep the derivative of $\mathbf{a}^L=f(\mathbf{z}^L)$ general.
-    - We have a vector by vector derivative $\Rightarrow$ Jacobian: $\frac{\partial \mathbf{a}^L}{\partial \mathbf{z}^L} = \begin{bmatrix} \frac{\partial}{\partial z^L_1}f(z_1^L)  &  \frac{\partial}{\partial z^L_1} f(z_2^L) & \cdots & \frac{\partial}{\partial z^L_1} f(z^L_{k_{L}})  \\ \frac{\partial}{\partial z_2^L} f(z_1^L)  &  \frac{\partial}{\partial z^L_2} f(z_2^L)  & \cdots & \frac{\partial}{\partial z_2^L} f(z_2^L)  \\ \vdots    & \vdots    & \ddots & \vdots          \\ \frac{\partial}{\partial z_{k_L}} f(z_1^L)  &  \frac{\partial}{\partial z_{k_L}^L} f(z_2^L) & \cdots & \frac{\partial}{\partial z_{k_L}} f(z_2^L)  \end{bmatrix}$
+    - We have a vector by vector derivative $\Rightarrow$ Jacobian: $\frac{\partial \mathbf{a}^L}{\partial \mathbf{z}^L} =$
+
+    ---
         """
     )
     return
@@ -308,7 +312,9 @@ def _(mo):
         r"""
     ### Putting it all together
 
-    - Combing both derivatives give: $\begin{bmatrix} a_1^{L-1} & 0 & \cdots & 0 \\ a_2^{L-1} & 0 & \cdots & 0 \\ \vdots    & \vdots & \ddots & \vdots \\ a_{k_l}^{L-1} & 0 & \cdots & 0 \end{bmatrix} \begin{bmatrix} \delta_1^{L} \\ \delta_2^{L} \\ \vdots \\ \delta_{k_{L}}^{L} \end{bmatrix}$
+    - Combing both derivatives give:
+
+    ---
         """
     )
     return

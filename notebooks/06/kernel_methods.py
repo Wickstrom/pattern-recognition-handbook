@@ -80,7 +80,7 @@ def _(mo):
     - **Dual:**  $\max_{\lambda \geq 0} \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j \langle \mathbf{x}_i, \mathbf{x}_j \rangle$
 
     - Subject to: $\sum_i \lambda_i y_i = 0$
-    - Note: $\langle \mathbf{x}_i, \mathbf{x} \rangle $denotes the inner product
+    - Note: $\langle \mathbf{x}_i, \mathbf{x} \rangle$ denotes the inner product
 
     ---
 
@@ -98,11 +98,18 @@ def _(mo):
 
     - Explicitly map $\mathbf{x}$, then use linear SVM.
 
-    - Let $\mathbf{z} = \begin{bmatrix} x_1^2 \\ \sqrt{2} x_1 x_2 \\ x_2^2 \end{bmatrix}$where $\mathbf{x} = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}$
+    - Let
+    $$
+    \mathbf{z} = \begin{bmatrix} x_1^2 \\ \sqrt{2} x_1 x_2 \\ x_2^2 \end{bmatrix}
+    $$
+    where
+    $$
+    \mathbf{x} = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}
+    $$
 
     ---
 
-    - **Need:** $\mathbf{z}_i^T \mathbf{z}_j = x_{i1}^2 x_{j1}^2 + 2 x_{i1} x_{i2} x_{j1} x {j2} + x_{i2}^2 x_{j2}^2 = $
+    - **Need:** $\mathbf{z}_i^T \mathbf{z}_j = x_{i1}^2 x_{j1}^2 + 2 x_{i1} x_{i2} x_{j1} x_{j2} + x_{i2}^2 x_{j2}^2 = $
         """
     )
     return

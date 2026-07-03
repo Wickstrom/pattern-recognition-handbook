@@ -25,18 +25,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
         with:
           python-version: '3.10'
 
       - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install matplotlib ucimlrepo scipy scikit-learn ipykernel jupyter ipywidgets plotly marimo
+        run: uv sync --frozen
 
       - name: Convert notebooks to slides
         run: |
@@ -60,7 +55,7 @@ jobs:
             fi
             # nbconvert appends ".slides" + ".html" to --output, so pass just
             # the basename to get "<base>.slides.html".
-            jupyter nbconvert --to slides "$nb" \
+            uv run jupyter nbconvert --to slides "$nb" \
               --output-dir "$target" \
               --output "$base"
           done
@@ -85,7 +80,7 @@ jobs:
             # `--no-show-code` keeps the slides looking like slides — code is
             # still editable in `marimo edit` locally, just hidden in the
             # public deck by default.
-            marimo export html-wasm "$nb" -o "$target" --mode run --no-show-code
+            uv run marimo export html-wasm "$nb" -o "$target" --mode run --no-show-code
           done
 
       # nbconvert's reveal template adds cell-tag classes (e.g.
@@ -94,7 +89,7 @@ jobs:
       # tagged cells render as output-only.
       - name: Inject cell-tag CSS into slide HTML
         run: |
-          python - <<'PY'
+          uv run python - <<'PY'
           import glob, pathlib
           css = (
               "<style id='celltag-overrides'>"

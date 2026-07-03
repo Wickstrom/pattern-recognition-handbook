@@ -426,25 +426,9 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the output layer
 
-    $$\displaystyle \frac{\partial E (i)}{\partial \mathbf{w}_j^L} \;=\; \frac{\partial z_j^L (i)}{\partial \mathbf{w}_j^L} \;\frac{\partial a_j^L (i)}{\partial z_j^L (i)} \;\frac{\partial E (i)}{\partial a_j^L (i)}$$
-        """
-    )
-    return
+    $$\displaystyle \frac{\partial E (i)}{\partial \mathbf{w}_j^L} \;=\;$$
 
-
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
-    ### The Backpropagation algorithm - gradients of the output layer
-
-    $$\displaystyle \frac{\partial E (i)}{\partial \mathbf{w}_j^L} \;=\; \frac{\partial z_j^L (i)}{\partial \mathbf{w}_j^L} \;\frac{\partial a_j^L (i)}{\partial z_j^L (i)} \;\frac{\partial E (i)}{\partial a_j^L (i)}$$
-
-    $$\displaystyle \frac{\partial z_j^L (i)}{\partial \mathbf{w}_j^L} = \mathbf{a}^{L-1}(i) \quad \text{(the activations of the previous layer)}$$
-
-    $$\displaystyle \frac{\partial a_j^L (i)}{\partial z_j^L (i)} = f'(z_j^L(i)) \quad \text{(activation-function derivative)}$$
-
-    $$\displaystyle \frac{\partial E (i)}{\partial a_j^L (i)} = a_j^L(i) - y_i \quad \text{(for squared error)}$$
+    ---
         """
     )
     return
@@ -468,7 +452,9 @@ def _(mo):
         r"""
     ### The Backpropagation algorithm - gradients of the hidden layers
 
-    $$\displaystyle \frac{\partial E (i)}{\partial \mathbf{w}_j^{L-1}} \;=\; \frac{\partial z_j^{L-1} (i)}{\partial \mathbf{w}_j^{L-1}} \;\frac{\partial a_j^{L-1} (i)}{\partial z_j^{L-1} (i)} \;\frac{\partial E (i)}{\partial a_j^{L-1} (i)}.$$
+    $$\displaystyle \frac{\partial E (i)}{\partial \mathbf{w}_j^{L-1}} \;=\;$$
+
+    ---
 
     - $z_j^{L-1}$ not present in $E (i)$, comes through $a_j^{L-1}$ and onward to the output.
         """
