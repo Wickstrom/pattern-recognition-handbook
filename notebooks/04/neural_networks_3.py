@@ -28,6 +28,7 @@ __generated_with = "0.23.10"
 app = marimo.App(
     width="medium",
     layout_file="layouts/neural_networks_3.slides.json",
+    css_file="neural_networks_3.css",
 )
 
 
@@ -390,49 +391,49 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
-    ### Connecting SVMs and neural networks
+    mo.vstack(
+        [
+            mo.md(
+                r"""
+        ### Connecting SVMs and neural networks
 
-    - Setting:
-        - Neural network with one layer.
-        - Binary classification.
-        - Separable classes (similar results have been shown for non-separable classes).
-        - Also some assumptions on loss function.
-        """
+        - Setting:
+            - Neural network with one layer.
+            - Binary classification.
+            - Separable classes (similar results have been shown for non-separable classes).
+            - Also some assumptions on loss function.
+                """
+            ),
+            # Setting figure from Soudry et al. — the optimisation
+            # trajectory in the (w₁, w₂) plane that motivates the
+            # gradient-descent / hard-margin-SVM equivalence below.
+            mo.image(src="media/soundry.png", width="700px"),
+        ],
+        gap=1,
     )
     return
 
 
 @app.cell
 def _(mo):
-    # Setting figure from Soudry et al. — the optimisation trajectory
-    # in the (w₁, w₂) plane that motivates the gradient-descent /
-    # hard-margin-SVM equivalence in the next slide.
-    mo.image(src="media/soundry.png", width="700px")
-    return
+    mo.vstack(
+        [
+            mo.md(
+                r"""
+        ### Connecting SVMs and neural networks
 
-
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
-    ### Connecting SVMs and neural networks
-
-    - What happens when we let the number of iterations tend towards infinity?
-    - Remarkably, we obtain the weights of the hard margin SVM!
-    - They also show how the KKT conditions "naturally" fall out of this analysis.
-        """
+        - What happens when we let the number of iterations tend towards infinity?
+        - Remarkably, we obtain the weights of the hard margin SVM!
+        - They also show how the KKT conditions "naturally" fall out of this analysis.
+                """
+            ),
+            # Companion figure — same setting after many iterations; the
+            # weight vector aligns with the max-margin SVM solution and
+            # the KKT-supporting samples are highlighted on the data.
+            mo.image(src="media/soundry2.png", width="700px"),
+        ],
+        gap=1,
     )
-    return
-
-
-@app.cell
-def _(mo):
-    # Companion figure — same setting after many iterations; the
-    # weight vector aligns with the max-margin SVM solution and the
-    # KKT-supporting samples are highlighted on the data.
-    mo.image(src="media/soundry2.png", width="700px")
     return
 
 

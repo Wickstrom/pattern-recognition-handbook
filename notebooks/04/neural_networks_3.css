@@ -1,0 +1,6 @@
+/* Bump KaTeX math font size for readability when the lecture is projected.
+   Default KaTeX inline math renders at 1em (~16px), which is too small to
+   read from the back of the room. Bumping inline to 1.4em and display
+   math to 1.6em keeps both legible without overflowing slide bounds. */
+.katex { font-size: 1.4em; }
+.katex-display .katex { font-size: 1.6em; }
