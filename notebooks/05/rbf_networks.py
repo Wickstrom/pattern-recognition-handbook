@@ -139,7 +139,7 @@ def _(mo):
         r"""
     ### General idea
 
-    - Let (non-linear)$f_i: \mathbb{R}^d \rightarrow \mathbb{R}, i=1,\cdots,k$
+    - Let (non-linear) $f_i: \mathbb{R}^d \rightarrow \mathbb{R}, i=1,\cdots,k$
     - Look at $\mathbf{x} \in \mathbb{R}^d$. (Usually $k>l$)
     - Draw example:
         """
@@ -165,9 +165,15 @@ def _(mo):
         r"""
     ## Radial basis function (RBF) networks
 
-    - General idea: $f(\|\mathbf{x} - \mathbf{c}_i\|)$
-    - RBF network: $f(\mathbf{x})= \exp(-\frac{1}{2\sigma_i^2}(\|\mathbf{x} - \mathbf{c}_i\|))$
-    - Activation at node $f_i $given by distance to $\mathbf{c}_i$.
+    - General idea:
+
+    $$f(\|\mathbf{x} - \mathbf{c}_i\|)$$
+
+    - RBF network:
+
+    $$f(\mathbf{x}) = \exp\!\left(-\frac{1}{2\sigma_i^2}\|\mathbf{x} - \mathbf{c}_i\|^2\right)$$
+
+    - Activation at node $f_i$ given by distance to $\mathbf{c}_i$.
         """
     )
     return
@@ -180,10 +186,13 @@ def _(mo):
     ### Estimating the weights
 
     - Any linear method will do!
-    - Let $\mathbf{y}$be the desired outputs. Construct matrix $\mathbf{G}$:
-    - $G = \begin{bmatrix} \phi(x_1, c_1) & \cdots & \phi(x_1, c_k) \\ \vdots & & \vdots \\ \phi(x_N, c_1) & \cdots & \phi(x_N, c_k) \end{bmatrix}_{N \times k}$
+    - Let $\mathbf{y}$ be the desired outputs. Construct matrix $\mathbf{G}$:
+
+    $$\mathbf{G} = \begin{bmatrix} \phi(\mathbf{x}_1, \mathbf{c}_1) & \cdots & \phi(\mathbf{x}_1, \mathbf{c}_k) \\ \vdots & & \vdots \\ \phi(\mathbf{x}_N, \mathbf{c}_1) & \cdots & \phi(\mathbf{x}_N, \mathbf{c}_k) \end{bmatrix}_{N \times k}$$
+
     - So:
-    - $\mathbf{g} = G \mathbf{w} = \begin{bmatrix} g(x_1) \\ \vdots \\ g(x_N) \end{bmatrix}$
+
+    $$\mathbf{g} = \mathbf{G}\mathbf{w} = \begin{bmatrix} g(\mathbf{x}_1) \\ \vdots \\ g(\mathbf{x}_N) \end{bmatrix}$$
         """
     )
     return
@@ -195,8 +204,9 @@ def _(mo):
         r"""
     ### Estimating the weights
 
-    - Choose $\mathbf{w}$such that $J = \|\mathbf{y} - G\mathbf{w}\|^2 $is minimized.
-    - $\frac{\partial J}{\partial \mathbf{w}} = 0 \implies \boxed{\mathbf{w} = (G^\top G)^{-1} G^\top \mathbf{y}}$
+    - Choose $\mathbf{w}$ such that $J = \|\mathbf{y} - \mathbf{G}\mathbf{w}\|^2$ is minimized.
+
+    $$\frac{\partial J}{\partial \mathbf{w}} = 0 \implies \boxed{\mathbf{w} = (\mathbf{G}^\top \mathbf{G})^{-1} \mathbf{G}^\top \mathbf{y}}$$
         """
     )
     return
@@ -210,9 +220,9 @@ def _(mo):
 
     - **Fixed centres:** Centres selected randomly from the training set.
        - Simple, but not optimum!
-    - **Training of the centres:**  Let $\sigma_i^2$, $\mathbf{c}_i$, $w_i$, $i=1,\ldots,k$, be free parameters learned from the training set.
+    - **Training of the centres:** Let $\sigma_i^2$, $\mathbf{c}_i$, $w_i$, $i=1,\ldots,k$, be free parameters learned from the training set.
 
-       $$\frac{\partial J}{\partial \mathbf{c}_i} = 0 \implies \mathbf{c}_i^{(\text{new})} = \mathbf{c}_i^{(\text{old})} + \mu \frac{\partial J}{\partial \mathbf{c}_i}$$
+    $$\frac{\partial J}{\partial \mathbf{c}_i} = 0 \implies \mathbf{c}_i^{(\text{new})} = \mathbf{c}_i^{(\text{old})} + \mu \frac{\partial J}{\partial \mathbf{c}_i}$$
     - Choose centres according to how the data are distributed in space. Draw ->
        - More about this later.
         """
@@ -247,7 +257,7 @@ def _(mo):
         r"""
     ### Prototypical learning
 
-    - Define / learn prototypes and classifiy new samples based on similarity.
+    - Define / learn prototypes and classify new samples based on similarity.
     - Prototypes can be defined in input space or in latent space!
         """
     )
