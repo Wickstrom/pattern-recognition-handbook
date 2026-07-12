@@ -112,13 +112,20 @@ jobs:
           PY
 
       # Marimo's slides view doesn't expose a slide-number config, so we
-      # inject the shared badge (CSS + DOM + observer script) into every
-      # exported WASM index.html. Done here, in the workflow, instead of via
-      # marimo's `html_head_file` App config — the marimo 0.23 CLI passes
-      # only the notebook basename to the WASM template, which breaks
-      # relative `../` resolution for css_file/html_head_file. (Same root
-      # cause as the math.css references silently no-op'ing; see also the
-      # existing math.css handling below.)
+      # inject the shared badge (CSS + script that creates the badge DOM and
+      # observes slide changes) into every exported WASM index.html. Done
+      # here, in the workflow, instead of via marimo's `html_head_file` App
+      # config — the marimo 0.23 CLI passes only the notebook basename to the
+      # WASM template, which breaks relative `../` resolution for
+      # css_file/html_head_file. (Same root cause as the math.css references
+      # silently no-op'ing; see also the existing math.css handling below.)
+      #
+      # We inject right after <body> opens (not before </head>) so the
+      # script runs after <body> is in the DOM and document.body.appendChild
+      # works. Putting a <style>+<script> snippet in <head> is fine, but if
+      # the snippet also contained a <div> the browser would silently move
+      # it to <body>, which used to disturb Marimo's first-paint of the
+      # slides deck.
       - name: Inject slide-number badge into Marimo decks
         run: |
           uv run python - <<'PY'
@@ -131,7 +138,16 @@ jobs:
               s = p.read_text(encoding="utf-8")
               if marker in s:
                   continue
-              p.write_text(s.replace("</head>", snippet + "</head>", 1), encoding="utf-8")
+              # Drop right after the opening <body> tag (which Marimo's WASM
+              # template always emits — it hosts <div id="root">). If we ever
+              # encounter an index.html without a <body> (none in practice),
+              # skip it rather than append at end of file.
+              body_open = s.find("<body>")
+              if body_open < 0:
+                  print(f"skipped (no <body>): {p}")
+                  continue
+              insert_at = body_open + len("<body>")
+              p.write_text(s[:insert_at] + snippet + s[insert_at:], encoding="utf-8")
               print(f"injected: {p}")
           PY
 

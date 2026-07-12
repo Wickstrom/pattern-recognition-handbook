@@ -22,10 +22,15 @@
     display: block;
   }
 </style>
-<div class="marimo-slide-num-badge" id="marimo-slide-num-badge" aria-hidden="true"></div>
 <script>
   (function () {
-    var badgeId = "marimo-slide-num-badge";
+    // Create the badge element from JS (not via a <div> in the snippet)
+    // so the snippet itself stays valid inside <body>.
+    var badge = document.createElement("div");
+    badge.className = "marimo-slide-num-badge";
+    badge.id = "marimo-slide-num-badge";
+    badge.setAttribute("aria-hidden", "true");
+    document.body.appendChild(badge);
 
     function getDeck() {
       return document.querySelector(".mo-slides-theme.reveal");
@@ -47,8 +52,6 @@
     }
 
     function update() {
-      var badge = document.getElementById(badgeId);
-      if (!badge) return;
       var deck = getDeck();
       if (!deck) {
         badge.textContent = "";
@@ -63,25 +66,17 @@
       }
     }
 
-    function start() {
-      // Marimo loads as an ES module, so its React tree (and therefore the
-      // .mo-slides-theme.reveal root) is added to the DOM after our head
-      // script runs. Observe subtree changes on <body> and react whenever
-      // the deck materializes or Reveal.js toggles .present on a slide.
-      var mo = new MutationObserver(update);
-      mo.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ["class"],
-      });
-      update();
-    }
-
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", start);
-    } else {
-      start();
-    }
+    // Marimo loads as an ES module, so its React tree (and therefore the
+    // .mo-slides-theme.reveal root) is added to the DOM after our script
+    // runs. Observe subtree changes on <body> and react whenever the deck
+    // materializes or Reveal.js toggles .present on a slide.
+    var mo = new MutationObserver(update);
+    mo.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    update();
   })();
 </script>
