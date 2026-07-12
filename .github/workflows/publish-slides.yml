@@ -111,6 +111,30 @@ jobs:
               print(f"injected: {p}")
           PY
 
+      # Marimo's slides view doesn't expose a slide-number config, so we
+      # inject the shared badge (CSS + DOM + observer script) into every
+      # exported WASM index.html. Done here, in the workflow, instead of via
+      # marimo's `html_head_file` App config — the marimo 0.23 CLI passes
+      # only the notebook basename to the WASM template, which breaks
+      # relative `../` resolution for css_file/html_head_file. (Same root
+      # cause as the math.css references silently no-op'ing; see also the
+      # existing math.css handling below.)
+      - name: Inject slide-number badge into Marimo decks
+        run: |
+          uv run python - <<'PY'
+          import glob, pathlib
+          snippet_path = pathlib.Path("notebooks/_shared/slide_numbers.html")
+          snippet = snippet_path.read_text(encoding="utf-8")
+          marker = "marimo-slide-num-badge"
+          for html in glob.glob("_slides/**/index.html", recursive=True):
+              p = pathlib.Path(html)
+              s = p.read_text(encoding="utf-8")
+              if marker in s:
+                  continue
+              p.write_text(s.replace("</head>", snippet + "</head>", 1), encoding="utf-8")
+              print(f"injected: {p}")
+          PY
+
       # Marimo's WASM export already drops a .nojekyll marker in its output
       # directory so GitHub Pages doesn't try to process the assets. Make
       # sure the root _slides/ directory also has one — this matters if we

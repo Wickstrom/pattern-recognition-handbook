@@ -82,6 +82,9 @@ target/
 .ipynb_checkpoints
 .html
 
+# Marimo editor cache (auto-generated when running `marimo edit` or `marimo export`)
+__marimo__/
+
 # Quarto
 _slides/
 _freeze/
