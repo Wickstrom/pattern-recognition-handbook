@@ -60,6 +60,8 @@ def _(mo):
         - Bayes classifier minimizes probability of error
         - Risk minimization
         - Discriminant functions and decision surfaces
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 29</div>
         """
     )
     return

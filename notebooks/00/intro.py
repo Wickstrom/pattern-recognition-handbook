@@ -53,7 +53,7 @@ def _(mo):
 
     This course will give an in-depth introduction to the disipline of pattern recognition, and provide students with a wide range of essential tools that any machine learning practitioner should have in their tool belt.
 
-    <div style="position:fixed;bottom:12px;right:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 12</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 12</div>
         """
     )
     return
