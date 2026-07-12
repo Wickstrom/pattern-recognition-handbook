@@ -174,3 +174,8 @@ cython_debug/
 
 # Marimo editor cache (one directory per notebook when running `marimo edit`).
 __marimo__/
+
+# Repo-convention notes for AI coding assistants -- intentionally
+# untracked so each developer's local edits don't end up in git history.
+AGENTS.md
+

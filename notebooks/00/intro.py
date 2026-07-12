@@ -52,6 +52,8 @@ def _(mo):
     We live in an age of data abundance. Data of various types such as imagery, text, graphs, tabular, time series, and more are being collected on a daily basis across a wide range of societal settings. This data has hidden information that can be leveraged to improve problem solving, inform decision making, make scientific discoveries, and many other possibilities. But how do we find and extract information from data? Pattern recognition is the scientific discipline whose goal is the classification of objects into a number of cateogries and classes. Pattern recognition is an integral part of mist machine intelligence systems built for decision making, and provides essential tools for analyzing and understanding data.
 
     This course will give an in-depth introduction to the disipline of pattern recognition, and provide students with a wide range of essential tools that any machine learning practitioner should have in their tool belt.
+
+    <div style="position:fixed;bottom:12px;right:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 12</div>
         """
     )
     return

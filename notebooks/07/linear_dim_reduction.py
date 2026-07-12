@@ -47,6 +47,13 @@ def _():
 
 
 @app.cell
+def _():
+    import numpy as np
+    import matplotlib.pyplot as plt
+    return np, plt
+
+
+@app.cell
 def _(mo):
     mo.md(
         r"""
