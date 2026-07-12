@@ -143,15 +143,15 @@ def _(mo):
         r"""
     ### Scatter matrices
 
-    - **Within class:** $\boldsymbol{S}_w = \sum_{i=1}^M P(\boldsymbol{w}_i) \boldsymbol{\Sigma}_i$
+    - Within class: $\boldsymbol{S}_w = \sum\limits_{i=1}^{M} P(w_i) \boldsymbol{\Sigma}_i$
 
-    - where $\boldsymbol{\Sigma}_i = \mathbb{E}[(\boldsymbol{x} - \boldsymbol{\mu}_i)(\boldsymbol{x} - \boldsymbol{\mu}_i)^T]$
+    - where $\boldsymbol{\Sigma}_i = \mathbb{E}\left[(\mathbf{x} - \boldsymbol{\mu}_i)(\mathbf{x} - \boldsymbol{\mu}_i)^T\right]$
 
     - Example:
 
     ---
 
-    - **Between class:** $\boldsymbol{S}_B = \sum_{i=1}^M P(\boldsymbol{w}_i) (\boldsymbol{\mu}_i - \boldsymbol{\mu})^2$
+    - Between class: $\boldsymbol{S}_B = \sum\limits_{i=1}^{M} P(w_i) (\boldsymbol{\mu}_i - \boldsymbol{\mu})^2$
 
     - Example:
         """
@@ -165,7 +165,9 @@ def _(mo):
         r"""
     ### Remark
 
-    - Class separability measures in $\mathbf{x}$ by e.g. $\frac{\text{trace}(\boldsymbol{S}_w)}{\text{trace}(\boldsymbol{S}_B)}$
+    - Class separability measures in $\mathbf{x}$ by e.g.
+
+    $$\frac{\operatorname{trace}(\boldsymbol{S}_w)}{\operatorname{trace}(\boldsymbol{S}_B)}$$
         """
     )
     return
@@ -177,13 +179,13 @@ def _(mo):
         r"""
     ### Fisher discriminant analysis
 
-    - Remember; want to learn a transformation into 1D $z = \mathbf{w}^T \mathbf{x} \Rightarrow \mu = \mathbf{w}^T \boldsymbol{\mu}$
+    - Remember; want to learn a transformation into 1D $z = \mathbf{w}^T \mathbf{x} \;\Rightarrow\; \mu_z = \mathbf{w}^T \boldsymbol{\mu}$
 
-    - $S_B = (\mu_1 - \mu_2)^2 = $
+    - $S_B = (\mu_1 - \mu_2)^2$
 
-    - $\sigma^2 = \mathbb{E}[(x - \mu)^2] = $
+    - $\sigma^2 = \mathbb{E}\left[(x - \mu)^2\right]$
 
-    - $S_w = \sigma_1^2 + \sigma_2^2 = $
+    - $S_w = \sigma_1^2 + \sigma_2^2$
 
     - Hence: Fisher discriminant ratio (FDR):
         """
@@ -211,7 +213,9 @@ def _(mo):
         r"""
     ### FDR
 
-    - Want: $\arg\max_{\mathbf{w}} \frac{\mathbf{w}^T \boldsymbol{S}_B \mathbf{w}}{\mathbf{w}^T \boldsymbol{S}_w \mathbf{w}}$
+    - Want:
+
+    $$\arg\max_{\mathbf{w}} \frac{\mathbf{w}^T \boldsymbol{S}_B \mathbf{w}}{\mathbf{w}^T \boldsymbol{S}_w \mathbf{w}}$$
 
     - At solution (problem x.x): $\boldsymbol{S}_w \mathbf{w} = \lambda \boldsymbol{S}_B \mathbf{w}$
         """
@@ -361,6 +365,112 @@ def _(mo):
     - Remark: Let $\mathbb{E}[\mathbf{x}] = 0$
         """
     )
+    return
+
+
+@app.cell
+def _():
+    # Unsupervised PCA illustration: two overlapping 2-D blobs (the labels
+    # used to *generate* the data are not used anywhere downstream — the
+    # eigendecomposition only sees the unlabeled point cloud). Seeded so
+    # the figure is stable across re-renders.
+    rng_pca = np.random.default_rng(0)
+    X_pca = np.vstack(
+        [
+            rng_pca.normal(loc=[-1.0, 0.3], scale=[0.55, 0.35], size=(150, 2)),
+            rng_pca.normal(loc=[0.6, -0.4], scale=[0.65, 0.55], size=(150, 2)),
+        ]
+    )
+    mu_pca = X_pca.mean(axis=0)
+    Xc_pca = X_pca - mu_pca
+    cov_pca = np.cov(Xc_pca, rowvar=False)
+    w_pca, V_pca = np.linalg.eigh(cov_pca)
+    # np.linalg.eigh returns ascending order; flip so e_1 is the leading one.
+    order_pca = np.argsort(w_pca)[::-1]
+    w_pca = w_pca[order_pca]
+    V_pca = V_pca[:, order_pca]
+    return V_pca, w_pca, X_pca, Xc_pca, mu_pca
+
+
+@app.cell
+def _(mo):
+    # Pick which eigenvector to project onto. The dict's value is the index
+    # into V_pca, so `pca_dir.value` is an int ready to use.
+    pca_dir = mo.ui.dropdown(
+        options={
+            "$e_1$ (most variance)": 0,
+            "$e_2$ (least variance)": 1,
+        },
+        value="$e_1$ (most variance)",
+        label="Project along",
+    )
+    pca_dir
+    return (pca_dir,)
+
+
+@app.cell
+def _(V_pca, X_pca, Xc_pca, mo, mu_pca, np, pca_dir, plt, w_pca):
+    i_pca = int(pca_dir.value)
+    v_pca = V_pca[:, i_pca]
+    proj_pca = Xc_pca @ v_pca  # 1-D projections of every centred point
+
+    fig_pca, (ax_pca_2d, ax_pca_1d) = plt.subplots(1, 2, figsize=(11, 4.5))
+
+    # Left panel: 2-D scatter, both eigenvectors drawn from the mean, and
+    # thin projection lines from each point to its image on the chosen
+    # eigenvector.
+    ax_pca_2d.scatter(X_pca[:, 0], X_pca[:, 1], alpha=0.35, s=12, color="gray")
+    scale_pca = 2.5 * np.sqrt(w_pca.max())
+    for j in range(2):
+        ev = V_pca[:, j] * scale_pca
+        chosen = j == i_pca
+        ax_pca_2d.annotate(
+            "",
+            xy=mu_pca + ev,
+            xytext=mu_pca,
+            arrowprops=dict(
+                arrowstyle="->",
+                lw=2.5,
+                color="tab:red" if chosen else "tab:blue",
+                alpha=1.0 if chosen else 0.35,
+            ),
+        )
+        ax_pca_2d.text(
+            *(mu_pca + ev * 1.15),
+            f"$e_{{{j + 1}}}$",
+            fontsize=15,
+            ha="center",
+            color="tab:red" if chosen else "tab:blue",
+            alpha=1.0 if chosen else 0.5,
+        )
+    x_recon_pca = mu_pca + proj_pca[:, None] * v_pca
+    for k_pca in range(0, len(X_pca), 8):
+        ax_pca_2d.plot(
+            [X_pca[k_pca, 0], x_recon_pca[k_pca, 0]],
+            [X_pca[k_pca, 1], x_recon_pca[k_pca, 1]],
+            color="tab:red",
+            alpha=0.18,
+            lw=0.6,
+        )
+    ax_pca_2d.set_aspect("equal")
+    ax_pca_2d.set_title(
+        f"Project along $e_{{{i_pca + 1}}}$  "
+        f"($\\lambda_{{{i_pca + 1}}} = {w_pca[i_pca]:.2f}$, "
+        f"{100 * w_pca[i_pca] / w_pca.sum():.0f}\\% of total variance)"
+    )
+
+    # Right panel: histogram of 1-D projections. The wider this is, the
+    # more variance is preserved along that direction.
+    ax_pca_1d.hist(proj_pca, bins=30, color="tab:red", alpha=0.75, edgecolor="white")
+    ax_pca_1d.set_xlabel(f"projection onto $e_{{{i_pca + 1}}}$")
+    ax_pca_1d.set_ylabel("count")
+    ax_pca_1d.set_title(
+        f"1-D spread: $\\sigma = {np.std(proj_pca):.2f}$ "
+        f"$\\;(\\sqrt{{\\lambda_{{{i_pca + 1}}}}})$"
+    )
+
+    mo.as_html(fig_pca)
+    plt.close(fig_pca)
     return
 
 
