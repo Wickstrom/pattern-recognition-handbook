@@ -78,6 +78,8 @@ def _(mo):
     - It's the early 2000, and spam emails offering you to buy Viagra are flourishing.
     - Cannot just filter on keywords.
     - Mathematically, we want to find $P(\text{spam}|\text{content})$.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 29</div>
                 """
             ),
             mo.vstack(
@@ -111,6 +113,8 @@ def _(mo):
         - $P(S|W_i)=\dfrac{P(W_i|S)P(S)}{P(W_i)}$
     - where:
         - $P(W_i)=P(W_i|S)P(S)+P(W_i|H)P(H)$
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 29</div>
         """
     )
     return
@@ -125,21 +129,24 @@ def _(mo):
     - Collect Spam and Ham and learn (estimate) $P(W_i|S)$ and $P(W_i|H)$!
     - Example: $W_i = \text{"Money"}$
     - Let us look at the data — pick which word to inspect below.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 29</div>
         """
     )
     return
 
 
 @app.cell
-def _():
+def _(mo):
     import numpy as np
     import matplotlib.pyplot as plt
     from scipy.stats import norm
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 29</div>""")
     return norm, np, plt
 
 
 @app.cell
-def _():
+def _(mo):
     import base64
     import io
 
@@ -163,6 +170,7 @@ def _():
     spam_indices = np.where(labels == 1)[0]
     word_index_map = {name: i for i, name in enumerate(columns.keys())}
     X = np.stack(list(columns.values()), axis=1)
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 29</div>""")
     return X, columns, ham_indices, spam_indices, word_index_map, labels
 
 
@@ -214,7 +222,12 @@ def _(columns, ham_indices, mo, plt, spam_indices):
         )
         plt.close(fig_words)
 
-    mo.ui.tabs(word_tabs)
+    mo.vstack(
+        [
+            mo.ui.tabs(word_tabs),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 29</div>"""),
+        ]
+    )
     return
 
 
@@ -231,6 +244,8 @@ def _(mo):
         - Think about what this term is actually saying.
     - Need to simplify.
     - Note: modern large language models are modeling something very similar to the expression above.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 29</div>
                 """
             ),
             mo.image(src="media/gpt.png", style={"max-width": "69%", "height": "auto"}),
@@ -259,6 +274,8 @@ def _(mo):
     - Then we can compute $P(S|W_1 \cap W_2 \cap \cdots \cap W_K)$:
 
     $$P(S|W_1,\dots,W_K) = \frac{P(S)\prod_i P(W_i|S)}{P(W_1,\dots,W_K)}$$
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 29</div>
         """
     )
     return
@@ -274,6 +291,8 @@ def _(mo):
     - How can we think more generally about classification using Bayes' rule?
     - First: think continuous random variables $\rightarrow$
     - Let us start with considering two classes $w_1$ and $w_2$.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 29</div>
         """
     )
     return
@@ -289,6 +308,8 @@ def _(mo):
     - What about:
         - $P(w_1|\mathbf{x}) > P(w_2|\mathbf{x})$?
     - else class $w_2$.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 29</div>
         """
     )
     return
@@ -302,8 +323,10 @@ def _(mo):
 
     - $P(w_1|\mathbf{x})$ is not straightforward to model.
     - Bayes' rule to the rescue:
-        - $P(w_1)P(\mathbf{x}|w_1) > P(w_2)P(\mathbf{x}|w_2)$
+        - $P(w_1)p(\mathbf{x}|w_1) > P(w_2)p(\mathbf{x}|w_2)$
     - Much easier to work with $\rightarrow$
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 29</div>
         """
     )
     return
@@ -317,6 +340,8 @@ def _(mo):
 
     - Consider the case where $P(w_1)=P(w_2)=0.5$.
     - Draw $\rightarrow$
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 29</div>
         """
     )
     return
@@ -330,6 +355,8 @@ def _(mo):
 
     - Consider the case where $P(w_1)=0.25$ and $P(w_2)=0.75$.
     - Draw $\rightarrow$
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">14 / 29</div>
         """
     )
     return
@@ -347,13 +374,15 @@ def _(mo):
     - Click the **"decision boundary"** entry in the legend to toggle it on or
       off. It starts **off** so the densities stand alone first; turn it on to
       see where the Bayes classifier would assign each $x$.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 29</div>
         """
     )
     return
 
 
 @app.cell
-def _():
+def _(mo):
     # Four parameter settings. Each one varies a single quantity from the
     # baseline (μ₁=0, μ₂=1, σ=0.5, P(w₁)=0.5) so students can isolate its
     # effect. Tab labels state the exact parameter values used in that figure.
@@ -364,6 +393,7 @@ def _():
         ("μ₁=0, μ₂=1, σ₁=0.5, σ₂=0.6", 0.0, 1.0, 0.5, 0.6, 0.5),
         ("μ₁=0, μ₂=1, σ=0.5, P(w₁)=0.1", 0.0, 1.0, 0.5, 0.5, 0.1),
     ]
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">16 / 29</div>""")
     return (settings,)
 
 
@@ -378,7 +408,7 @@ def _(mo, np, norm, settings):
         p1 = norm.pdf(x_grid, mu1, sigma1)
         p2 = norm.pdf(x_grid, mu2, sigma2)
 
-        # Bayes decision boundary: where P(w₁)·P(x|w₁) == P(w₂)·P(x|w₂).
+        # Bayes decision boundary: where P(w₁)·p(x|w₁) == P(w₂)·p(x|w₂).
         # With equal priors this is just the crossing of the likelihoods.
         # With a skewed prior the boundary shifts toward the class that has
         # the lower prior — more evidence is needed before we assign to it.
@@ -391,12 +421,12 @@ def _(mo, np, norm, settings):
         fig = go.Figure()
         fig.add_trace(go.Scatter(
             x=x_grid, y=p1, mode="lines",
-            name="P(x|w₁)",
+            name="p(x|w₁)",
             line=dict(color="royalblue", width=2.5),
         ))
         fig.add_trace(go.Scatter(
             x=x_grid, y=p2, mode="lines",
-            name="P(x|w₂)",
+            name="p(x|w₂)",
             line=dict(color="crimson", width=2.5),
         ))
 
@@ -428,7 +458,12 @@ def _(mo, np, norm, settings):
 
         sample_tabs[label] = fig
 
-    mo.ui.tabs(sample_tabs)
+    mo.vstack(
+        [
+            mo.ui.tabs(sample_tabs),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">17 / 29</div>"""),
+        ]
+    )
     return
 
 
@@ -449,9 +484,11 @@ def _(mo):
     $$
     \begin{aligned}
     P_e &= P(\mathbf{x}\in R_1, w_2) + P(\mathbf{x}\in R_2, w_1) \\
-        &= P(\mathbf{x}\in R_1(w_2))P(w_2) + P(\mathbf{x}\in R_2(w_1))P(w_1)
+        &= \int_{R_1} p(\mathbf{x}|w_2) P(w_2) \, d\mathbf{x} + \int_{R_2} p(\mathbf{x}|w_1) P(w_1) \, d\mathbf{x}
     \end{aligned}
     $$
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">18 / 29</div>
         """
     )
     return
@@ -465,10 +502,12 @@ def _(mo):
 
     - Note that $P_e$ can also be expressed in terms of an integral:
 
-    $$P_e = \displaystyle\int_{R_1} P(w_2)P(\mathbf{x}|w_2)\,d\mathbf{x} + \int_{R_2} P(w_1)P(\mathbf{x}|w_1)\,d\mathbf{x}$$
+    $$P_e = \displaystyle\int_{R_1} P(w_2)p(\mathbf{x}|w_2)\,d\mathbf{x} + \int_{R_2} P(w_1)p(\mathbf{x}|w_1)\,d\mathbf{x}$$
 
     - Visual proof $\rightarrow$
     - Formal proof as extra exercise.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">19 / 29</div>
         """
     )
     return
@@ -481,8 +520,10 @@ def _(mo):
     ### Going beyond the two-class setting
 
     - Given a new sample $\mathbf{x}$, how can we decide if we want to classify it as belonging to class $w_i$?
-    - $P(w_i)P(\mathbf{x}|w_i) > P(w_j)P(\mathbf{x}|w_j)$ for all $j \neq i$.
-    - Assign $\mathbf{x}$ to the largest $P(w_i)P(\mathbf{x}|w_i)$.
+    - $P(w_i)p(\mathbf{x}|w_i) > P(w_j)p(\mathbf{x}|w_j)$ for all $j \neq i$.
+    - Assign $\mathbf{x}$ to the largest $P(w_i)p(\mathbf{x}|w_i)$.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">20 / 29</div>
         """
     )
     return
@@ -506,6 +547,8 @@ def _(mo):
         - A malignant tumor being missed?
             - Potentially fatal.
     - Can we incorporate this into the classifier?
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">21 / 29</div>
         """
     )
     return
@@ -521,12 +564,14 @@ def _(mo):
         - $\lambda_{12}$: penalty for wrongly classifying $w_2$ as $w_1$
         - $\lambda_{21}$: penalty for wrongly classifying $w_1$ as $w_2$
     - Consider the two-class setting again:
-        - $\lambda_{12}P(w_1)P(\mathbf{x}|w_1) > \lambda_{21}P(w_2)P(\mathbf{x}|w_2)$
+        - $\lambda_{12}P(w_1)p(\mathbf{x}|w_1) > \lambda_{21}P(w_2)p(\mathbf{x}|w_2)$
     - Rewrite as a ratio:
 
-    $$\frac{P(\mathbf{x}|w_1)}{P(\mathbf{x}|w_2)} > \frac{\lambda_{21}P(w_2)}{\lambda_{12}P(w_1)}$$
+    $$\frac{p(\mathbf{x}|w_1)}{p(\mathbf{x}|w_2)} > \frac{\lambda_{21}P(w_2)}{\lambda_{12}P(w_1)}$$
 
     - Need to know class-conditional distributions.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">22 / 29</div>
         """
     )
     return
@@ -538,14 +583,16 @@ def _(mo):
         r"""
     ### Investigating the simplest case — one-dimensional normal distributions
 
-    - Let $P(\mathbf{x}|w_i)$ follow a normal probability density function.
+    - Let $p(\mathbf{x}|w_i)$ follow a normal probability density function.
     - One-dimensional case:
 
-    $$P(x|w_i) = \frac{1}{\sqrt{2\pi\sigma_i^2}}\exp\!\left(-\frac{(x-\mu_i)^2}{2\sigma_i^2}\right)$$
+    $$p(x|w_i) = \frac{1}{\sqrt{2\pi\sigma_i^2}}\exp\!\left(-\frac{(x-\mu_i)^2}{2\sigma_i^2}\right)$$
 
     - General (multivariate) case:
 
-    $$P(\mathbf{x}|w_i) = \frac{1}{(2\pi)^{d/2}|\mathbf{\Sigma}_i|^{1/2}}\exp\!\left(-\tfrac{1}{2}(\mathbf{x}-\boldsymbol{\mu}_i)^{\!\top}\mathbf{\Sigma}_i^{-1}(\mathbf{x}-\boldsymbol{\mu}_i)\right)$$
+    $$p(\mathbf{x}|w_i) = \frac{1}{(2\pi)^{d/2}|\mathbf{\Sigma}_i|^{1/2}}\exp\!\left(-\tfrac{1}{2}(\mathbf{x}-\boldsymbol{\mu}_i)^{\!\top}\mathbf{\Sigma}_i^{-1}(\mathbf{x}-\boldsymbol{\mu}_i)\right)$$
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">23 / 29</div>
         """
     )
     return
@@ -557,11 +604,13 @@ def _(mo):
         r"""
     ### Example with two-class problem
 
-    - Consider a balanced dataset with class-conditional distributions $P(\mathbf{x}|w_1)\sim \mathcal{N}(\mu_1, \sigma)$ and $P(\mathbf{x}|w_2)\sim \mathcal{N}(\mu_2, \sigma)$.
+    - Consider a balanced dataset with class-conditional distributions $p(\mathbf{x}|w_1)\sim \mathcal{N}(\mu_1, \sigma)$ and $p(\mathbf{x}|w_2)\sim \mathcal{N}(\mu_2, \sigma)$.
     - Let $P(w_1)=P(w_2)$ — balanced dataset (equiprobable classes).
     - Expression for the ratio:
 
-    $$\frac{P(\mathbf{x}|w_1)}{P(\mathbf{x}|w_2)} = \exp\!\left(-\frac{\|\mathbf{x}-\boldsymbol{\mu}_1\|^2 - \|\mathbf{x}-\boldsymbol{\mu}_2\|^2}{2\sigma^2}\right)$$
+    $$\frac{p(\mathbf{x}|w_1)}{p(\mathbf{x}|w_2)} = \exp\!\left(-\frac{\|\mathbf{x}-\boldsymbol{\mu}_1\|^2 - \|\mathbf{x}-\boldsymbol{\mu}_2\|^2}{2\sigma^2}\right)$$
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">24 / 29</div>
         """
     )
     return
@@ -577,7 +626,9 @@ def _(mo):
         - What is actually going on?
     - Input space is partitioned into regions. Two regions are separated by a decision surface.
     - Often mathematically convenient to describe the decision surface using a *discriminant function*:
-        - $g_i(\mathbf{x}) = f(P(w_i)P(\mathbf{x}|w_i))$
+        - $g_i(\mathbf{x}) = f(P(w_i)p(\mathbf{x}|w_i))$
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">25 / 29</div>
         """
     )
     return
@@ -594,6 +645,8 @@ def _(mo):
     - In this case, $g_i(\mathbf{x})$ becomes:
 
     $$g_i(\mathbf{x}) = -\tfrac{1}{2}(\mathbf{x}-\boldsymbol{\mu}_i)^{\!\top}\mathbf{\Sigma}_i^{-1}(\mathbf{x}-\boldsymbol{\mu}_i) - \tfrac{d}{2}\ln(2\pi) - \tfrac{1}{2}\ln|\mathbf{\Sigma}_i| + \ln P(w_i)$$
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">26 / 29</div>
         """
     )
     return
@@ -609,6 +662,8 @@ def _(mo):
         - $g_{ij}(\mathbf{x}) = g_i(\mathbf{x})-g_j(\mathbf{x}) = 0$
     - Quadratic surface! Draw example $\rightarrow$
     - Often we assume equal covariance structure. What happens then?
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">27 / 29</div>
         """
     )
     return
@@ -623,6 +678,8 @@ def _(mo):
     - Remember: $g_{ij}(\mathbf{x}) = g_i(\mathbf{x})-g_j(\mathbf{x}) = 0$
     - 1st term $\rightarrow$
     - 2nd term $\rightarrow$
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">28 / 29</div>
         """
     )
     return
@@ -637,6 +694,8 @@ def _(mo):
     - Assume $\boldsymbol{\Sigma} = \sigma \mathbf{I}$
     - Then the discriminant function $g_{ij}(\mathbf{x})$ becomes $\rightarrow$
     - Draw example $\rightarrow$
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">29 / 29</div>
         """
     )
     return
