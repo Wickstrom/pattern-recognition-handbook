@@ -60,7 +60,7 @@ def _(mo):
         r"""
     # Density estimation
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 32</div>
         """
     )
     return
@@ -77,7 +77,7 @@ def _(mo):
     - This is rarely available, so how do we proceed?
     - Estimate densities from data!
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 32</div>
         """
     )
     return
@@ -96,7 +96,7 @@ def _(mo):
             - Histogram approach
             - Parzen window approach
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 32</div>
         """
     )
     return
@@ -108,7 +108,7 @@ def _(mo):
         r"""
     ## Parametric density estimation
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 32</div>
         """
     )
     return
@@ -123,7 +123,7 @@ def _(mo):
     - Assume that the *form* of the probablity density function is known.
     - Estimate *parameters* from data
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 32</div>
         """
     )
     return
@@ -140,12 +140,7 @@ def _(mo):
     # otherwise the slides re-roll data on each render and the figures
     # change between class sessions.
     np.random.seed(0)
-    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 37</div>""")
-    return beta, gamma, norm, np, plt, uniform
 
-
-@app.cell
-def _(mo, np, plt):
     # Pre-compute one histogram per distribution (same pattern as the
     # parametric estimation example below). We deliberately do *not*
     # overlay the true PDF — that would give the answer away. The
@@ -181,18 +176,13 @@ def _(mo, np, plt):
         figs_dist[_tab_label_q] = _fig_dist
         plt.close(_fig_dist)
 
-    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 37</div>""")
-    return dists, figs_dist
-
-
-@app.cell
-def _(mo):
-    # Lives in its own cell so the tabs cell below can read
-    # show_name_q.value without violating Marimo's "no reading a
-    # UIElement in the cell that created it" rule.
+    # Lives in this cell (alongside the pre-compute) so the tabs cell below
+    # can read show_name_q.value without violating Marimo's "no reading a
+    # UIElement in the cell that created it" rule — the switch is still
+    # defined here, just not in a cell of its own.
     show_name_q = mo.ui.switch(value=False, label="Show distribution names")
-    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 37</div>""")
-    return (show_name_q,)
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 32</div>""")
+    return dists, figs_dist, show_name_q
 
 
 @app.cell
@@ -219,7 +209,7 @@ def _(dists, figs_dist, mo, show_name_q):
     mo.vstack(
         [
             mo.vstack([show_name_q, mo.ui.tabs(tabs_dist)]),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 37</div>"""),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 32</div>"""),
         ]
     )
     return
@@ -239,7 +229,7 @@ def _(mo):
     - If independent:
         - $p(\mathbf{x}_1, \mathbf{x}_5, \boldsymbol{\theta}) = p(\mathbf{x}_1, \boldsymbol{\theta})p(\mathbf{x}_5, \boldsymbol{\theta})$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 32</div>
         """
     )
     return
@@ -260,7 +250,7 @@ def _(mo):
     - Therefore:
         - $\hat{\boldsymbol{\theta}}_{ML} = \underset{\boldsymbol{\theta}}{\operatorname{argmax}}\ p(X; \boldsymbol{\theta})$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 32</div>
         """
     )
     return
@@ -281,7 +271,7 @@ def _(mo):
     - Want:
         - $\frac{\partial}{\partial \boldsymbol{\theta}} L(\boldsymbol{\theta}) = \mathbf{0}$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 32</div>
         """
     )
     return
@@ -303,7 +293,7 @@ def _(mo):
     - Lastly: setting to zero
         - $\sum_{k=1}^N = \mathbf{0}$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 32</div>
         """
     )
     return
@@ -323,7 +313,7 @@ def _(mo):
     - Note: In many cases, we will use these estimators for mean and covariances
       regardless.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">14 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 32</div>
         """
     )
     return
@@ -392,7 +382,7 @@ def _(mo, norm, np, plt):
     mo.vstack(
         [
             mo.ui.tabs(tabs_param),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 37</div>"""),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 32</div>"""),
         ]
     )
     return
@@ -404,7 +394,7 @@ def _(mo):
         r"""
     ## Non-parametric density estimation
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">16 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">14 / 32</div>
         """
     )
     return
@@ -420,14 +410,14 @@ def _(mo):
     - So what do we do when we cannot find a parametric distribution that matches or data?
     - Consider the following example
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">17 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 32</div>
         """
     )
     return
 
 
 @app.cell
-def _():
+def _(mo, np, plt):
     import base64
     import io
 
@@ -446,12 +436,7 @@ def _():
     y_bc = _loaded["labels"]
     X_1_name = "perimeter"
     X_2_name = "area"
-    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">18 / 37</div>""")
-    return X_1_name, X_2_name, X_bc, y_bc
 
-
-@app.cell
-def _(X_1_name, X_2_name, X_bc, mo, plt, y_bc):
     fig_bc, ax_bc = plt.subplots(figsize=(6.5, 6.5))
     scatter_bc = ax_bc.scatter(
         X_bc[:, 0], X_bc[:, 1], c=y_bc, cmap="coolwarm",
@@ -469,12 +454,10 @@ def _(X_1_name, X_2_name, X_bc, mo, plt, y_bc):
     mo.vstack(
         [
             mo.as_html(fig_bc),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">19 / 37</div>"""),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">16 / 32</div>"""),
         ]
     )
     return
-
-
 @app.cell
 def _(mo):
     mo.md(
@@ -487,7 +470,7 @@ def _(mo):
         - This can probability can be estimated using the *frequency ratio*
             - $P \approx k_N / N$, where $N$ is the total number of samples and $k_N$ is the number of samples within the bin.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">20 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">17 / 32</div>
         """
     )
     return
@@ -510,7 +493,7 @@ def _(mo, norm, np, plt):
     mo.vstack(
         [
             mo.as_html(fig_pdf),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">21 / 37</div>"""),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">18 / 32</div>"""),
         ]
     )
     return
@@ -532,7 +515,7 @@ def _(mo, norm, np, plt):
     mo.vstack(
         [
             mo.as_html(fig_samples),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">22 / 37</div>"""),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">19 / 32</div>"""),
         ]
     )
     return
@@ -547,7 +530,7 @@ def _(mo):
     - Place bin on each sample.
     - Count samples within bin.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">23 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">20 / 32</div>
         """
     )
     return
@@ -569,7 +552,7 @@ def _(mo, norm, np, plt):
     mo.vstack(
         [
             mo.as_html(fig_alt),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">24 / 37</div>"""),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">21 / 32</div>"""),
         ]
     )
     return
@@ -589,7 +572,7 @@ def _(mo):
         - $p(x) \simeq \frac{1}{N h} \sum_{i=1}^N I(\frac{x_i-x}{h})$
     - Problem ->
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">25 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">22 / 32</div>
         """
     )
     return
@@ -609,7 +592,7 @@ def _(mo):
 
     $$p(x) = \frac{1}{Nh} \sum_{i=1}^N \phi\!\left(\frac{x_i - x}{h}\right)$$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">26 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">23 / 32</div>
         """
     )
     return
@@ -631,7 +614,7 @@ def _(mo, norm, np, plt):
     mo.vstack(
         [
             mo.as_html(fig_parzen),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">27 / 37</div>"""),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">24 / 32</div>"""),
         ]
     )
     return
@@ -648,7 +631,7 @@ def _(mo):
         - $E[g(y)]=\int g(y)p(y)dy$
     - $E[\hat{p}(x)] = \frac{1}{Nh}\sum_{i=1}^{N}\int \phi\left(\frac{x_i-x}{h}\right) p(x_i)\,dx_i$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">28 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">25 / 32</div>
         """
     )
     return
@@ -665,7 +648,7 @@ def _(mo):
     - Thus:
         - $E[\hat{p}(x)]=p(x)$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">29 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">26 / 32</div>
         """
     )
     return
@@ -685,7 +668,7 @@ def _(mo):
         - Plug $\hat{p}(\mathbf{x}|w_i)$ into Bayes!
         - Need more data for higher dimensions to be accurate.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">30 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">27 / 32</div>
         """
     )
     return
@@ -716,21 +699,16 @@ def _(mo, norm, np, plt):
     mo.vstack(
         [
             mo.as_html(fig_mix),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">31 / 37</div>"""),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">28 / 32</div>"""),
         ]
     )
     return data_dist_1, data_dist_2
 
 
 @app.cell
-def _(mo):
+def _(data_dist_1, data_dist_2, mo, np, plt):
     from sklearn.neighbors import KernelDensity
-    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">32 / 37</div>""")
-    return (KernelDensity,)
 
-
-@app.cell
-def _(KernelDensity, data_dist_1, data_dist_2, mo, np, plt):
     combined = np.concatenate([data_dist_1, data_dist_2])[:, np.newaxis]
     kde = KernelDensity(kernel="gaussian", bandwidth=1.0).fit(combined)
 
@@ -746,7 +724,7 @@ def _(KernelDensity, data_dist_1, data_dist_2, mo, np, plt):
     mo.vstack(
         [
             mo.as_html(fig_kde),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">33 / 37</div>"""),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">29 / 32</div>"""),
         ]
     )
     return
@@ -769,14 +747,14 @@ def _(mo):
     - Click the tabs to see how the kernel width $h$ trades bias vs.
       variance in the boundary.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">34 / 37</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">30 / 32</div>
         """
     )
     return
 
 
 @app.cell
-def _(KernelDensity, np):
+def _(KernelDensity, mo, np):
     # Two interleaving "moons" — the canonical non-Gaussian 2D example.
     # Each class is a noisy arc, so the true decision boundary is a
     # non-linear curve that no parametric Gaussian can capture.
@@ -825,18 +803,13 @@ def _(KernelDensity, np):
         _decision = (_log_diff > 0).astype(float)
         tab_data_pb[_tab_label_pb] = (_log_diff, _decision)
 
-    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">35 / 37</div>""")
-    return X0_pb, X1_pb, grid_max_pb, grid_min_pb, h_presets_pb, tab_data_pb, xx_pb, yy_pb
-
-
-@app.cell
-def _(mo):
-    # Lives in its own cell so the tabs cell below can read
-    # show_boundary_pb.value without violating Marimo's "no reading
-    # a UIElement in the cell that created it" rule.
+    # Lives in this cell (alongside the moons pre-compute) so the tabs
+    # cell below can read show_boundary_pb.value without violating
+    # Marimo's "no reading a UIElement in the cell that created it"
+    # rule — the switch is still defined here, just not in a cell of its own.
     show_boundary_pb = mo.ui.switch(value=False, label="Show decision boundary")
-    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">36 / 37</div>""")
-    return (show_boundary_pb,)
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">31 / 32</div>""")
+    return X0_pb, X1_pb, grid_max_pb, grid_min_pb, h_presets_pb, show_boundary_pb, tab_data_pb, xx_pb, yy_pb
 
 
 @app.cell
@@ -897,7 +870,7 @@ def _(
     mo.vstack(
         [
             mo.vstack([show_boundary_pb, mo.ui.tabs(tabs_pb)]),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">37 / 37</div>"""),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">32 / 32</div>"""),
         ]
     )
     return
