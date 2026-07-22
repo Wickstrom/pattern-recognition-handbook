@@ -49,11 +49,11 @@ def _(mo):
         r"""
     # Pattern Recognition
 
-    We live in an age of data abundance. Data of various types such as imagery, text, graphs, tabular, time series, and more are being collected on a daily basis across a wide range of societal settings. This data has hidden information that can be leveraged to improve problem solving, inform decision making, make scientific discoveries, and many other possibilities. But how do we find and extract information from data? Pattern recognition is the scientific discipline whose goal is the classification of objects into a number of cateogries and classes. Pattern recognition is an integral part of mist machine intelligence systems built for decision making, and provides essential tools for analyzing and understanding data.
+    We live in an age of data abundance. Data of various types such as imagery, text, graphs, tabular, time series, and more are being collected on a daily basis across a wide range of societal settings. This data has hidden information that can be leveraged to improve problem solving, inform decision making, make scientific discoveries, and many other possibilities. But how do we find and extract information from data? Pattern recognition is the scientific discipline whose goal is the classification of objects into a number of cateogries and classes. Pattern recognition is an integral part of most machine intelligence systems built for decision making, and provides essential tools for analyzing and understanding data.
 
     This course will give an in-depth introduction to the disipline of pattern recognition, and provide students with a wide range of essential tools that any machine learning practitioner should have in their tool belt.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 12</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 13</div>
         """
     )
     return
@@ -75,6 +75,8 @@ def _(mo):
       are presented in class as slides made with [Marimo](https://marimo.io)
       and hosted with [GitHub Pages](https://pages.github.com/). For this
       reason, the text in the notebooks is organized with bullet points.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 13</div>
         """
     )
     return
@@ -93,6 +95,8 @@ def _(mo):
     3. You will derive state-of-the-art algorithms from first principles.
         - Derivation of widely used algorithms like Support Vector Machines.
     4. You will have hands-on experience from working with diverse data and tasks.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 13</div>
         """
     )
     return
@@ -107,6 +111,8 @@ def _(mo):
     ### Applications of pattern recognition - PCA in computer vision
 
     [Video from DINOv2 repository](https://github.com/facebookresearch/dinov2)
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 13</div>
                 """
             ),
             mo.video(src="media/dino.mp4", controls=True, width="100%"),
@@ -125,6 +131,8 @@ def _(mo):
     ### Applications of pattern recognition - Temperature scaled softmax in GPT
 
     [Image from 3Blue1Brown.](https://www.3blue1brown.com/lessons/gpt)
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 13</div>
                 """
             ),
             mo.image(src="media/gptsoftmax.png", width="80%"),
@@ -143,6 +151,8 @@ def _(mo):
     ### Applications of pattern recognition - Bayes decision theory in image generation models
 
     [Image from GroundingDino](https://github.com/IDEA-Research/GroundingDINO/tree/main) and from [Lil'log](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/)
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 13</div>
                 """
             ),
             mo.image(src="media/grounding_dino.png", width="80%"),
@@ -161,6 +171,8 @@ def _(mo):
     ### University courses
 
     These notebooks are currently adopted in [FYS-3012 Pattern Recognition](https://uit.no/utdanning/emner/emne/873965/fys-3012) at UiT the Arctic University of Tromsø.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 13</div>
         """
     )
     return
@@ -179,6 +191,8 @@ def _(mo):
     ### A note on deep learning
 
     This course intentiaonally avoids advanced deep learning topics. This is mainly to not overlap with the dedicated deep learning course at UiT [FYS-3033 Deep Learning](https://en.uit.no/education/courses/course?p_document_id=859747). However, the foundation of deep learning (neural networks) is introduced from first principles. We go all the way from the Perceptron to mulitlayer perceptrons, coding everything from scratch. That means, those who follow this course will have a fundamental understanding of how neural networks work. Then, the dedicated deep learning course expands on this to cover the fundamental and most recent topics within the field of deep learning.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 13</div>
         """
     )
     return
@@ -189,6 +203,8 @@ def _(mo):
     mo.md(
         r"""
     ## Practical information for 2026 version of UiT course
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 13</div>
         """
     )
     return
@@ -203,6 +219,8 @@ def _(mo):
     1. Associate professor Kristoffer Wickstrøm - course responsible
     2. Associate professor Veronica Lachi - co-leader of the course
     3. PhD candidate Riccardo Gelato - teaching assistant
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 13</div>
         """
     )
     return
@@ -215,10 +233,12 @@ def _(mo):
     ### Lecture and exercises
 
     1. Lectures:
-        - Fridays from 08:15 - 10:00
-        - Mondays from 10:15 - 12:00
+        - Fridays from 08:15 - 10:00 in FPARK Klasserom 2 (B284)
+        - Mondays from 10:15 - 12:00 in FPARK Klasserom 2 (B284)
     2. Exercises:
-        - Thursdays from 10:15 - 12:00
+        - Thursdays from 10:15 - 12:00 in TEKNOBYGGET Rom 1.017, Undervisningsrom
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 13</div>
         """
     )
     return
@@ -233,6 +253,25 @@ def _(mo):
     1. Home exam counting 50% of grade:
         - Starts in week 40, handed in in week 42.
     2. School exam in week 49 counting 50% of grade.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 13</div>
+        """
+    )
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
+    ## On the use of LLM and AI agents
+
+    Placeholder text — to be filled in later.
+
+    - [What will be left for us to work](https://www.normaltech.ai/p/what-will-be-left-for-us-to-work)
+    - [AI as Normal Technology](https://knightcolumbia.org/content/ai-as-normal-technology)
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 13</div>
         """
     )
     return
