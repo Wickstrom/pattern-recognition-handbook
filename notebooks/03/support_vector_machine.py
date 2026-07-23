@@ -70,6 +70,8 @@ def _(mo):
     mo.md(
         r"""
     # Support Vector Machine (SVM)
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 27</div>
         """
     )
     return
@@ -87,6 +89,8 @@ def _(mo):
         - No training error -> assumes linear separability.
         - Not unique $\mathbf{w}$.
     - Consider the following example:
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 27</div>
         """
     )
     return
@@ -119,7 +123,12 @@ def _(mo, np, plt):
     ax_perceptron.legend()
 
     plt.close(fig_perceptron)
-    mo.as_html(fig_perceptron)
+    mo.vstack(
+        [
+            mo.as_html(fig_perceptron),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 27</div>"""),
+        ]
+    )
     return
 
 
@@ -132,6 +141,8 @@ def _(mo):
     - Find $g(\mathbf{x})=\mathbf{w}^T\mathbf{x}+w_0$ such that the **margin** $m_{\text{svm}}$ is maximum (optimal).
         - Leaves room for variation between training data and test data.
         - **Generalizes** better.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 27</div>
         """
     )
     return
@@ -149,7 +160,12 @@ def _(mo, plt):
     ax_axes.set_xticks([])
     ax_axes.set_yticks([])
 
-    mo.as_html(fig_axes)
+    mo.vstack(
+        [
+            mo.as_html(fig_axes),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 27</div>"""),
+        ]
+    )
     plt.close(fig_axes)
     return
 
@@ -163,6 +179,8 @@ def _(mo):
     - Note: $g(\mathbf{x'})$not unique: $\mathbf{w'}=a\mathbf{w}$
     - Define: $g(\mathbf{x'})= \pm 1 \hspace{0.1cm} \text{for } \mathbf{x} \text{ on margin.}$
     - Hence: $m_{\text{svm}}=\frac{2}{\| \mathbf{w} \|}$
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 27</div>
         """
     )
     return
@@ -182,6 +200,8 @@ def _(mo):
     - "Support-vector networks" - (Cortes and Vapnik, 1995.)
     - How to optimize the objective function?
         - Lagrange multipliers!
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 27</div>
         """
     )
     return
@@ -197,6 +217,8 @@ def _(mo):
     - $\text{subject to}\;\; f(\boldsymbol{\theta}) = \theta_1\theta_2 - 3 \geq 0$
     - Primal problem $\boldsymbol{\theta}$.
     - Note: At $\boldsymbol{\theta}=\boldsymbol{\theta}_{*}\Rightarrow$ $\frac{\partial}{\partial \boldsymbol{\theta}} J(\boldsymbol{\theta}) = \lambda\frac{\partial}{\partial \boldsymbol{\theta}} f(\boldsymbol{\theta}),\;\text{for } \lambda > 0$
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 27</div>
+
         """
     )
     return
@@ -210,6 +232,8 @@ def _(mo):
 
     - $L(\boldsymbol{\theta}, \lambda) = J(\boldsymbol{\theta}) - \lambda f(\boldsymbol{\theta})$
     - Then: $\min_{\boldsymbol{\theta}}\, L(\boldsymbol{\theta}, \lambda) \;\Rightarrow\; \frac{\partial}{\partial \boldsymbol{\theta}}J(\boldsymbol{\theta}) - \lambda \frac{\partial}{\partial \boldsymbol{\theta}}f(\boldsymbol{\theta}) = 0$
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 27</div>
+
         """
     )
     return
@@ -223,6 +247,8 @@ def _(mo):
 
     - $\min_{\boldsymbol{\theta}}\, J(\boldsymbol{\theta})$
     - $\text{subject to}\;\; f_i(\boldsymbol{\theta}) \geq 0\;\;\text{for } i=1,\dots,N$
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 27</div>
+
         """
     )
     return
@@ -238,6 +264,8 @@ def _(mo):
     - Due to $J(\boldsymbol{\theta})$being convex and feasible region being a convex set.
     - Langrange function: $L(\boldsymbol{\theta}, \lambda)=J(\boldsymbol{\theta})-\sum_{i=1}^N\lambda_i f_i(\boldsymbol{\theta})$
     - Then:  $\frac{\partial}{\partial \boldsymbol{\theta}} L(\boldsymbol{\theta}, \lambda)= \frac{\partial}{\partial \boldsymbol{\theta}}J(\boldsymbol{\theta})-\sum_{i=1}^N\lambda_i \frac{\partial}{\partial \boldsymbol{\theta}}f_i(\boldsymbol{\theta})=\mathbf{0}$
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 27</div>
+
         """
     )
     return
@@ -252,6 +280,8 @@ def _(mo):
     - Note: only one **active** constraint: $f_1(\boldsymbol{\theta})=0$
     - $\Rightarrow$ $\lambda_1 \geq 0, \hspace{0.1cm} \lambda_2 = 0, \hspace{0.1cm} \lambda_3 = 0$
     - Draw $\Rightarrow$
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 27</div>
+
         """
     )
     return
@@ -270,6 +300,8 @@ def _(mo):
         - $\frac{\partial}{\partial \boldsymbol{\theta}} L(\boldsymbol{\theta}, \lambda) = \mathbf{0}$
         - $\lambda_i f_i(\boldsymbol{\theta}) = 0$
         - $\lambda_i \geq 0$
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 27</div>
+
         """
     )
     return
@@ -284,6 +316,8 @@ def _(mo):
     - Note: $\max_{\boldsymbol{\lambda} \geq 0}\, L(\boldsymbol{\theta}_*, \lambda) = J(\boldsymbol{\theta}_*) - \sum_{i=1}^N \lambda_i f_i(\boldsymbol{\theta}_*)$
     - actually forces $\lambda_i f_i(\boldsymbol{\theta}_*)=0$ since $\lambda_i \geq 0$ and $f_i(\boldsymbol{\theta}_*) \geq 0$.
     - Hence: $\max_{\boldsymbol{\lambda} \geq 0}\, L(\boldsymbol{\theta}_*, \lambda) = J(\boldsymbol{\theta}_*)$
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">14 / 27</div>
+
         """
     )
     return
@@ -296,6 +330,8 @@ def _(mo):
     ### Primal versus dual problem
 
     - Putting it all together:
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 27</div>
+
         """
     )
     return
@@ -332,6 +368,8 @@ def _(mo):
      and
 
     $\lambda_i\left[ y_i (\mathbf{w}^T \mathbf{x}_i + w_0) - 1 \right]=0$
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">16 / 27</div>
+
         """
     )
     return
@@ -344,6 +382,8 @@ def _(mo):
     ### Remarks
 
     - Let $y_i=1$ if $\lambda_i \neq 0$: $\mathbf{w}^T\mathbf{x}_i+w_0=1$
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">17 / 27</div>
+
         """
     )
     return
@@ -359,6 +399,8 @@ def _(mo):
     - Only $\mathbf{x_i}$in the set of support vectors (SV) are important.
     - Hence: $\mathbf{w}=\sum_{\mathbf{x_i}\in\text{SV}}\lambda_i y_i \mathbf{x_i}$
     - And for the bias: $w_0$
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">18 / 27</div>
+
         """
     )
     return
@@ -371,6 +413,8 @@ def _(mo):
     ### Dual problem
 
     Remember: $L(\mathbf{w}, w_0, \lambda) = \frac{1}{2} \|\mathbf{w}\|^2 - \sum_{i=1}^N \lambda_i \left[ y_i (\mathbf{w}^T \mathbf{x}_i + w_0) - 1 \right]$
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">19 / 27</div>
+
         """
     )
     return
@@ -385,6 +429,8 @@ def _(mo):
     - Optimization is a science in itself (quadratic programming).
     - Sequential minimal optimization (SMO, Platt)
     - Dual problem: feature vectors enter loss in the form of an inner product.
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">20 / 27</div>
+
         """
     )
     return
@@ -400,6 +446,8 @@ def _(mo):
     - SVM objective: $\min_{\mathbf{w}, w_0}\, J(\mathbf{w}, w_0) := \tfrac{1}{2}\,\|\mathbf{w}\|^2$
     - $\text{subject to}\;\; y_i\!\left(\mathbf{w}^T \mathbf{x}_i + w_0\right) \geq 1$
     - Dual formulation:
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">21 / 27</div>
         """
     )
     return
@@ -432,7 +480,12 @@ def _(mo, np, plt):
     ax_nonsep.set_ylabel("x2")
     ax_nonsep.legend()
 
-    mo.as_html(fig_nonsep)
+    mo.vstack(
+        [
+            mo.as_html(fig_nonsep),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">22 / 27</div>"""),
+        ]
+    )
     plt.close(fig_nonsep)
     return
 
@@ -442,6 +495,7 @@ def _():
     from sklearn.datasets import make_moons
     from sklearn.inspection import DecisionBoundaryDisplay
     from sklearn import svm
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">23 / 27</div>""")
     return DecisionBoundaryDisplay, make_moons, svm
 
 
@@ -481,7 +535,12 @@ def _(DecisionBoundaryDisplay, make_moons, mo, plt, svm):
     ax_moons.set_xticks(())
     ax_moons.set_yticks(())
 
-    mo.as_html(fig_moons)
+    mo.vstack(
+        [
+            mo.as_html(fig_moons),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">24 / 27</div>"""),
+        ]
+    )
     plt.close(fig_moons)
     return
 
@@ -489,6 +548,7 @@ def _(DecisionBoundaryDisplay, make_moons, mo, plt, svm):
 @app.cell
 def _():
     from sklearn.datasets import load_wine
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">25 / 27</div>""")
     return (load_wine,)
 
 
@@ -520,7 +580,12 @@ def _(load_wine, mo, np, plt):
     ax_wine.set_ylabel(feature_2_name_wine)
     ax_wine.legend()
 
-    mo.as_html(fig_wine)
+    mo.vstack(
+        [
+            mo.as_html(fig_wine),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">26 / 27</div>"""),
+        ]
+    )
     plt.close(fig_wine)
     return X_wine, feature_1_name_wine, feature_2_name_wine, y_wine
 
@@ -570,7 +635,12 @@ def _(
     ax_wine_svm.set_xticks(())
     ax_wine_svm.set_yticks(())
 
-    mo.as_html(fig_wine_svm)
+    mo.vstack(
+        [
+            mo.as_html(fig_wine_svm),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">27 / 27</div>"""),
+        ]
+    )
     plt.close(fig_wine_svm)
     return
 
