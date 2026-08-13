@@ -146,7 +146,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _(mo, np, plt, norm):
     import base64
     import io
 
@@ -171,7 +171,7 @@ def _(mo):
     word_index_map = {name: i for i, name in enumerate(columns.keys())}
     X = np.stack(list(columns.values()), axis=1)
     mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 29</div>""")
-    return X, columns, ham_indices, spam_indices, word_index_map, labels
+    return X, columns, ham_indices, norm, np, plt, spam_indices, word_index_map, labels
 
 
 @app.cell
