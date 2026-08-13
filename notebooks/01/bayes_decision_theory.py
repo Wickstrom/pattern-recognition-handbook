@@ -61,7 +61,7 @@ def _(mo):
         - Risk minimization
         - Discriminant functions and decision surfaces
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 28</div>
         """
     )
     return
@@ -79,7 +79,7 @@ def _(mo):
     - Cannot just filter on keywords.
     - Mathematically, we want to find $P(\text{spam}|\text{content})$.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 28</div>
                 """
             ),
             mo.vstack(
@@ -114,7 +114,7 @@ def _(mo):
     - where:
         - $P(W_i)=P(W_i|S)P(S)+P(W_i|H)P(H)$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 28</div>
         """
     )
     return
@@ -130,19 +130,10 @@ def _(mo):
     - Example: $W_i = \text{"Money"}$
     - Let us look at the data — pick which word to inspect below.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 28</div>
         """
     )
     return
-
-
-@app.cell
-def _(mo):
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from scipy.stats import norm
-    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 29</div>""")
-    return norm, np, plt
 
 
 @app.cell
@@ -170,7 +161,7 @@ def _(mo):
     spam_indices = np.where(labels == 1)[0]
     word_index_map = {name: i for i, name in enumerate(columns.keys())}
     X = np.stack(list(columns.values()), axis=1)
-    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 29</div>""")
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 28</div>""")
     return X, columns, ham_indices, spam_indices, word_index_map, labels
 
 
@@ -225,7 +216,7 @@ def _(columns, ham_indices, mo, plt, spam_indices):
     mo.vstack(
         [
             mo.ui.tabs(word_tabs),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 29</div>"""),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 28</div>"""),
         ]
     )
     return
@@ -245,14 +236,13 @@ def _(mo):
     - Need to simplify.
     - Note: modern large language models are modeling something very similar to the expression above.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 28</div>
                 """
             ),
             mo.image(src="media/gpt.png", style={"max-width": "69%", "height": "auto"}),
             mo.md(
                 r"""
     **References:**
-
     - Radford et al. — *Improving Language Understanding by Generative Pre-Training*, 2018.
     - Bengio et al. — *A Neural Probabilistic Language Model*, 2003.
                 """
@@ -275,7 +265,7 @@ def _(mo):
 
     $$P(S|W_1,\dots,W_K) = \frac{P(S)\prod_i P(W_i|S)}{P(W_1,\dots,W_K)}$$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 28</div>
         """
     )
     return
@@ -292,7 +282,7 @@ def _(mo):
     - First: think continuous random variables $\rightarrow$
     - Let us start with considering two classes $w_1$ and $w_2$.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 28</div>
         """
     )
     return
@@ -309,7 +299,7 @@ def _(mo):
         - $P(w_1|\mathbf{x}) > P(w_2|\mathbf{x})$?
     - else class $w_2$.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 28</div>
         """
     )
     return
@@ -326,7 +316,7 @@ def _(mo):
         - $P(w_1)p(\mathbf{x}|w_1) > P(w_2)p(\mathbf{x}|w_2)$
     - Much easier to work with $\rightarrow$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 28</div>
         """
     )
     return
@@ -341,7 +331,7 @@ def _(mo):
     - Consider the case where $P(w_1)=P(w_2)=0.5$.
     - Draw $\rightarrow$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 28</div>
         """
     )
     return
@@ -356,7 +346,7 @@ def _(mo):
     - Consider the case where $P(w_1)=0.25$ and $P(w_2)=0.75$.
     - Draw $\rightarrow$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">14 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 28</div>
         """
     )
     return
@@ -375,7 +365,7 @@ def _(mo):
       off. It starts **off** so the densities stand alone first; turn it on to
       see where the Bayes classifier would assign each $x$.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">14 / 28</div>
         """
     )
     return
@@ -393,7 +383,7 @@ def _(mo):
         ("μ₁=0, μ₂=1, σ₁=0.5, σ₂=0.6", 0.0, 1.0, 0.5, 0.6, 0.5),
         ("μ₁=0, μ₂=1, σ=0.5, P(w₁)=0.1", 0.0, 1.0, 0.5, 0.5, 0.1),
     ]
-    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">16 / 29</div>""")
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 28</div>""")
     return (settings,)
 
 
@@ -461,7 +451,7 @@ def _(mo, np, norm, settings):
     mo.vstack(
         [
             mo.ui.tabs(sample_tabs),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">17 / 29</div>"""),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">16 / 28</div>"""),
         ]
     )
     return
@@ -488,7 +478,7 @@ def _(mo):
     \end{aligned}
     $$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">18 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">17 / 28</div>
         """
     )
     return
@@ -507,7 +497,7 @@ def _(mo):
     - Visual proof $\rightarrow$
     - Formal proof as extra exercise.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">19 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">18 / 28</div>
         """
     )
     return
@@ -523,7 +513,7 @@ def _(mo):
     - $P(w_i)p(\mathbf{x}|w_i) > P(w_j)p(\mathbf{x}|w_j)$ for all $j \neq i$.
     - Assign $\mathbf{x}$ to the largest $P(w_i)p(\mathbf{x}|w_i)$.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">20 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">19 / 28</div>
         """
     )
     return
@@ -548,7 +538,7 @@ def _(mo):
             - Potentially fatal.
     - Can we incorporate this into the classifier?
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">21 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">20 / 28</div>
         """
     )
     return
@@ -571,7 +561,7 @@ def _(mo):
 
     - Need to know class-conditional distributions.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">22 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">21 / 28</div>
         """
     )
     return
@@ -592,7 +582,7 @@ def _(mo):
 
     $$p(\mathbf{x}|w_i) = \frac{1}{(2\pi)^{d/2}|\mathbf{\Sigma}_i|^{1/2}}\exp\!\left(-\tfrac{1}{2}(\mathbf{x}-\boldsymbol{\mu}_i)^{\!\top}\mathbf{\Sigma}_i^{-1}(\mathbf{x}-\boldsymbol{\mu}_i)\right)$$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">23 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">22 / 28</div>
         """
     )
     return
@@ -610,7 +600,7 @@ def _(mo):
 
     $$\frac{p(\mathbf{x}|w_1)}{p(\mathbf{x}|w_2)} = \exp\!\left(-\frac{\|\mathbf{x}-\boldsymbol{\mu}_1\|^2 - \|\mathbf{x}-\boldsymbol{\mu}_2\|^2}{2\sigma^2}\right)$$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">24 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">23 / 28</div>
         """
     )
     return
@@ -628,7 +618,7 @@ def _(mo):
     - Often mathematically convenient to describe the decision surface using a *discriminant function*:
         - $g_i(\mathbf{x}) = f(P(w_i)p(\mathbf{x}|w_i))$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">25 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">24 / 28</div>
         """
     )
     return
@@ -646,7 +636,7 @@ def _(mo):
 
     $$g_i(\mathbf{x}) = -\tfrac{1}{2}(\mathbf{x}-\boldsymbol{\mu}_i)^{\!\top}\mathbf{\Sigma}_i^{-1}(\mathbf{x}-\boldsymbol{\mu}_i) - \tfrac{d}{2}\ln(2\pi) - \tfrac{1}{2}\ln|\mathbf{\Sigma}_i| + \ln P(w_i)$$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">26 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">25 / 28</div>
         """
     )
     return
@@ -663,7 +653,7 @@ def _(mo):
     - Quadratic surface! Draw example $\rightarrow$
     - Often we assume equal covariance structure. What happens then?
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">27 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">26 / 28</div>
         """
     )
     return
@@ -679,7 +669,7 @@ def _(mo):
     - 1st term $\rightarrow$
     - 2nd term $\rightarrow$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">28 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">27 / 28</div>
         """
     )
     return
@@ -695,7 +685,7 @@ def _(mo):
     - Then the discriminant function $g_{ij}(\mathbf{x})$ becomes $\rightarrow$
     - Draw example $\rightarrow$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">29 / 29</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">28 / 28</div>
         """
     )
     return
