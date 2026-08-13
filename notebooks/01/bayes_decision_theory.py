@@ -141,6 +141,10 @@ def _(mo):
     import base64
     import io
 
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from scipy.stats import norm
+
     # Load the Spambase columns we visualize from data embedded directly
     # in the notebook. Fetching the dataset from UCI at runtime intermittently
     # fails in the WASM/Pyodide environment, and shipping a sidecar file
