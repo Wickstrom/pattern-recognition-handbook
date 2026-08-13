@@ -266,7 +266,9 @@ def _(mo):
         r"""
     ## On the use of LLM and AI agents
 
-    Placeholder text — to be filled in later.
+    LLMs and AI agents are fantastic tools. They can make projects more fun and engaging, and can allow you to take your projects much further than you could otherwise. But remember, your solution to exercises and exams is not the products, you are! If you want to understand pattern recognition, you need to be the one putting in the work, implementing algorithms and solving exercises.
+    
+    Interesting resources on the topic of AI and its potential impact:
 
     - [What will be left for us to work](https://www.normaltech.ai/p/what-will-be-left-for-us-to-work)
     - [AI as Normal Technology](https://knightcolumbia.org/content/ai-as-normal-technology)
