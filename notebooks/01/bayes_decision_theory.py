@@ -644,7 +644,7 @@ def _(mo):
     - What could be a suitable choice for $f$?
     - In this case, $g_i(\mathbf{x})$ becomes:
 
-    $$g_i(\mathbf{x}) = -\tfrac{1}{2}(\mathbf{x}-\boldsymbol{\mu}_i)^{\!\top}\mathbf{\Sigma}_i^{-1}(\mathbf{x}-\boldsymbol{\mu}_i) - \tfrac{d}{2}\ln(2\pi) - \tfrac{1}{2}\ln|\mathbf{\Sigma}_i| + \ln P(w_i)$$
+    $$g_i(\mathbf{x})$$
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">26 / 29</div>
         """
