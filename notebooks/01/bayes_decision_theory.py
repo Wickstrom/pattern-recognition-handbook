@@ -608,7 +608,7 @@ def _(mo):
     - Let $P(w_1)=P(w_2)$ — balanced dataset (equiprobable classes).
     - Expression for the ratio:
 
-    $$\frac{p(\mathbf{x}|w_1)}{p(\mathbf{x}|w_2)} = \exp\!\left(-\frac{\|\mathbf{x}-\boldsymbol{\mu}_1\|^2 - \|\mathbf{x}-\boldsymbol{\mu}_2\|^2}{2\sigma^2}\right)$$
+    $$\frac{p(\mathbf{x}|w_1)}{p(\mathbf{x}|w_2)} > P(w_2)/P(w_1)$$
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">24 / 29</div>
         """
