@@ -35,21 +35,15 @@ You can view and execute the notebooks by clicking on the buttons below.
    - Non-parametric density estimation
    - Histogram approach
    - Parzen windowing
+   - K-nearest neighbor density estimation
+   - K-nearest neighbor classification
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/density_estimation/index.html)
    [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/02/density_estimation_exercise.ipynb)
 
 <br>
 
-4. **Density estimation II**
-   - K nearest neighbor
-   - Mixture models
-
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=revealdotjs&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/02/mixture_models.slides.html)
-
-<br>
-
-5. **Linear classifiers I**
+4. **Linear classifiers I**
    - Mean squared error (MSE) classifier
    - Least sum of squares classifier
    - Widrow-Hoff algorithm
@@ -60,7 +54,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-6. **Linear classifiers II**
+5. **Linear classifiers II**
    - Support vector machines
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/03/support_vector_machine/index.html)
@@ -68,7 +62,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-7. **Non-linear classifiers I**
+6. **Non-linear classifiers I**
    - Multilayer Perceptron
    - Backpropagation
    - Gradient descent
@@ -78,7 +72,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-8. **Non-linear classifiers II**
+7. **Non-linear classifiers II**
    - Activation functions
    - The vanishing gradient problem
    - Gradient descent with momentum
@@ -92,7 +86,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-9. **Non-linear classifiers III**
+8. **Non-linear classifiers III**
    - Neural networks as representation learning
    - A vector perspective on backpropagation
    - Connecting neural networks and support vector machines
@@ -102,7 +96,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-10. **Non-linear classifiers IV**
+9. **Non-linear classifiers IV**
    - Function approximation for non-linear classification
    - Radial basis function (RBF) networks
    - Prototypical learning
@@ -112,7 +106,7 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-11. **Non-linear classifiers V**
+10. **Non-linear classifiers V**
    - Kernel methods
    - Mercer's theorem
    - Kernels
@@ -120,6 +114,14 @@ You can view and execute the notebooks by clicking on the buttons below.
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/06/kernel_methods/index.html)
    [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/06/kernel_methods_exercise.ipynb)
+
+<br>
+
+11. **Ensemble methods** *(under development)*
+   - Combining models (bagging, random forests, boosting, stacking)
+
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/14/ensembles/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/14/ensembles_exercise.ipynb)
 
 <br>
 
@@ -178,6 +180,16 @@ You can view and execute the notebooks by clicking on the buttons below.
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/13/clustering_eval/index.html)
    [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/13/clustering_eval_exercise.ipynb)
+
+<br>
+
+19. **Gaussian mixture models** *(under development)*
+   - Mixture models
+   - The Expectation Maximisation (EM) algorithm
+   - Application to Gaussian mixtures
+
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/15/gaussian_mixture_models/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/15/gaussian_mixture_models_exercise.ipynb)
 
 <br>
 
@@ -274,6 +286,7 @@ notebooks running entirely in the browser via WebAssembly:
 - **Non-linear classifiers III** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/04/neural_networks_3_exercise.ipynb)
 - **Non-linear classifiers IV** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/05/rbf_networks/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/05/rbf_networks_exercise.ipynb)
 - **Non-linear classifiers V** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/06/kernel_methods/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/06/kernel_methods_exercise.ipynb)
+- **Ensemble methods** *(under development)* ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/14/ensembles/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/14/ensembles_exercise.ipynb)
 - **Data transformations and dimensionality reduction I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/07/linear_dim_reduction/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/07/linear_dim_reduction_exercise.ipynb)
 - **Data transformations and dimensionality reduction II** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/08/non_linear_dim_reduction/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/08/non_linear_dim_reduction_exercise.ipynb)
 - **Ranking** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/09/ranking/index.html))
@@ -281,6 +294,7 @@ notebooks running entirely in the browser via WebAssembly:
 - **Clustering II** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/11/hier_clustering/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/11/hier_clustering_exercise.ipynb)
 - **Clustering III** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/12/clustering/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/12/clustering_exercise.ipynb)
 - **Clustering evaluation** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/13/clustering_eval/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/13/clustering_eval_exercise.ipynb)
+- **Gaussian mixture models** *(under development)* ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/15/gaussian_mixture_models/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/15/gaussian_mixture_models_exercise.ipynb)
 
 Each `.py` notebook is content-equivalent to its `.ipynb` counterpart
 (same text, same figures) and is exported with
@@ -301,6 +315,7 @@ uv run marimo edit notebooks/04/neural_networks_2.py
 uv run marimo edit notebooks/04/neural_networks_3.py
 uv run marimo edit notebooks/05/rbf_networks.py
 uv run marimo edit notebooks/06/kernel_methods.py
+uv run marimo edit notebooks/14/ensembles.py
 uv run marimo edit notebooks/07/linear_dim_reduction.py
 uv run marimo edit notebooks/08/non_linear_dim_reduction.py
 uv run marimo edit notebooks/09/ranking.py
@@ -308,6 +323,7 @@ uv run marimo edit notebooks/10/seq_clustering.py
 uv run marimo edit notebooks/11/hier_clustering.py
 uv run marimo edit notebooks/12/clustering.py
 uv run marimo edit notebooks/13/clustering_eval.py
+uv run marimo edit notebooks/15/gaussian_mixture_models.py
 ```
 
 The Marimo notebooks trade the slide-stepping UX for a reactive
