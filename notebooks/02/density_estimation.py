@@ -340,8 +340,8 @@ def _(mo, norm, np, plt):
     }
     log_lik_param = {}
     figs_param = {}
-    for label, (mu_p, sigma_p) in presets_param.items():
-        log_lik_param[label] = float(
+    for _label_p, (mu_p, sigma_p) in presets_param.items():
+        log_lik_param[_label_p] = float(
             np.sum(norm.logpdf(data_param, mu_p, sigma_p))
         )
         x_grid_p = np.linspace(
@@ -362,7 +362,7 @@ def _(mo, norm, np, plt):
         ax_p.set_ylabel("density")
         ax_p.legend(loc="upper right")
         fig_p.tight_layout()
-        figs_param[label] = fig_p
+        figs_param[_label_p] = fig_p
         plt.close(fig_p)
 
     # Lives here (not a cell of its own) so the display cell below can read
@@ -381,17 +381,17 @@ def _(figs_param, log_lik_param, mo, presets_param, show_log_lik_param):
     # figure shows the log-likelihood only when the switch is on, so
     # students can guess the best fit first.
     tabs_param = {}
-    for label in presets_param:
-        log_lik_p = log_lik_param[label]
+    for _label_d in presets_param:
+        log_lik_p = log_lik_param[_label_d]
         ll_md = (
             f"&nbsp;&nbsp; **log-likelihood:** {log_lik_p:.3f}"
             if show_log_lik_param.value
             else ""
         )
-        tabs_param[label] = mo.vstack(
+        tabs_param[_label_d] = mo.vstack(
             [
-                mo.md(f"**Setting:** {label}{ll_md}"),
-                mo.as_html(figs_param[label]),
+                mo.md(f"**Setting:** {_label_d}{ll_md}"),
+                mo.as_html(figs_param[_label_d]),
             ],
             gap=1,
         )
