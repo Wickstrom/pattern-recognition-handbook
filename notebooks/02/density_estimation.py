@@ -324,13 +324,10 @@ def _(mo):
 @app.cell
 def _(mo, norm, np, plt):
     # Interactive demo for the maximum-likelihood derivation above.
-    # Pre-compute one figure per (μ, σ) preset and bundle into a single
-    # tabs widget so the controls and the visualization live in one cell
-    # (one slide in slides view — same pattern as the Bayes lecture at
-    # notebooks/01/bayes_decision_theory.py and the linear classifier
-    # tabs at notebooks/03/linear_classifiers.py). Students click a preset
-    # to swap the Gaussian overlay; the data is fixed across all presets
-    # so the change in fit is what they see.
+    # Pre-compute one figure per (μ, σ) preset so the data and Gaussian
+    # overlays are fixed across all presets (one slide in slides view).
+    # The log-likelihood is shown only when the switch is toggled on, so
+    # students can first guess which preset fits best.
     data_param = np.array(
         [-1.2, -0.8, -0.3, 0.1, 0.2, 0.5, 0.9, 1.4, 1.8, 2.1]
     )
@@ -341,10 +338,10 @@ def _(mo, norm, np, plt):
         "μ=0.9, σ=0.4": (0.9, 0.4),
         "μ=0.9, σ=1.5": (0.9, 1.5),
     }
-
-    tabs_param = {}
+    log_lik_param = {}
+    figs_param = {}
     for label, (mu_p, sigma_p) in presets_param.items():
-        log_lik_p = float(
+        log_lik_param[label] = float(
             np.sum(norm.logpdf(data_param, mu_p, sigma_p))
         )
         x_grid_p = np.linspace(
@@ -364,27 +361,45 @@ def _(mo, norm, np, plt):
         ax_p.set_xlabel("x")
         ax_p.set_ylabel("density")
         ax_p.legend(loc="upper right")
-        ax_p.set_title(
-            f"log-likelihood = {log_lik_p:.3f}  —  {label}"
-        )
         fig_p.tight_layout()
+        figs_param[label] = fig_p
+        plt.close(fig_p)
 
+    # Lives here (not a cell of its own) so the display cell below can read
+    # show_log_lik_param.value without violating Marimo's "no reading a
+    # UIElement in the cell that created it" rule.
+    show_log_lik_param = mo.ui.switch(
+        value=False, label="Show log-likelihood"
+    )
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 35</div>""")
+    return presets_param, log_lik_param, figs_param, show_log_lik_param
+
+
+@app.cell
+def _(figs_param, log_lik_param, mo, presets_param, show_log_lik_param):
+    # Bundle the pre-computed figures into tabs. The label above each
+    # figure shows the log-likelihood only when the switch is on, so
+    # students can guess the best fit first.
+    tabs_param = {}
+    for label in presets_param:
+        log_lik_p = log_lik_param[label]
+        ll_md = (
+            f"&nbsp;&nbsp; **log-likelihood:** {log_lik_p:.3f}"
+            if show_log_lik_param.value
+            else ""
+        )
         tabs_param[label] = mo.vstack(
             [
-                mo.md(
-                    f"**Setting:** {label} &nbsp;&nbsp; "
-                    f"**log-likelihood:** {log_lik_p:.3f}"
-                ),
-                mo.as_html(fig_p),
+                mo.md(f"**Setting:** {label}{ll_md}"),
+                mo.as_html(figs_param[label]),
             ],
             gap=1,
         )
-        plt.close(fig_p)
 
     mo.vstack(
         [
+            show_log_lik_param,
             mo.ui.tabs(tabs_param),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 35</div>"""),
         ]
     )
     return
