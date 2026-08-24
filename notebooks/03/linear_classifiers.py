@@ -271,9 +271,10 @@ def _(mo, np, plt, show_boundary_lc):
     # Three scenarios to keep the slide focused. The first two stress
     # the MSE solution under Gaussian assumptions (close means with
     # equal vs. different variances). The third deliberately violates
-    # the Gaussian assumption by giving class 1 a *moon* shape and
-    # class 2 a Gaussian placed well away from it, so the MSE
-    # straight-line boundary is no longer Bayes-optimal.
+    # the Gaussian assumption by giving class 1 a *ring* shape that
+    # surrounds class 2 (a Gaussian in the middle), so the two classes
+    # are non-linearly separable and the MSE straight-line boundary is
+    # no longer Bayes-optimal.
     scenarios_lc = {
         "Option 1": (
             "normal", np.array([2.0, 2.0]), 0.6,
@@ -284,8 +285,8 @@ def _(mo, np, plt, show_boundary_lc):
             "normal", np.array([3.5, 3.5]), 0.9,
         ),
         "Option 3": (
-            "moon_up", None, None,
-            "moon_down", None, None,
+            "ring", None, None,
+            "normal", np.array([2.5, 2.5]), 0.25,
         ),
     }
 
@@ -296,24 +297,18 @@ def _(mo, np, plt, show_boundary_lc):
         if kind == "normal":
             cov = (scale ** 2) * np.eye(2)
             return np.random.multivariate_normal(loc, cov, n)
-        if kind == "moon_up":
-            # Upper moon: arc from (-1, 0) up over (0, 1) to (1, 0).
-            theta = np.linspace(0, np.pi, n)
-            radius = 1.0
-            x = radius * np.cos(theta)
-            y = radius * np.sin(theta)
-            samples = np.column_stack([x, y])
-            samples += np.random.normal(0, 0.1, samples.shape)
-            return samples
-        # moon_down: lower moon, offset right so the two crescents
-        # interleave — the classic two-moons pattern. Any straight-line
-        # decision boundary will misclassify at least one crescent.
-        theta = np.linspace(0, np.pi, n)
-        radius = 1.0
-        x = 1.0 + radius * np.cos(theta)
-        y = -0.5 - radius * np.sin(theta)
+        # Ring: a full 360-degree circle surrounding the Gaussian so
+        # class 2 sits *inside* class 1. Any straight line that cuts
+        # through the ring must also cut through the inner Gaussian,
+        # so the two classes are genuinely non-linearly separable and
+        # the MSE straight-line boundary cannot be Bayes-optimal.
+        theta = np.random.uniform(0, 2 * np.pi, n)
+        ring_radius = 1.2
+        ring_cx, ring_cy = 2.5, 2.5
+        x = ring_cx + ring_radius * np.cos(theta)
+        y = ring_cy + ring_radius * np.sin(theta)
         samples = np.column_stack([x, y])
-        samples += np.random.normal(0, 0.1, samples.shape)
+        samples += np.random.normal(0, 0.08, samples.shape)
         return samples
 
     def make_fig_lc(title, c1_type, c1_loc, c1_scale, c2_type, c2_loc, c2_scale, highlight=False, show_boundary=False):
