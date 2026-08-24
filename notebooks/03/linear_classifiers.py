@@ -184,7 +184,7 @@ def _(mo):
     - Thus:
         - $\frac{\partial}{\partial \mathbf{w}} J(\mathbf{w}) = -\mathbb{E}[\mathbf{x}(y-\mathbf{w}^T\mathbf{x})]=\mathbf{0}$
     - Finally:
-        - $\widehat{\mathbf{w}} = \mathbf{R}^{-1}_{\mathbf{x}}\mathbb{E}[\mathbf{x}y]$
+        - $\widehat{\mathbf{w}} = $
         """
     )
     return
@@ -431,7 +431,7 @@ def _(mo):
         - $\mathbf{y}$=
     - Then, we get:
         - $(\mathbf{X}^T\mathbf{X})\mathbf{w}=\mathbf{X}^T \mathbf{y}$
-        - $\mathbf{w}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T \mathbf{y}$
+        - $\mathbf{w}=$
         """
     )
     return
