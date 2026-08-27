@@ -491,19 +491,14 @@ def _(mo, np, plt):
 
 
 @app.cell
-def _():
-    from sklearn.datasets import make_moons
-    from sklearn.inspection import DecisionBoundaryDisplay
-    from sklearn import svm
-    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">23 / 27</div>""")
-    return DecisionBoundaryDisplay, make_moons, svm
-
-
-@app.cell
-def _(DecisionBoundaryDisplay, make_moons, mo, plt, svm):
+def _(mo, plt):
     # Kernel SVM on the two-moons dataset: the classes are not linearly
     # separable in 2-D input space, so we use a polynomial kernel.
     # Support vectors are highlighted with a red ring.
+    from sklearn.datasets import make_moons
+    from sklearn.inspection import DecisionBoundaryDisplay
+    from sklearn import svm
+
     X_moons, y_moons = make_moons(n_samples=200, noise=0.15, random_state=42)
 
     clf_moons = svm.SVC(kernel="poly", C=1.0, coef0=1, degree=4)
@@ -538,7 +533,7 @@ def _(DecisionBoundaryDisplay, make_moons, mo, plt, svm):
     mo.vstack(
         [
             mo.as_html(fig_moons),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">24 / 27</div>"""),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">23 / 27</div>"""),
         ]
     )
     plt.close(fig_moons)
@@ -546,18 +541,13 @@ def _(DecisionBoundaryDisplay, make_moons, mo, plt, svm):
 
 
 @app.cell
-def _():
-    from sklearn.datasets import load_wine
-    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">25 / 27</div>""")
-    return (load_wine,)
-
-
-@app.cell
-def _(load_wine, mo, np, plt):
+def _(mo, np, plt):
     # Wine starter (intro to the SVM exercise): 2 of the 13 features
     # (alcohol, malic acid), all 3 classes. Targets are 0/1/2; legend
     # is shifted to 1/2/3 to match the original notebook's "Class N"
     # labeling.
+    from sklearn.datasets import load_wine
+
     wine_data = load_wine()
 
     X_wine = wine_data.data[:, :2]
@@ -583,7 +573,7 @@ def _(load_wine, mo, np, plt):
     mo.vstack(
         [
             mo.as_html(fig_wine),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">26 / 27</div>"""),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">24 / 27</div>"""),
         ]
     )
     plt.close(fig_wine)
@@ -591,19 +581,13 @@ def _(load_wine, mo, np, plt):
 
 
 @app.cell
-def _(
-    DecisionBoundaryDisplay,
-    X_wine,
-    feature_1_name_wine,
-    feature_2_name_wine,
-    mo,
-    plt,
-    svm,
-    y_wine,
-):
+def _(X_wine, feature_1_name_wine, feature_2_name_wine, mo, plt, y_wine):
     # Linear-kernel SVM on the 2-feature wine projection. Highlights
     # the support vectors with a red ring so students can see which
     # samples define the decision boundary.
+    from sklearn.inspection import DecisionBoundaryDisplay
+    from sklearn import svm
+
     clf_wine = svm.SVC(kernel="linear", C=100.0)
     clf_wine.fit(X_wine, y_wine)
 
@@ -638,10 +622,151 @@ def _(
     mo.vstack(
         [
             mo.as_html(fig_wine_svm),
-            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">27 / 27</div>"""),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">25 / 27</div>"""),
         ]
     )
     plt.close(fig_wine_svm)
+    return
+
+
+@app.cell
+def _(mo, np):
+    # Interactive SVM demo controls (dataset, kernel, slack C) plus the
+    # fixed-seed datasets they select among. The widgets are rendered
+    # here; the figure lives in the next cell and updates reactively.
+    from sklearn.datasets import make_moons
+
+    # --- controls ---
+    demo_dataset = mo.ui.dropdown(
+        options={
+            "Linearly separable Gaussians": "separable",
+            "Overlapping Gaussians (soft margin)": "overlap",
+            "Two moons": "moons",
+        },
+        value="Overlapping Gaussians (soft margin)",
+        label="Dataset",
+    )
+    demo_kernel = mo.ui.dropdown(
+        options={
+            "Linear": "linear",
+            "Polynomial (degree 4)": "poly",
+            "RBF": "rbf",
+        },
+        value="Linear",
+        label="Kernel",
+    )
+    demo_C_exp = mo.ui.slider(
+        start=-2.0,
+        stop=3.0,
+        step=0.1,
+        value=0.0,
+        label=r"C (slack regularization) on $\log_{10}$ scale",
+    )
+
+    # --- fixed-seed datasets (see AGENTS.md: keep figures reproducible) ---
+    rng_demo = np.random.RandomState(0)
+    n_demo = 120
+    sig_demo = 0.50 * np.eye(2)
+
+    X_sep_demo = np.vstack(
+        [
+            rng_demo.multivariate_normal([-1.4, -1.4], sig_demo, n_demo),
+            rng_demo.multivariate_normal([1.4, 1.4], sig_demo, n_demo),
+        ]
+    )
+    y_sep_demo = np.concatenate([np.zeros(n_demo), np.ones(n_demo)])
+
+    X_ov_demo = np.vstack(
+        [
+            rng_demo.multivariate_normal([-0.8, -0.3], 0.70 * np.eye(2), n_demo),
+            rng_demo.multivariate_normal([0.8, 0.3], 0.70 * np.eye(2), n_demo),
+        ]
+    )
+    y_ov_demo = np.concatenate([np.zeros(n_demo), np.ones(n_demo)])
+
+    X_moons_demo, y_moons_demo = make_moons(n_samples=200, noise=0.15, random_state=0)
+
+    demo_datasets = {
+        "separable": (X_sep_demo, y_sep_demo),
+        "overlap": (X_ov_demo, y_ov_demo),
+        "moons": (X_moons_demo, y_moons_demo),
+    }
+
+    mo.vstack(
+        [
+            mo.md(r"""### Interactive SVM demo"""),
+            demo_dataset,
+            demo_kernel,
+            demo_C_exp,
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">26 / 27</div>"""),
+        ]
+    )
+    return demo_C_exp, demo_dataset, demo_datasets, demo_kernel
+
+
+@app.cell
+def _(demo_C_exp, demo_dataset, demo_datasets, demo_kernel, mo, plt):
+    # Refit an SVM on the selected dataset with the chosen kernel/slack
+    # and redraw the decision boundary plus the resulting support vectors.
+    # Changes to the controls above re-run this cell live.
+    from sklearn.inspection import DecisionBoundaryDisplay
+    from sklearn import svm
+
+    C_demo = 10.0 ** demo_C_exp.value
+    X_demo, y_demo = demo_datasets[demo_dataset.value]
+    kernel_demo = demo_kernel.value
+
+    clf_demo = svm.SVC(
+        kernel=kernel_demo,
+        C=C_demo,
+        coef0=1,
+        degree=4,
+        gamma="scale",
+    )
+    clf_demo.fit(X_demo, y_demo)
+
+    fig_demo, ax_demo = plt.subplots(figsize=(6.5, 6))
+    DecisionBoundaryDisplay.from_estimator(
+        clf_demo,
+        X_demo,
+        response_method="predict",
+        cmap=plt.cm.coolwarm,
+        alpha=0.8,
+        ax=ax_demo,
+        xlabel=r"$x_1$",
+        ylabel=r"$x_2$",
+    )
+    ax_demo.scatter(
+        X_demo[:, 0],
+        X_demo[:, 1],
+        c=y_demo,
+        cmap=plt.cm.coolwarm,
+        s=25,
+        edgecolors="k",
+        linewidths=0.5,
+    )
+    ax_demo.scatter(
+        clf_demo.support_vectors_[:, 0],
+        clf_demo.support_vectors_[:, 1],
+        s=120,
+        facecolors="none",
+        edgecolors="red",
+        linewidths=2,
+        label="Support Vectors",
+    )
+    ax_demo.legend(loc="best")
+    ax_demo.set_title(
+        f"{demo_dataset.value} · kernel={kernel_demo} · "
+        f"C = {C_demo:g} → {len(clf_demo.support_vectors_)} support vectors"
+    )
+
+    mo.vstack(
+        [
+            mo.as_html(fig_demo),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">27 / 27</div>"""),
+        ]
+    )
+    plt.close(fig_demo)
     return
 
 
