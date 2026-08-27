@@ -66,6 +66,19 @@ def _():
 
 
 @app.cell
+def _():
+    # Shared scikit-learn imports so all the SVM figures reference a single
+    # owner for each of these names (Marimo requires every name to belong to
+    # exactly one cell). The moons, wine, wine-SVM and interactive-demo cells
+    # all consume these as cell arguments.
+    from sklearn.datasets import make_moons
+    from sklearn.datasets import load_wine
+    from sklearn.inspection import DecisionBoundaryDisplay
+    from sklearn import svm
+    return DecisionBoundaryDisplay, make_moons, load_wine, svm
+
+
+@app.cell
 def _(mo):
     mo.md(
         r"""
@@ -491,13 +504,10 @@ def _(mo, np, plt):
 
 
 @app.cell
-def _(mo, plt):
+def _(DecisionBoundaryDisplay, make_moons, mo, plt, svm):
     # Kernel SVM on the two-moons dataset: the classes are not linearly
     # separable in 2-D input space, so we use a polynomial kernel.
     # Support vectors are highlighted with a red ring.
-    from sklearn.datasets import make_moons
-    from sklearn.inspection import DecisionBoundaryDisplay
-    from sklearn import svm
 
     X_moons, y_moons = make_moons(n_samples=200, noise=0.15, random_state=42)
 
@@ -541,12 +551,11 @@ def _(mo, plt):
 
 
 @app.cell
-def _(mo, np, plt):
+def _(load_wine, mo, np, plt):
     # Wine starter (intro to the SVM exercise): 2 of the 13 features
     # (alcohol, malic acid), all 3 classes. Targets are 0/1/2; legend
     # is shifted to 1/2/3 to match the original notebook's "Class N"
     # labeling.
-    from sklearn.datasets import load_wine
 
     wine_data = load_wine()
 
@@ -581,12 +590,10 @@ def _(mo, np, plt):
 
 
 @app.cell
-def _(X_wine, feature_1_name_wine, feature_2_name_wine, mo, plt, y_wine):
+def _(DecisionBoundaryDisplay, X_wine, feature_1_name_wine, feature_2_name_wine, mo, plt, svm, y_wine):
     # Linear-kernel SVM on the 2-feature wine projection. Highlights
     # the support vectors with a red ring so students can see which
     # samples define the decision boundary.
-    from sklearn.inspection import DecisionBoundaryDisplay
-    from sklearn import svm
 
     clf_wine = svm.SVC(kernel="linear", C=100.0)
     clf_wine.fit(X_wine, y_wine)
@@ -630,11 +637,10 @@ def _(X_wine, feature_1_name_wine, feature_2_name_wine, mo, plt, y_wine):
 
 
 @app.cell
-def _(mo, np):
+def _(make_moons, mo, np):
     # Interactive SVM demo controls (dataset, kernel, slack C) plus the
     # fixed-seed datasets they select among. The widgets are rendered
     # here; the figure lives in the next cell and updates reactively.
-    from sklearn.datasets import make_moons
 
     # --- controls ---
     demo_dataset = mo.ui.dropdown(
@@ -705,12 +711,10 @@ def _(mo, np):
 
 
 @app.cell
-def _(demo_C_exp, demo_dataset, demo_datasets, demo_kernel, mo, plt):
+def _(DecisionBoundaryDisplay, demo_C_exp, demo_dataset, demo_datasets, demo_kernel, mo, plt, svm):
     # Refit an SVM on the selected dataset with the chosen kernel/slack
     # and redraw the decision boundary plus the resulting support vectors.
     # Changes to the controls above re-run this cell live.
-    from sklearn.inspection import DecisionBoundaryDisplay
-    from sklearn import svm
 
     C_demo = 10.0 ** demo_C_exp.value
     X_demo, y_demo = demo_datasets[demo_dataset.value]
