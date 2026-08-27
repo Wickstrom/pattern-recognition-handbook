@@ -70,6 +70,8 @@ def _(mo):
     mo.md(
         r"""
     # Linear classifiers
+
+<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 42</div>
         """
     )
     return
@@ -124,6 +126,7 @@ def _(mo, np, plt):
 
     mo.as_html(fig_intro)
     plt.close(fig_intro)
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 42</div>""")
     return
 
 
@@ -155,10 +158,10 @@ def _(mo):
         - $g(\mathbf{x}_i)=\mathbf{w}^T\mathbf{x}_i \approx y_i$
     - How can we find weights that gives the desired output?
     - We do this by designing a *cost function* that would encourage this behavior:
-        - $J(\mathbf{w})=\frac{1}{2}\mathbb{E}_{\mathbf{x}} \left[ (y-\mathbf{w}^T\mathbf{x}) \right]$
+        - $J(\mathbf{w})=\dfrac{1}{2}\mathbb{E}_{\mathbf{x}} \left[ (y-\mathbf{w}^T\mathbf{x}) \right]$
     - $\widehat{\mathbf{w}} = \underset{\mathbf{w}}{\operatorname{argmin}}\ J(\mathbf{w})$
     - Want:
-        - $\frac{\partial}{\partial \mathbf{w}} J(\mathbf{w}) = 0$
+        - $\dfrac{\partial}{\partial \mathbf{w}} J(\mathbf{w}) = 0$
         """
     )
     return
@@ -175,16 +178,16 @@ def _(mo):
     - Recall:
         - $\mathbb{E}[g(\mathbf{x})] = \int g(\mathbf{x})p(\mathbf{x})d\mathbf{x}$
     - Hence:
-        - $J(\mathbf{w}) = \frac{1}{2} \int \left[ (y-\mathbf{w}^T\mathbf{x}) \right]^2 p(\mathbf{x})d\mathbf{x}$
+        - $J(\mathbf{w}) = \dfrac{1}{2} \int \left[ (y-\mathbf{w}^T\mathbf{x}) \right]^2 p(\mathbf{x})d\mathbf{x}$
     - Using the law of total probablity we get:
-        - $J(\mathbf{w}) = \frac{1}{2}p(w_1) \int \left[ (***-\mathbf{w}^T\mathbf{x}) \right]^2 p(\mathbf{x}|w_1)d\mathbf{x} + \frac{1}{2}p(w_2) \int \left[ (***-\mathbf{w}^T\mathbf{x}) \right]^2 p(\mathbf{x}|w_2)d\mathbf{x}$
+        - $J(\mathbf{w}) = \dfrac{1}{2}p(w_1) \int \left[ (***-\mathbf{w}^T\mathbf{x}) \right]^2 p(\mathbf{x}|w_1)d\mathbf{x} + \dfrac{1}{2}p(w_2) \int \left[ (***-\mathbf{w}^T\mathbf{x}) \right]^2 p(\mathbf{x}|w_2)d\mathbf{x}$
     - Remember the chain rule ->
     - Followed by a vector derivative:
-        - $\frac{\partial}{\partial \mathbf{w}} (1-\mathbf{w}^T\mathbf{x}) = \begin{bmatrix} \hspace{3.0cm} \\ \\ \vdots \\ \\ \end{bmatrix} = -\mathbf{x}$
+        - $\dfrac{\partial}{\partial \mathbf{w}} (1-\mathbf{w}^T\mathbf{x}) = \begin{bmatrix} \hspace{3.0cm} \\ \\ \vdots \\ \\ \end{bmatrix} = -\mathbf{x}$
     - Thus:
-        - $\frac{\partial}{\partial \mathbf{w}} J(\mathbf{w}) = -\mathbb{E}[\mathbf{x}(y-\mathbf{w}^T\mathbf{x})]=\mathbf{0}$
+        - $\dfrac{\partial}{\partial \mathbf{w}} J(\mathbf{w}) = -\mathbb{E}[\mathbf{x}(y-\mathbf{w}^T\mathbf{x})]=\mathbf{0}$
     - Finally:
-        - $\widehat{\mathbf{w}} = $
+        - $\widehat{\mathbf{w}}$
         """
     )
     return
@@ -238,6 +241,7 @@ def _(mo, np, plt):
 
     mo.as_html(fig_three)
     plt.close(fig_three)
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 42</div>""")
     return
 
 
@@ -263,6 +267,8 @@ def _(mo):
     # show_boundary_lc.value without violating Marimo's "no reading
     # a UIElement in the cell that created it" rule.
     show_boundary_lc = mo.ui.switch(value=False, label="Show decision boundary")
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 42</div>""")
+
     return (show_boundary_lc,)
 
 
@@ -271,10 +277,9 @@ def _(mo, np, plt, show_boundary_lc):
     # Three scenarios to keep the slide focused. The first two stress
     # the MSE solution under Gaussian assumptions (close means with
     # equal vs. different variances). The third deliberately violates
-    # the Gaussian assumption by giving class 1 a *ring* shape that
-    # surrounds class 2 (a Gaussian in the middle), so the two classes
-    # are non-linearly separable and the MSE straight-line boundary is
-    # no longer Bayes-optimal.
+    # the Gaussian assumption by giving class 1 a *moon* shape and
+    # class 2 a Gaussian placed well away from it, so the MSE
+    # straight-line boundary is no longer Bayes-optimal.
     scenarios_lc = {
         "Option 1": (
             "normal", np.array([2.0, 2.0]), 0.6,
@@ -285,8 +290,8 @@ def _(mo, np, plt, show_boundary_lc):
             "normal", np.array([3.5, 3.5]), 0.9,
         ),
         "Option 3": (
-            "ring", None, None,
-            "normal", np.array([2.5, 2.5]), 0.25,
+            "moon_up", None, None,
+            "moon_down", None, None,
         ),
     }
 
@@ -297,18 +302,24 @@ def _(mo, np, plt, show_boundary_lc):
         if kind == "normal":
             cov = (scale ** 2) * np.eye(2)
             return np.random.multivariate_normal(loc, cov, n)
-        # Ring: a full 360-degree circle surrounding the Gaussian so
-        # class 2 sits *inside* class 1. Any straight line that cuts
-        # through the ring must also cut through the inner Gaussian,
-        # so the two classes are genuinely non-linearly separable and
-        # the MSE straight-line boundary cannot be Bayes-optimal.
-        theta = np.random.uniform(0, 2 * np.pi, n)
-        ring_radius = 1.2
-        ring_cx, ring_cy = 2.5, 2.5
-        x = ring_cx + ring_radius * np.cos(theta)
-        y = ring_cy + ring_radius * np.sin(theta)
+        if kind == "moon_up":
+            # Upper moon: arc from (-1, 0) up over (0, 1) to (1, 0).
+            theta = np.linspace(0, np.pi, n)
+            radius = 1.0
+            x = radius * np.cos(theta)
+            y = radius * np.sin(theta)
+            samples = np.column_stack([x, y])
+            samples += np.random.normal(0, 0.1, samples.shape)
+            return samples
+        # moon_down: lower moon, offset right so the two crescents
+        # interleave — the classic two-moons pattern. Any straight-line
+        # decision boundary will misclassify at least one crescent.
+        theta = np.linspace(0, np.pi, n)
+        radius = 1.0
+        x = 1.0 + radius * np.cos(theta)
+        y = -0.5 - radius * np.sin(theta)
         samples = np.column_stack([x, y])
-        samples += np.random.normal(0, 0.08, samples.shape)
+        samples += np.random.normal(0, 0.1, samples.shape)
         return samples
 
     def make_fig_lc(title, c1_type, c1_loc, c1_scale, c2_type, c2_loc, c2_scale, highlight=False, show_boundary=False):
@@ -377,6 +388,7 @@ def _(mo, np, plt, show_boundary_lc):
         plt.close(fig_lc)
 
     mo.vstack([show_boundary_lc, mo.ui.tabs(tabs_lc)])
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 42</div>""")
     return
 
 
@@ -431,7 +443,7 @@ def _(mo):
         - $\mathbf{y}$=
     - Then, we get:
         - $(\mathbf{X}^T\mathbf{X})\mathbf{w}=\mathbf{X}^T \mathbf{y}$
-        - $\mathbf{w}=$
+        - $\mathbf{w}$
         """
     )
     return
@@ -477,7 +489,7 @@ def _(mo):
     ## Widow-Hoff algorithm (1960)
 
     - Idea: iterative gradient descent on MSE loss.
-    - $\widehat{\mathbf{w}}(k) = \widehat{\mathbf{w}}(k-1)+\rho_k \frac{\partial}{\partial \widehat{\mathbf{w}}(k-1)} J(\widehat{\mathbf{w}}(k-1))$
+    - $\widehat{\mathbf{w}}(k) = \widehat{\mathbf{w}}(k-1)+\rho_k \dfrac{\partial}{\partial \widehat{\mathbf{w}}(k-1)} J(\widehat{\mathbf{w}}(k-1))$
         """
     )
     return
@@ -509,6 +521,7 @@ def _(mo, np, plt):
 
     mo.as_html(fig_cost)
     plt.close(fig_cost)
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">19 / 42</div>""")
     return
 
 
@@ -516,9 +529,9 @@ def _(mo, np, plt):
 def _(mo):
     mo.md(
         r"""
-    ### Derivatie of MSE loss
+    ### Derivative of Widrow-Hoff
 
-    - Need to calculate $\frac{\partial}{\partial \widehat{\mathbf{w}}(k-1)} J(\widehat{\mathbf{w}}(k-1))$
+    - Need to calculate $\dfrac{\partial}{\partial \widehat{\mathbf{w}}(k-1)} J(\widehat{\mathbf{w}}(k-1))$
         """
     )
     return
@@ -529,6 +542,8 @@ def _(mo):
     mo.md(
         r"""
     ### Example of Widrow-Hoff update
+
+<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">21 / 42</div>
         """
     )
     return
@@ -567,6 +582,7 @@ def _(mo, np, plt):
 
     mo.as_html(fig_wh)
     plt.close(fig_wh)
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">22 / 42</div>""")
     return X_aug_wh, X_wh, n_wh, x1_wh, x2_wh, y_wh
 
 
@@ -611,6 +627,7 @@ def _(X_aug_wh, X_wh, n_wh, np, y_wh):
         trace_wh_a.append(_w_new)
         update_idx_wh_a.append(_idx)
 
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">24 / 42</div>""")
     return rho_wh_a, trace_wh_a, update_idx_wh_a, n_steps_wh_a
 
 
@@ -621,8 +638,10 @@ def _(mo, n_steps_wh_a):
     step_btn_a = mo.ui.radio(
         options={f"Step {k}": k for k in range(n_steps_wh_a + 1)},
         value="Step 0",
-        label=f"Step (0..{n_steps_wh_a})",
+        label=f"Step 0-{n_steps_wh_a}",
     )
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">25 / 42</div>""")
+
     return (step_btn_a,)
 
 
@@ -677,8 +696,11 @@ def _(
     ax_wh_a.set_ylim(0.0, 3.0)
     ax_wh_a.set_xlabel("x1")
     ax_wh_a.set_ylabel("x2")
-    ax_wh_a.set_title(f"Widrow-Hoff, start A — step {_step_a}/{n_steps_wh_a}")
-    ax_wh_a.legend(loc="upper right", fontsize=11)
+    ax_wh_a.set_title(
+        f"Widrow-Hoff, start A — step {_step_a}/{n_steps_wh_a}  "
+        f"($\\rho$ = {rho_wh_a})"
+    )
+    ax_wh_a.legend(loc="upper right", fontsize=13, framealpha=0.95)
     ax_wh_a.grid(True, alpha=0.3)
     plt.close(fig_wh_a)
 
@@ -727,6 +749,7 @@ def _(X_aug_wh, X_wh, n_wh, np, y_wh):
         trace_wh_b.append(_w_new)
         update_idx_wh_b.append(_idx)
 
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">28 / 42</div>""")
     return rho_wh_b, trace_wh_b, update_idx_wh_b, n_steps_wh_b
 
 
@@ -737,8 +760,10 @@ def _(mo, n_steps_wh_b):
     step_btn_b = mo.ui.radio(
         options={f"Step {k}": k for k in range(n_steps_wh_b + 1)},
         value="Step 0",
-        label=f"Step (0..{n_steps_wh_b})",
+        label=f"Step 0-{n_steps_wh_b}",
     )
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">29 / 42</div>""")
+
     return (step_btn_b,)
 
 
@@ -788,8 +813,11 @@ def _(
     ax_wh_b.set_ylim(0.0, 3.0)
     ax_wh_b.set_xlabel("x1")
     ax_wh_b.set_ylabel("x2")
-    ax_wh_b.set_title(f"Widrow-Hoff, start B — step {_step_b}/{n_steps_wh_b}")
-    ax_wh_b.legend(loc="upper right", fontsize=8)
+    ax_wh_b.set_title(
+        f"Widrow-Hoff, start B — step {_step_b}/{n_steps_wh_b}  "
+        f"($\\rho$ = {rho_wh_b})"
+    )
+    ax_wh_b.legend(loc="upper right", fontsize=13, framealpha=0.95)
     ax_wh_b.grid(True, alpha=0.3)
     plt.close(fig_wh_b)
 
@@ -905,6 +933,7 @@ def _(X_aug_wh, X_wh, n_wh, np, y_wh):
         trace_p.append(_w_new)
         update_idx_p.append(_idx)
 
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">36 / 42</div>""")
     return rho_p, trace_p, update_idx_p, n_steps_p
 
 
@@ -917,6 +946,8 @@ def _(mo, n_steps_p):
         value="Step 0",
         label=f"Step (0..{n_steps_p})",
     )
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">37 / 42</div>""")
+
     return (step_btn_p,)
 
 
@@ -1021,6 +1052,7 @@ def _(X_aug_wh, X_wh, n_wh, np, y_wh):
         trace_p2.append(_w_new)
         update_idx_p2.append(_idx)
 
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">40 / 42</div>""")
     return rho_p2, trace_p2, update_idx_p2, n_steps_p2
 
 
@@ -1031,6 +1063,8 @@ def _(mo, n_steps_p2):
         value="Step 0",
         label=f"Step (0..{n_steps_p2})",
     )
+    mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">41 / 42</div>""")
+
     return (step_btn_p2,)
 
 
