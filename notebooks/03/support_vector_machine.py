@@ -173,13 +173,13 @@ def _(mo, plt):
     ax_axes.set_xticks([])
     ax_axes.set_yticks([])
 
+    plt.close(fig_axes)
     mo.vstack(
         [
             mo.as_html(fig_axes),
             mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 27</div>"""),
         ]
     )
-    plt.close(fig_axes)
     return
 
 
@@ -493,13 +493,13 @@ def _(mo, np, plt):
     ax_nonsep.set_ylabel("x2")
     ax_nonsep.legend()
 
+    plt.close(fig_nonsep)
     mo.vstack(
         [
             mo.as_html(fig_nonsep),
             mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">22 / 27</div>"""),
         ]
     )
-    plt.close(fig_nonsep)
     return
 
 
@@ -540,13 +540,13 @@ def _(DecisionBoundaryDisplay, make_moons, mo, plt, svm):
     ax_moons.set_xticks(())
     ax_moons.set_yticks(())
 
+    plt.close(fig_moons)
     mo.vstack(
         [
             mo.as_html(fig_moons),
             mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">23 / 27</div>"""),
         ]
     )
-    plt.close(fig_moons)
     return
 
 
@@ -579,13 +579,13 @@ def _(load_wine, mo, np, plt):
     ax_wine.set_ylabel(feature_2_name_wine)
     ax_wine.legend()
 
+    plt.close(fig_wine)
     mo.vstack(
         [
             mo.as_html(fig_wine),
             mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">24 / 27</div>"""),
         ]
     )
-    plt.close(fig_wine)
     return X_wine, feature_1_name_wine, feature_2_name_wine, y_wine
 
 
@@ -597,8 +597,6 @@ def _(DecisionBoundaryDisplay, X_wine, feature_1_name_wine, feature_2_name_wine,
 
     clf_wine = svm.SVC(kernel="linear", C=100.0)
     clf_wine.fit(X_wine, y_wine)
-
-    print(clf_wine.support_vectors_)
 
     fig_wine_svm, ax_wine_svm = plt.subplots(figsize=(6, 6))
     DecisionBoundaryDisplay.from_estimator(
@@ -626,13 +624,13 @@ def _(DecisionBoundaryDisplay, X_wine, feature_1_name_wine, feature_2_name_wine,
     ax_wine_svm.set_xticks(())
     ax_wine_svm.set_yticks(())
 
+    plt.close(fig_wine_svm)
     mo.vstack(
         [
             mo.as_html(fig_wine_svm),
             mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">25 / 27</div>"""),
         ]
     )
-    plt.close(fig_wine_svm)
     return
 
 
@@ -764,13 +762,13 @@ def _(DecisionBoundaryDisplay, demo_C_exp, demo_dataset, demo_datasets, demo_ker
         f"C = {C_demo:g} → {len(clf_demo.support_vectors_)} support vectors"
     )
 
+    plt.close(fig_demo)
     mo.vstack(
         [
             mo.as_html(fig_demo),
             mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">27 / 27</div>"""),
         ]
     )
-    plt.close(fig_demo)
     return
 
 
