@@ -64,6 +64,8 @@ def _(mo):
     mo.md(
         r"""
     # Neural Networks II
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 20</div>
         """
     )
     return
@@ -77,6 +79,8 @@ def _(mo):
 
     - We continue our work on neural networks.
     - This lecture focuses on some key components and challenges.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 20</div>
         """
     )
     return
@@ -93,6 +97,8 @@ def _(mo):
     - Not good for gradient descent $\Rightarrow$ replace with a differentiable approximation of the step function.
     - The "classic" activation function is the sigmoid activation function: $f_{\text{s}}(x) = \dfrac{1}{1+\exp(-x)}$
     - Nice derivative: $\frac{d f_{\text{s}}(x)}{dx}=f_{\text{s}}(x)(1-f_{\text{s}}(x))$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 20</div>
         """
     )
     return
@@ -119,8 +125,13 @@ def _(mo, np, plt):
     ax_step_deriv.set_title("Sigmoid Derivative")
     fig_step.tight_layout()
 
-    mo.as_html(fig_step)
     plt.close(fig_step)
+    mo.vstack(
+        [
+            mo.as_html(fig_step),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 20</div>"""),
+        ]
+    )
     return
 
 
@@ -134,6 +145,8 @@ def _(mo):
     - Let us do Backpropagation with this network.
 
     <img src="media/simple_nn.png" width="1000px" />
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 20</div>
         """
     )
     return
@@ -147,6 +160,8 @@ def _(mo):
 
     - As the number of layers increase, the number of $<1$ numbers get multiplied.
     - Gradients "vanish", training lower layers becomes difficult.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 20</div>
         """
     )
     return
@@ -165,6 +180,8 @@ def _(mo):
     - Also nice derivative:
 
     $$\frac{d f_{\text{t}}(x) }{dx}=1-f_{\text{t}}(x)^2$$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 20</div>
         """
     )
     return
@@ -193,8 +210,13 @@ def _(mo, np, plt):
     ax_st_tanh.set_title("Tanh Activation & Derivative")
     ax_st_tanh.legend()
 
-    mo.as_html(fig_st)
     plt.close(fig_st)
+    mo.vstack(
+        [
+            mo.as_html(fig_st),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 20</div>"""),
+        ]
+    )
     return
 
 
@@ -206,6 +228,8 @@ def _(mo):
 
     - Tanh has slightly better behavior than sigmoid, but still issues.
     - Modern activation functions handle this problem much better (covered in FYS3033).
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 20</div>
         """
     )
     return
@@ -216,6 +240,8 @@ def _(mo):
     mo.md(
         r"""
     ## Gradient descent with momentum
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 20</div>
         """
     )
     return
@@ -229,19 +255,21 @@ def _(mo):
 
     - Standard gradient descent can have slow convergence
         - Slow to train! Draw example $\Rightarrow$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 20</div>
         """
     )
     return
 
 
 @app.cell
-def _(np):
-    # Two loss functions for the momentum motivation.
-    #   Smooth bowl: a clean convex parabola — plain SGD converges in a
-    #                few steps.
-    #   Long plateau: gradient is small and constant across a wide range,
-    #                 then drops sharply. Plain SGD stalls here, which is
-    #                 exactly why we want momentum (introduced next slide).
+def _(mo, np, plt):
+    # Plain gradient descent on two loss landscapes. Left: a clean convex
+    # bowl where plain SGD converges in a few steps. Right: a long flat
+    # plateau where the gradient is tiny and roughly constant, so plain SGD
+    # stalls — exactly why we introduce momentum on the next slide. Rendered
+    # as a static figure so the slide displays reliably in the WASM export
+    # (an interactive mo.state/button version rendered blank in the browser).
     def loss_smooth_mom(w):
         return (w - 3.0) ** 2
 
@@ -258,133 +286,61 @@ def _(np):
     def grad_plateau_mom(w):
         return np.where(w <= 1.0, -0.05, w - 3.0)
 
+    n_steps_mom = 40
     gamma_mom = 0.3
     gamma_plateau_mom = 2.0
     w_init_mom = -5.0
-    return (
-        loss_smooth_mom,
-        grad_smooth_mom,
-        loss_plateau_mom,
-        grad_plateau_mom,
-        gamma_mom,
-        w_init_mom,
-    )
 
+    def _run_gd_mom(grad, gamma):
+        w = w_init_mom
+        traj = [w]
+        for _ in range(n_steps_mom):
+            w = w - gamma * grad(w)
+            traj.append(w)
+        return np.array(traj)
 
-@app.cell
-def _(mo, w_init_mom):
-    # Reactive state shared by the buttons and the plot cell. The setter
-    # triggers every cell that reads `state_mom()` to re-execute, which
-    # is how the "Next step" button actually advances the trajectory.
-    state_mom, set_state_mom = mo.state(
-        {"w1": w_init_mom, "w2": w_init_mom, "step": 0}
-    )
-    return state_mom, set_state_mom
+    traj1_mom = _run_gd_mom(grad_smooth_mom, gamma_mom)
+    traj2_mom = _run_gd_mom(grad_plateau_mom, gamma_plateau_mom)
 
-
-@app.cell
-def _(
-    mo,
-    state_mom,
-    set_state_mom,
-    grad_smooth_mom,
-    grad_plateau_mom,
-    gamma_mom,
-    gamma_plateau_mom,
-    w_init_mom,
-):
-    def _step_mom(_=None):
-        s = state_mom()
-        s["w1"] = s["w1"] - gamma_mom * grad_smooth_mom(s["w1"])
-        s["w2"] = s["w2"] - gamma_plateau_mom * grad_plateau_mom(s["w2"])
-        s["step"] += 1
-        set_state_mom(s)
-
-    def _reset_mom(_=None):
-        set_state_mom({"w1": w_init_mom, "w2": w_init_mom, "step": 0})
-
-    btn_step_mom = mo.ui.button(
-        label="Next step", kind="primary", on_click=_step_mom
-    )
-    btn_reset_mom = mo.ui.button(label="Reset", on_click=_reset_mom)
-
-    mo.hstack([btn_step_mom, btn_reset_mom], justify="start")
-    return btn_step_mom, btn_reset_mom
-
-
-@app.cell
-def _(
-    mo,
-    plt,
-    np,
-    state_mom,
-    btn_step_mom,
-    btn_reset_mom,
-    loss_smooth_mom,
-    loss_plateau_mom,
-    grad_smooth_mom,
-    grad_plateau_mom,
-    gamma_mom,
-    gamma_plateau_mom,
-    w_init_mom,
-):
-    s_mom = state_mom()
-    w1_mom, w2_mom, step_mom = s_mom["w1"], s_mom["w2"], s_mom["step"]
-
-    # Replay the trajectory from the initial weight. Cheap (≤ a few
-    # hundred iterations) and avoids storing the full path in state.
     w_grid_mom = np.linspace(-5.5, 5.5, 400)
-    traj1_mom = [w_init_mom]
-    traj2_mom = [w_init_mom]
-    ww1_mom, ww2_mom = w_init_mom, w_init_mom
-    for _ in range(int(step_mom)):
-        ww1_mom = ww1_mom - gamma_mom * grad_smooth_mom(ww1_mom)
-        ww2_mom = ww2_mom - gamma_plateau_mom * grad_plateau_mom(ww2_mom)
-        traj1_mom.append(ww1_mom)
-        traj2_mom.append(ww2_mom)
-    traj1_mom = np.array(traj1_mom)
-    traj2_mom = np.array(traj2_mom)
 
     fig_mom, (ax_mom_s, ax_mom_p) = plt.subplots(1, 2, figsize=(13, 4.5))
 
     ax_mom_s.plot(w_grid_mom, loss_smooth_mom(w_grid_mom), color="steelblue")
     ax_mom_s.plot(
         traj1_mom, loss_smooth_mom(traj1_mom), "o-",
-        color="orangered", markersize=4,
+        color="orangered", markersize=4, label="SGD path",
     )
     ax_mom_s.scatter(
-        [w1_mom], [loss_smooth_mom(w1_mom)], s=80, color="orangered", zorder=5,
+        [traj1_mom[-1]], [loss_smooth_mom(traj1_mom[-1])],
+        s=80, color="orangered", zorder=5,
     )
-    ax_mom_s.set_title(f"Smooth bowl  (step {step_mom})")
+    ax_mom_s.set_title(f"Smooth bowl  ({n_steps_mom} steps)")
     ax_mom_s.set_xlabel("w")
     ax_mom_s.set_ylabel("J(w)")
-    ax_mom_s.annotate(
-        f"w = {w1_mom:.3f}\n∇J = {grad_smooth_mom(w1_mom):+.3f}",
-        xy=(0.03, 0.95), xycoords="axes fraction",
-        ha="left", va="top",
-        bbox=dict(boxstyle="round", fc="white", ec="gray"),
-    )
+    ax_mom_s.legend()
 
     ax_mom_p.plot(w_grid_mom, loss_plateau_mom(w_grid_mom), color="steelblue")
     ax_mom_p.plot(
         traj2_mom, loss_plateau_mom(traj2_mom), "o-",
-        color="orangered", markersize=4,
+        color="orangered", markersize=4, label="SGD path",
     )
     ax_mom_p.scatter(
-        [w2_mom], [loss_plateau_mom(w2_mom)], s=80, color="orangered", zorder=5,
+        [traj2_mom[-1]], [loss_plateau_mom(traj2_mom[-1])],
+        s=80, color="orangered", zorder=5,
     )
-    ax_mom_p.set_title(f"Long flat plateau  (step {step_mom})")
+    ax_mom_p.set_title(f"Long flat plateau  ({n_steps_mom} steps)")
     ax_mom_p.set_xlabel("w")
     ax_mom_p.set_ylabel("J(w)")
-    ax_mom_p.annotate(
-        f"w = {w2_mom:.3f}\n∇J = {grad_plateau_mom(w2_mom):+.3f}",
-        xy=(0.03, 0.95), xycoords="axes fraction",
-        ha="left", va="top",
-        bbox=dict(boxstyle="round", fc="white", ec="gray"),
-    )
+    ax_mom_p.legend()
 
-    mo.as_html(fig_mom)
     plt.close(fig_mom)
+    mo.vstack(
+        [
+            mo.as_html(fig_mom),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 20</div>"""),
+        ]
+    )
     return
 
 
@@ -397,6 +353,8 @@ def _(mo):
     - Idea: incorporate information from previous iteration. Keep the "momentum".
     - Reminder: $\mathbf{w}_j^l (t+1) = \mathbf{w}_j^l (t) - \gamma \frac{\partial}{\partial  \mathbf{w}_j^l} J$
     - Now, with momentum: $\Delta \mathbf{w}_j^l = \alpha \mathbf{w}_j^l (t) - \gamma \frac{\partial}{\partial  \mathbf{w}_j^l} J$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 20</div>
         """
     )
     return
@@ -413,6 +371,8 @@ def _(mo):
     - $\Delta \mathbf{w}_j^l (T) = -\gamma \sum_{t=0}^{T-1} \alpha^t \mathbf{g}(T-t)+\alpha^T \Delta \mathbf{w}_j^l (0)$
     - Now, assume we are in a low curvature point of the loss function $\Rightarrow$ gradient approximately constant!
     - $\Delta \mathbf{w}_j^l (T) \approx -\gamma(1+\alpha+\alpha^2+ \cdots \alpha^{T-1})\mathbf{g}$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">14 / 20</div>
         """
     )
     return
@@ -427,6 +387,8 @@ def _(mo):
     - So far, we have focused on binary classification (2 classes).
     - Fits well with sigmoid.
     - However, we often have more than 2 classes. In these cases, the sigmoid is less suitable.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 20</div>
         """
     )
     return
@@ -442,6 +404,8 @@ def _(mo):
     - $\displaystyle \hat{y}_k = \dfrac{\exp(z_k^L)}{\sum_{k'} \exp(z_{k'}^L)}$
     - Guarantees that the output lies in the interval $[0, 1]$ and sums to 1.
     - Note: **one-hot encoding**
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">16 / 20</div>
         """
     )
     return
@@ -458,6 +422,8 @@ def _(mo):
     - Key is to realize that we have two cases: $m=k$ and $m\neq k$
     - For $m=k$: $\displaystyle \dfrac{\exp(z_k^L) \sum_{k'} \exp(z_{k'}^L)-\exp(z_k^L)\exp(z_m^L)}{\left(\sum_{k'} \exp(z_{k'}^L)\right)^2}$
     - For $m\neq k$: $\displaystyle \dfrac{-\exp(z_k^L)\exp(z_m^L)}{\left(\sum_{k'} \exp(z_{k'}^L)\right)^2}$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">17 / 20</div>
         """
     )
     return
@@ -474,6 +440,8 @@ def _(mo):
     - Fits nicely with softmax, derivative of cross-entropy loss assuming softmax loss function and one-hot encoded labels.
     - Take derivative with respect to preactivation $z^L_m$. Key idea again, split sum into $m=k$ and $m\neq k$:
     - $\frac{\partial}{\partial z^L_m} J_{ce} = -\frac{\partial}{\partial z^L_m} y_k(i) \log (\hat{y}_k) -\frac{\partial}{\partial z^L_m} \sum_{k'\neq m}^{k_L}y_{k'}(i) \log (\hat{y}_{k'})$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">18 / 20</div>
         """
     )
     return
@@ -488,6 +456,8 @@ def _(mo):
     - Other benefits associated with the cross-entropy loss.
     - [See this book for a very nice and detailed explanation.](http://neuralnetworksanddeeplearning.com/chap3.html)
     - Can also be used for binary classification.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">19 / 20</div>
         """
     )
     return
@@ -506,6 +476,8 @@ def _(mo):
     - Xavier initialization:
 
     $$w_{jm}^l \sim \mathcal{U}\left(-\sqrt{\frac{6}{k_{l+1}+k_{l-1}}}, \sqrt{\frac{6}{k_{l+1}+k_{l-1}}}\right)$$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">20 / 20</div>
         """
     )
     return

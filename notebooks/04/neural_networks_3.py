@@ -70,6 +70,8 @@ def _(mo):
     mo.md(
         r"""
     # Neural Networks III
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 22</div>
         """
     )
     return
@@ -83,6 +85,8 @@ def _(mo):
 
     - You have now learned about the fundamentals of neural networks.
     - The goal of this lecture it to elevate your understanding of neural networks.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 22</div>
         """
     )
     return
@@ -97,6 +101,8 @@ def _(mo):
     - Neural networks belong to the field of research called representation learning.
     - Very useful in cases where the original representation is difficult to work with.
         - Images, text, graphs, etc.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 22</div>
         """
     )
     return
@@ -143,8 +149,13 @@ def _(mo, np, plt):
     ax_polar_rt.legend()
     fig_polar.tight_layout()
 
-    mo.as_html(fig_polar)
     plt.close(fig_polar)
+    mo.vstack(
+        [
+            mo.as_html(fig_polar),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 22</div>"""),
+        ]
+    )
     return
 
 
@@ -156,6 +167,8 @@ def _(mo):
 
     - Show video
     - [Visualizing Neural Networks with the Grand Tour](https://distill.pub/2020/grand-tour/)
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 22</div>
         """
     )
     return
@@ -173,6 +186,8 @@ def _(mo):
         - A lot of indices and sums.
     - We will now continue the representation perspective to derive a much cleaner version of Backpropagation.
         - Bonus: also aligns much more closely to how the code should look!
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 22</div>
         """
     )
     return
@@ -185,6 +200,8 @@ def _(mo):
     ### A new perspective of neural networks - modules of computation
 
     - Draw example.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 22</div>
         """
     )
     return
@@ -207,6 +224,8 @@ def _(mo):
     ---
 
     - And : $\mathbf{W}^l =$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 22</div>
         """
     )
     return
@@ -227,6 +246,8 @@ def _(mo):
     - Then:
 
     ---
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 22</div>
         """
     )
     return
@@ -243,6 +264,8 @@ def _(mo):
     - Difficult, ends up with a vector by matrix derivate.
     - Start simpler: $\frac{\partial}{\partial \mathbf{w}_j^L} \mathbf{z}^L \frac{\partial}{\partial \mathbf{z}^L}\mathbf{e}^T\mathbf{e}\frac{1}{2}$
     - Where we assume one-hot encoded labels and $\mathbf{e}=(\mathbf{a}^L-\mathbf{y})$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 22</div>
         """
     )
     return
@@ -259,6 +282,8 @@ def _(mo):
     - We have a vector by vector derivative $\Rightarrow$ Jacobian: $\frac{\partial \mathbf{a}^L}{\partial \mathbf{z}^L} =$
 
     ---
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 22</div>
         """
     )
     return
@@ -275,6 +300,8 @@ def _(mo):
     ---
 
     - $\odot$ is the Hadamard product or elementwise multiplication.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 22</div>
         """
     )
     return
@@ -290,6 +317,8 @@ def _(mo):
     - Vector by vector derivatve $\Rightarrow$ Jacobian matrix:
 
     ---
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 22</div>
         """
     )
     return
@@ -307,6 +336,8 @@ def _(mo):
     ---
 
     - Back to Jacobian:
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">14 / 22</div>
         """
     )
     return
@@ -321,6 +352,8 @@ def _(mo):
     - Combing both derivatives give:
 
     ---
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 22</div>
         """
     )
     return
@@ -338,6 +371,8 @@ def _(mo):
     - $\frac{\partial J}{\partial \mathbf{W}^L} =$
 
     ---
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">16 / 22</div>
         """
     )
     return
@@ -351,6 +386,8 @@ def _(mo):
 
     - A lot of work, but clean result with simple rule.
     - To find gradients of loss with respect to weights in layer $l$, look at $\delta$ from current layer and output from previous layer.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">17 / 22</div>
         """
     )
     return
@@ -367,6 +404,8 @@ def _(mo):
         - Guarantueed unique solution for SVM.
     - Hard to obtain similar results for neural networks due to their complexity.
     - However, work is ongoing!
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">18 / 22</div>
         """
     )
     return
@@ -384,6 +423,8 @@ def _(mo):
     - One of many directions to answer this question:
         - Generalization due to implicit bias in gradient descent algorithm.
     - [Interesting work by Soundry et al (2018)](https://www.jmlr.org/papers/volume19/18-188/18-188.pdf)
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">19 / 22</div>
         """
     )
     return
@@ -408,6 +449,7 @@ def _(mo):
             # trajectory in the (w₁, w₂) plane that motivates the
             # gradient-descent / hard-margin-SVM equivalence below.
             mo.image(src="media/soundry.png", width="700px"),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">20 / 22</div>"""),
         ],
         gap=1,
     )
@@ -431,6 +473,7 @@ def _(mo):
             # weight vector aligns with the max-margin SVM solution and
             # the KKT-supporting samples are highlighted on the data.
             mo.image(src="media/soundry2.png", width="700px"),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">21 / 22</div>"""),
         ],
         gap=1,
     )
@@ -447,6 +490,8 @@ def _(mo):
     - You have now learned the fundamentals. A lot more to be said.
         - However, this foundation often applies also for bigger and more modern neural networks.
     - This course is your chance to code a neural network from scratch, take that opportunity!
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">22 / 22</div>
         """
     )
     return

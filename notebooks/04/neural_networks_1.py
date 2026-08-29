@@ -70,6 +70,8 @@ def _(mo):
     mo.md(
         r"""
     # Neural Networks I
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 22</div>
         """
     )
     return
@@ -83,6 +85,8 @@ def _(mo):
 
     - Our focus has so far been on linear classifiers. Now, our focus will shift to **non-linear classifiers**.
     - We will start with learning about neural networks.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 22</div>
         """
     )
     return
@@ -117,7 +121,12 @@ def _(mo, np, plt):
     fig_circles.tight_layout()
 
     plt.close(fig_circles)
-    mo.as_html(fig_circles)
+    mo.vstack(
+        [
+            mo.as_html(fig_circles),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 22</div>"""),
+        ]
+    )
     return
 
 
@@ -150,6 +159,7 @@ def _(mo):
                 justify="start",
                 gap=2,
             ),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 22</div>"""),
         ],
         gap=1,
     )
@@ -166,6 +176,8 @@ def _(mo):
     - Researchers started pushing the limit of the Perceptron.
     - Problem:
         - The Perceptron cannot solve the XOR problem!
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 22</div>
         """
     )
     return
@@ -211,7 +223,12 @@ def _(mo, np, plt):
     fig_xor.tight_layout()
 
     plt.close(fig_xor)
-    mo.as_html(fig_xor)
+    mo.vstack(
+        [
+            mo.as_html(fig_xor),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 22</div>"""),
+        ]
+    )
     return X_xor, y_xor
 
 
@@ -223,6 +240,8 @@ def _(mo):
 
     - The perceptron requires linearly separable data.
     - What if we could transform the data to accomplish this?
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 22</div>
         """
     )
     return
@@ -248,7 +267,12 @@ def _(X_xor, mo, plt, y_xor):
     fig_xform.tight_layout()
 
     plt.close(fig_xform)
-    mo.as_html(fig_xform)
+    mo.vstack(
+        [
+            mo.as_html(fig_xform),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 22</div>"""),
+        ]
+    )
     return
 
 
@@ -261,6 +285,8 @@ def _(mo):
     - Transform into a new representation where data is linearly separable.
     - Transformation is done by another Perceptron!
     - Stack layers of Perceptrons to form a **Multilayer Perceptron** (MLP).
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 22</div>
         """
     )
     return
@@ -271,6 +297,8 @@ def _(mo):
     mo.md(
         r"""
     ### A two-layer Perceptron (2LP)
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 22</div>
         """
     )
     return
@@ -287,6 +315,8 @@ def _(mo):
     - Not all regions can be separated!
         - More layers increases the capacity of the network.
         - But how to train?
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 22</div>
         """
     )
     return
@@ -363,7 +393,12 @@ def _(mo, np, plt):
     fig_2lp.tight_layout()
 
     plt.close(fig_2lp)
-    mo.as_html(fig_2lp)
+    mo.vstack(
+        [
+            mo.as_html(fig_2lp),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 22</div>"""),
+        ]
+    )
     return
 
 
@@ -381,6 +416,8 @@ def _(mo):
         - Early work on training MLPs with gradient descent (Amari, 1967)
         - Preliminary application of backpropagation in the contex of neural network (Werbos, 1982)
         - Learning representations by back-propagating erros (Rumelhart, 1986)
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 22</div>
         """
     )
     return
@@ -391,6 +428,8 @@ def _(mo):
     mo.md(
         r"""
     ### The Backpropagation algorithm
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">14 / 22</div>
         """
     )
     return
@@ -400,7 +439,12 @@ def _(mo):
 def _(mo):
     # MLP diagram reused several slides later; referenced explicitly
     # so students can map the math back to the picture.
-    mo.image(src="media/mlp.jpg", width="700px")
+    mo.vstack(
+        [
+            mo.image(src="media/mlp.jpg", width="700px"),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 22</div>"""),
+        ]
+    )
     return
 
 
@@ -415,6 +459,8 @@ def _(mo):
     $$\displaystyle E (i) = \sum_{m=1}^{N} \tfrac{1}{2}\, e_m(i)^2$$
 
     - Want: $\displaystyle\underset{\mathbf{w}}{\operatorname{min}}\ J(\mathbf{w})$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">16 / 22</div>
         """
     )
     return
@@ -429,6 +475,8 @@ def _(mo):
     $$\displaystyle \frac{\partial E (i)}{\partial \mathbf{w}_j^L} \;=\;$$
 
     ---
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">17 / 22</div>
         """
     )
     return
@@ -441,6 +489,8 @@ def _(mo):
     ### Gradient descent reminder
 
     $$\displaystyle \mathbf{w}_j^L (t+1) \;=\; \mathbf{w}_j^L (t) \;-\; \gamma\, \frac{\partial}{\partial \mathbf{w}_j^L} J$$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">18 / 22</div>
         """
     )
     return
@@ -457,6 +507,8 @@ def _(mo):
     ---
 
     - $z_j^{L-1}$ not present in $E (i)$, comes through $a_j^{L-1}$ and onward to the output.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">19 / 22</div>
         """
     )
     return
@@ -482,6 +534,8 @@ def _(mo):
 
     - Error at output $(L)$ propagated to $(L-1)$ to compute gradients of weights.
     - Repeat to compute gradients for the entire network!
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">20 / 22</div>
         """
     )
     return
@@ -498,6 +552,8 @@ def _(mo):
     - Backward pass: compute
     - Update all parameters
     - Repeat!
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">21 / 22</div>
         """
     )
     return
@@ -521,6 +577,7 @@ def _(mo):
                 """
             ),
             mo.image(src="media/mlp.jpg", width="500px"),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">22 / 22</div>"""),
         ],
         gap=1,
     )
