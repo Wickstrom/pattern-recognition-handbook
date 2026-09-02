@@ -456,7 +456,7 @@ def _(mo):
 
     $$\displaystyle J = \sum_{i=1}^N E (i),$$
 
-    $$\displaystyle E (i) = \sum_{m=1}^{N} \tfrac{1}{2}\, e_m(i)^2$$
+    $$\displaystyle E (i) = \sum_{m=1}^{K_L} \tfrac{1}{2}\, e_m(i)^2$$
 
     - Want: $\displaystyle\underset{\mathbf{w}}{\operatorname{min}}\ J(\mathbf{w})$
         
