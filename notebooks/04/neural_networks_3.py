@@ -213,7 +213,7 @@ def _(mo):
         r"""
     ### Forward pass with linear algebra
 
-    - Before we looked at the pre-activation of one neuron: $z_j^l = \mathbf{w}_j^l \mathbf{a}^{l-1}$
+    - Before we looked at the pre-activation of one neuron: $z_j^l = (\mathbf{w}_j^l)^T \mathbf{a}^{l-1}$
     - Note: augmented space!
     - Now we look at the pre-activations of the whole layer: $\mathbf{z}^l =$
 
@@ -239,7 +239,7 @@ def _(mo):
 
     - Usually want to process a batch of samples.
     - Can also be done efficiently!
-    - Let a batch of inputs be represented as $\mathbf{A}^{l-1} = \begin{bmatrix} a_{1,1}^{l-1} & a_{1,2}^{l-1} & \cdots & a_{1,k_{l-1}}^{l-1} & 1 \\ a_{2,1}^{l-1} & a_{2,2}^{l-1} & \cdots & a_{2,k_{l-1}}^{l-1} & 1 \\ \vdots        & \vdots        & \ddots & \vdots              \\ a_{N,1}^{l-1} & a_{N,2}^{l-1} & \cdots & a_{N,k_{l-1}}^{l-1} & 1 \end{bmatrix}$
+    - Let a batch of inputs be represented as $\mathbf{A}^{l-1} = \begin{bmatrix} a_{1,1}^{l-1} & a_{2,1}^{l-1} & \cdots & a_{N,1}^{l-1} \\ a_{1,2}^{l-1} & a_{2,2}^{l-1} & \cdots & a_{N,2}^{l-1} \\ \vdots        & \vdots        & \ddots & \vdots        \\ a_{1,k_{l-1}}^{l-1} & a_{2,k_{l-1}}^{l-1} & \cdots & a_{N,k_{l-1}}^{l-1} \\ 1 & 1 & \cdots & 1 \end{bmatrix}$
 
     ---
 
@@ -260,7 +260,7 @@ def _(mo):
     ### Backward pass with linear algebra and vector calculus
 
     - Previously, for the output layer: $\frac{\partial}{\partial \mathbf{w}_j^L} E (i) = \frac{\partial}{\partial \mathbf{w}_j^L} z_j^L (i) \frac{\partial}{\partial z_j^L (i) }E (i)$
-    - Want: $\frac{\partial J}{\partial \mathbf{W}^l}$
+    - Want: $\Large\frac{\partial J}{\partial \mathbf{W}^l}$
     - Difficult, ends up with a vector by matrix derivate.
     - Start simpler: $\frac{\partial}{\partial \mathbf{w}_j^L} \mathbf{z}^L \frac{\partial}{\partial \mathbf{z}^L}\mathbf{e}^T\mathbf{e}\frac{1}{2}$
     - Where we assume one-hot encoded labels and $\mathbf{e}=(\mathbf{a}^L-\mathbf{y})$
@@ -279,7 +279,7 @@ def _(mo):
 
     - We have dealt with the following term before $\frac{\partial}{\partial \mathbf{z}^L}\mathbf{e}^T\mathbf{e}\frac{1}{2}=\mathbf{e}\frac{\partial}{\partial \mathbf{z}^L}(\mathbf{a}^L-\mathbf{y})$
     - $\mathbf{y}$ does not depend on $\mathbf{z}^L$, and we keep the derivative of $\mathbf{a}^L=f(\mathbf{z}^L)$ general.
-    - We have a vector by vector derivative $\Rightarrow$ Jacobian: $\frac{\partial \mathbf{a}^L}{\partial \mathbf{z}^L} =$
+    - We have a vector by vector derivative $\Rightarrow$ Jacobian: $\Large\frac{\partial \mathbf{a}^L}{\partial \mathbf{z}^L} =$
 
     ---
         
@@ -368,7 +368,7 @@ def _(mo):
     - Take a step back. Derivative of loss with respect to neuron 1 gave non-zero elements in column 1.
     - If we repeat process of derivative with resepct to neuron $j$, coulmn $j$ will be non-zero.
     - We can get all derivatives with one matrix operation:
-    - $\frac{\partial J}{\partial \mathbf{W}^L} =$
+    - $\large\frac{\partial J}{\partial \mathbf{W}^L} =$
 
     ---
         
