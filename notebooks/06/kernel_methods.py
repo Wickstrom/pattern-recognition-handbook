@@ -51,6 +51,8 @@ def _(mo):
     mo.md(
         r"""
     # Non-linear SVM
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 12</div>
         """
     )
     return
@@ -65,6 +67,8 @@ def _(mo):
     - For the final part of non-linear classifiers, we will see how we can turn SVMs into non-linear classifiers.
     - Heavily depends on a field of research known as **kernel methods**.
     - A field of its own with lots of use cases throughout machine learning.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 12</div>
         """
     )
     return
@@ -86,6 +90,8 @@ def _(mo):
     ---
 
     - **In testing:** $g(\mathbf{x}) = \mathbf{w}^T \mathbf{x} + w_0 = \sum_{i \in SV} \lambda_i y_i \langle \mathbf{x}_i, \mathbf{x} \rangle + w_0$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 12</div>
         """
     )
     return
@@ -111,6 +117,8 @@ def _(mo):
     ---
 
     - **Need:** $\mathbf{z}_i^T \mathbf{z}_j = x_{i1}^2 x_{j1}^2 + 2 x_{i1} x_{i2} x_{j1} x_{j2} + x_{i2}^2 x_{j2}^2 = $
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 12</div>
         """
     )
     return
@@ -131,6 +139,8 @@ def _(mo):
     - $g(\mathbf{x}) = \sum_{\mathbf{x}_i \in SV} \lambda_i y_i K(\mathbf{x}_i, \mathbf{x})$
 
     - Can always find inner-product kernel $K(\mathbf{x}_i, \mathbf{x}_j)$!
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 12</div>
         """
     )
     return
@@ -145,6 +155,8 @@ def _(mo):
     - $K(\mathbf{x}_i,\mathbf{x}_j) = $
 
     - [Nice open access article on kernel methods for those who want to learn more.](https://arxiv.org/pdf/math/0701907)
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 12</div>
         """
     )
     return
@@ -161,6 +173,8 @@ def _(mo):
     - **RBF:**  $K(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\frac{1}{2\sigma^2} \|\mathbf{x}_i - \mathbf{x}_j\|^2\right)$
 
     - **Tanh:**  $K(\mathbf{x}_i, \mathbf{x}_j) = \tanh\left(\beta\, \mathbf{x}_i^T \mathbf{x}_j + \gamma\right)$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 12</div>
         """
     )
     return
@@ -177,6 +191,8 @@ def _(mo):
     - **Training:**  $\max_{\lambda \geq 0} \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j K(\mathbf{x}_i, \mathbf{x}_j)$
 
     - **Test:**  $g(\mathbf{x}) = \sum_{i \in SV} \lambda_i y_i K(\mathbf{x}_i, \mathbf{x}) + w_0$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 12</div>
         """
     )
     return
@@ -187,6 +203,8 @@ def _(mo):
     mo.md(
         r"""
     ### Non-linear SVM as a network
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 12</div>
         """
     )
     return
@@ -200,6 +218,8 @@ def _(mo):
 
     - Remember: $\mathbf{w}^T \mathbf{x} + w_0 \geq 1-\gamma$
     - Both classes: $y_i \left(\mathbf{w}^T \mathbf{x}_i + w_0\right) \geq 1-\gamma_i$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 12</div>
         """
     )
     return
@@ -224,6 +244,8 @@ def _(mo):
     - Subject to: $\sum_i \lambda_i y_i = 0$
 
     $$0 \leq \lambda_i \leq C$$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 12</div>
         """
     )
     return
@@ -240,6 +262,8 @@ def _(mo):
     - Then -> non-linear kernel. An RBF kernel is the standard choice.
         - Added complexity; kernel width.
     - Use validation data to select hyperparameters.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 12</div>
         """
     )
     return

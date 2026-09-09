@@ -63,6 +63,8 @@ def _(mo):
     mo.md(
         r"""
     # RBF Networks and Prototypical Learning
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 21</div>
         """
     )
     return
@@ -79,6 +81,8 @@ def _(mo):
     - Key idea:
         - Transform data in terms of a preselected class of interpolation functions.
     - We will also see how RBF networks relate to the field of prototypical learning.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 21</div>
         """
     )
     return
@@ -91,6 +95,8 @@ def _(mo):
     ## Function approximation
 
     - Recall the XOR example:
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 21</div>
         """
     )
     return
@@ -128,8 +134,12 @@ def _(mo, np, plt):
     ax_xor_2.set_xlabel("x1")
     ax_xor_2.set_ylabel("x2")
 
-    mo.as_html(fig_xor)
-    plt.close(fig_xor)
+    mo.vstack(
+        [
+            mo.as_html(fig_xor),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 21</div>"""),
+        ]
+    )
     return X_xor, y_xor
 
 
@@ -142,6 +152,8 @@ def _(mo):
     - Let (non-linear) $f_i: \mathbb{R}^d \rightarrow \mathbb{R}, i=1,\cdots,k$
     - Look at $\mathbf{x} \in \mathbb{R}^d$. (Usually $k>l$)
     - Draw example:
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 21</div>
         """
     )
     return
@@ -154,6 +166,8 @@ def _(mo):
     ### Network
 
     - The function approximation setup described above can be thought of as a network:
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 21</div>
         """
     )
     return
@@ -174,6 +188,8 @@ def _(mo):
     $$f(\mathbf{x}) = \exp\!\left(-\frac{1}{2\sigma_i^2}\|\mathbf{x} - \mathbf{c}_i\|^2\right)$$
 
     - Activation at node $f_i$ given by distance to $\mathbf{c}_i$.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 21</div>
         """
     )
     return
@@ -193,6 +209,8 @@ def _(mo):
     - So:
 
     $$\mathbf{g} = \mathbf{G}\mathbf{w} = \begin{bmatrix} g(\mathbf{x}_1) \\ \vdots \\ g(\mathbf{x}_N) \end{bmatrix}$$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 21</div>
         """
     )
     return
@@ -207,6 +225,8 @@ def _(mo):
     - Choose $\mathbf{w}$ such that $J = \|\mathbf{y} - \mathbf{G}\mathbf{w}\|^2$ is minimized.
 
     $$\frac{\partial J}{\partial \mathbf{w}} = 0 \implies \boxed{\mathbf{w} = (\mathbf{G}^\top \mathbf{G})^{-1} \mathbf{G}^\top \mathbf{y}}$$
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 21</div>
         """
     )
     return
@@ -225,6 +245,8 @@ def _(mo):
     $$\frac{\partial J}{\partial \mathbf{c}_i} = 0 \implies \mathbf{c}_i^{(\text{new})} = \mathbf{c}_i^{(\text{old})} + \mu \frac{\partial J}{\partial \mathbf{c}_i}$$
     - Choose centres according to how the data are distributed in space. Draw ->
        - More about this later.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 21</div>
         """
     )
     return
@@ -236,7 +258,10 @@ def _(mo):
         r"""
     ## Prototypical learning
 
-    - Consider the following example
+    - RBF networks classify by similarity to reference points — can we make this idea explicit, and use it to build interpretable models?
+    - Consider the following example:
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 21</div>
         """
     )
     return
@@ -247,7 +272,12 @@ def _(mo):
     # Uncertainty figure: motivates why prototypes / typical examples
     # help when a single decision boundary isn't enough to communicate
     # what the model has learned.
-    mo.image(src="media/uncertaintyex.jpg", width="400px")
+    mo.vstack(
+        [
+            mo.image(src="media/uncertaintyex.jpg", width="400px"),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 21</div>"""),
+        ]
+    )
     return
 
 
@@ -255,10 +285,56 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ### Prototypical learning
+    ### What is a prototype?
 
-    - Define / learn prototypes and classify new samples based on similarity.
-    - Prototypes can be defined in input space or in latent space!
+    - A **prototype** is a representative example of the data: a point $\mathbf{p}_j \in \mathbb{R}^d$ that is "typical" for (a region of) the input space.
+    - A prototype-based classifier assigns labels by similarity to a set of prototypes $\mathbf{p}_1, \ldots, \mathbf{p}_M$:
+
+    $$\hat{y}(\mathbf{x}) = \arg\max_{j} \; w_j \, s(\mathbf{x}, \mathbf{p}_j), \qquad s(\mathbf{x}, \mathbf{p}) = \exp\left(-\frac{1}{2\sigma^2} \|\mathbf{x} - \mathbf{p}\|^2\right)$$
+
+    - Prototypes can be defined in the input space or in a latent space!
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 21</div>
+        """
+    )
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
+    ### RBF networks are prototype classifiers
+
+    - Comparing with the RBF network,
+
+    $$g(\mathbf{x}) = \sum_{i=1}^{k} w_i \exp\left(-\frac{1}{2\sigma_i^2}\|\mathbf{x} - \mathbf{c}_i\|^2\right),$$
+
+    the centres $\mathbf{c}_i$ play the role of prototypes, the basis functions act as similarities, and the output weights $w_i$ score each prototype.
+    - Two special cases:
+        - Prototypes fixed to (a subset of) the training samples with $\sigma \rightarrow 0$: nearest-prototype classification $\rightarrow$ nearest neighbour classification.
+        - Centres learned by gradient descent: prototypes learned from data.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">14 / 21</div>
+        """
+    )
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
+    ### Prototypes in latent space
+
+    - Prototypes do not have to live in the input space.
+    - An encoder maps $\mathbf{x}$ to a representation $\mathbf{z} = \mathrm{enc}(\mathbf{x})$, and the prototypes are defined in this latent space:
+
+    $$\hat{y}(\mathbf{x}) = \arg\max_{j} \; w_j \, s(\mathrm{enc}(\mathbf{x}), \mathbf{p}_j)$$
+
+    - Similarities in a learned representation space are often more meaningful than similarities between raw samples.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 21</div>
         """
     )
     return
@@ -268,7 +344,12 @@ def _(mo):
 def _(mo):
     # ProtoVAE figure: prototypes learned in the latent space of a
     # variational autoencoder.
-    mo.image(src="media/protovae.png", width="700px")
+    mo.vstack(
+        [
+            mo.image(src="media/protovae.png", width="700px"),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">16 / 21</div>"""),
+        ]
+    )
     return
 
 
@@ -276,11 +357,14 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ### Prototypical learning
+    ### Why prototypes? Interpretability
 
-    - Using prototypes can make it easier to understand the behaviour of your model.
+    - Classifying by similarity to concrete examples makes the behaviour of the model easier to understand:
+        - "This sample is classified as $\hat{y}$ because it resembles prototype $\mathbf{p}_j$."
     - Prototypes represent "typical" examples in the data.
-    - Example from Kingma and Welling, 2016.
+    - Example of a variational autoencoder from Kingma and Welling (2014).
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">17 / 21</div>
         """
     )
     return
@@ -290,7 +374,12 @@ def _(mo):
 def _(mo):
     # VAE figure: original Kingma & Welling VAE diagram that the
     # ProtoVAE builds on.
-    mo.image(src="media/vae.png", width="700px")
+    mo.vstack(
+        [
+            mo.image(src="media/vae.png", width="700px"),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">18 / 21</div>"""),
+        ]
+    )
     return
 
 
@@ -298,10 +387,13 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ### Prototypical learning
+    ### Prototypes vs. centroids
 
-    - Using prototypes can make it easier to understand the behaviour of your model.
-    - Prototypes represent "typical" examples in the data.
+    - A prototype can be an observed sample: a concrete case that can be inspected and compared with new samples.
+    - A centroid (e.g., a class mean) is a synthesized point that need not correspond to any real sample.
+    - **Archetypal analysis** (Cutler and Breiman, 1994) summarizes a class by a small set of extreme, "pure" examples — data points on the boundary of the class rather than its centre.
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">19 / 21</div>
         """
     )
     return
@@ -311,7 +403,12 @@ def _(mo):
 def _(mo):
     # Archetype figure: an alternative way of summarising a class with
     # a single "typical" example rather than a centroid.
-    mo.image(src="media/archetype.png", width="400px")
+    mo.vstack(
+        [
+            mo.image(src="media/archetype.png", width="400px"),
+            mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">20 / 21</div>"""),
+        ]
+    )
     return
 
 
@@ -321,9 +418,15 @@ def _(mo):
         r"""
     ### Challenges with prototypical learning
 
-    - Curse of dimensionality.
-        - Need many prototypes in high dimensional space. Can be computationally expensive.
-    - Optimization can be slow, and can be memory intensive.
+    - Curse of dimensionality:
+        - In high dimensions, pairwise distances concentrate, so the similarities $s(\mathbf{x}, \mathbf{p}_j)$ become less informative.
+        - Covering the input space with prototypes may require exponentially many of them.
+    - Computational cost:
+        - Each prediction requires computing $M$ similarities, each of cost $\mathcal{O}(d)$, and the prototypes must be stored in memory.
+    - Optimization:
+        - Learning $\{\mathbf{c}_i, \sigma_i, w_i\}$ jointly is non-convex, so the result depends on initialization (recall: centres selected randomly from the training set).
+        
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">21 / 21</div>
         """
     )
     return
