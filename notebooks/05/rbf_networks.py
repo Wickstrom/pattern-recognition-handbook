@@ -26,7 +26,7 @@ import marimo
 
 __generated_with = "0.23.10"
 app = marimo.App(
-    width="medium",
+    width="full",
     layout_file="layouts/rbf_networks.slides.json",
 )
 
@@ -284,7 +284,7 @@ def _(mo):
 def _(f_grid_rbf, mo, plt, x_grid_rbf, x_rbf, y_rbf):
     # Static overview figure: the target function and the noisy training
     # data shared by both interactive demos.
-    fig_data, ax_data = plt.subplots(figsize=(8, 4.5))
+    fig_data, ax_data = plt.subplots(figsize=(11, 5))
     ax_data.scatter(x_rbf, y_rbf, s=15, color="cornflowerblue", alpha=0.6, label="Data")
     ax_data.plot(x_grid_rbf, f_grid_rbf, color="black", linestyle="--", linewidth=2, label="True function")
     ax_data.set_xlabel("x")
@@ -329,7 +329,7 @@ def _(mo, nc_fix, np, plt, sig_fix, x_grid_rbf, x_rbf, y_rbf):
     g_grid_a = np.exp(-((x_grid_rbf[:, None] - c_a[None, :]) ** 2) / (2 * sigma_a**2)) @ w_a
     mse_a = np.mean((G_a @ w_a - y_rbf) ** 2)
 
-    fig_a, ax_a = plt.subplots(figsize=(8, 4.5))
+    fig_a, ax_a = plt.subplots(figsize=(11, 5))
     ax_a.scatter(x_rbf, y_rbf, s=15, color="cornflowerblue", alpha=0.6, label="Data")
     ax_a.plot(x_grid_rbf, g_grid_a, color="darkred", linewidth=2.5, label="RBF network")
     ax_a.scatter(c_a, np.zeros(nc_a), marker="x", color="black", s=70, linewidths=2, label="Centres", zorder=3)
@@ -385,7 +385,7 @@ def _(mo, nc_learn, np, plt, sig_learn, x_grid_rbf, x_rbf, y_rbf):
     w_grid_b = np.linalg.lstsq(G_grid_b, y_rbf, rcond=None)[0]
     mse_grid_b = np.mean((G_grid_b @ w_grid_b - y_rbf) ** 2)
 
-    fig_b, ax_b = plt.subplots(figsize=(8, 4.5))
+    fig_b, ax_b = plt.subplots(figsize=(11, 5))
     ax_b.scatter(x_rbf, y_rbf, s=15, color="cornflowerblue", alpha=0.6, label="Data")
     ax_b.plot(x_grid_rbf, g_grid_b, color="darkred", linewidth=2.5, label="RBF network (learned centres)")
     ax_b.scatter(c_init_b, np.zeros(nc_b), marker="o", facecolors="none", edgecolors="gray", s=80, linewidths=1.5, label="Initial centres", zorder=3)
@@ -436,7 +436,7 @@ def _(mo):
     # what the model has learned.
     mo.vstack(
         [
-            mo.image(src="media/uncertaintyex.jpg", width="600px"),
+            mo.image(src="media/uncertaintyex.jpg", width="800px"),
             mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 24</div>"""),
         ]
     )
@@ -542,10 +542,10 @@ def _(np):
 
     dgt_all = load_digits()
     rng_dgt = np.random.default_rng(3)
-    sub_dgt = rng_dgt.choice(len(dgt_all.data), size=600, replace=False)
+    sub_dgt = rng_dgt.choice(len(dgt_all.data), size=800, replace=False)
     dgt_X = dgt_all.data[sub_dgt]
     dgt_y = dgt_all.target[sub_dgt]
-    dgt_Z = KernelPCA(n_components=2, kernel="rbf", gamma=0.002, eigen_solver="dense").fit_transform(dgt_X)
+    dgt_Z = KernelPCA(n_components=2, kernel="rbf", gamma=0.001, eigen_solver="dense").fit_transform(dgt_X)
     dgt_proto = {}
     for d_dgt in range(10):
         m_dgt = np.flatnonzero(dgt_y == d_dgt)
@@ -586,31 +586,32 @@ def _(dd_from, dd_to, dgt_X, dgt_Z, dgt_proto, dgt_y, mo, np, plt):
         seq_p = [seq_p[i] for i in keep_p]
 
     n_img_p = len(seq_p)
-    fig_p = plt.figure(figsize=(11, 4.2))
-    gs_p = fig_p.add_gridspec(1, n_img_p + 1, width_ratios=[2.4] + [1] * n_img_p)
 
-    ax_map_p = fig_p.add_subplot(gs_p[0])
+    fig_map_p, ax_map_p = plt.subplots(figsize=(10, 7))
     for d_p in range(10):
         m_p = dgt_y == d_p
-        ax_map_p.scatter(dgt_Z[m_p, 0], dgt_Z[m_p, 1], s=8, color=f"C{d_p}", alpha=0.5)
-    ax_map_p.plot([pa_p[0], pb_p[0]], [pa_p[1], pb_p[1]], color="black", linestyle="--", linewidth=1.5, zorder=3)
-    ax_map_p.scatter(dgt_Z[seq_p, 0], dgt_Z[seq_p, 1], facecolors="none", edgecolors="black", s=100, linewidths=1.2, zorder=4)
+        ax_map_p.scatter(dgt_Z[m_p, 0], dgt_Z[m_p, 1], s=14, color=f"C{d_p}", alpha=0.55)
+    ax_map_p.plot([pa_p[0], pb_p[0]], [pa_p[1], pb_p[1]], color="black", linestyle="--", linewidth=1.8, zorder=3)
+    ax_map_p.scatter(dgt_Z[seq_p, 0], dgt_Z[seq_p, 1], facecolors="none", edgecolors="black", s=160, linewidths=1.4, zorder=4)
     for d_p in range(10):
         zp_p = dgt_Z[dgt_proto[d_p]]
-        ax_map_p.scatter(zp_p[0], zp_p[1], marker="D", color="black", s=55, zorder=5)
-        ax_map_p.text(zp_p[0], zp_p[1] + 0.02, str(d_p), fontsize=9, ha="center", zorder=6)
-    ax_map_p.set_xlabel("kernel PCA component 1")
-    ax_map_p.set_ylabel("kernel PCA component 2")
-    ax_map_p.set_title(f"Latent space: {cls_p} → {cls_q}")
+        ax_map_p.scatter(zp_p[0], zp_p[1], marker="D", color="black", s=70, zorder=5)
+        ax_map_p.text(zp_p[0], zp_p[1] + 0.015, str(d_p), fontsize=11, ha="center", zorder=6)
+    ax_map_p.set_xlabel("kernel PCA component 1", fontsize=13)
+    ax_map_p.set_ylabel("kernel PCA component 2", fontsize=13)
+    ax_map_p.set_title(f"Latent space: {cls_p} → {cls_q}", fontsize=14)
+    fig_map_p.tight_layout()
+    plt.close(fig_map_p)
 
+    fig_img_p, axes_img_p = plt.subplots(1, n_img_p, figsize=(n_img_p * 1.15, 1.6))
+    if n_img_p == 1:
+        axes_img_p = [axes_img_p]
     for j_p, i_p in enumerate(seq_p):
-        ax_img_p = fig_p.add_subplot(gs_p[j_p + 1])
-        ax_img_p.imshow(dgt_X[i_p].reshape(8, 8), cmap="gray_r", interpolation="nearest")
-        ax_img_p.set_title(str(int(dgt_y[i_p])), fontsize=9)
-        ax_img_p.axis("off")
-
-    fig_p.tight_layout()
-    plt.close(fig_p)
+        axes_img_p[j_p].imshow(dgt_X[i_p].reshape(8, 8), cmap="gray_r", interpolation="nearest")
+        axes_img_p[j_p].set_title(str(int(dgt_y[i_p])), fontsize=11)
+        axes_img_p[j_p].axis("off")
+    fig_img_p.tight_layout()
+    plt.close(fig_img_p)
 
     mo.vstack(
         [
@@ -623,7 +624,8 @@ def _(dd_from, dd_to, dgt_X, dgt_Z, dgt_proto, dgt_y, mo, np, plt):
             """
             ),
             mo.hstack([dd_from, dd_to]),
-            mo.as_html(fig_p),
+            mo.as_html(fig_map_p),
+            mo.as_html(fig_img_p),
             mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">21 / 24</div>"""),
         ],
         gap=1,
