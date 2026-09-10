@@ -4,6 +4,7 @@
 #     "marimo",
 #     "numpy",
 #     "matplotlib",
+#     "scikit-learn",
 # ]
 # ///
 #
@@ -345,11 +346,6 @@ def _(mo, nc_fix, np, plt, sig_fix, x_grid_rbf, x_rbf, y_rbf):
             mo.md(
                 r"""
     ### Interactive: fixed centres
-
-    - Drag the sliders to change the number of centres and the kernel width.
-    - Few centres or large $\sigma$: smooth fit, but the network cannot follow the curvature of $f$.
-    - Many centres and small $\sigma$: the fit chases every sample — including the noise.
-    - Very small $\sigma$ with centres spaced far apart: the basis functions barely overlap, and the fit collapses between the centres.
             """
             ),
             mo.vstack([nc_fix, sig_fix]),
@@ -407,10 +403,6 @@ def _(mo, nc_learn, np, plt, sig_learn, x_grid_rbf, x_rbf, y_rbf):
             mo.md(
                 r"""
     ### Interactive: learned centres
-
-    - Same model, but now the centres are free parameters: alternate between solving for $\mathbf{w}$ (least squares) and taking gradient steps on the centres $\mathbf{c}_i$.
-    - Grey circles: initial centres (uniform grid). Crosses: centres after training — they migrate to where the data needs them.
-    - Compare the training error with the fixed-centre fit on the previous slide.
             """
             ),
             mo.vstack([nc_learn, sig_learn]),
@@ -444,7 +436,7 @@ def _(mo):
     # what the model has learned.
     mo.vstack(
         [
-            mo.image(src="media/uncertaintyex.jpg", width="400px"),
+            mo.image(src="media/uncertaintyex.jpg", width="600px"),
             mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 24</div>"""),
         ]
     )
@@ -516,7 +508,7 @@ def _(mo):
     # variational autoencoder.
     mo.vstack(
         [
-            mo.image(src="media/protovae.png", width="700px"),
+            mo.image(src="media/protovae.png", width="850px"),
             mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">19 / 24</div>"""),
         ]
     )
@@ -532,7 +524,6 @@ def _(mo):
     - Classifying by similarity to concrete examples makes the behaviour of the model easier to understand:
         - "This sample is classified as $\hat{y}$ because it resembles prototype $\mathbf{p}_j$."
     - Prototypes represent "typical" examples in the data.
-    - Example of a variational autoencoder from Kingma and Welling (2014).
         
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">20 / 24</div>
         """
@@ -541,14 +532,101 @@ def _(mo):
 
 
 @app.cell
+def _(np):
+    # Data for the prototype browser on the next slide: kernel PCA on a
+    # seeded subsample of the digits dataset (bundled with scikit-learn,
+    # so no network access). Prototypes = the per-digit medoid in the 2-D
+    # embedding, i.e. the sample closest to its class mean.
+    from sklearn.datasets import load_digits
+    from sklearn.decomposition import KernelPCA
+
+    dgt_all = load_digits()
+    rng_dgt = np.random.default_rng(3)
+    sub_dgt = rng_dgt.choice(len(dgt_all.data), size=600, replace=False)
+    dgt_X = dgt_all.data[sub_dgt]
+    dgt_y = dgt_all.target[sub_dgt]
+    dgt_Z = KernelPCA(n_components=2, kernel="rbf", gamma=0.002, eigen_solver="dense").fit_transform(dgt_X)
+    dgt_proto = {}
+    for d_dgt in range(10):
+        m_dgt = np.flatnonzero(dgt_y == d_dgt)
+        dgt_proto[d_dgt] = int(m_dgt[np.argmin(((dgt_Z[m_dgt] - dgt_Z[m_dgt].mean(0)) ** 2).sum(1))])
+    return dgt_X, dgt_Z, dgt_proto, dgt_y
+
+
+@app.cell
 def _(mo):
-    # VAE figure: original Kingma & Welling VAE diagram that the
-    # ProtoVAE builds on.
+    # Dropdowns for the prototype browser. They live in this output-free
+    # cell so the slide cell below can read their `.value` — Marimo
+    # forbids reading a UIElement's value in the cell that created it.
+    dd_from = mo.ui.dropdown(options=[str(d) for d in range(10)], value="3", label="From prototype")
+    dd_to = mo.ui.dropdown(options=[str(d) for d in range(10)], value="8", label="To prototype")
+    return dd_from, dd_to
+
+
+@app.cell
+def _(dd_from, dd_to, dgt_X, dgt_Z, dgt_proto, dgt_y, mo, np, plt):
+    # Reactive prototype browser: pick two digit prototypes and walk
+    # through the actual samples encountered along the straight path
+    # between them in the kernel PCA embedding.
+    cls_p = int(dd_from.value)
+    cls_q = int(dd_to.value)
+    pa_p = dgt_Z[dgt_proto[cls_p]]
+    pb_p = dgt_Z[dgt_proto[cls_q]]
+
+    ts_p = np.linspace(0.0, 1.0, 25)
+    zpath_p = (1 - ts_p)[:, None] * pa_p + ts_p[:, None] * pb_p
+    nearest_p = ((dgt_Z[None, :, :] - zpath_p[:, None, :]) ** 2).sum(-1).argmin(1)
+    seq_p, seen_p = [], set()
+    for i_p in nearest_p:
+        if i_p not in seen_p:
+            seen_p.add(i_p)
+            seq_p.append(int(i_p))
+    if len(seq_p) > 10:
+        keep_p = np.round(np.linspace(0, len(seq_p) - 1, 10)).astype(int)
+        seq_p = [seq_p[i] for i in keep_p]
+
+    n_img_p = len(seq_p)
+    fig_p = plt.figure(figsize=(11, 4.2))
+    gs_p = fig_p.add_gridspec(1, n_img_p + 1, width_ratios=[2.4] + [1] * n_img_p)
+
+    ax_map_p = fig_p.add_subplot(gs_p[0])
+    for d_p in range(10):
+        m_p = dgt_y == d_p
+        ax_map_p.scatter(dgt_Z[m_p, 0], dgt_Z[m_p, 1], s=8, color=f"C{d_p}", alpha=0.5)
+    ax_map_p.plot([pa_p[0], pb_p[0]], [pa_p[1], pb_p[1]], color="black", linestyle="--", linewidth=1.5, zorder=3)
+    ax_map_p.scatter(dgt_Z[seq_p, 0], dgt_Z[seq_p, 1], facecolors="none", edgecolors="black", s=100, linewidths=1.2, zorder=4)
+    for d_p in range(10):
+        zp_p = dgt_Z[dgt_proto[d_p]]
+        ax_map_p.scatter(zp_p[0], zp_p[1], marker="D", color="black", s=55, zorder=5)
+        ax_map_p.text(zp_p[0], zp_p[1] + 0.02, str(d_p), fontsize=9, ha="center", zorder=6)
+    ax_map_p.set_xlabel("kernel PCA component 1")
+    ax_map_p.set_ylabel("kernel PCA component 2")
+    ax_map_p.set_title(f"Latent space: {cls_p} → {cls_q}")
+
+    for j_p, i_p in enumerate(seq_p):
+        ax_img_p = fig_p.add_subplot(gs_p[j_p + 1])
+        ax_img_p.imshow(dgt_X[i_p].reshape(8, 8), cmap="gray_r", interpolation="nearest")
+        ax_img_p.set_title(str(int(dgt_y[i_p])), fontsize=9)
+        ax_img_p.axis("off")
+
+    fig_p.tight_layout()
+    plt.close(fig_p)
+
     mo.vstack(
         [
-            mo.image(src="media/vae.png", width="700px"),
+            mo.md(
+                r"""
+    ### Browsing the latent space between prototypes
+
+    - Kernel PCA embedding of the digits dataset; the black diamonds are prototypes (the most typical sample of each digit in the embedding).
+    - Pick two prototypes: the row shows the actual samples encountered when walking from one to the other.
+            """
+            ),
+            mo.hstack([dd_from, dd_to]),
+            mo.as_html(fig_p),
             mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">21 / 24</div>"""),
-        ]
+        ],
+        gap=1,
     )
     return
 
