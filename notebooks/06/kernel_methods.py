@@ -21,7 +21,7 @@ __generated_with = "0.23.10"
 app = marimo.App(
     width="medium",
     layout_file="layouts/kernel_methods.slides.json",
-    css_file="../_shared/math.css",
+    css_file="_shared/math.css",
 )
 
 
@@ -116,7 +116,7 @@ def _(mo):
 
     ---
 
-    - **Need:** $\mathbf{z}_i^T \mathbf{z}_j = x_{i1}^2 x_{j1}^2 + 2 x_{i1} x_{i2} x_{j1} x_{j2} + x_{i2}^2 x_{j2}^2 = $
+    - **Need:** $\mathbf{z}_i^T \mathbf{z}_j = x_{i1}^2 x_{j1}^2 + 2 x_{i1} x_{i2} x_{j1} x_{j2} + x_{i2}^2 x_{j2}^2 =$
         
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 12</div>
         """
@@ -152,7 +152,7 @@ def _(mo):
         r"""
     ## Mercer's theorem
 
-    - $K(\mathbf{x}_i,\mathbf{x}_j) = $
+    - $K(\mathbf{x}_i,\mathbf{x}_j)=$
 
     - [Nice open access article on kernel methods for those who want to learn more.](https://arxiv.org/pdf/math/0701907)
         
