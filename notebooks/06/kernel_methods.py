@@ -80,14 +80,18 @@ def _(mo):
         r"""
     ## Remembering SVMs
 
-    - **Recall:**  From $L(\mathbf{w}, w_0)$: $\mathbf{w} = \sum_{i \in SV} \lambda_i y_i \mathbf{x}_i$
+    - Linear SVM: a hyperplane $g(\mathbf{x}) = \mathbf{w}^T \mathbf{x} + w_0$, trained by maximizing the margin.
 
-    - **Dual:**  $\max_{\lambda \geq 0} \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j \langle \mathbf{x}_i, \mathbf{x}_j \rangle$
+    - **Dual formulation:** the weights are a combination of support vectors, $\mathbf{w} = \sum_{i \in SV} \lambda_i y_i \mathbf{x}_i$, and training becomes
+
+    $$\max_{\lambda \geq 0} \; \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j \langle \mathbf{x}_i, \mathbf{x}_j \rangle$$
 
     - Subject to: $\sum_i \lambda_i y_i = 0$
     - Note: $\langle \mathbf{x}_i, \mathbf{x} \rangle$ denotes the inner product
 
     ---
+
+    - **Key observation:** the training data enters the dual **only through inner products** $\langle \mathbf{x}_i, \mathbf{x}_j \rangle$ — we will exploit this!
 
     - **In testing:** $g(\mathbf{x}) = \mathbf{w}^T \mathbf{x} + w_0 = \sum_{i \in SV} \lambda_i y_i \langle \mathbf{x}_i, \mathbf{x} \rangle + w_0$
         
@@ -103,7 +107,7 @@ def _(mo):
         r"""
     ### Example with explicit mapping
 
-    - Explicitly map $\mathbf{x}$, then use linear SVM.
+    - One way to obtain a non-linear SVM: map the data into a feature space where it becomes linearly separable, and use a linear SVM there.
 
     - Let
     $$
@@ -130,13 +134,15 @@ def _(mo):
         r"""
     ### Example with explicit mapping - training and testing
 
-    - **Training:** $\sum_{i=1}^N \lambda_i + \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j \mathbf{z}_i^T \mathbf{z}_j$
+    - **Training:** insert $\mathbf{z}_i^T \mathbf{z}_j$ into the dual:
 
-    - $\sum_{i=1}^N \lambda_i + \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j K(\mathbf{x}_i,\mathbf{x}_j)$
+    $$\max_{\lambda \geq 0} \; \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j \, \mathbf{z}_i^T \mathbf{z}_j$$
 
-    - **Testing:**  $g(\mathbf{z}) = \sum_{\mathbf{z}_i \in SV} \lambda_i y_i \mathbf{z}_i^T \mathbf{z}_j$
+    - **Key trick:** we never need $\mathbf{z}$ itself — only its inner products. Write
 
-    - $g(\mathbf{x}) = \sum_{\mathbf{x}_i \in SV} \lambda_i y_i K(\mathbf{x}_i, \mathbf{x})$
+    $$\mathbf{z}_i^T \mathbf{z}_j = \underline{\hspace{3cm}}$$
+
+    - **Testing:** $g(\mathbf{x}) = \sum_{i \in SV} \lambda_i y_i \; \underline{\hspace{3cm}} \; + w_0$
 
     - Can always find inner-product kernel $K(\mathbf{x}_i, \mathbf{x}_j)$!
         
