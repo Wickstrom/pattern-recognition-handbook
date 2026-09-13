@@ -51,7 +51,7 @@ def _(mo):
         r"""
     # Non-linear SVM
         
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 12</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 13</div>
         """
     )
     return
@@ -67,7 +67,7 @@ def _(mo):
     - Heavily depends on a field of research known as **kernel methods**.
     - A field of its own with lots of use cases throughout machine learning.
         
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 12</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 13</div>
         """
     )
     return
@@ -91,7 +91,7 @@ def _(mo):
 
     - **In testing:** $g(\mathbf{x}) = \mathbf{w}^T \mathbf{x} + w_0 = \sum_{i \in SV} \lambda_i y_i \langle \mathbf{x}_i, \mathbf{x} \rangle + w_0$
         
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 12</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 13</div>
         """
     )
     return
@@ -118,7 +118,7 @@ def _(mo):
 
     - **Need:** $\mathbf{z}_i^T \mathbf{z}_j = x_{i1}^2 x_{j1}^2 + 2 x_{i1} x_{i2} x_{j1} x_{j2} + x_{i2}^2 x_{j2}^2 =$
         
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 12</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 13</div>
         """
     )
     return
@@ -142,7 +142,7 @@ def _(mo):
 
     - Can always find inner-product kernel $K(\mathbf{x}_i, \mathbf{x}_j)$!
         
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 12</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 13</div>
         """
     )
     return
@@ -165,7 +165,7 @@ def _(mo):
 
     - [Nice open access article on kernel methods for those who want to learn more.](https://arxiv.org/pdf/math/0701907)
         
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 12</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 13</div>
         """
     )
     return
@@ -183,7 +183,7 @@ def _(mo):
 
     - **Tanh:**  $K(\mathbf{x}_i, \mathbf{x}_j) = \tanh\left(\beta\, \mathbf{x}_i^T \mathbf{x}_j + \gamma\right)$
         
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 12</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 13</div>
         """
     )
     return
@@ -201,7 +201,7 @@ def _(mo):
 
     - **Test:**  $g(\mathbf{x}) = \sum_{i \in SV} \lambda_i y_i K(\mathbf{x}_i, \mathbf{x}) + w_0$
         
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 12</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 13</div>
         """
     )
     return
@@ -219,7 +219,7 @@ def _(mo):
         - Added complexity; kernel width.
     - Use validation data to select hyperparameters.
         
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 12</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 13</div>
         """
     )
     return
@@ -231,19 +231,23 @@ def _(mo):
         r"""
     ## Example: Kernelizing the least sum of squares classifier
 
-    - **Recap (linear classifiers):** the LS classifier minimizes
+    - **Goal:** rederive the LS solution, then rewrite it so that the kernel trick applies.
 
-    $$J(\mathbf{w}) = \sum_{i=1}^N \left(y_i - \mathbf{w}^T \mathbf{x}_i\right)^2$$
+    - Setup: samples $\mathbf{x}_i \in \mathbb{R}^d$ are **column vectors**, stacked as rows of the design matrix
+    $$\mathbf{X} = \begin{bmatrix} \mathbf{x}_1^T \\ \vdots \\ \mathbf{x}_N^T \end{bmatrix} \in \mathbb{R}^{N \times d}, \qquad \mathbf{y} \in \mathbb{R}^N$$
 
-    - Setting the gradient to zero gives the normal equations
+    - We want a linear discriminant $g(\mathbf{x}) = \mathbf{w}^T \mathbf{x}$ with $\mathbf{w} \in \mathbb{R}^d$.
 
-    $$\left(\sum_{i=1}^N \mathbf{x}_i \mathbf{x}_i^T\right) \mathbf{w} = \sum_{i=1}^N \mathbf{x}_i y_i$$
+    - The LS classifier minimizes the sum of squared errors:
+    $$J(\mathbf{w}) = \sum_{i=1}^N \left(y_i - \mathbf{w}^T \mathbf{x}_i\right)^2 = \left\| \mathbf{y} - \mathbf{X} \mathbf{w} \right\|^2$$
 
-    - The solution therefore lies in the span of the training data:
+    - Gradient with respect to $\mathbf{w}$:
+    $$\frac{\partial J(\mathbf{w})}{\partial \mathbf{w}} = -2 \mathbf{X}^T \left( \mathbf{y} - \mathbf{X} \mathbf{w} \right)$$
 
-    $$\mathbf{w} = \sum_{i=1}^N \alpha_i \mathbf{x}_i$$
+    - Setting it to zero gives the **normal equations** and the LS solution:
+    $$\mathbf{X}^T \mathbf{X} \mathbf{w} = \mathbf{X}^T \mathbf{y} \quad \Longrightarrow \quad \mathbf{w} = \left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}^T \mathbf{y}$$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 12</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 13</div>
         """
     )
     return
@@ -253,21 +257,22 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ## Example: Kernelizing LS — derivation
+    ## Example: Kernelizing LS — represent the weights with the data
 
-    - Substitute $\mathbf{w} = \sum_{i=1}^N \alpha_i \mathbf{x}_i$ into the normal equations:
+    - We look for a solution of the form $\mathbf{w} = \mathbf{X}^T \boldsymbol{\alpha}$ with $\boldsymbol{\alpha} \in \mathbb{R}^N$.
 
-    $$\sum_{i=1}^N \mathbf{x}_i \mathbf{x}_i^T \sum_{j=1}^N \alpha_j \mathbf{x}_j = \sum_{i=1}^N \mathbf{x}_i y_i$$
+    - This follows from the **pseudo-inverse identity**
+    $$\left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}^T = \mathbf{X}^T \left(\mathbf{X} \mathbf{X}^T\right)^{-1}$$
 
-    - Define the Gram matrix $\mathbf{K}$ with $K_{ij} = \mathbf{x}_i^T \mathbf{x}_j$. The equations become
+    - Applying it to the LS solution:
+    $$\mathbf{w} = \left(\mathbf{X}^T \mathbf{X}\right)^{-1} \mathbf{X}^T \mathbf{y} = \mathbf{X}^T \left(\mathbf{X} \mathbf{X}^T\right)^{-1} \mathbf{y} = \mathbf{X}^T \boldsymbol{\alpha}, \qquad \boldsymbol{\alpha} = \left(\mathbf{X} \mathbf{X}^T\right)^{-1} \mathbf{y}$$
 
-    $$\mathbf{K} \boldsymbol{\alpha} = \underline{\hspace{3cm}}$$
+    - The matrix $\mathbf{K} = \mathbf{X} \mathbf{X}^T \in \mathbb{R}^{N \times N}$ is the **kernel matrix**, $K_{ij} = \mathbf{x}_i^T \mathbf{x}_j$, so $\boldsymbol{\alpha} = \mathbf{K}^{-1} \mathbf{y}$.
 
-    - Solve for the coefficients:
+    - The kernel then appears directly in the discriminant:
+    $$g(\mathbf{x}) = \mathbf{w}^T \mathbf{x} = \left(\mathbf{X}^T \boldsymbol{\alpha}\right)^T \mathbf{x} = \boldsymbol{\alpha}^T \mathbf{X} \mathbf{x} = \sum_{i=1}^N \alpha_i \, \mathbf{x}_i^T \mathbf{x} = \sum_{i=1}^N \alpha_i K(\mathbf{x}_i, \mathbf{x})$$
 
-    $$\boldsymbol{\alpha} = \underline{\hspace{3cm}}$$
-
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 12</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 13</div>
         """
     )
     return
@@ -277,17 +282,46 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ## Example: Kernelizing LS — the kernel trick
+    ## Example: Kernelizing LS — a loss on the coefficients
 
-    - **Prediction** is then expressed through the coefficients:
+    - Substitute $\mathbf{w} = \mathbf{X}^T \boldsymbol{\alpha}$ back into the LS loss. Since $\mathbf{X} \mathbf{w} = \mathbf{X} \mathbf{X}^T \boldsymbol{\alpha} = \mathbf{K} \boldsymbol{\alpha}$,
+    $$J(\boldsymbol{\alpha}) = \left\| \mathbf{y} - \mathbf{X} \mathbf{w} \right\|^2 = \left\| \mathbf{y} - \mathbf{K} \boldsymbol{\alpha} \right\|^2 = \sum_{i=1}^N \left( y_i - [\mathbf{K} \boldsymbol{\alpha}]_i \right)^2$$
 
-    $$g(\mathbf{x}) = \mathbf{w}^T \mathbf{x} = \sum_{i=1}^N \alpha_i \, \underline{\hspace{3cm}}$$
+    - This is now a loss in the coefficients $\boldsymbol{\alpha}$, and the data enters only through $\mathbf{K}$.
 
-    - Replace the inner product by a non-linear kernel $K(\mathbf{x}_i, \mathbf{x})$ and the LS classifier becomes non-linear.
+    - Gradient with respect to $\boldsymbol{\alpha}$:
+    $$\frac{\partial J(\boldsymbol{\alpha})}{\partial \boldsymbol{\alpha}} = -2 \mathbf{K}^T \left( \mathbf{y} - \mathbf{K} \boldsymbol{\alpha} \right) = -2 \mathbf{K} \left( \mathbf{y} - \mathbf{K} \boldsymbol{\alpha} \right)$$
+    using that $\mathbf{K} = \mathbf{X} \mathbf{X}^T$ is symmetric, so $\mathbf{K}^T = \mathbf{K}$.
+
+    - Setting the gradient to zero:
+    $$\mathbf{K} \left( \mathbf{y} - \mathbf{K} \boldsymbol{\alpha} \right) = \mathbf{0} \quad \Longrightarrow \quad \mathbf{K}^2 \boldsymbol{\alpha} = \mathbf{K} \mathbf{y}$$
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 13</div>
+        """
+    )
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
+    ## Example: Kernelizing LS — the solution
+
+    - From $\mathbf{K}^2 \boldsymbol{\alpha} = \mathbf{K} \mathbf{y}$, if $\mathbf{K}$ is invertible we can cancel one factor:
+    $$\mathbf{K} \boldsymbol{\alpha} = \mathbf{y} \quad \Longrightarrow \quad \boldsymbol{\alpha} = \mathbf{K}^{-1} \mathbf{y}$$
+
+    - In general $\mathbf{K}$ may be singular. Then use the pseudo-inverse, $\boldsymbol{\alpha} = \mathbf{K}^{+} \mathbf{y}$, or regularize with a ridge term $\lambda > 0$:
+    $$\boldsymbol{\alpha} = \left( \mathbf{K} + \lambda \mathbf{I} \right)^{-1} \mathbf{y}$$
+
+    - The discriminant only needs inner products (kernels):
+    $$g(\mathbf{x}) = \sum_{i=1}^N \alpha_i K(\mathbf{x}_i, \mathbf{x})$$
+
+    - **Kernel trick:** replace $K(\mathbf{x}_i, \mathbf{x}_j) = \mathbf{x}_i^T \mathbf{x}_j$ by a general kernel. The linear kernel recovers the original LS classifier; e.g. an RBF kernel makes it non-linear.
 
     - Takeaway: any algorithm whose solution can be written in terms of inner products can be kernelized.
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 12</div>
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 13</div>
         """
     )
     return
