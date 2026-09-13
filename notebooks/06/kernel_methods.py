@@ -8,10 +8,9 @@
 # ///
 #
 # Marimo version of the Non-linear SVM / Kernel Methods lecture.
-# Same content as notebooks/06/kernel_methods.ipynb, but authored as a
-# reactive Marimo app so the deck reads cleanly as a series of slides
-# (one cell per concept, matching the density_estimation notebook's
-# structure).
+# Authored as a reactive Marimo app so the deck reads cleanly as a series
+# of slides (one cell per concept, matching the density_estimation
+# notebook's structure).
 # Run locally with `marimo edit notebooks/06/kernel_methods.py`
 # or export to WASM for GitHub Pages (see .github/workflows/publish-slides.yml).
 
@@ -87,11 +86,8 @@ def _(mo):
     $$\max_{\lambda \geq 0} \; \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j \langle \mathbf{x}_i, \mathbf{x}_j \rangle$$
 
     - Subject to: $\sum_i \lambda_i y_i = 0$
-    - Note: $\langle \mathbf{x}_i, \mathbf{x} \rangle$ denotes the inner product
 
     ---
-
-    - **Key observation:** the training data enters the dual **only through inner products** $\langle \mathbf{x}_i, \mathbf{x}_j \rangle$ — we will exploit this!
 
     - **In testing:** $g(\mathbf{x}) = \mathbf{w}^T \mathbf{x} + w_0 = \sum_{i \in SV} \lambda_i y_i \langle \mathbf{x}_i, \mathbf{x} \rangle + w_0$
         
@@ -158,7 +154,14 @@ def _(mo):
         r"""
     ## Mercer's theorem
 
+    - A symmetric function $K(\mathbf{x}_i, \mathbf{x}_j)$ is a valid inner product
+    $K(\mathbf{x}_i, \mathbf{x}_j) = \boldsymbol{\phi}(\mathbf{x}_i)^T \boldsymbol{\phi}(\mathbf{x}_j)$
+    for some feature map $\boldsymbol{\phi}$ if and only if it is positive semi-definite.
+
     - $K(\mathbf{x}_i,\mathbf{x}_j)=$
+
+    - **Reference:** J. Mercer, "Functions of positive and negative type, and their connection with the theory of integral equations," *Philosophical Transactions of the Royal Society A*, vol. 209, pp. 415–446, 1909.
+        - See also B. Schölkopf and A. J. Smola, *Learning with Kernels*, MIT Press, 2002.
 
     - [Nice open access article on kernel methods for those who want to learn more.](https://arxiv.org/pdf/math/0701907)
         
@@ -208,7 +211,13 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ### Non-linear SVM as a network
+    ## Practical considerations for non-linear SVMs
+
+    - Start simple -> linear kernel.
+        - Only two hyperparameters to consider; slack variable and tolerance for stopping criterion.
+    - Then -> non-linear kernel. An RBF kernel is the standard choice.
+        - Added complexity; kernel width.
+    - Use validation data to select hyperparameters.
         
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 12</div>
         """
@@ -220,11 +229,20 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ### Non-separable classes
+    ## Example: Kernelizing the least sum of squares classifier
 
-    - Remember: $\mathbf{w}^T \mathbf{x} + w_0 \geq 1-\gamma$
-    - Both classes: $y_i \left(\mathbf{w}^T \mathbf{x}_i + w_0\right) \geq 1-\gamma_i$
-        
+    - **Recap (linear classifiers):** the LS classifier minimizes
+
+    $$J(\mathbf{w}) = \sum_{i=1}^N \left(y_i - \mathbf{w}^T \mathbf{x}_i\right)^2$$
+
+    - Setting the gradient to zero gives the normal equations
+
+    $$\left(\sum_{i=1}^N \mathbf{x}_i \mathbf{x}_i^T\right) \mathbf{w} = \sum_{i=1}^N \mathbf{x}_i y_i$$
+
+    - The solution therefore lies in the span of the training data:
+
+    $$\mathbf{w} = \sum_{i=1}^N \alpha_i \mathbf{x}_i$$
+
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 12</div>
         """
     )
@@ -235,22 +253,20 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ### Non-separable classes - in practice
+    ## Example: Kernelizing LS — derivation
 
-    - Don't want too many $\gamma_i > 0$
-    - Minimize: $J(\mathbf{w}, w_0, \gamma_i) = \frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{i=1}^N \gamma_i$
-    - Subject to: $y_i \left( \mathbf{w}^T \mathbf{x}_i + w_0 \right) \geq 1 - \gamma_i$
+    - Substitute $\mathbf{w} = \sum_{i=1}^N \alpha_i \mathbf{x}_i$ into the normal equations:
 
-    $$\gamma_i \geq 0$$
+    $$\sum_{i=1}^N \mathbf{x}_i \mathbf{x}_i^T \sum_{j=1}^N \alpha_j \mathbf{x}_j = \sum_{i=1}^N \mathbf{x}_i y_i$$
 
-    ---
+    - Define the Gram matrix $\mathbf{K}$ with $K_{ij} = \mathbf{x}_i^T \mathbf{x}_j$. The equations become
 
-    - **Dual:** $\max_{\lambda \geq 0} \sum_{i=1}^N \lambda_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \lambda_i \lambda_j y_i y_j \langle \mathbf{x}_i, \mathbf{x}_j \rangle$
+    $$\mathbf{K} \boldsymbol{\alpha} = \underline{\hspace{3cm}}$$
 
-    - Subject to: $\sum_i \lambda_i y_i = 0$
+    - Solve for the coefficients:
 
-    $$0 \leq \lambda_i \leq C$$
-        
+    $$\boldsymbol{\alpha} = \underline{\hspace{3cm}}$$
+
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 12</div>
         """
     )
@@ -261,14 +277,16 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ## Practical considerations for non-linear SVMs
+    ## Example: Kernelizing LS — the kernel trick
 
-    - Start simple -> linear kernel.
-        - Only two hyperparameters to consider; slack variable and tolerance for stopping criterion.
-    - Then -> non-linear kernel. An RBF kernel is the standard choice.
-        - Added complexity; kernel width.
-    - Use validation data to select hyperparameters.
-        
+    - **Prediction** is then expressed through the coefficients:
+
+    $$g(\mathbf{x}) = \mathbf{w}^T \mathbf{x} = \sum_{i=1}^N \alpha_i \, \underline{\hspace{3cm}}$$
+
+    - Replace the inner product by a non-linear kernel $K(\mathbf{x}_i, \mathbf{x})$ and the LS classifier becomes non-linear.
+
+    - Takeaway: any algorithm whose solution can be written in terms of inner products can be kernelized.
+
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 12</div>
         """
     )
