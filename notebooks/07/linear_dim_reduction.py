@@ -94,7 +94,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo, np, plt):
+def _(np, plt):
     # Motivating example: two strongly correlated features. The scatter
     # stretches along a single direction, so the cloud is essentially
     # one-dimensional even though it lives in 2-D.
@@ -121,8 +121,8 @@ def _(mo, np, plt):
     ax_corr_right.tick_params(labelleft=False)
     ax_corr_top.set_title(r"Two highly correlated features ($\rho = 0.95$)")
 
-    mo.as_html(fig_corr)
     plt.close(fig_corr)
+    fig_corr
     return
 
 
@@ -211,7 +211,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo, np, plt):
+def _(np, plt):
     # Two 2-D Gaussian classes, reused by the Fisher-projection figure
     # below. Equal priors so the within/between scatter reduces to the
     # simple averages used in the slides. Seeded for reproducibility.
@@ -262,8 +262,8 @@ def _(mo, np, plt):
     ax_scat.legend()
     ax_scat.set_title("Within-class scatter $S_w$ and class means")
 
-    mo.as_html(fig_scat)
     plt.close(fig_scat)
+    fig_scat
     return (
         X_fda_1,
         X_fda_2,
@@ -385,7 +385,6 @@ def _(
     X_fda_2,
     cov_fda_1,
     cov_fda_2,
-    mo,
     mu_fda,
     mu_fda_1,
     mu_fda_2,
@@ -439,8 +438,8 @@ def _(
     ax_fda_1d.set_ylabel("count")
     ax_fda_1d.set_title(f"FDR = {fdr_cur:.2f}")
 
-    mo.as_html(fig_fda)
     plt.close(fig_fda)
+    fig_fda
     return
 
 
@@ -618,7 +617,7 @@ def _(mo):
 
 
 @app.cell
-def _(V_pca, X_pca, Xc_pca, mo, mu_pca, np, pca_dir, plt, w_pca):
+def _(V_pca, X_pca, Xc_pca, mu_pca, np, pca_dir, plt, w_pca):
     i_pca = int(pca_dir.value)
     v_pca = V_pca[:, i_pca]
     proj_pca = Xc_pca @ v_pca  # 1-D projections of every centred point
@@ -678,8 +677,8 @@ def _(V_pca, X_pca, Xc_pca, mo, mu_pca, np, pca_dir, plt, w_pca):
         f"$\\;(\\sqrt{{\\lambda_{{{i_pca + 1}}}}})$"
     )
 
-    mo.as_html(fig_pca)
     plt.close(fig_pca)
+    fig_pca
     return
 
 
@@ -758,7 +757,7 @@ def _(mo):
 
 
 @app.cell
-def _(k_rec, mo, np, plt):
+def _(k_rec, np, plt):
     # PCA reconstruction on the digits dataset (bundled with scikit-learn,
     # so no network access). The empirical MSE is compared with the
     # theoretical tail sum of the eigenvalues from the slides.
@@ -811,8 +810,8 @@ def _(k_rec, mo, np, plt):
     ax_err.legend()
     ax_err.set_title(f"MSE at $k={k_rec_v}$: {mse_cur:.0f}")
 
-    mo.as_html(fig_rec)
     plt.close(fig_rec)
+    fig_rec
     return
 
 
