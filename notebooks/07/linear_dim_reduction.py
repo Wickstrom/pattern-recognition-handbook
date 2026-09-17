@@ -4,6 +4,7 @@
 #     "marimo",
 #     "numpy",
 #     "matplotlib",
+#     "scikit-learn",
 # ]
 # ///
 #
@@ -83,9 +84,45 @@ def _(mo):
         r"""
     ## Analyzing data
 
-    - Show example
+    - Real data often live in a high-dimensional space, but the information
+      they carry may be concentrated on a much smaller subspace.
+    - Example below: two features that are almost perfectly correlated.
+        - Little is lost by describing the cloud with a single direction.
         """
     )
+    return
+
+
+@app.cell
+def _(mo, np, plt):
+    # Motivating example: two strongly correlated features. The scatter
+    # stretches along a single direction, so the cloud is essentially
+    # one-dimensional even though it lives in 2-D.
+    rng_corr = np.random.default_rng(0)
+    cov_corr = np.array([[1.0, 0.95], [0.95, 1.0]])
+    X_corr = rng_corr.multivariate_normal([0.0, 0.0], cov_corr, size=400)
+
+    fig_corr = plt.figure(figsize=(10, 5))
+    gs_corr = fig_corr.add_gridspec(
+        2, 2, width_ratios=(4, 1), height_ratios=(1, 4), wspace=0.05, hspace=0.05
+    )
+    ax_corr = fig_corr.add_subplot(gs_corr[1, 0])
+    ax_corr_top = fig_corr.add_subplot(gs_corr[0, 0], sharex=ax_corr)
+    ax_corr_right = fig_corr.add_subplot(gs_corr[1, 1], sharey=ax_corr)
+
+    ax_corr.scatter(X_corr[:, 0], X_corr[:, 1], s=12, alpha=0.5)
+    ax_corr_top.hist(X_corr[:, 0], bins=30, color="tab:blue")
+    ax_corr_right.hist(
+        X_corr[:, 1], bins=30, orientation="horizontal", color="tab:blue"
+    )
+    ax_corr.set_xlabel("$x_1$")
+    ax_corr.set_ylabel("$x_2$")
+    ax_corr_top.tick_params(labelbottom=False)
+    ax_corr_right.tick_params(labelleft=False)
+    ax_corr_top.set_title(r"Two highly correlated features ($\rho = 0.95$)")
+
+    mo.as_html(fig_corr)
+    plt.close(fig_corr)
     return
 
 
@@ -136,9 +173,16 @@ def _(mo):
         r"""
     ## Fisher discriminant analysis (FDA)
 
-    - Transform (project) to 1D:
+    - Transform (project) to 1D: $z = \mathbf{w}^T \mathbf{x}$
     - Start with the two class case and $P(w_1)=P(w_2)$
-    - Fisher discriminant ratio:
+    - Fisher discriminant ratio (FDR) — large is good:
+
+    $$
+    \mathrm{FDR} = \frac{(\mu_1 - \mu_2)^2}{\sigma_1^2 + \sigma_2^2}
+    $$
+
+    where $\mu_i$ and $\sigma_i^2$ are the mean and variance of the
+    projected class-$i$ data.
         """
     )
     return
@@ -154,16 +198,81 @@ def _(mo):
 
     - where $\boldsymbol{\Sigma}_i = \mathbb{E}\left[(\mathbf{x} - \boldsymbol{\mu}_i)(\mathbf{x} - \boldsymbol{\mu}_i)^T\right]$
 
-    - Example:
-
     ---
 
-    - Between class: $\boldsymbol{S}_B = \sum\limits_{i=1}^{M} P(w_i) (\boldsymbol{\mu}_i - \boldsymbol{\mu})^2$
+    - Between class: $\boldsymbol{S}_B = \sum\limits_{i=1}^{M} P(w_i) (\boldsymbol{\mu}_i - \boldsymbol{\mu})(\boldsymbol{\mu}_i - \boldsymbol{\mu})^T$
 
-    - Example:
+    - where $\boldsymbol{\mu} = \sum\limits_{i=1}^{M} P(w_i) \boldsymbol{\mu}_i$ is the global mean.
+
+    - Both are $d \times d$ matrices: $\boldsymbol{S}_w$ measures spread *inside* classes, $\boldsymbol{S}_B$ spread *between* class means.
         """
     )
     return
+
+
+@app.cell
+def _(mo, np, plt):
+    # Two 2-D Gaussian classes, reused by the Fisher-projection figure
+    # below. Equal priors so the within/between scatter reduces to the
+    # simple averages used in the slides. Seeded for reproducibility.
+    from matplotlib.patches import Ellipse
+
+    rng_fda = np.random.default_rng(0)
+    mu_fda_1 = np.array([-1.5, 0.5])
+    mu_fda_2 = np.array([1.5, -0.5])
+    cov_fda_1 = np.array([[1.0, 0.6], [0.6, 1.0]])
+    cov_fda_2 = np.array([[0.8, -0.4], [-0.4, 0.9]])
+    X_fda_1 = rng_fda.multivariate_normal(mu_fda_1, cov_fda_1, size=200)
+    X_fda_2 = rng_fda.multivariate_normal(mu_fda_2, cov_fda_2, size=200)
+
+    fig_scat, ax_scat = plt.subplots(figsize=(7, 6))
+    ax_scat.scatter(
+        X_fda_1[:, 0], X_fda_1[:, 1], s=12, alpha=0.4, color="tab:blue", label="$w_1$"
+    )
+    ax_scat.scatter(
+        X_fda_2[:, 0], X_fda_2[:, 1], s=12, alpha=0.4, color="tab:orange", label="$w_2$"
+    )
+    # 2-sigma covariance ellipses: the "within-class" scatter S_w.
+    for mu_i, cov_i, col_i in [
+        (mu_fda_1, cov_fda_1, "tab:blue"),
+        (mu_fda_2, cov_fda_2, "tab:orange"),
+    ]:
+        w_i, v_i = np.linalg.eigh(cov_i)
+        order_i = np.argsort(w_i)[::-1]
+        w_i, v_i = w_i[order_i], v_i[:, order_i]
+        ang_i = np.degrees(np.arctan2(v_i[1, 0], v_i[0, 0]))
+        ax_scat.add_patch(
+            Ellipse(
+                mu_i,
+                *(4 * np.sqrt(w_i)),
+                angle=ang_i,
+                fill=False,
+                edgecolor=col_i,
+                lw=2,
+                ls="--",
+            )
+        )
+        ax_scat.plot(*mu_i, marker="X", color=col_i, ms=14, mec="k")
+    # Global mean = average of class means for equal priors.
+    mu_fda = 0.5 * (mu_fda_1 + mu_fda_2)
+    ax_scat.plot(*mu_fda, marker="*", color="k", ms=18, label=r"global mean $\mu$")
+    ax_scat.set_xlabel("$x_1$")
+    ax_scat.set_ylabel("$x_2$")
+    ax_scat.set_aspect("equal")
+    ax_scat.legend()
+    ax_scat.set_title("Within-class scatter $S_w$ and class means")
+
+    mo.as_html(fig_scat)
+    plt.close(fig_scat)
+    return (
+        X_fda_1,
+        X_fda_2,
+        cov_fda_1,
+        cov_fda_2,
+        mu_fda,
+        mu_fda_1,
+        mu_fda_2,
+    )
 
 
 @app.cell
@@ -172,9 +281,11 @@ def _(mo):
         r"""
     ### Remark
 
-    - Class separability measures in $\mathbf{x}$ by e.g.
+    - Class separability in $\mathbf{x}$ can be measured by e.g.
 
     $$\frac{\operatorname{trace}(\boldsymbol{S}_w)}{\operatorname{trace}(\boldsymbol{S}_B)}$$
+
+    - Here **small is good**: little within-class spread relative to the between-class spread.
         """
     )
     return
@@ -188,13 +299,17 @@ def _(mo):
 
     - Remember; want to learn a transformation into 1D $z = \mathbf{w}^T \mathbf{x} \;\Rightarrow\; \mu_z = \mathbf{w}^T \boldsymbol{\mu}$
 
-    - $S_B = (\mu_1 - \mu_2)^2$
+    - In the projected space, with equal priors $P(w_1)=P(w_2)=\tfrac{1}{2}$:
 
-    - $\sigma^2 = \mathbb{E}\left[(x - \mu)^2\right]$
+    $$S_B = (\mu_1 - \mu_2)^2, \qquad \mu_i = \mathbf{w}^T \boldsymbol{\mu}_i$$
 
-    - $S_w = \sigma_1^2 + \sigma_2^2$
+    $$\sigma_i^2 = \mathbb{E}\left[(z - \mu_i)^2\right] = \mathbf{w}^T \boldsymbol{\Sigma}_i \mathbf{w}$$
 
-    - Hence: Fisher discriminant ratio (FDR):
+    $$S_w = \tfrac{1}{2}\sigma_1^2 + \tfrac{1}{2}\sigma_2^2$$
+
+    - Hence: Fisher discriminant ratio (FDR) — to be **maximized**:
+
+    $$\mathrm{FDR}(\mathbf{w}) = \frac{(\mu_1 - \mu_2)^2}{\sigma_1^2 + \sigma_2^2}$$
         """
     )
     return
@@ -224,7 +339,9 @@ def _(mo):
 
     $$\arg\max_{\mathbf{w}} \frac{\mathbf{w}^T \boldsymbol{S}_B \mathbf{w}}{\mathbf{w}^T \boldsymbol{S}_w \mathbf{w}}$$
 
-    - At solution (problem x.x): $\boldsymbol{S}_w \mathbf{w} = \lambda \boldsymbol{S}_B \mathbf{w}$
+    - At the solution (generalized eigenvalue problem):
+      $\boldsymbol{S}_B \mathbf{w} = \lambda \boldsymbol{S}_w \mathbf{w}$
+      $\;\Leftrightarrow\;$ $\boldsymbol{S}_w^{-1} \boldsymbol{S}_B \mathbf{w} = \lambda \mathbf{w}$
         """
     )
     return
@@ -234,7 +351,7 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ##
+    ## Solving the Fisher discriminant ratio
 
     I. If $P(w_1) = P(w_2)$:
     $$
@@ -248,21 +365,82 @@ def _(mo):
     $$
     \mathbf{w} = \text{leading eigenvector of } \boldsymbol{S}_w^{-1} \boldsymbol{S}_B
     $$
-
-    ---
-
-    **Example:**  
-    $P(w_1) = P(w_2)$
-
-    $$
-    S_w = \frac{1}{2} \sigma_1^2 + \frac{1}{2} \sigma_2^2
-    $$
-
-    $$
-    S_B = \frac{1}{2} (\mu_1 - \mu)^2 + \frac{1}{2} (\mu_2 - \mu)^2
-    $$
         """
     )
+    return
+
+
+@app.cell
+def _(mo):
+    theta_fda = mo.ui.slider(
+        0, 180, value=30, step=1, label="Projection angle (degrees)"
+    )
+    theta_fda
+    return (theta_fda,)
+
+
+@app.cell
+def _(
+    X_fda_1,
+    X_fda_2,
+    cov_fda_1,
+    cov_fda_2,
+    mo,
+    mu_fda,
+    mu_fda_1,
+    mu_fda_2,
+    np,
+    plt,
+    theta_fda,
+):
+    # Slide the projection direction and watch the FDR peak at the
+    # Fisher-optimal direction w ∝ S_w^{-1}(mu_1 - mu_2).
+    theta_rad = np.radians(theta_fda.value)
+    w_fda = np.array([np.cos(theta_rad), np.sin(theta_rad)])
+
+    S_w_fda = 0.5 * (cov_fda_1 + cov_fda_2)
+    w_opt_fda = np.linalg.solve(S_w_fda, mu_fda_1 - mu_fda_2)
+    w_opt_fda = w_opt_fda / np.linalg.norm(w_opt_fda)
+    if w_opt_fda[0] < 0:
+        w_opt_fda = -w_opt_fda
+
+    z_fda_1 = X_fda_1 @ w_fda
+    z_fda_2 = X_fda_2 @ w_fda
+    fdr_cur = (z_fda_1.mean() - z_fda_2.mean()) ** 2 / (
+        z_fda_1.var() + z_fda_2.var()
+    )
+
+    fig_fda, (ax_fda_2d, ax_fda_1d) = plt.subplots(1, 2, figsize=(12, 5))
+    ax_fda_2d.scatter(
+        X_fda_1[:, 0], X_fda_1[:, 1], s=10, alpha=0.35, color="tab:blue"
+    )
+    ax_fda_2d.scatter(
+        X_fda_2[:, 0], X_fda_2[:, 1], s=10, alpha=0.35, color="tab:orange"
+    )
+    for vec_fda, col_fda, lab_fda in [
+        (w_fda * 3, "k", "$w$"),
+        (w_opt_fda * 3, "tab:green", r"$w_{\mathrm{opt}}$"),
+    ]:
+        ax_fda_2d.annotate(
+            "",
+            xy=mu_fda + vec_fda,
+            xytext=mu_fda,
+            arrowprops=dict(arrowstyle="->", lw=2.5, color=col_fda),
+        )
+        ax_fda_2d.text(*(mu_fda + vec_fda * 1.08), lab_fda, color=col_fda, fontsize=13)
+    ax_fda_2d.set_xlabel("$x_1$")
+    ax_fda_2d.set_ylabel("$x_2$")
+    ax_fda_2d.set_aspect("equal")
+    ax_fda_2d.set_title("Slider direction $w$ vs Fisher optimum $w_{\\mathrm{opt}}$")
+
+    ax_fda_1d.hist(z_fda_1, bins=30, alpha=0.6, color="tab:blue")
+    ax_fda_1d.hist(z_fda_2, bins=30, alpha=0.6, color="tab:orange")
+    ax_fda_1d.set_xlabel("projected coordinate $z = \\mathbf{w}^T \\mathbf{x}$")
+    ax_fda_1d.set_ylabel("count")
+    ax_fda_1d.set_title(f"FDR = {fdr_cur:.2f}")
+
+    mo.as_html(fig_fda)
+    plt.close(fig_fda)
     return
 
 
@@ -272,7 +450,7 @@ def _(mo):
         r"""
     ### Remark
 
-    - Generalized to $z = \mathbf{w}^T \mathbf{x} \in \mathbb{R}^k$ where $k \leq d$.
+    - Generalized to $\mathbf{z} = \mathbf{W}^T \mathbf{x} \in \mathbb{R}^k$ where $k \leq d$ and $\mathbf{W} \in \mathbb{R}^{d \times k}$.
         - More complex (pages 291-297 in book).
         """
     )
@@ -286,7 +464,7 @@ def _(mo):
     ## Principal Component Analysis (PCA)
 
     - First: $\mathbf{z} = \mathbf{A} \mathbf{x}$ such that $\mathbf{z} \in \mathbb{R}^d$, $\mathbf{x} \in \mathbb{R}^d$, and $\mathbf{A} \in \mathbb{R}^{d \times d}$
-    - Want: $\boldsymbol{\Sigma}_y$ diagonal!
+    - Want: $\boldsymbol{\Sigma}_z$ diagonal!
         """
     )
     return
@@ -301,11 +479,12 @@ def _(mo):
     - Have:
 
     $$
-    \boldsymbol{\Sigma}_y = \mathbb{E}[(\mathbf{y} - \boldsymbol{\mu}_y)(\mathbf{y} - \boldsymbol{\mu}_y)^T]
+    \boldsymbol{\Sigma}_z = \mathbb{E}[(\mathbf{z} - \boldsymbol{\mu}_z)(\mathbf{z} - \boldsymbol{\mu}_z)^T]
     $$
 
     $$
     = \mathbb{E}[(\mathbf{A}\mathbf{x} - \mathbf{A}\boldsymbol{\mu}_x)(\mathbf{A}\mathbf{x} - \mathbf{A}\boldsymbol{\mu}_x)^T]
+    = \mathbf{A} \, \boldsymbol{\Sigma}_x \mathbf{A}^T
     $$
 
     ---
@@ -341,7 +520,12 @@ def _(mo):
 
     ---
 
-    - Have:
+    - With $\mathbf{A} = \mathbf{E}^T$ (orthonormal), the covariance of the
+      transformed data is diagonal:
+
+    $$
+    \boldsymbol{\Sigma}_z = \mathbf{E}^T \boldsymbol{\Sigma}_x \mathbf{E} = \boldsymbol{\Lambda}
+    $$
         """
     )
     return
@@ -353,7 +537,11 @@ def _(mo):
         r"""
     ### Interpreting the eigenvalues and eigenvectors
 
-    - Note: $\boldsymbol{\Sigma}_y=$
+    - $\boldsymbol{\Sigma}_z = \boldsymbol{\Lambda}$: the transformed features
+      are uncorrelated.
+    - The variance of $z_i$ equals $\lambda_i$.
+    - The eigenvectors $\mathbf{e}_i$ are the directions of maximal variance in
+      the original space.
         """
     )
     return
@@ -365,11 +553,25 @@ def _(mo):
         r"""
     ### Variance maximally preserved
 
-    - First: $\sum_{i=1}^d \text{Var}(y_i) = \sum_{i=1}^d \lambda_i$
+    - First: $\sum_{i=1}^d \text{Var}(z_i) = \operatorname{trace}(\boldsymbol{\Sigma}_z) = \sum_{i=1}^d \lambda_i$
 
-    - Thus: Let $\mathbf{A} = \mathbf{E} = [\mathbf{e}_1, \ldots, \mathbf{e}_d]$
+    - Thus: Let $\mathbf{A} = \mathbf{E}^T = [\mathbf{e}_1, \ldots, \mathbf{e}_d]^T$
 
-    - Remark: Let $\mathbb{E}[\mathbf{x}] = 0$
+    - Remark: assume $\mathbb{E}[\mathbf{x}] = 0$ (center the data first).
+        """
+    )
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
+    ### Example: projecting onto the eigenvectors
+
+    - The data cloud below is **unlabeled** — PCA only sees the point cloud.
+    - Use the dropdown to project onto $e_1$ (most variance) or $e_2$ (least).
+    - Compare the spread of the 1-D projections with $\sqrt{\lambda_i}$.
         """
     )
     return
@@ -499,7 +701,7 @@ def _(mo):
         r"""
     ### PCA is reconstruction / compression
 
-    - Have $\mathbf{x} = \mathbf{A} \mathbf{z}$
+    - Have $\mathbf{x} = \mathbf{A}^T \mathbf{z}$ (with $\mathbf{A} = \mathbf{E}^T$)
         """
     )
     return
@@ -515,7 +717,7 @@ def _(mo):
 
     For $\mathbf{z} \in \mathbb{R}^k$: $\hat{\mathbf{x}} = \sum_{i=0}^{k-1} z(i) \mathbf{e}_i$
 
-    If $y_i = 0$ for $i \geq k$:
+    If $z(i) = 0$ for $i \geq k$:
     $$
     \mathbb{E}\left[\|\mathbf{x} - \hat{\mathbf{x}}\|^2\right] = \sum_{i=k}^{d-1} \lambda_i
     $$
@@ -528,6 +730,89 @@ def _(mo):
     - **Reconstruct:** $\hat{\mathbf{x}}$ using $\mathbf{z}$.
         """
     )
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
+    ### Example: compressing handwritten digits
+
+    - Each $8 \times 8$ digit image is a point in $\mathbb{R}^{64}$.
+    - Drag the slider to keep the first $k$ principal components and
+      reconstruct.
+    - The reconstruction error should follow $\sum_{i \geq k} \lambda_i$.
+        """
+    )
+    return
+
+
+@app.cell
+def _(mo):
+    k_rec = mo.ui.slider(
+        1, 64, value=10, step=1, label="Principal components kept, $k$"
+    )
+    k_rec
+    return (k_rec,)
+
+
+@app.cell
+def _(k_rec, mo, np, plt):
+    # PCA reconstruction on the digits dataset (bundled with scikit-learn,
+    # so no network access). The empirical MSE is compared with the
+    # theoretical tail sum of the eigenvalues from the slides.
+    from sklearn.datasets import load_digits
+
+    dgt_rec = load_digits()
+    X_rec = dgt_rec.data.astype(float)
+    mu_rec = X_rec.mean(axis=0)
+    Xc_rec = X_rec - mu_rec
+    # PCA via SVD: principal directions are the right singular vectors.
+    _, s_rec, Vt_rec = np.linalg.svd(Xc_rec, full_matrices=False)
+    lam_rec = s_rec**2 / (len(X_rec) - 1)  # eigenvalues of the covariance
+
+    k_rec_v = int(k_rec.value)
+    z_rec = Xc_rec @ Vt_rec[:k_rec_v].T
+    Xhat_rec = z_rec @ Vt_rec[:k_rec_v] + mu_rec
+    mse_cur = ((X_rec - Xhat_rec) ** 2).sum(axis=1).mean()
+
+    # Empirical and theoretical reconstruction error as a function of k.
+    # Keeping k components leaves eigenvalues i = k, ..., d-1, so the
+    # theoretical error is the tail sum lam_rec[k:].
+    ks_rec = np.arange(1, len(lam_rec) + 1)
+    mse_curve = np.array(
+        [
+            ((Xc_rec - (Xc_rec @ Vt_rec[:k].T) @ Vt_rec[:k]) ** 2).sum(axis=1).mean()
+            for k in ks_rec
+        ]
+    )
+    theory_curve = np.array([lam_rec[k:].sum() for k in ks_rec])
+
+    fig_rec = plt.figure(figsize=(12, 4.5))
+    gs_rec = fig_rec.add_gridspec(1, 3, width_ratios=(1, 1, 1.7), wspace=0.3)
+    ax_orig = fig_rec.add_subplot(gs_rec[0, 0])
+    ax_recon = fig_rec.add_subplot(gs_rec[0, 1])
+    ax_err = fig_rec.add_subplot(gs_rec[0, 2])
+
+    ax_orig.imshow(X_rec[0].reshape(8, 8), cmap="gray_r")
+    ax_orig.set_title("Original")
+    ax_orig.axis("off")
+    ax_recon.imshow(Xhat_rec[0].reshape(8, 8), cmap="gray_r")
+    ax_recon.set_title(f"Reconstruction, $k={k_rec_v}$")
+    ax_recon.axis("off")
+
+    ax_err.plot(ks_rec, mse_curve, label="empirical MSE")
+    ax_err.plot(ks_rec, theory_curve, "--", label=r"$\sum_{i \geq k} \lambda_i$")
+    ax_err.axvline(k_rec_v, color="k", ls=":", lw=1)
+    ax_err.scatter([k_rec_v], [mse_cur], color="tab:red", zorder=3)
+    ax_err.set_xlabel("components kept, $k$")
+    ax_err.set_ylabel("reconstruction MSE")
+    ax_err.legend()
+    ax_err.set_title(f"MSE at $k={k_rec_v}$: {mse_cur:.0f}")
+
+    mo.as_html(fig_rec)
+    plt.close(fig_rec)
     return
 
 
