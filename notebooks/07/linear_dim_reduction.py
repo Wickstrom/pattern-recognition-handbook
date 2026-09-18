@@ -935,11 +935,35 @@ def _(k_rec, np, plt):
     )
     theory_curve = np.array([lam_rec[k:].sum() for k in ks_rec])
 
-    fig_rec = plt.figure(figsize=(12, 4.5))
-    gs_rec = fig_rec.add_gridspec(1, 3, width_ratios=(1, 1, 1.7), wspace=0.3)
-    ax_orig = fig_rec.add_subplot(gs_rec[0, 0])
-    ax_recon = fig_rec.add_subplot(gs_rec[0, 1])
-    ax_err = fig_rec.add_subplot(gs_rec[0, 2])
+    fig_rec = plt.figure(figsize=(15, 5))
+    outer_rec = fig_rec.add_gridspec(1, 2, width_ratios=(1, 1.4), wspace=0.25)
+
+    # Left: the digits in 2-D, i.e. projected onto the first two PCs.
+    ax_2d_rec = fig_rec.add_subplot(outer_rec[0, 0])
+    Z2_rec = Xc_rec @ Vt_rec[:2].T
+    ax_2d_rec.scatter(
+        Z2_rec[:, 0], Z2_rec[:, 1], c=dgt_rec.target, cmap="tab10", s=8, alpha=0.6
+    )
+    ax_2d_rec.scatter(
+        [Z2_rec[0, 0]],
+        [Z2_rec[0, 1]],
+        marker="*",
+        s=220,
+        color="red",
+        edgecolor="k",
+        zorder=5,
+        label="shown digit",
+    )
+    ax_2d_rec.set_xlabel("$z_1$ (1st PC)")
+    ax_2d_rec.set_ylabel("$z_2$ (2nd PC)")
+    ax_2d_rec.set_title("Digits in 2-D (first two PCs)")
+    ax_2d_rec.legend(loc="upper right", fontsize=9)
+
+    # Right: original vs reconstruction and the reconstruction-error curve.
+    inner_rec = outer_rec[0, 1].subgridspec(2, 2, height_ratios=(1, 1.4), hspace=0.4)
+    ax_orig = fig_rec.add_subplot(inner_rec[0, 0])
+    ax_recon = fig_rec.add_subplot(inner_rec[0, 1])
+    ax_err = fig_rec.add_subplot(inner_rec[1, :])
 
     ax_orig.imshow(X_rec[0].reshape(8, 8), cmap="gray_r")
     ax_orig.set_title("Original")
