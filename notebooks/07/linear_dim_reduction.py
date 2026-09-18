@@ -349,11 +349,15 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ### Remarks
+    ### FDR
 
-    - Don't need $P(w_1) = P(w_2)$, but easy to solve.
+    - Want:
 
-    - If $P(w_1) \neq P(w_2)$: $\mathbf{w}$ is the leading eigenvector of $\boldsymbol{S}_w^{-1} \boldsymbol{S}_B$.
+    $$\arg\max_{\mathbf{w}} \frac{\mathbf{w}^T \boldsymbol{S}_B \mathbf{w}}{\mathbf{w}^T \boldsymbol{S}_w \mathbf{w}}$$
+
+    - At the solution (generalized eigenvalue problem):
+      $\boldsymbol{S}_B \mathbf{w} = \lambda \boldsymbol{S}_w \mathbf{w}$
+      $\;\Leftrightarrow\;$ $\boldsymbol{S}_w^{-1} \boldsymbol{S}_B \mathbf{w} = \lambda \mathbf{w}$
         
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 25</div>
@@ -366,20 +370,91 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ### FDR
+    ### Eigenvalue problems
 
-    - Want:
+    - For a square matrix $\mathbf{A}$, an **eigenvector** $\mathbf{v} \neq \mathbf{0}$ and its **eigenvalue** $\lambda$ satisfy
 
-    $$\arg\max_{\mathbf{w}} \frac{\mathbf{w}^T \boldsymbol{S}_B \mathbf{w}}{\mathbf{w}^T \boldsymbol{S}_w \mathbf{w}}$$
+    $$
+    \mathbf{A} \mathbf{v} = \lambda \mathbf{v}
+    $$
 
-    - At the solution (generalized eigenvalue problem):
-      $\boldsymbol{S}_B \mathbf{w} = \lambda \boldsymbol{S}_w \mathbf{w}$
-      $\;\Leftrightarrow\;$ $\boldsymbol{S}_w^{-1} \boldsymbol{S}_B \mathbf{w} = \lambda \mathbf{w}$
-        
+    - $\mathbf{A}$ stretches $\mathbf{v}$ by $\lambda$ without changing its direction.
+
+    ---
+
+    - For the covariance matrix $\boldsymbol{\Sigma}$ (symmetric, positive semi-definite):
+
+    $$
+    \boldsymbol{\Sigma} \mathbf{e}_i = \lambda_i \mathbf{e}_i, \qquad \lambda_i \geq 0
+    $$
+
+    - The eigenvectors are orthogonal and the eigenvalue $\lambda_i$ is the **variance** of the data along $\mathbf{e}_i$.
+    - The largest eigenvalue gives the **direction of greatest variance** (the first principal component).
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 25</div>
     """
     )
+    return
+
+
+@app.cell
+def _(np, plt):
+    # A 2-D data cloud whose covariance has one dominant direction. The
+    # eigenvectors of Sigma point along the greatest/least variance, and
+    # each eigenvalue is the variance of the data along its eigenvector.
+    from matplotlib.patches import Ellipse as Ellipse_eig
+
+    rng_eig = np.random.default_rng(1)
+    cov_eig = np.array([[2.0, 1.4], [1.4, 1.2]])
+    X_eig = rng_eig.multivariate_normal([0.0, 0.0], cov_eig, size=400)
+    mu_eig = X_eig.mean(axis=0)
+    lam_eig, E_eig = np.linalg.eigh(cov_eig)
+    # eigh returns ascending order; flip so e_1 has the largest variance.
+    order_eig = np.argsort(lam_eig)[::-1]
+    lam_eig, E_eig = lam_eig[order_eig], E_eig[:, order_eig]
+
+    fig_eig, ax_eig = plt.subplots(figsize=(7, 6))
+    ax_eig.scatter(X_eig[:, 0], X_eig[:, 1], s=12, alpha=0.35, color="gray")
+
+    # Covariance ellipses at 1 and 2 standard deviations.
+    ang_eig = np.degrees(np.arctan2(E_eig[1, 0], E_eig[0, 0]))
+    for n_std_eig, alpha_eig in [(1, 0.5), (2, 0.2)]:
+        ax_eig.add_patch(
+            Ellipse_eig(
+                mu_eig,
+                *(2 * n_std_eig * np.sqrt(lam_eig)),
+                angle=ang_eig,
+                fill=False,
+                edgecolor="tab:red",
+                lw=2,
+                alpha=alpha_eig,
+            )
+        )
+
+    # Eigenvector arrows, length 2 standard deviations (2 * sqrt(lambda)).
+    for i_eig in range(2):
+        v_eig = E_eig[:, i_eig] * (2 * np.sqrt(lam_eig[i_eig]))
+        ax_eig.annotate(
+            "",
+            xy=mu_eig + v_eig,
+            xytext=mu_eig,
+            arrowprops=dict(arrowstyle="->", lw=3, color=f"C{i_eig}"),
+        )
+        ax_eig.text(
+            *(mu_eig + v_eig * 1.15),
+            f"$e_{{{i_eig + 1}}}$  $\\lambda_{{{i_eig + 1}}} = {lam_eig[i_eig]:.2f}$",
+            color=f"C{i_eig}",
+            fontsize=13,
+        )
+
+    ax_eig.set_xlabel("$x_1$")
+    ax_eig.set_ylabel("$x_2$")
+    ax_eig.set_aspect("equal")
+    ax_eig.set_title(
+        "Eigenvectors of $\\Sigma$: directions of greatest variance"
+    )
+    plt.close(fig_eig)
+    fig_eig
     return
 
 
