@@ -65,7 +65,10 @@ def _(mo):
     mo.md(
         r"""
     # Data transformation and dimensionality reduction (DTDR) II
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 23</div>
+    """
     )
     return
 
@@ -85,7 +88,10 @@ def _(mo):
     - Today, we will learn about non-linear DTDR techniques:
         - Kernel PCA (1998)
         - Laplacian Eigenmaps (2003)
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 23</div>
+    """
     )
     return
 
@@ -98,7 +104,10 @@ def _(mo):
 
     - Non-linear operations with respect to $\mathbf{x}$.
     - Will only need inner-products in $\mathbb{H}$
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 23</div>
+    """
     )
     return
 
@@ -108,7 +117,10 @@ def _(mo):
     mo.md(
         r"""
     ### Kernel matrix
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 23</div>
+    """
     )
     return
 
@@ -124,7 +136,10 @@ def _(mo):
     - Revisit to motivate kernel PCA.
     - Easier notation to work with autocorrelation matrix $\mathbf{R}$.
     - Eigendecomposition: $\mathbf{R} \mathbf{v} = \lambda \mathbf{v}$
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 23</div>
+    """
     )
     return
 
@@ -137,7 +152,10 @@ def _(mo):
 
     - First: $\lambda \mathbf{v}=$
     - Reordering for $\mathbf{v}= $
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 23</div>
+    """
     )
     return
 
@@ -149,7 +167,10 @@ def _(mo):
     ### Projection onto eigenvector
 
     - $\mathbf{v}^T\phi(\mathbf{x}_t) = $
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 23</div>
+    """
     )
     return
 
@@ -168,7 +189,10 @@ def _(mo):
     - Remark: Eigenvectors of symmetric $\mathbf{R}$ assumed $\|\mathbf{v}_i\|_2 = 1$ and $\mathbf{v}_i^T \mathbf{v}_j = 1$:
 
     - Have $\mathbf{v}^T \mathbf{v} = $
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 23</div>
+    """
     )
     return
 
@@ -178,7 +202,10 @@ def _(mo):
     mo.md(
         r"""
     ### Visualizing in $\mathbb{H}$
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 23</div>
+    """
     )
     return
 
@@ -210,8 +237,11 @@ def _(mo, plt):
                           cmap="viridis", edgecolor="k", s=50)
     ax_moons_kpca.set_title("Kernel PCA")
 
-    mo.as_html(fig_moons_kpca)
     plt.close(fig_moons_kpca)
+    mo.vstack([
+        mo.as_html(fig_moons_kpca),
+        mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 23</div>"""),
+    ])
     return
 
 
@@ -224,7 +254,10 @@ def _(mo):
     - Make use of the eigenvalues (spectrum) of the similarity matrix of the data
         - Spectral methods.
     - Motivated from the perspective of manifold learning.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 23</div>
+    """
     )
     return
 
@@ -243,8 +276,11 @@ def _(mo, plt):
     ax_swiss.scatter3D(X_swiss[:, 0], X_swiss[:, 1], X_swiss[:, 2], c=y_swiss,
                        cmap="viridis", edgecolor="k", s=50)
 
-    mo.as_html(fig_swiss)
     plt.close(fig_swiss)
+    mo.vstack([
+        mo.as_html(fig_swiss),
+        mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 23</div>"""),
+    ])
     return
 
 
@@ -256,7 +292,10 @@ def _(mo):
 
     - Transform $\mathbf{x} \in \mathbb{R}^d$ into $\mathbf{z} \in \mathbb{R}^k$, where $k \leq d$
     - Such that: neighbors in $\mathbb{R}^d$ stay neighbors in $\mathbb{R}^k$
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 23</div>
+    """
     )
     return
 
@@ -270,7 +309,10 @@ def _(mo):
     - What makes points neighbors?
         - Similarity!
     - Draw $\rightarrow$
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">14 / 23</div>
+    """
     )
     return
 
@@ -283,7 +325,10 @@ def _(mo):
 
     - Need a way to optimize the position of points in $\mathbb{R}^k$.
     - Consider the following: $J(\mathbf{z}) = \frac{1}{2} \sum_i \sum_j (\mathbf{z}_i-\mathbf{z}_j)W_{ij}$
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 23</div>
+    """
     )
     return
 
@@ -297,7 +342,10 @@ def _(mo):
     - Reasonable to minimize $J(\mathbf{z})$ with respect to $\mathbf{z}$
     - Obvious solution not interesting.
         - What is the obvious solution?
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">16 / 23</div>
+    """
     )
     return
 
@@ -310,7 +358,10 @@ def _(mo):
 
     - Have: $J(\mathbf{z}) = \frac{1}{2}$
     - Let $D_{ii} = $
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">17 / 23</div>
+    """
     )
     return
 
@@ -322,7 +373,10 @@ def _(mo):
     ### Optimizing the position of points in $\mathbb{R}^k$
 
     - Hence: $J(\mathbf{z}) = \mathbf{z}^T (\mathbf{D}-\mathbf{W}) \mathbf{z} = $
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">18 / 23</div>
+    """
     )
     return
 
@@ -338,7 +392,10 @@ def _(mo):
         - How much is the steepness changing.
     - Analogous to the second derivative for a continuous, single variate function.
     - [**Nice resource for further information**](https://mbernste.github.io/posts/laplacian_matrix/)
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">19 / 23</div>
+    """
     )
     return
 
@@ -351,7 +408,10 @@ def _(mo):
 
     - Constrain $\mathbf{z}$: $\mathbf{z}^T \mathbf{D} \mathbf{z} = 1$
     - Removes arbitrary scaling in embeddings.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">20 / 23</div>
+    """
     )
     return
 
@@ -364,7 +424,10 @@ def _(mo):
 
     - Minimize $\mathbf{z}^T \mathbf{L} \mathbf{z}$
     - Subject to $\mathbf{z}^T \mathbf{D} \mathbf{z} = 1$
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">21 / 23</div>
+    """
     )
     return
 
@@ -392,7 +455,10 @@ def _(mo):
 
     - The minimization of this objective is given by eigenvector correspond to the second smallest eigenvalue
     - Assuming a connected graph.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">22 / 23</div>
+    """
     )
     return
 
@@ -442,7 +508,10 @@ def _(mo):
     $$
 
     Probabilities of a "walk" from $x_i$ to $x_j$.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">23 / 23</div>
+    """
     )
     return
 

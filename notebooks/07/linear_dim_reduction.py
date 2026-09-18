@@ -59,7 +59,10 @@ def _(mo):
     mo.md(
         r"""
     # Data transformation and dimensionality reduction (DTDR) I
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 25</div>
+    """
     )
     return
 
@@ -73,7 +76,10 @@ def _(mo):
     - So far, the course has been problem oriented (mainly classification).
     - However, an essential part of pattern recognition is data analysis.
     - In this lecture, we will look at methods that compress data into a more compact representation through linear transformations.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 25</div>
+    """
     )
     return
 
@@ -88,7 +94,10 @@ def _(mo):
       they carry may be concentrated on a much smaller subspace.
     - Example below: two features that are almost perfectly correlated.
         - Little is lost by describing the cloud with a single direction.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 25</div>
+    """
     )
     return
 
@@ -136,7 +145,10 @@ def _(mo):
         - Computationally demanding.
         - Curse of dimensionality
     - Some parts of the data may not be discriminative / be redundant.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 25</div>
+    """
     )
     return
 
@@ -149,7 +161,10 @@ def _(mo):
 
     - May pick only parts of the data to use.
     - May transform the data!
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 25</div>
+    """
     )
     return
 
@@ -162,7 +177,10 @@ def _(mo):
 
     - To better discriminate between classes (supervised).
     - To remove redundancy (unsupervised).
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 25</div>
+    """
     )
     return
 
@@ -183,7 +201,10 @@ def _(mo):
 
     where $\mu_i$ and $\sigma_i^2$ are the mean and variance of the
     projected class-$i$ data.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 25</div>
+    """
     )
     return
 
@@ -205,7 +226,10 @@ def _(mo):
     - where $\boldsymbol{\mu} = \sum\limits_{i=1}^{M} P(w_i) \boldsymbol{\mu}_i$ is the global mean.
 
     - Both are $d \times d$ matrices: $\boldsymbol{S}_w$ measures spread *inside* classes, $\boldsymbol{S}_B$ spread *between* class means.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 25</div>
+    """
     )
     return
 
@@ -286,7 +310,10 @@ def _(mo):
     $$\frac{\operatorname{trace}(\boldsymbol{S}_w)}{\operatorname{trace}(\boldsymbol{S}_B)}$$
 
     - Here **small is good**: little within-class spread relative to the between-class spread.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 25</div>
+    """
     )
     return
 
@@ -310,7 +337,10 @@ def _(mo):
     - Hence: Fisher discriminant ratio (FDR) — to be **maximized**:
 
     $$\mathrm{FDR}(\mathbf{w}) = \frac{(\mu_1 - \mu_2)^2}{\sigma_1^2 + \sigma_2^2}$$
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 25</div>
+    """
     )
     return
 
@@ -324,7 +354,10 @@ def _(mo):
     - Don't need $P(w_1) = P(w_2)$, but easy to solve.
 
     - If $P(w_1) \neq P(w_2)$: $\mathbf{w}$ is the leading eigenvector of $\boldsymbol{S}_w^{-1} \boldsymbol{S}_B$.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 25</div>
+    """
     )
     return
 
@@ -342,7 +375,10 @@ def _(mo):
     - At the solution (generalized eigenvalue problem):
       $\boldsymbol{S}_B \mathbf{w} = \lambda \boldsymbol{S}_w \mathbf{w}$
       $\;\Leftrightarrow\;$ $\boldsymbol{S}_w^{-1} \boldsymbol{S}_B \mathbf{w} = \lambda \mathbf{w}$
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 25</div>
+    """
     )
     return
 
@@ -365,7 +401,10 @@ def _(mo):
     $$
     \mathbf{w} = \text{leading eigenvector of } \boldsymbol{S}_w^{-1} \boldsymbol{S}_B
     $$
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 25</div>
+    """
     )
     return
 
@@ -375,7 +414,7 @@ def _(mo):
     theta_fda = mo.ui.slider(
         0, 180, value=30, step=1, label="Projection angle (degrees)"
     )
-    theta_fda
+    mo.vstack([theta_fda, mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">14 / 25</div>""")])
     return (theta_fda,)
 
 
@@ -451,7 +490,10 @@ def _(mo):
 
     - Generalized to $\mathbf{z} = \mathbf{W}^T \mathbf{x} \in \mathbb{R}^k$ where $k \leq d$ and $\mathbf{W} \in \mathbb{R}^{d \times k}$.
         - More complex (pages 291-297 in book).
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 25</div>
+    """
     )
     return
 
@@ -464,7 +506,10 @@ def _(mo):
 
     - First: $\mathbf{z} = \mathbf{A} \mathbf{x}$ such that $\mathbf{z} \in \mathbb{R}^d$, $\mathbf{x} \in \mathbb{R}^d$, and $\mathbf{A} \in \mathbb{R}^{d \times d}$
     - Want: $\boldsymbol{\Sigma}_z$ diagonal!
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">16 / 25</div>
+    """
     )
     return
 
@@ -489,7 +534,10 @@ def _(mo):
     ---
 
     - $\boldsymbol{\Sigma}_x$: symmetric and positive semi-definite $\implies$ orthogonal eigenvectors and non-negative eigenvalues.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">17 / 25</div>
+    """
     )
     return
 
@@ -525,7 +573,10 @@ def _(mo):
     $$
     \boldsymbol{\Sigma}_z = \mathbf{E}^T \boldsymbol{\Sigma}_x \mathbf{E} = \boldsymbol{\Lambda}
     $$
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">18 / 25</div>
+    """
     )
     return
 
@@ -541,7 +592,10 @@ def _(mo):
     - The variance of $z_i$ equals $\lambda_i$.
     - The eigenvectors $\mathbf{e}_i$ are the directions of maximal variance in
       the original space.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">19 / 25</div>
+    """
     )
     return
 
@@ -557,7 +611,10 @@ def _(mo):
     - Thus: Let $\mathbf{A} = \mathbf{E}^T = [\mathbf{e}_1, \ldots, \mathbf{e}_d]^T$
 
     - Remark: assume $\mathbb{E}[\mathbf{x}] = 0$ (center the data first).
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">20 / 25</div>
+    """
     )
     return
 
@@ -571,7 +628,10 @@ def _(mo):
     - The data cloud below is **unlabeled** — PCA only sees the point cloud.
     - Use the dropdown to project onto $e_1$ (most variance) or $e_2$ (least).
     - Compare the spread of the 1-D projections with $\sqrt{\lambda_i}$.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">21 / 25</div>
+    """
     )
     return
 
@@ -689,7 +749,10 @@ def _(mo):
     ## PCA is reconstruction / compression
 
     - Let $\mathbf{z} \in \mathbb{R}^d = [z(0), z(1), \ldots, z(d-1)]^T$
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">22 / 25</div>
+    """
     )
     return
 
@@ -701,7 +764,10 @@ def _(mo):
     ### PCA is reconstruction / compression
 
     - Have $\mathbf{x} = \mathbf{A}^T \mathbf{z}$ (with $\mathbf{A} = \mathbf{E}^T$)
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">23 / 25</div>
+    """
     )
     return
 
@@ -727,7 +793,10 @@ def _(mo):
 
     - **Compression:** Store/save $\mathbf{z} \in \mathbb{R}^k$ instead of $\mathbf{x}$ (e.g. images).
     - **Reconstruct:** $\hat{\mathbf{x}}$ using $\mathbf{z}$.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">24 / 25</div>
+    """
     )
     return
 
@@ -742,7 +811,10 @@ def _(mo):
     - Drag the slider to keep the first $k$ principal components and
       reconstruct.
     - The reconstruction error should follow $\sum_{i \geq k} \lambda_i$.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">25 / 25</div>
+    """
     )
     return
 
