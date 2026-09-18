@@ -117,11 +117,11 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-11. **Ensemble methods** *(under development)*
+11. **Ensemble methods**
    - Combining models (bagging, random forests, boosting, stacking)
 
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/14/ensembles/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/14/ensembles_exercise.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/11/ensemble_methods/index.html)
+   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/11/ensemble_methods_exercise.ipynb)
 
 <br>
 
@@ -286,7 +286,7 @@ notebooks running entirely in the browser via WebAssembly:
 - **Non-linear classifiers III** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/04/neural_networks_3/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/04/neural_networks_3_exercise.ipynb)
 - **Non-linear classifiers IV** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/05/rbf_networks/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/05/rbf_networks_exercise.ipynb)
 - **Non-linear classifiers V** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/06/kernel_methods/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/06/kernel_methods_exercise.ipynb)
-- **Ensemble methods** *(under development)* ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/14/ensembles/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/14/ensembles_exercise.ipynb)
+- **Ensemble methods** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/11/ensemble_methods/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/11/ensemble_methods_exercise.ipynb)
 - **Data transformations and dimensionality reduction I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/07/linear_dim_reduction/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/07/linear_dim_reduction_exercise.ipynb)
 - **Data transformations and dimensionality reduction II** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/08/non_linear_dim_reduction/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/08/non_linear_dim_reduction_exercise.ipynb)
 - **Ranking** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/09/ranking/index.html))
@@ -315,7 +315,7 @@ uv run marimo edit notebooks/04/neural_networks_2.py
 uv run marimo edit notebooks/04/neural_networks_3.py
 uv run marimo edit notebooks/05/rbf_networks.py
 uv run marimo edit notebooks/06/kernel_methods.py
-uv run marimo edit notebooks/14/ensembles.py
+uv run marimo edit notebooks/11/ensemble_methods.py
 uv run marimo edit notebooks/07/linear_dim_reduction.py
 uv run marimo edit notebooks/08/non_linear_dim_reduction.py
 uv run marimo edit notebooks/09/ranking.py

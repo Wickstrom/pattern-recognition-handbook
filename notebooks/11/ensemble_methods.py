@@ -52,6 +52,9 @@ def _(mo):
         - Recap: decision trees and bias-variance trade-off
         - Parallel ensemble: Bagging and random forests
         - Sequential: AdaBoost, overlook of other boosting method
+    
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 18</div>
     """)
     return
 
@@ -80,12 +83,15 @@ def _(mo):
     **Ensambles** aim at reducing the bias-variance trade-off 🥇
     - Bagging $\rightarrow$ reduces the variance: perfect for unstable good learners
     - Boosting $\rightarrow$ reduces the bias: perfect in case of weak learners
+    
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 18</div>
     """)
     return
 
 
 @app.cell
-def _(DecisionTreeClassifier, make_moons, np, plt):
+def _(mo, DecisionTreeClassifier, make_moons, np, plt):
     _X, _y = make_moons(n_samples=200, noise=0.3, random_state=0)
     _fig, _axes = plt.subplots(1, 2, figsize=(10, 4.2))
     for _ax, _seed in zip(_axes, [1, 2]):
@@ -103,7 +109,10 @@ def _(DecisionTreeClassifier, make_moons, np, plt):
         _ax.set_xticks([])
         _ax.set_yticks([])
     _fig.suptitle("A single deep tree: small data changes, very different boundary")
-    _fig
+    mo.vstack([
+        mo.as_html(_fig),
+        mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 18</div>"""),
+    ])
     return
 
 
@@ -122,7 +131,10 @@ def _(mo):
     - The $\frac{1}{B}$ term vanishes as $B\to\infty$
     - The $\rho\sigma^2$ term does not: correlated predictors put a floor on how much averaging helps
     - Two ways to lower the variance: increase B (bagging), or/and decrease $\rho$ (random forest)
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 18</div>
+    """
     ).callout(kind="info")
     return
 
@@ -141,6 +153,9 @@ def _(mo):
     - Predict: mean (regression) or majority vote (classification)
     - Each bootstrap leaves out $\approx 1/e \approx 36.8\%$ of points
         - Free validation set: **out-of-bag (OOB) error**
+    
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 18</div>
     """)
     return
 
@@ -193,7 +208,7 @@ def _(fit_bagging, make_moons, mo, n_trees_bag, np, plt, predict_vote):
     _ax.set_title(f"Bagging, {_n} tree{'s' if _n != 1 else ''}")
     _ax.set_xticks([])
     _ax.set_yticks([])
-    mo.vstack([n_trees_bag, _fig])
+    mo.vstack([n_trees_bag, _fig, mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 18</div>""")])
     return
 
 
@@ -248,6 +263,9 @@ def _(mo):
 
     **Take-home:** the bootstrap changes the training data, while the
     randomized kernel width adds extra diversity between the KDE learners.
+    
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 18</div>
     """)
     return
 
@@ -259,6 +277,9 @@ def _(mo):
     - Trees only depend on their own bootstrap sample: fits in parallel;
     - Does not reduce bias - still limited by how well one tree can fit;
     - if the predictors are strongly correlated (many trees can choose the same predictor when there is a strong one) $\rightarrow$ $\rho$ is dominating and averaging does not reduce the variance.
+    
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 18</div>
     """)
     return
 
@@ -273,6 +294,9 @@ def _(mo):
     - Why: bagging alone still lets the same strong feature dominate every tree - trees stay correlated
     - Restricting the feature subset decorrelates the trees, lowering $\rho$ in the variance formula above
     - trade-off between the strenght of an individual tree and reducing the correlation
+    
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 18</div>
     """)
     return
 
@@ -304,7 +328,7 @@ def _(fit_bagging, m_rf, make_moons, mo, n_trees_rf, np, plt, predict_vote):
     _ax.set_title(f"Random forest, {n_trees_rf.value} trees, m={m_rf.value}")
     _ax.set_xticks([])
     _ax.set_yticks([])
-    mo.vstack([n_trees_rf, m_rf, _fig])
+    mo.vstack([n_trees_rf, m_rf, _fig, mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 18</div>""")])
     return
 
 
@@ -314,7 +338,10 @@ def _(mo):
         r"""
     **Bagging vs. random forest:** bagging introduces randomness in the *data*;
     random forest also introduces randomness in the *features*.
-        """
+        
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 18</div>
+    """
     ).callout(kind="success")
     return
 
@@ -331,6 +358,9 @@ def _(mo):
     - Bagging: $B$ trees fit **independently**, in parallel
     - Boosting: fit trees **sequentially** - each one focused on the previous ensemble's mistakes
     - Weak learners combined into a strong one - here: decision stumps (depth-1 trees)
+    
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">12 / 18</div>
     """)
     return
 
@@ -352,6 +382,9 @@ def _(mo):
     $$
     \sum_i w_i^{(m)} \exp(-\alpha y_i h(x_i))
     $$
+    
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 18</div>
     """)
     return
 
@@ -374,6 +407,9 @@ def _(mo):
     $$
 
     - Weight update, $w_i^{(m+1)} = w_i^{(m)} e^{-\alpha_m y_i h_m(x_i)}$: misclassified points reweighted up by $e^{\alpha_m}$, correct ones down by $e^{-\alpha_m}$
+    
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">14 / 18</div>
     """)
     return
 
@@ -389,6 +425,9 @@ def _(mo):
         - $\alpha_m = \frac12 \ln\frac{1-\varepsilon_m}{\varepsilon_m}$
         - Reweight, then renormalize so weights sum to 1
     - Output: $F(x) = \mathrm{sign}\left(\sum_m \alpha_m h_m(x)\right)$
+    
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 18</div>
     """)
     return
 
@@ -427,12 +466,15 @@ def _(mo):
 
     - Training error keeps dropping as $M$ grows - does test error follow it back up?
     - Below: a noisy Two Moons problem, train and test error against $M$, on the **same** plot
+    
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">16 / 18</div>
     """)
     return
 
 
 @app.cell
-def _(fit_adaboost, make_moons, np, plt, train_test_split):
+def _(mo, fit_adaboost, make_moons, np, plt, train_test_split):
     _X, _y01 = make_moons(n_samples=300, noise=0.35, random_state=7)
     _y = np.where(_y01 == 0, -1, 1)
     _X_train, _X_test, _y_train, _y_test = train_test_split(
@@ -462,7 +504,10 @@ def _(fit_adaboost, make_moons, np, plt, train_test_split):
     _ax.set_ylabel("classification error")
     _ax.set_title("AdaBoost: train reaches zero, test does not follow")
     _ax.legend()
-    _fig
+    mo.vstack([
+        mo.as_html(_fig),
+        mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">17 / 18</div>"""),
+    ])
     return
 
 
@@ -475,6 +520,9 @@ def _(mo):
     - Gradient boosting: same recipe, any differentiable loss - fit each new tree to (minus) the loss gradient of the current ensemble
     - AdaBoost is recovered as the special case of the exponential loss
     - XGBoost, LightGBM, CatBoost
+    
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">18 / 18</div>
     """)
     return
 
