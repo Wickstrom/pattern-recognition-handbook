@@ -24,7 +24,7 @@
 
 import marimo
 
-__generated_with = "0.23.10"
+__generated_with = "0.23.13"
 app = marimo.App(
     width="medium",
     layout_file="layouts/non_linear_dim_reduction.slides.json",
@@ -50,33 +50,33 @@ def _():
             pass
 
     import marimo as mo
-    return Path, mo, os
+
+    return (mo,)
 
 
 @app.cell
 def _():
     import numpy as np
     import matplotlib.pyplot as plt
+
+
     return np, plt
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     # Data transformation and dimensionality reduction (DTDR) II
-        
+
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">1 / 23</div>
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Introduction
 
     - Last lecture we looked at compression of data.
@@ -88,125 +88,179 @@ def _(mo):
     - Today, we will learn about non-linear DTDR techniques:
         - Kernel PCA (1998)
         - Laplacian Eigenmaps (2003)
-        
+
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">2 / 23</div>
-    """
-    )
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ##Recall PCA
+    - Dataset with $N$ observations $\mathbf{x}_1,...,\mathbf{x}_N$ with $\mathbf{x}_i\in\mathbb{R}^d$
+    - Aim: reduce dimensionality!
+    - How: project $\mathbf{x}_i$ into the direction $\mathbf{v}$ along with the variance of the data is maximum $\rightarrow$ ${z}_i=\mathbf{v}^T\mathbf{x}_i$
+    - Direction that maximise the variance: $\Sigma\mathbf{v}=\lambda\mathbf{v}$, with $\mathbf{\Sigma}$ covariance matrix $\rightarrow$ **first eigenvector of the covariance matrix**.
+    """)
+    return
+
+
+@app.cell
+def _(make_moons, mo):
+    X_demo, y_demo = make_moons(n_samples=90, noise=0.055, random_state=7)
+
+    pca_angle = mo.ui.slider(start=0, stop=180, step=5, value=45,
+                             label="Angle", show_value=True)
+    pca_play = mo.ui.switch(value=False, label="Play rotation")
+    pca_clock = mo.ui.refresh(options=["1s"], default_interval="1s",
+                              label="Animation clock")
+    return X_demo, pca_angle, pca_clock, pca_play, y_demo
+
+
+@app.cell
+def _(X_demo, mo, np, pca_angle, pca_clock, pca_play, plt, y_demo):
+    _ticks = int(pca_clock.value.split("(")[-1].rstrip(")")) if pca_clock.value else 0
+    _theta_deg = (5 * _ticks) % 180 if pca_play.value else pca_angle.value
+    _theta = np.deg2rad(_theta_deg)
+    _e = np.array([np.cos(_theta), np.sin(_theta)])
+    _xc = X_demo - X_demo.mean(axis=0)
+    _scores = _xc @ _e
+    _fig, (_ax0, _ax1) = plt.subplots(1, 2, figsize=(10.5, 3.6))
+    _ax0.scatter(_xc[:, 0], _xc[:, 1], c=y_demo, cmap="coolwarm", s=19)
+    _line = np.linspace(-1.8, 1.8, 2)
+    _ax0.plot(_line*_e[0], _line*_e[1], color="black", lw=2)
+    _ax0.set_aspect("equal"); _ax0.set_title("Centered data and axis")
+    _ax1.scatter(_scores, np.zeros_like(_scores), c=y_demo, cmap="coolwarm", s=21)
+    _ax1.set_yticks([]); _ax1.set_title(f"Angle {_theta_deg}° · variance {np.var(_scores):.3f}")
+    plt.close(_fig)
+    mo.vstack([mo.md(r"""
+    ### PCA projections are linear wrt the original datapoints; this can be not enough when data represents non linear structures.
+
+    $$\mathbf{e}(\theta)=(\cos\theta,\sin\theta)^T,\qquad
+    z_i=\mathbf{e}(\theta)^T\widetilde{\mathbf{x}}_i.$$
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 26</div>
+    """),
+               mo.hstack([pca_angle, pca_play, pca_clock], justify="start"),
+               mo.as_html(_fig)])
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Kernel PCA
 
     - Non-linear operations with respect to $\mathbf{x}$.
-    - Will only need inner-products in $\mathbb{H}$
-        
+    - Let $\phi:\mathbb{R}^d\rightarrow \mathbb{H}$ be a data transformation function from $\mathbb{R}^d$ to the feature space $\mathbb{H}$
+    - KPCA $\rightarrow$ apply PCA to transformed points $\phi (\mathbf{x}_1),...,\phi (\mathbf{x}_N)$
+
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">3 / 23</div>
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
-    ### Kernel matrix
-        
-
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">4 / 23</div>
-    """
-    )
-    return
-
-
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### Eigenvectors of autocorrelation matrix R
 
-    - PCA idea:
-        Diagonal covariance matrix for transformed data.
-    - Revisit to motivate kernel PCA.
-    - Easier notation to work with autocorrelation matrix $\mathbf{R}$.
+    - Let $\mathbf{R}=\frac{1}{N}\sum_{i=1}^N \phi(\mathbf{x}_i)\phi(\mathbf{x}_i)^T$ be the autocorrelation matrix in the feature space $\mathbb{H}$;
     - Eigendecomposition: $\mathbf{R} \mathbf{v} = \lambda \mathbf{v}$
-        
+    - $\mathbf{R}$ can have very high dimension $\rightarrow$ construct it and diagonalize it can be computationally infeasible!
+    - **Trick**: 1) we can show that the eigenvectors associated to non-null eigenvalues of $\mathbf{R}$ are linear combination of the features; 2) the coefficient of this linear combination can be obtained from the kernel matrix $\mathbf{K}$.
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">5 / 23</div>
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
-    ### Eigenvectors of autocorrelation matrix R
+    mo.md(r"""
+    ### 1) Eigenvectors of $\mathbf{R}$ are linear combination of the features.
 
-    - First: $\lambda \mathbf{v}=$
-    - Reordering for $\mathbf{v}= $
-        
+    - $\mathbf v=\sum_{i=1}^N a_i\phi(\mathbf x_i)$ with $a_i=\frac1{N\lambda} \phi(\mathbf x_i)^T\mathbf{v}$
+
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">6 / 23</div>
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
-    ### Projection onto eigenvector
+    mo.md(r"""
+    ### 2) How to obtain the coefficient of this linear combination
 
-    - $\mathbf{v}^T\phi(\mathbf{x}_t) = $
-        
+    - Introduce the kernel function $k(\mathbf x_i,\mathbf x_j)=\phi(\mathbf x_i)^T\phi(\mathbf x_j)$ and the associated kernel matrix $\mathbf{K}$.
+    - $\mathbf{K}\mathbf{a}=N\lambda\mathbf{a}$
+
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">7 / 23</div>
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
-    ### Finding the weights
+    mo.md(r"""
+    ### KPCA \[
+    \mathbf R\mathbf v=\lambda\mathbf v
+    \]
 
-    - Given by solving $\mathbf{K} \mathbf{a} = \tilde{\lambda} \mathbf{a}$
-    - $\tilde{\lambda}=\lambda N$
 
-    ---
 
-    - Remark: Eigenvectors of symmetric $\mathbf{R}$ assumed $\|\mathbf{v}_i\|_2 = 1$ and $\mathbf{v}_i^T \mathbf{v}_j = 1$:
+    \[
+    \mathbf v=\sum_i a_i\phi(\mathbf x_i)
+    \]
 
-    - Have $\mathbf{v}^T \mathbf{v} = $
-        
+    For finding the coefficients:
+
+    \[
+    \mathbf K\mathbf a
+    =
+    \tilde\lambda\mathbf a
+    \]
+
+    with:
+
+    \[
+    \tilde\lambda=N\lambda
+    \]
+
+    Finally, we project:
+
+    \[
+    z(\mathbf x)=\mathbf v^T\phi(\mathbf x)
+    \]
+
+    Substituting:
+
+    \[
+    \boxed{
+    z(\mathbf x)=
+    \sum_i a_i k(\mathbf x_i,\mathbf x)
+    }
+    \]
+
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">8 / 23</div>
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### Visualizing in $\mathbb{H}$
-        
+
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">9 / 23</div>
-    """
-    )
+    """)
     return
 
 
@@ -242,23 +296,20 @@ def _(mo, plt):
         mo.as_html(fig_moons_kpca),
         mo.md(r"""<div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">10 / 23</div>"""),
     ])
-    return
+    return (make_moons,)
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Laplacian Eigenmaps
 
-    - Make use of the eigenvalues (spectrum) of the similarity matrix of the data
-        - Spectral methods.
-    - Motivated from the perspective of manifold learning.
-        
+    - Transform $\mathbf{x} \in \mathbb{R}^d$ into $\mathbf{z} \in \mathbb{R}^k$, where $k \leq d$
+    - Such that: neighbors in $\mathbb{R}^d$ stay neighbors in $\mathbb{R}^k$
 
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">11 / 23</div>
-    """
-    )
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 23</div>
+    """)
     return
 
 
@@ -286,105 +337,117 @@ def _(mo, plt):
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
-    ### Laplacian Eigenmaps - key idea
-
-    - Transform $\mathbf{x} \in \mathbb{R}^d$ into $\mathbf{z} \in \mathbb{R}^k$, where $k \leq d$
-    - Such that: neighbors in $\mathbb{R}^d$ stay neighbors in $\mathbb{R}^k$
-        
-
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">13 / 23</div>
-    """
-    )
-    return
-
-
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### Adjacency matrix
 
     - What makes points neighbors?
         - Similarity!
-    - Draw $\rightarrow$
-        
+    - Construct graph $\mathcal{G}$ where each node $i$ represents a datapoint $\mathbf{x}_i$; an edge connects two nodes if the two correspondent points are close (e.g $||\mathbf{x}_i-\mathbf{x}_j||<\epsilon)$
+    - The correspondent adjacency matrix is a weighted symmetric matrix $\mathbf{W}\in \mathbb{R}^{N\times N}$ with
+      \[{W}_{ij}={W}_{ji}\geq 0
+      \]
+
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">14 / 23</div>
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    from scipy.sparse.csgraph import connected_components
+    neighbor_control = mo.ui.slider(start=1, stop=14, step=1,
+                                     value=5, label="Nearest neighbors",
+                                     show_value=True)
+    return connected_components, neighbor_control
+
+
+@app.cell
+def _(X_demo, connected_components, mo, neighbor_control, np, plt, y_demo):
+
+    _d2 = ((X_demo[:, None, :] - X_demo[None, :, :])**2).sum(axis=2)
+    np.fill_diagonal(_d2, np.inf)
+    _neighbors = np.argsort(_d2, axis=1)[:, :neighbor_control.value]
+    _W = np.zeros((len(X_demo), len(X_demo)), dtype=int)
+    for _i in range(len(X_demo)):
+        _W[_i, _neighbors[_i]] = 1
+    _W = np.maximum(_W, _W.T)
+    _components, _labels = connected_components(_W, directed=False)
+    _fig, _ax = plt.subplots(figsize=(8, 3.9))
+    _ax.scatter(X_demo[:, 0], X_demo[:, 1], c=y_demo, cmap="coolwarm", s=23, zorder=2)
+    for _i, _j in zip(*np.triu_indices(len(X_demo), 1)):
+        if _W[_i, _j]:
+            _ax.plot(X_demo[[_i, _j], 0], X_demo[[_i, _j], 1],
+                     color="gray", alpha=.24, lw=.7, zorder=1)
+    _ax.set_aspect("equal")
+    _ax.set_title(f"{_components} connected component(s)")
+    plt.close(_fig)
+    mo.vstack([mo.md(r"""
+    ### 
+    Change the number of nearest neighbors.
+
+    - Too few edges: disconnected graph.
+    - Too many edges: unwanted shortcuts.
+
+    The number of zero Laplacian eigenvalues equals the number of components.
+
+    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">17 / 26</div>
+    """), neighbor_control, mo.as_html(_fig)])
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""
     ### Mapping $\mathbf{x}_i$ to $\mathbf{z}_i$
 
     - Need a way to optimize the position of points in $\mathbb{R}^k$.
-    - Consider the following: $J(\mathbf{z}) = \frac{1}{2} \sum_i \sum_j (\mathbf{z}_i-\mathbf{z}_j)W_{ij}$
-        
+    - Consider the following: $J(\mathbf{z}) = \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N W_{ij}||\mathbf{z}_i-\mathbf{z}_j||^2$
+
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">15 / 23</div>
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### Optimizing the position of points in $\mathbb{R}^k$
 
     - Reasonable to minimize $J(\mathbf{z})$ with respect to $\mathbf{z}$
     - Obvious solution not interesting.
         - What is the obvious solution?
-        
+
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">16 / 23</div>
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### Optimizing the position of points in $\mathbb{R}^k$
 
-    - Have: $J(\mathbf{z}) = \frac{1}{2}$
-    - Let $D_{ii} = $
-        
+    \[\min_{z\in \mathbb{R}^N}\mathbf{z}^T\mathbf{L}\mathbf{z}
+    \]
+    with
+    \[\mathbf{z}^T\mathbf{D}\mathbf{z}=1
+    \]
+    and
+    \[\mathbf{z}^T\mathbf{D}\mathbf{1}=0
+    \]
+
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">17 / 23</div>
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
-    ### Optimizing the position of points in $\mathbb{R}^k$
-
-    - Hence: $J(\mathbf{z}) = \mathbf{z}^T (\mathbf{D}-\mathbf{W}) \mathbf{z} = $
-        
-
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">18 / 23</div>
-    """
-    )
-    return
-
-
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### The Laplacian matrix $\mathbf{L}$
 
     - Deep theory!
@@ -392,55 +455,21 @@ def _(mo):
         - How much is the steepness changing.
     - Analogous to the second derivative for a continuous, single variate function.
     - [**Nice resource for further information**](https://mbernste.github.io/posts/laplacian_matrix/)
-        
+
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">19 / 23</div>
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
-    ### Optimizing the position of points in $\mathbb{R}^k$
-
-    - Constrain $\mathbf{z}$: $\mathbf{z}^T \mathbf{D} \mathbf{z} = 1$
-    - Removes arbitrary scaling in embeddings.
-        
-
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">20 / 23</div>
-    """
-    )
-    return
-
-
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
-    ### Laplacian eigenmaps optimization problem
-
-    - Minimize $\mathbf{z}^T \mathbf{L} \mathbf{z}$
-    - Subject to $\mathbf{z}^T \mathbf{D} \mathbf{z} = 1$
-        
-
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">21 / 23</div>
-    """
-    )
-    return
-
-
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### Lagrange function for Laplacian Eigenmaps
 
     Lagrange function:
     $$
-    L(\mathbf{z}, \lambda) = \mathbf{z}^T \mathbf{L} \mathbf{z} - \lambda \mathbf{z}^T \mathbf{D} \mathbf{z}
+    L(\mathbf{z}, \lambda) = \mathbf{z}^T \mathbf{L} \mathbf{z} - \lambda (\mathbf{z}^T \mathbf{D} \mathbf{z}-1)
     $$
 
     Set derivative to zero:
@@ -453,66 +482,12 @@ def _(mo):
     \mathbf{L}\mathbf{z} = \lambda \mathbf{D}\mathbf{z}
     $$
 
-    - The minimization of this objective is given by eigenvector correspond to the second smallest eigenvalue
+    - The minimization of this objective is given by eigenvector corresponding to the second smallest eigenvalue
     - Assuming a connected graph.
-        
+
 
     <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">22 / 23</div>
-    """
-    )
-    return
-
-
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
-    ### Closing perspective
-
-    Let $\mathbf{P} = \mathbf{D}^{-1} \mathbf{W}$.
-
-    **Example:**
-
-    $$
-    \mathbf{W} =
-    \begin{bmatrix}
-    2 & 3 & 1 \\
-    3 & 4 & 0 \\
-    1 & 0 & 2
-    \end{bmatrix}
-    ,\quad
-    \mathbf{D} =
-    \begin{bmatrix}
-    6 & 0 & 0 \\
-    0 & 7 & 0 \\
-    0 & 0 & 3
-    \end{bmatrix}
-    $$
-
-    $$
-    \mathbf{D}^{-1} =
-    \begin{bmatrix}
-    \frac{1}{6} & 0 & 0 \\
-    0 & \frac{1}{7} & 0 \\
-    0 & 0 & \frac{1}{3}
-    \end{bmatrix}
-    $$
-
-    $$
-    \mathbf{P} =
-    \begin{bmatrix}
-    \frac{2}{6} & \frac{3}{6} & \frac{1}{6} \\
-    \frac{3}{7} & \frac{4}{7} & 0 \\
-    \frac{1}{3} & 0 & \frac{2}{3}
-    \end{bmatrix}
-    $$
-
-    Probabilities of a "walk" from $x_i$ to $x_j$.
-        
-
-    <div style="position:fixed;bottom:12px;left:16px;font-size:13px;color:#888;font-family:system-ui,sans-serif;">23 / 23</div>
-    """
-    )
+    """)
     return
 
 
