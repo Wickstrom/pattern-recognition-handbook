@@ -143,53 +143,37 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-14. **Ranking**
-   - Ranking
-   - PageRank algorithm
-
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/09/ranking/index.html)
-
-<br>
-
-15. **Clustering I**
-   - Sequential clustering
-
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/10/seq_clustering/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/10/seq_clustering_exercise.ipynb)
-
-<br>
-
-16. **Clustering II**
-   - Hierarchical
-
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/11/hier_clustering/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/11/hier_clustering_exercise.ipynb)
-
-<br>
-
-17. **Clustering III**
+14. **Clustering 1**
+   - basic concepts
    - K-means
-   - Spectral clustering
 
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/12/clustering/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/12/clustering_exercise.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/clustering/clustering_lezione_1/index.html)
 
 <br>
 
-18. **Clustering evaluation**
+15. **Clustering 2**
+   - sequential clustering
+   - hierarchical clustering
 
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/13/clustering_eval/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/13/clustering_eval_exercise.ipynb)
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/clustering/clustering_lezione_2/index.html)
 
 <br>
 
-19. **Gaussian mixture models** *(under development)*
-   - Mixture models
-   - The Expectation Maximisation (EM) algorithm
-   - Application to Gaussian mixtures
+16. **Clustering 3** *(under development)*
+   - spectral clustering
+   - cluster validation
 
-   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/15/gaussian_mixture_models/index.html)
-   [![Exercises](https://img.shields.io/badge/-Exercises-green?logo=jupyter&style=flat&labelColor=gray)](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/15/gaussian_mixture_models_exercise.ipynb)
+<br>
+
+17. **Gaussian mixture models** *(under development)*
+
+<br>
+
+18. **Model evaluation** *(under development)*
+
+<br>
+
+19. **Anomaly detection** *(under development)*
 
 <br>
 
@@ -289,12 +273,18 @@ notebooks running entirely in the browser via WebAssembly:
 - **Ensemble methods** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/11/ensemble_methods/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/11/ensemble_methods_exercise.ipynb)
 - **Data transformations and dimensionality reduction I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/07/linear_dim_reduction/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/07/linear_dim_reduction_exercise.ipynb)
 - **Data transformations and dimensionality reduction II** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/08/non_linear_dim_reduction/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/08/non_linear_dim_reduction_exercise.ipynb)
-- **Ranking** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/09/ranking/index.html))
-- **Clustering I** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/10/seq_clustering/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/10/seq_clustering_exercise.ipynb)
-- **Clustering II** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/11/hier_clustering/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/11/hier_clustering_exercise.ipynb)
-- **Clustering III** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/12/clustering/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/12/clustering_exercise.ipynb)
-- **Clustering evaluation** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/13/clustering_eval/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/13/clustering_eval_exercise.ipynb)
-- **Gaussian mixture models** *(under development)* ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/15/gaussian_mixture_models/index.html)) · [exercises](https://github.com/Wickstrom/pattern-recognition-handbook/blob/main/notebooks/15/gaussian_mixture_models_exercise.ipynb)
+- **Clustering 1** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/clustering/clustering_lezione_1/index.html))
+  - basic concepts
+  - K-means
+- **Clustering 2** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/clustering/clustering_lezione_2/index.html))
+  - sequential clustering
+  - hierarchical clustering
+- **Clustering 3** *(under development)*
+  - spectral clustering
+  - cluster validation
+- **Gaussian mixture models** *(under development)*
+- **Model evaluation** *(under development)*
+- **Anomaly detection** *(under development)*
 
 Each `.py` notebook is content-equivalent to its `.ipynb` counterpart
 (same text, same figures) and is exported with
