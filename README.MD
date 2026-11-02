@@ -164,7 +164,6 @@ You can view and execute the notebooks by clicking on the buttons below.
    - cluster validation
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/clustering/clustering_lezione_3/index.html)
-   [PDF](slide_pdfs/clustering_lezione_3.pdf)
 
 <br>
 
@@ -173,7 +172,6 @@ You can view and execute the notebooks by clicking on the buttons below.
    - expectation-maximization
 
    [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/15/gaussian_mixture_models/index.html)
-   [PDF](slide_pdfs/gaussian_mixture_models.pdf)
 
 <br>
 
@@ -287,10 +285,10 @@ notebooks running entirely in the browser via WebAssembly:
 - **Clustering 2** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/clustering/clustering_lezione_2/index.html))
   - sequential clustering
   - hierarchical clustering
-- **Clustering 3** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/clustering/clustering_lezione_3/index.html) · [PDF](slide_pdfs/clustering_lezione_3.pdf))
+- **Clustering 3** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/clustering/clustering_lezione_3/index.html))
   - spectral clustering
   - cluster validation
-- **Gaussian mixture models** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/15/gaussian_mixture_models/index.html) · [PDF](slide_pdfs/gaussian_mixture_models.pdf))
+- **Gaussian mixture models** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/15/gaussian_mixture_models/index.html))
   - mixture densities and latent labels
   - expectation-maximization
 - **Model evaluation** *(under development)*
