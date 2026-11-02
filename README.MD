@@ -159,13 +159,21 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-16. **Clustering 3** *(under development)*
+16. **Clustering 3**
    - spectral clustering
    - cluster validation
 
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/clustering/clustering_lezione_3/index.html)
+   [PDF](slide_pdfs/clustering_lezione_3.pdf)
+
 <br>
 
-17. **Gaussian mixture models** *(under development)*
+17. **Gaussian mixture models**
+   - mixture densities and latent labels
+   - expectation-maximization
+
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/15/gaussian_mixture_models/index.html)
+   [PDF](slide_pdfs/gaussian_mixture_models.pdf)
 
 <br>
 
@@ -279,10 +287,12 @@ notebooks running entirely in the browser via WebAssembly:
 - **Clustering 2** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/clustering/clustering_lezione_2/index.html))
   - sequential clustering
   - hierarchical clustering
-- **Clustering 3** *(under development)*
+- **Clustering 3** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/clustering/clustering_lezione_3/index.html) · [PDF](slide_pdfs/clustering_lezione_3.pdf))
   - spectral clustering
   - cluster validation
-- **Gaussian mixture models** *(under development)*
+- **Gaussian mixture models** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/15/gaussian_mixture_models/index.html) · [PDF](slide_pdfs/gaussian_mixture_models.pdf))
+  - mixture densities and latent labels
+  - expectation-maximization
 - **Model evaluation** *(under development)*
 - **Anomaly detection** *(under development)*
 
@@ -314,6 +324,7 @@ uv run marimo edit notebooks/11/hier_clustering.py
 uv run marimo edit notebooks/12/clustering.py
 uv run marimo edit notebooks/13/clustering_eval.py
 uv run marimo edit notebooks/15/gaussian_mixture_models.py
+uv run marimo edit notebooks/clustering/clustering_lezione_3.py
 ```
 
 The Marimo notebooks trade the slide-stepping UX for a reactive
