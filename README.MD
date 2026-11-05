@@ -175,7 +175,12 @@ You can view and execute the notebooks by clicking on the buttons below.
 
 <br>
 
-18. **Model evaluation** *(under development)*
+18. **Model evaluation**
+   - generalization and cross-validation
+   - model selection and hyperparameter tuning
+   - performance metrics
+
+   [![Slides](https://img.shields.io/badge/-Slides-blue?logo=marimo&style=flat&labelColor=gray)](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/16/model_selection/index.html)
 
 <br>
 
@@ -291,7 +296,10 @@ notebooks running entirely in the browser via WebAssembly:
 - **Gaussian mixture models** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/15/gaussian_mixture_models/index.html))
   - mixture densities and latent labels
   - expectation-maximization
-- **Model evaluation** *(under development)*
+- **Model evaluation** ([slides](https://wickstrom.github.io/pattern-recognition-handbook/notebooks/16/model_selection/index.html))
+  - generalization and cross-validation
+  - model selection and hyperparameter tuning
+  - performance metrics
 - **Anomaly detection** *(under development)*
 
 Each `.py` notebook is content-equivalent to its `.ipynb` counterpart
@@ -322,6 +330,7 @@ uv run marimo edit notebooks/11/hier_clustering.py
 uv run marimo edit notebooks/12/clustering.py
 uv run marimo edit notebooks/13/clustering_eval.py
 uv run marimo edit notebooks/15/gaussian_mixture_models.py
+uv run marimo edit notebooks/16/model_selection.py
 uv run marimo edit notebooks/clustering/clustering_lezione_3.py
 ```
 

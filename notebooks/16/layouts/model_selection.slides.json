@@ -1,0 +1,158 @@
+{
+  "type": "slides",
+  "data": {
+    "cells": [
+      {
+        "type": "skip"
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 3\u20134: introduce the guiding question and the six topics."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 3, \u00a71.1."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF pp. 3\u20134, \u00a71.2."
+      },
+      {
+        "type": "skip"
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 4, Figure 1: model complexity and overfitting."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 4, \u00a71.3."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF pp. 4\u20136, \u00a72.1\u20132.5."
+      },
+      {
+        "type": "skip"
+      },
+      {
+        "type": "skip"
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 5, Figure 2; illustrative 70/15/15 split."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 5, \u00a72.2\u20132.3."
+      },
+      {
+        "type": "skip"
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF pp. 5\u20136, Figure 3 and \u00a72.4. Illustrative learning curves."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 6, \u00a72.5."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 6\u20137, \u00a73.1\u20133.2."
+      },
+      {
+        "type": "skip"
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 7, Figure 4. Five runs each train a separate model."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 7, \u00a73.2\u20133.3."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF pp. 7\u20138, \u00a73.4 and Figure 5."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 8, \u00a73.5\u20133.6."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 9, \u00a74.1."
+      },
+      {
+        "type": "skip"
+      },
+      {
+        "type": "skip"
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 9, Table 1. Scores are illustrative, not trained outputs."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF pp. 9\u201310, \u00a74.2\u20134.3."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 10, \u00a74.4."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 10, Figure 6 and \u00a75.1."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF pp. 10\u201311, \u00a75.2\u20135.3."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 11, \u00a75.4."
+      },
+      {
+        "type": "skip"
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 11, \u00a75.5. Simulated scores for interactive illustration."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF pp. 12\u201313, Figure 7 and \u00a75.6\u20135.7. Curves are generated from illustrative scores."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF pp. 12\u201313, \u00a75.8."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 13, \u00a75.8."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF p. 13, \u00a75.9."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF pp. 13\u201315, \u00a76.1\u20136.2."
+      },
+      {
+        "type": "skip"
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "Built-in scikit-learn example: tune by five-fold cross-validation, refit, then evaluate once on held-out data."
+      },
+      {
+        "type": "slide",
+        "speakerNotes": "PDF pp. 15\u201316, conclusions and final message."
+      }
+    ],
+    "deck": {}
+  }
+}
